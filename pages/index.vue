@@ -1,72 +1,86 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        free-the-router
-      </h1>
-      <h2 class="subtitle">
-        Aggregator for routers supporting custom firmwares
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="b-container fluid">
+
+    <app-header></app-header>
+
+    <section class="body">
+      <div class="top-picks">
+        
       </div>
+      <div class="popular">
+        
+      </div>
+      <div class="deals">
+        
+      </div>
+      <div class="by-price">
+        
+      </div>
+      <div class="cf-info">
+        
+      </div>
+      <div class="custom-firmwares">
+        
+      </div>
+    </section>
+
+    <div class="bg-left">
+      
     </div>
+    <div class="bg-right">
+  
+    </div>
+
+    <section class="footer">
+      <div class="main-footer">
+        
+      </div>
+      <div class="copyright">
+        
+      </div>
+    </section>
+    
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
-export default {
-  components: {
-    Logo
-  }
-}
+  
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  /*Main grid*/
+  .b-container {
+    display: grid;
+    /*grid-gap: 10px;*/
+    height: 100vh;
+    width: 100vw;
+    grid-template-areas: "header header header header header header"
+                         "bg-left body body body body bg-right"
+                         "footer footer footer footer footer footer";
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+  .bg-left {
+    grid-area: bg-left;
+    background-color: pink;
+  }
 
-.links {
-  padding-top: 15px;
-}
+ .bg-right {
+    grid-area: bg-right;
+    background-color: pink;
+  }
+
+  .body {
+    grid-area: body;
+    background-color: green;
+  }
+
+  .footer {
+    grid-area: footer;
+    background-color: blue;
+  }
+
+
+
 </style>
+
