@@ -1,16 +1,24 @@
 <template>
   <div>
-    <app-header></app-header>
+    <app-header @sidenavToggle="displaySidenav = !displaySidenav"></app-header>
+    <app-sidenav v-show="displaySidenav" @click="displaySidenav = false"></app-sidenav>
     <nuxt />
   </div>
 </template>
 
 <script>
   import TheHeader from '@/components/Navigation/TheHeader';
+  import TheSideNav from '@/components/Navigation/TheSideNav';
 
   export default {
+    data() {
+      return {
+        displaySidenav: false
+      }
+    },
     components: {
-      appHeader: TheHeader
+      appHeader: TheHeader,
+      appSidenav: TheSideNav
     }
   };
 </script>

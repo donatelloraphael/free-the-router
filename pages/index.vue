@@ -1,9 +1,7 @@
 <template>
-  <div class="b-container fluid">
-
-    <app-header></app-header>
-
+  <div class="container-grid fluid">
     <section class="body">
+
       <div class="top-picks">
         
       </div>
@@ -47,16 +45,15 @@
   
 </script>
 
-<style>
+<style scoped>
 
   /*Main grid*/
-  .b-container {
+  .container-grid {
     display: grid;
     /*grid-gap: 10px;*/
     height: 100vh;
     width: 100vw;
-    grid-template-areas: "header header header header header header"
-                         "bg-left body body body body bg-right"
+    grid-template-areas: "bg-left body body body body bg-right"
                          "footer footer footer footer footer footer";
   }
 
