@@ -3,8 +3,8 @@
 
     <div class="sidenav-backdrop" @click="closeSideMenu">
     </div>
-
-   <div class="menu active" @click="closeSideMenu">
+    
+    <div class="menu" @click="closeSideMenu">
       <nuxt-link to="/"><span>Home</span></nuxt-link>
       <nuxt-link to="/signin"><span>Sign In</span></nuxt-link>
       <nuxt-link to="/register"><span>Register</span></nuxt-link>
@@ -32,6 +32,7 @@
 <style scoped>
   .menu {
     position: fixed;
+    left: 0;
     z-index: 998;
     width: 50vw;
     height: 100vh;
@@ -41,6 +42,13 @@
     flex-direction: column;
     background-color: #2e3192;
     overflow-y: auto;
+    animation-name: nav-slide;
+    animation-duration: .7s;
+  }
+
+  @keyframes nav-slide {
+    from{left: -50vw;}
+    to {left: 0;}
   }
 
   .sidenav-backdrop {

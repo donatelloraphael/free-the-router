@@ -43,7 +43,7 @@
    		</div>
     
 	    <nav class="navbar">
-	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }"><span></span></span>
+	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }" :is-active="isActive"><span></span></span>
 	    	
 	    	<ul class="navbar-list navbar-nav mr-auto">
 	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
