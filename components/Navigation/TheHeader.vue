@@ -36,27 +36,29 @@
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/register">Register</nuxt-link></li>
 		        <span class="divider">|</span>
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/wishlist">Wishlist</nuxt-link></li>
-		        <span class="divider">|</span>
-		        <li class="nav-item"><nuxt-link class="nav-link" to="/account">Account</nuxt-link></b-nav-item></li>
+		        <!-- <span class="divider">|</span>
+		        <li class="nav-item"><nuxt-link class="nav-link" to="/account">Account</nuxt-link></b-nav-item></li> -->
 		      </ul>
 	   		</nav>
    		</div>
     
 	    <nav class="navbar">
-	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }"><span></span></span>
+	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }" :is-open="isActive"><span></span></span>
 	    	
 	    	<ul class="navbar-list navbar-nav mr-auto">
-	    		<li class="nav-item"><nuxt-link to="/" class="active">Home</nuxt-link></li>
+	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/shop">Shop</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/deals">Deals</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link to="/supported-devices">Supported Devices</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/resources">Resources</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/help">Help</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link to="/supported-devices">Supported Devices</nuxt-link></li>
 	    	</ul>
 	         
 	    </nav>
   	</section>
-  	<app-sidenav v-if="isActive"></app-sidenav>
+  	<transition name="slide-side">
+  		<app-sidenav v-if="isActive" @close="isActive = !isActive"></app-sidenav>
+  	</transition>
 	</div>
 </template>
 
@@ -89,7 +91,9 @@
     /*grid-area: header;*/
     width: 100%;
     height: auto;
-    border: 1px solid black;
+    position: fixed;
+    z-index: 10;
+    background-color: white;
     display: grid;
     grid-template-areas: "hd1"
     										 "hd1"
@@ -302,5 +306,16 @@
 		.menu__toggler {
 			display: none;
 		}
+	}
+
+	/**********************************SIDE MENU TRANSITION**************************************/
+
+	.slide-side-enter-active,
+	.slide-side-leave-active {
+  	transition: all 0.3s ease-out;
+	}
+	.slide-side-enter,
+	.slide-side-leave-to {
+  	transform: translateY(-100%);
 	}
 </style>

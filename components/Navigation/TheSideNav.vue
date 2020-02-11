@@ -1,52 +1,88 @@
 <template>
-   <div class="menu active">
-      <p>Home</p>
-      <p>CSSSCRIPT.COM</p>
-      <p>About Us</p>
+  <div>
+
+    <div class="sidenav-backdrop" @click="closeSideMenu">
+    </div>
+
+   <div class="menu active" :class="{ open: isOpen }" @click="closeSideMenu">
+      <nuxt-link to="/"><span>Home</span></nuxt-link>
+      <nuxt-link to="/signin"><span>Sign In</span></nuxt-link>
+      <nuxt-link to="/register"><span>Register</span></nuxt-link>
+      <nuxt-link to="/shop"><span>Shop</span></nuxt-link>
+      <nuxt-link to="/deals"><span>Deals</span></nuxt-link>
+      <nuxt-link to="/wishlist"><span>Wishlist</span></nuxt-link>
+      <nuxt-link to="/supported-devices"><span>Supported Devices</span></nuxt-link>
+      <nuxt-link to="/resources"><span>Resources</span></nuxt-link>
+      <nuxt-link to="/help"><span>Help</span></nuxt-link>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "TheSideNav"
+    name: "TheSideNav",
+    props: ["isOpen"],
+    methods: {
+      closeSideMenu() {
+        this.$emit("close");
+      }
+    }
   };
 </script>
 
 <style>
   .menu {
-    position: absolute;
-    left: -30%;
+    position: fixed;
     z-index: 998;
-    color: #005c9c;
-    background: rgba(250, 250, 250, 0.7);
-    /*-webkit-clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
-            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);*/
-    width: 30%;
-    height: 100%;
-    padding: 100px;
+    width: 50vw;
+    height: 100vh;
+    min-width: 250px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    transition: 300ms left cubic-bezier(0.77, 0, 0.175, 1);
+    background-color: #2e3192;
+    overflow-y: scroll;
+
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
+    animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
   }
-  @media only screen and (max-width: 768px) {
-    .menu {
-      width: 250px;
-      left: -250px;
-      padding: 50px;
-    }
+
+  .open {
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
+    -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
+    animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0ms both;
   }
-  .menu.active {
+
+  .sidenav-backdrop {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 20;
+    position: fixed;
+    top: 0;
     left: 0;
-    display: flex;
-    position: absolute;
-    height: 100vh;
-    width: 50vw;
-    background-color: white;
   }
-  .menu p {
+    
+  .menu span{
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-family: "Courier Prime", monospace;
+    color: white;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;    
   }
+
+  .menu span:hover{
+    background-color: #0b0e85;
+  }
+
+  .menu a{
+    text-decoration: none;
+  }
+
 </style>

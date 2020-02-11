@@ -1,7 +1,7 @@
 <template>
   <div class="container-grid fluid">
     <section class="body">
-
+      
       <div class="top-picks">
         
       </div>
@@ -50,8 +50,11 @@
   /*Main grid*/
   .container-grid {
     display: grid;
+    position: absolute;
+    top: 8rem;
+    z-index: 5;
     /*grid-gap: 10px;*/
-    height: 100vh;
+    height: calc(100vh - 8rem);
     width: 100vw;
     grid-template-areas: "bg-left body body body body bg-right"
                          "footer footer footer footer footer footer";
@@ -75,6 +78,12 @@
   .footer {
     grid-area: footer;
     background-color: blue;
+  }
+
+  .top-picks {
+    width: 200px;
+    height: 1600px;
+    background-color: magenta;  
   }
 
 
