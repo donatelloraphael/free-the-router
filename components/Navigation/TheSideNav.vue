@@ -39,6 +39,11 @@
   }
   .menu.active {
     left: 0;
+    display: flex;
+    position: absolute;
+    height: 100vh;
+    width: 50vw;
+    background-color: white;
   }
   .menu p {
     font-size: 1.2rem;

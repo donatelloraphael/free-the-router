@@ -82,7 +82,7 @@
 
 </script>
 
-<style>
+<style scoped>
 	
 	/*************************************HEADER***************************************/
 	.header {
@@ -162,15 +162,17 @@
 	.dropdown {
   	position: relative;
   	display: inline-block;
+  	z-index: 100;
 	}
 
 	.dropdown-menu {
 	  display: none;
-	  position: absolute;
+	  position: absolute !important;
+	  top: 2rem;
 	  background-color: #f9f9f9;
 	  min-width: 160px;
 	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	  z-index: 10000;
+	  z-index: 1000;
 	}
 
 	.dropdown-menu a {
@@ -186,12 +188,15 @@
 
 	.dropdown:hover .dropdown-menu {
 	  display: flex;
+	  flex-direction: column;
 	}
 	/*************************************NAVBAR***************************************/
 
 	.navbar {
     grid-area: nav;
     display: flex;
+    position: relative;
+    z-index: 10;
     background-color: #2e3192;
     height: 3rem;
     align-items: center;
@@ -233,7 +238,7 @@
 		background-color: pink;
 	}
 
-	/**************Menu************/
+	/**********************************Side Menu Toggler**************************************/
 	.menu__toggler {
 	  position: absolute;
 	  top: 10px;
@@ -282,10 +287,7 @@
 	
 
 	/*************************************HEADER-TOGGLE***************************************/
-	.menu {
-		display: none;
-	}
-
+	
 	@media (max-width: 768px) {
 		.navbar-list, .navigation-items {
 			display: none;
@@ -300,13 +302,5 @@
 		.menu__toggler {
 			display: none;
 		}
-	}
-
-	.menu.active {
-		display: flex;
-		position: absolute;
-		height: 100vh;
-		width: 33vw;
-		background-color: white;
 	}
 </style>
