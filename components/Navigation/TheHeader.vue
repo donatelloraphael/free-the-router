@@ -43,7 +43,7 @@
    		</div>
     
 	    <nav class="navbar">
-	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }" :is-open="isActive"><span></span></span>
+	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }"><span></span></span>
 	    	
 	    	<ul class="navbar-list navbar-nav mr-auto">
 	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
@@ -85,7 +85,6 @@
 </script>
 
 <style scoped>
-	
 	/*************************************HEADER***************************************/
 	.header {
     /*grid-area: header;*/
@@ -310,12 +309,10 @@
 
 	/**********************************SIDE MENU TRANSITION**************************************/
 
-	.slide-side-enter-active,
-	.slide-side-leave-active {
+	.slide-side-enter-active, .slide-side-leave-active {
   	transition: all 0.3s ease-out;
 	}
-	.slide-side-enter,
-	.slide-side-leave-to {
-  	transform: translateY(-100%);
+	.slide-side-enter, .slide-side-leave-to {
+  	transform: translateX(-100%);
 	}
 </style>
