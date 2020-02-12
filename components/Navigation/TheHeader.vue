@@ -56,9 +56,8 @@
 	         
 	    </nav>
   	</section>
-  	<!-- <transition name="slide-side"> -->
-  		<app-sidenav @close="isActive = false" :is-active="isActive"></app-sidenav>
-  <!-- 	</transition> -->
+  	
+  	<app-sidenav @close="isActive = false" :is-active="isActive"></app-sidenav>
 	</div>
 </template>
 
@@ -161,7 +160,7 @@
 
 
 	/**********************************Dropdown****************************************/
-
+	
 	.dropdown {
   	position: relative;
   	display: inline-block;
@@ -205,6 +204,7 @@
     align-items: center;
 		padding: 0;
 		border: none;
+		box-shadow: -1px 2px 5px;
   }
 
 	.navbar-list {
@@ -306,5 +306,5 @@
 			display: none;
 		}
 	}
-	
+
 </style>
