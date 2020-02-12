@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="sidenav-backdrop" @click="closingState = true; closeSideMenu(); toggleClosedState(); toggleClosingState();" :class="{ closed: setClosingState() }">
+    <div class="sidenav-backdrop" @click="closingState = true; closeSideMenu(); toggleClosedState(); toggleClosingState();" :class="{ closing: closingState, closed: setClosingState() }">
     </div>
     
     <div class="menu" @click="closingState = true; closeSideMenu(); toggleClosingState(); toggleClosedState();" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
@@ -98,6 +98,23 @@
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 20;
     position: fixed;
+    animation-name: backdrop-show;
+    animation-duration: .5s;
+  }
+
+  .sidenav-backdrop.closing {
+    animation-name: backdrop-fade;
+    animation-duration: .5s;
+  }
+
+  @keyframes backdrop-show {
+    from{opacity: 0;}
+    to{opacity: 100%}
+  }
+
+  @keyframes backdrop-fade {
+    from{opacity: 100%}
+    to{opacity: 0}
   }
 
   .sidenav-backdrop.closed {
