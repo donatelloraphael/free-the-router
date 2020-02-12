@@ -43,7 +43,7 @@
    		</div>
     
 	    <nav class="navbar">
-	    	<span class="menu__toggler" @click="toggleMenu" :class="{ active: isActive }" :is-active="isActive"><span></span></span>
+	    	<span class="menu__toggler" @click="toggleActive()" :class="{ active: isActive }" :is-active="isActive"><span></span></span>
 	    	
 	    	<ul class="navbar-list navbar-nav mr-auto">
 	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
@@ -56,9 +56,9 @@
 	         
 	    </nav>
   	</section>
-  	<transition name="slide-side">
-  		<app-sidenav v-if="isActive" @close="isActive = !isActive"></app-sidenav>
-  	</transition>
+  	<!-- <transition name="slide-side"> -->
+  		<app-sidenav @close="isActive = false" :is-active="isActive"></app-sidenav>
+  <!-- 	</transition> -->
 	</div>
 </template>
 
@@ -76,9 +76,9 @@
 			appSidenav: TheSideNav
 		},
 		methods: {
-			toggleMenu() {
+			toggleActive() {
 				this.isActive = !this.isActive;
-			}			
+			}
 		}
 	};
 
@@ -309,10 +309,12 @@
 
 	/**********************************SIDE MENU TRANSITION**************************************/
 
-	.slide-side-enter-active, .slide-side-leave-active {
+	.slide-side-enter-active, 
+	.slide-side-leave-active {
   	transition: all 0.3s ease-out;
 	}
-	.slide-side-enter, .slide-side-leave-to {
+	.slide-side-enter, 
+	.slide-side-leave-to {
   	transform: translateX(-100%);
 	}
 </style>
