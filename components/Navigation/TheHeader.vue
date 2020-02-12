@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<section class="header">
+		<section class="header navigation-bar-scroll">
 	    <div class="pre-header">
 	    	<nuxt-link to="/">
 	    		<div class="logo"></div>
@@ -306,15 +306,5 @@
 			display: none;
 		}
 	}
-
-	/**********************************SIDE MENU TRANSITION**************************************/
-
-	.slide-side-enter-active, 
-	.slide-side-leave-active {
-  	transition: all 0.3s ease-out;
-	}
-	.slide-side-enter, 
-	.slide-side-leave-to {
-  	transform: translateX(-100%);
-	}
+	
 </style>
