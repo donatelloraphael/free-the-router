@@ -19,10 +19,10 @@
 		      <ul class="nav-list pre-header navbar-nav mr-auto">
 		      	<li class="nav-item dropdown">
 
-		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle">
+		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           			Country
         			</a>
-        			<div class="dropdown-menu" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
+        			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
       					<a class="dropdown-item" href="#">India</a>
 								<a class="dropdown-item" href="#">USA</a>
 								<a class="dropdown-item" href="#">Canada</a>
@@ -40,19 +40,6 @@
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/account">Account</nuxt-link></b-nav-item></li> -->
 		      </ul>
 	   		</nav>
-
-				<div class="nav-country-dropdown">
- 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle">
-      			Country
-    			</a>
-    			<div class="dropdown-menu dropdown-menu-2" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
-  					<a class="dropdown-item" href="#">India</a>
-						<a class="dropdown-item" href="#">USA</a>
-						<a class="dropdown-item" href="#">Canada</a>
-						<a class="dropdown-item" href="#">UK</a>
-					</div>
-				</div>
-
    		</div>
     
 	    <nav class="navbar">
@@ -84,8 +71,7 @@
 		data() {
 			return {
 				isActive: false,
-				lastScrollTop: 0,
-				dropdownState: false
+				lastScrollTop: 0
 			}
 		},
 		components: {
@@ -94,14 +80,6 @@
 		methods: {
 			toggleActive() {
 				this.isActive = !this.isActive;
-			},
-			dropdownToggle() {
-				this.dropwnState = !this.dropwnState;
-				let vm = this;
-				window.addEventListener("click", function(event) {
-					vm.dropwnState = false;
-					return;
-				});
 			}
 		},
 		mounted() {
@@ -132,11 +110,12 @@
 				var scrollPosition = $(window).scrollTop();
 
 				if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
+					console.log('YES');
   				return;
   			}
-  			// console.log('scrollposition: ', scrollPosition);
-  			// console.log('lastScrollTop: ', vm.lastScrollTop);
-  			// console.log('navbarHeight: ', navbarHeight);
+  			console.log('scrollposition: ', scrollPosition);
+  			console.log('lastScrollTop: ', vm.lastScrollTop);
+  			console.log('navbarHeight: ', navbarHeight);
 
 
   			// If current position > last position AND scrolled past navbar...
@@ -251,53 +230,31 @@
   	z-index: 100;
 	}
 
-	.dropdown-menu,
-	.dropdown-menu-2 {
+	.dropdown-menu {
 	  display: none;
 	  position: absolute !important;
 	  top: 2rem;
 	  background-color: #f9f9f9;
-	  font-family: "Courier Prime", monospace;
 	  min-width: 160px;
 	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	  z-index: 1000;
 	}
 
-	.dropdown-menu a,
-	.dropdown-menu-2 a {
+	.dropdown-menu a {
 	  color: black;
 	  padding: 12px 16px;
 	  text-decoration: none;
 	  display: block;
 	}
 
-	.dropdown-menu a:hover,
-	.dropdown-menu-2 a:hover {
-		background-color: #f1f1f1;
+	.dropdown-menu a:hover {
+		background-color: #f1f1f1
 	}
 
-	.dropdown-menu.show,
-	.dropdown-menu-2.show	{
-		display: flex;
-		flex-direction: column;
+	.dropdown:hover .dropdown-menu {
+	  display: flex;
+	  flex-direction: column;
 	}
-
-	/****************************Dropdown in mobile view****************************/
-
-	.nav-country-dropdown .dropdown-toggle {
-		text-decoration: none;
-		color: black;
-		font-family: "Courier Prime", monospace;
-	}
-
-	.nav-country-dropdown .dropdown-toggle:hover {
-		color: green;
-	}
-
-	.dropdown-menu-2 a:hover {
-		color: green;
-	}
-
 	/*************************************NAVBAR***************************************/
 
 	.navbar {
@@ -401,9 +358,6 @@
 		.navbar-list, .navigation-items {
 			display: none;
 		}
-		.nav-country-dropdown {
-			display: block !important;
-		}
 
 		.search {
 			margin: auto;
@@ -412,10 +366,6 @@
 
 	@media (min-width: 768px) {
 		.menu__toggler {
-			display: none;
-		}
-
-		.nav-country-dropdown {
 			display: none;
 		}
 	}
