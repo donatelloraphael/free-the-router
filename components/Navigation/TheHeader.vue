@@ -110,12 +110,11 @@
 				var scrollPosition = $(window).scrollTop();
 
 				if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
-					console.log('YES');
   				return;
   			}
-  			console.log('scrollposition: ', scrollPosition);
-  			console.log('lastScrollTop: ', vm.lastScrollTop);
-  			console.log('navbarHeight: ', navbarHeight);
+  			// console.log('scrollposition: ', scrollPosition);
+  			// console.log('lastScrollTop: ', vm.lastScrollTop);
+  			// console.log('navbarHeight: ', navbarHeight);
 
 
   			// If current position > last position AND scrolled past navbar...
