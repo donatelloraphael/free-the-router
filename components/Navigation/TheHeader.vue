@@ -58,7 +58,9 @@
   	</section>
   	
   	<app-sidenav @close="isActive = false" :is-active="isActive"></app-sidenav>
-	</div>
+
+  
+  </div>
 </template>
 
 <script>
@@ -68,7 +70,8 @@
 		name: "TheHeader",
 		data() {
 			return {
-				isActive: false
+				isActive: false,
+				lastScrollTop: 0
 			}
 		},
 		components: {
@@ -77,6 +80,57 @@
 		methods: {
 			toggleActive() {
 				this.isActive = !this.isActive;
+			}
+		},
+		mounted() {
+
+			////////////////////Hide header when scrolling down and show it scrolling up/////////////////////////////
+
+			let didScroll;
+
+			// on scroll, let the interval function know the user has scrolled
+			$(window).scroll(function(event){
+			  didScroll = true;
+			});
+
+			// run hasScrolled() and reset didScroll status
+			setInterval(function() {
+			  if (didScroll) {
+			    hasScrolled();
+			    didScroll = false;
+			  }
+			}, 250);
+
+			let vm = this._data;
+			// console.log(vm);
+
+			function hasScrolled() {
+				var delta = 5;
+				var navbarHeight =$('.header').outerHeight();
+				var scrollPosition = $(window).scrollTop();
+
+				if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
+					console.log('YES');
+  				return;
+  			}
+  			console.log('scrollposition: ', scrollPosition);
+  			console.log('lastScrollTop: ', vm.lastScrollTop);
+  			console.log('navbarHeight: ', navbarHeight);
+
+
+  			// If current position > last position AND scrolled past navbar...
+				if (scrollPosition > vm.lastScrollTop && scrollPosition > navbarHeight) {  
+					// Scroll Down
+  				$('.header').removeClass('header-down').addClass('header-up');
+  			} else {  
+  				// Scroll Up
+  				// If did not scroll past the document (possible on mac)...  
+  					if(scrollPosition + $(window).height() < $(document).height()) { 
+    					$('.header').removeClass('header-up').addClass('header-down');
+  					}
+				}
+
+				vm.lastScrollTop = scrollPosition;
 			}
 		}
 	};
@@ -92,10 +146,19 @@
     position: fixed;
     z-index: 10;
     background-color: white;
+    transition: top 0.2s ease-out;
     display: grid;
     grid-template-areas: "hd1"
     										 "hd1"
                          "nav";
+  }
+
+  .header-up {
+  	top: -8rem;
+  }
+
+  .header-down {
+  	top: 0;
   }
 
   .pre-header {

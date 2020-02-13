@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div id="root-container">
     <app-header></app-header>
     <nuxt />
     <app-footer></app-footer>
+    
   </div>
 </template>
 
