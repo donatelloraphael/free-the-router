@@ -41,7 +41,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-            'bootstrap-vue/nuxt'
+        
     // Doc: https://bootstrap-vue.js.org
   ],
   /*
@@ -57,9 +57,6 @@ export default {
   router: {
     linkActiveClass: 'active'
   },
-  script: [
-    {   src: "https://code.jquery.com/jquery-3.4.1.js", integrity: "sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=", crossorigin: "anonymous" }
-  ],
   transition: {
     name: 'fade',
     mode: 'out-in'
