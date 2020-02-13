@@ -41,17 +41,7 @@
 		      </ul>
 	   		</nav>
 
-				<div class="nav-country-dropdown">
- 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle">
-      			Country
-    			</a>
-    			<div class="dropdown-menu dropdown-menu-2" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
-  					<a class="dropdown-item" href="#">India</a>
-						<a class="dropdown-item" href="#">USA</a>
-						<a class="dropdown-item" href="#">Canada</a>
-						<a class="dropdown-item" href="#">UK</a>
-					</div>
-				</div>
+			
 
    		</div>
     
@@ -66,8 +56,10 @@
 	        <li class="nav-item"><nuxt-link to="/resources">Resources</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/help">Help</nuxt-link></li>
 	    	</ul>
-	         
 	    </nav>
+
+	    	
+
   	</section>
   	
   	<app-sidenav @close="isActive = false" :is-active="isActive"></app-sidenav>
@@ -235,6 +227,10 @@
 		border-right: none;
 	}
 
+	input.search-box:focus {
+		border: 2px solid green;
+	}
+
 	.search button {
 		background-color: white;
 		padding: 0 5px;
@@ -251,8 +247,7 @@
   	z-index: 100;
 	}
 
-	.dropdown-menu,
-	.dropdown-menu-2 {
+	.dropdown-menu {
 	  display: none;
 	  position: absolute !important;
 	  top: 2rem;
@@ -263,21 +258,18 @@
 	  z-index: 1000;
 	}
 
-	.dropdown-menu a,
-	.dropdown-menu-2 a {
+	.dropdown-menu a {
 	  color: black;
 	  padding: 12px 16px;
 	  text-decoration: none;
 	  display: block;
 	}
 
-	.dropdown-menu a:hover,
-	.dropdown-menu-2 a:hover {
+	.dropdown-menu a:hover {
 		background-color: #f1f1f1;
 	}
 
-	.dropdown-menu.show,
-	.dropdown-menu-2.show	{
+	.dropdown-menu.show	{
 		display: flex;
 		flex-direction: column;
 	}
@@ -286,8 +278,11 @@
 
 	.nav-country-dropdown .dropdown-toggle {
 		text-decoration: none;
-		color: black;
+		color: white;
 		font-family: "Courier Prime", monospace;
+		position: relative;
+		right: 0;
+		float:  right;
 	}
 
 	.nav-country-dropdown .dropdown-toggle:hover {
@@ -401,21 +396,25 @@
 		.navbar-list, .navigation-items {
 			display: none;
 		}
-		.nav-country-dropdown {
+		/*.nav-country-dropdown {
 			display: block !important;
-		}
+		}*/
 
 		.search {
 			margin: auto;
 		}
+
+		/*.navbar-list .nav-country-dropdown {
+			display: flex;
+		}
+
+		#navbarDropdown {
+			display: block;
+		}*/
 	}
 
 	@media (min-width: 768px) {
-		.menu__toggler {
-			display: none;
-		}
-
-		.nav-country-dropdown {
+		.menu__toggler	{
 			display: none;
 		}
 	}

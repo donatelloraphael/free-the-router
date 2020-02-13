@@ -63,13 +63,14 @@ export default {
   .container-grid {
     display: grid;
     position: absolute;
-    top: 8rem;
+    /*top: 8rem;*/
+    /*bottom: 0;*/
     z-index: 5;
     /*grid-gap: 10px;*/
-    height: calc(100vh - 8rem);
+    min-height: 100%; /*Height of header '8rem' + footer '10rem'*/
     width: 100vw;
-    grid-template-areas: "bg-left body body body body bg-right"
-                         "footer footer footer footer footer footer";
+    grid-template-areas: "bg-left body body body body bg-right";
+                         /*". . . . . .";*/
   }
 
   .bg-left {
@@ -85,11 +86,6 @@ export default {
   .body {
     grid-area: body;
     background-color: green;
-  }
-
-  .footer {
-    grid-area: footer;
-    background-color: blue;
   }
 
   .top-picks {

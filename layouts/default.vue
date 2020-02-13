@@ -1,7 +1,9 @@
 <template>
   <div id="root-container">
     <app-header></app-header>
-    <nuxt />
+    
+    <nuxt id="main"></nuxt>
+    
     <app-footer></app-footer>
     
   </div>
@@ -20,6 +22,11 @@
   };
 </script>
 
-<style>
+<style scoped>
+
+  #root-container {
+    position: relative;
+    min-height: 100%;
+  }
 
 </style>

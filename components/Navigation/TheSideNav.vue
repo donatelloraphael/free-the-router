@@ -4,16 +4,29 @@
     <div class="sidenav-backdrop" @click="closingState = true; closeSideMenu(); toggleClosedState(); toggleClosingState();" :class="{ closing: closingState, closed: setClosingState() }">
     </div>
     
-    <div class="menu" @click="closingState = true; closeSideMenu(); toggleClosingState(); toggleClosedState();" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
-      <nuxt-link to="/"><span>Home</span></nuxt-link>
-      <nuxt-link to="/signin"><span>Sign In</span></nuxt-link>
-      <nuxt-link to="/register"><span>Register</span></nuxt-link>
-      <nuxt-link to="/shop"><span>Shop</span></nuxt-link>
-      <nuxt-link to="/deals"><span>Deals</span></nuxt-link>
-      <nuxt-link to="/wishlist"><span>Wishlist</span></nuxt-link>
-      <nuxt-link to="/supported-devices"><span>Supported Devices</span></nuxt-link>
-      <nuxt-link to="/resources"><span>Resources</span></nuxt-link>
-      <nuxt-link to="/help"><span>Help</span></nuxt-link>
+    <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
+      <nuxt-link to="/"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
+      <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link>
+      <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link>
+      <nuxt-link to="/shop"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
+      <nuxt-link to="/deals"><span @click="closeSideMenuStateChanges()">Deals</span></nuxt-link>
+      <nuxt-link to="/wishlist"><span @click="closeSideMenuStateChanges()">Wishlist</span></nuxt-link>
+      <nuxt-link to="/supported-devices"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
+      <nuxt-link to="/resources"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
+      <nuxt-link to="/help"><span @click="closeSideMenuStateChanges()">Help</span></nuxt-link>
+
+      <div class="nav-country-dropdown">
+        <button class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle"><span>
+        Country</span>
+        </button>
+        <div class="dropdown-menu-sidebar" @click="closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">India</a>
+          <a class="dropdown-item" href="#">USA</a>
+          <a class="dropdown-item" href="#">Canada</a>
+          <a class="dropdown-item" href="#">UK</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -24,7 +37,8 @@
     data() {
       return {
         closedState: true,
-        closingState: false
+        closingState: false,
+        dropdownState: false
       }
     },
     props: ["isActive"],
@@ -46,8 +60,22 @@
       },
       setClosingState() {
         return !this.isActive && !this.closingState;
+      },
+      dropdownToggle() {
+        this.dropdownState = !this.dropdownState;
+        let vm = this;
+        window.addEventListener("click", function(event) {
+          vm.dropdownState = false;
+          return;
+        });
+      },
+      closeSideMenuStateChanges() {
+        this.closingState = true; 
+        this.closeSideMenu(); 
+        this.toggleClosingState(); 
+        this.toggleClosedState();
       }
-    },
+    }
   };
 </script>
 
@@ -59,8 +87,8 @@
     left: -50vw;
     width: 50vw;
     height: 100vh;
-    min-width: 250px;
-    padding: 50px;
+    min-width: 180px;
+    padding: 30px;
     flex-direction: column;
     background-color: #2e3192;
     overflow-y: auto;
@@ -127,7 +155,8 @@
     color: white;
     display: block;
     padding: 10px;
-    border-radius: 5px;    
+    border-radius: 5px;
+    cursor: ponter;
   }
 
   .menu span:hover{
@@ -137,5 +166,22 @@
   .menu a{
     text-decoration: none;
   }
+
+  /*************************************Country dropdown************************************/
+  .nav-country-dropdown button {
+    position: relative;
+    padding-right: 50px;
+    padding-left: 0;
+  }
+
+  .nav-country-dropdown button:hover {
+    background-color: #0b0e85;
+  }
+
+  .dropdown-menu-sidebar.active {
+    display: flex;
+    flex-direction: column;
+  }
+
 
 </style>
