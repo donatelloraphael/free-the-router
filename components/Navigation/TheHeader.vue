@@ -273,7 +273,7 @@
 
 	.dropdown-menu a:hover,
 	.dropdown-menu-2 a:hover {
-		background-color: #f1f1f1
+		background-color: #f1f1f1;
 	}
 
 	.dropdown-menu.show,
@@ -283,7 +283,7 @@
 	}
 
 	/****************************Dropdown in mobile view****************************/
-	
+
 	.nav-country-dropdown .dropdown-toggle {
 		text-decoration: none;
 		color: black;
@@ -291,6 +291,10 @@
 	}
 
 	.nav-country-dropdown .dropdown-toggle:hover {
+		color: green;
+	}
+
+	.dropdown-menu-2 a:hover {
 		color: green;
 	}
 
