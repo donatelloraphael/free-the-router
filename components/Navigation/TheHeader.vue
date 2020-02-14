@@ -22,13 +22,13 @@
 		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle">
           			Country
         			</a>
-        			<div class="dropdown-menu" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
-      					<a class="dropdown-item" href="#">India</a>
-								<a class="dropdown-item" href="#">USA</a>
-								<a class="dropdown-item" href="#">Canada</a>
-								<a class="dropdown-item" href="#">UK</a>
-							</div>
-						</li>
+        			<select class="dropdown-menu" :class="{ active: dropdownState }" v-model="selectedCountry"  @click="setCountry(selectedCountry)" aria-labelledby="navbarDropdown">
+      					<option class="dropdown-item" value="india" href="#">India</option>
+								<option class="dropdown-item" value="usa" href="#">USA</option>
+								<option class="dropdown-item" value="canada" href="#">Canada</option>
+								<option class="dropdown-item" value="uk" href="#">UK</option>
+						</select>
+						<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
 		      	
 	      		<span class="divider">|</span>
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
@@ -77,7 +77,9 @@
 			return {
 				isActive: false,
 				lastScrollTop: 0,
-				dropdownState: false
+				dropdownState: false,
+				selectedCountry: "india",
+				flagUrl: ''
 			}
 		},
 		components: {
@@ -88,12 +90,19 @@
 				this.isActive = !this.isActive;
 			},
 			dropdownToggle() {
-				this.dropwnState = !this.dropwnState;
+				this.dropdownState = !this.dropdownState;
 				let vm = this;
 				window.addEventListener("click", function(event) {
-					vm.dropwnState = false;
+					vm.dropdownState = false;
 					return;
 				});
+			},
+			setCountry(country) {
+
+				// webpack isn’t smart enough to understand that you want some part of some string in your code interpreted as a path that it should resolve. That works in HTML and CSS because of their static nature, but not inside of Javasript code. So you have to 'require' the path:
+
+				this.flagUrl = `url(${require(`assets/images/country-flags/${this.selectedCountry}.png`)})`;
+				console.log("this: ", country);
 			}
 		},
 		mounted() {
@@ -126,10 +135,6 @@
 				if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
   				return;
   			}
-  			// console.log('scrollposition: ', scrollPosition);
-  			// console.log('lastScrollTop: ', vm.lastScrollTop);
-  			// console.log('navbarHeight: ', navbarHeight);
-
 
   			// If current position > last position AND scrolled past navbar...
 				if (scrollPosition > vm.lastScrollTop && scrollPosition > navbarHeight) {  
@@ -145,6 +150,9 @@
 
 				vm.lastScrollTop = scrollPosition;
 			}
+			///////////////////////////Set country flag Url at start of the app///////////////////////////
+
+			this.flagUrl = `url(${require(`assets/images/country-flags/${this.selectedCountry}.png`)})`;
 		}
 	};
 
@@ -185,7 +193,7 @@
   .logo {
   	height: 4em;
   	width: 6em;
-  	background: no-repeat center/100% url('../../assets/images/free-the-router.png');
+  	background: no-repeat center/100% url("~assets/images/free-the-router.png");
   	margin: 10px;
   }
 
@@ -240,6 +248,17 @@
 		border-radius: 0 5px 5px 0;
 	}
 
+	.dropdown-toggle {
+		display: inline-block;
+	}
+
+	#country-flag {
+		width: 1.5rem;
+		height: .9rem;
+		position: absolute;
+		top: -1rem;
+		left: 1.5rem;
+	}
 
 	/**********************************Dropdown****************************************/
 	
@@ -262,20 +281,22 @@
 		animation-duration: .3s;
 	}
 
-	.dropdown-menu a {
+	.dropdown-menu.dropdown-item {
 	  color: black;
-	  padding: 12px 16px;
+	  padding: 12px 16px !important;
 	  text-decoration: none;
 	  display: block;
 	}
 
-	.dropdown-menu a:hover {
+	.dropdown-menu option:hover {
 		background-color: #f1f1f1;
 	}
 
 	.dropdown-menu.show	{
 		display: flex;
 		flex-direction: column;
+		align-items: space-between;
+		height: auto;
 	}
 
 	@keyframes country-dropdown {

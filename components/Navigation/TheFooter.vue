@@ -4,9 +4,9 @@
 			
 
 		</div>
-		<!-- <div class="sub-footer">
-			
-		</div> -->
+		<div class="sub-footer" :style="{ top: subFooterPosition + 'px', display: displayFooter }">
+			<p>Copyright &copy; Free The Router | All Rights Reserved</p>
+		</div>
 	</footer>
 </template>	
 
@@ -18,6 +18,7 @@
 		data() {
 			return {
 				documentHeight: 0,
+				subFooterPosition: 0,
 				displayFooter: "none"
 			}
 		},
@@ -29,9 +30,13 @@
 
 				function convertRemToPixels(rem) {    
     			return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-				}
+    		}
 
-				/////////////////////////Don't show footer covering header when loading page///////////////////////////
+    		///////////////////////Sub-footer////////////////////////////////////////
+
+    		this.subFooterPosition = this.documentHeight + convertRemToPixels(15);
+
+				/////////////////////////Don't show footer and sub-footer covering header when loading page///////////////////////////
 
 				setTimeout(() => {
 					this.displayFooter = "flex";
@@ -52,13 +57,23 @@
     right: 0;
     height:15rem;
     clear: both;
-
 	}
+
+
+
+	/*******************Sub-Footer**********************/
 	
-
-
-
-	/*****************************************/
-	
+	.sub-footer {
+		width: 100%;
+		background-color: #e1e1e1;
+		height: 2rem;
+		position: absolute;
+		z-index: 10;
+		font-family: "Courier Prime", monospace;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding-top: 5px;
+	}
 
 </style>

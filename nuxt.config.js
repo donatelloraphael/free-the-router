@@ -18,7 +18,7 @@ export default {
     ]
   },
   /*
-  ** Customize the progress-bar color
+  ** Customize the progress-bar color20
   */
   loading: { color: '#fff' },
   /*
@@ -55,7 +55,14 @@ export default {
     }
   },
   router: {
-    linkActiveClass: 'active'
+    linkActiveClass: 'active',
+    scrollBehavior (to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    }
   },
   transition: {
     name: 'fade',
