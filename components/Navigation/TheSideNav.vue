@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="sidenav-backdrop" @click="dropdownState = false; closeSideMenuStateChanges() " :class="{ closing: closingState, closed: setClosingState() }">
+    <div class="sidenav-backdrop" @click="dropdownDelayedToggle(); closeSideMenuStateChanges() " :class="{ closing: closingState, closed: setClosingState() }">
     </div>
     
     <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
@@ -67,7 +67,7 @@
       ///////////Delayed toggle to keep country dropdown in screen through closing action///////////////
       dropdownDelayedToggle() {
         setTimeout(() => {
-          this.dropdownState = !this.dropdownState;
+          this.dropdownState = false;
         }, 500);
       },        
       closeSideMenuStateChanges() {

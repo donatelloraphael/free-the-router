@@ -258,6 +258,8 @@
 	  min-width: 160px;
 	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	  z-index: 1000;
+	  animation-name: country-dropdown;
+		animation-duration: .3s;
 	}
 
 	.dropdown-menu a {
@@ -274,6 +276,11 @@
 	.dropdown-menu.show	{
 		display: flex;
 		flex-direction: column;
+	}
+
+	@keyframes country-dropdown {
+		from{opacity: 0}
+		to{opacity: 100}
 	}
 
 	/****************************Dropdown in mobile view****************************/
