@@ -426,26 +426,25 @@
 		.navbar-list, .navigation-items {
 			display: none;
 		}
-		/*.nav-country-dropdown {
-			display: block !important;
-		}*/
-
+		
 		.search {
 			margin: auto;
 		}
 
-		/*.navbar-list .nav-country-dropdown {
-			display: flex;
-		}
-
-		#navbarDropdown {
-			display: block;
-		}*/
 	}
 
 	@media (min-width: 768px) {
 		.menu__toggler	{
 			display: none;
+		}
+		.search input {
+			max-width: 10rem;
+		}
+	}
+
+	@media (min-width: 860px) {
+		.search input {
+			max-width: 30rem;
 		}
 	}
 
