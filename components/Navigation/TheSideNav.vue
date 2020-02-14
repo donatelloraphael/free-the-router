@@ -19,7 +19,7 @@
         <button class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle()"><span>
         Country</span>
         </button>
-        <div class="dropdown-menu-sidebar" @click="closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu-sidebar" @click="dropdownDelayedToggle(); closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">India</a>
           <a class="dropdown-item" href="#">USA</a>
           <a class="dropdown-item" href="#">Canada</a>
@@ -63,9 +63,13 @@
       },
       dropdownToggle() {
         this.dropdownState = !this.dropdownState;
-        let vm = this;
-        // console.log("dropdownstate: ", vm.dropdownState);
       },
+      ///////////Delayed toggle to keep country dropdown in screen through closing action///////////////
+      dropdownDelayedToggle() {
+        setTimeout(() => {
+          this.dropdownState = !this.dropdownState;
+        }, 500);
+      },        
       closeSideMenuStateChanges() {
         this.closingState = true; 
         this.closeSideMenu(); 
