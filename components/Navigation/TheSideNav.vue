@@ -189,6 +189,9 @@
   .dropdown-menu-sidebar a:hover {
     background-color: #0b0e85;
   }
+  .dropdown-menu-sidebar a:focus {
+    background-color: #0b0e85;
+  }
   .dropdown-menu-sidebar.active {
     display: flex;
     flex-direction: column;
