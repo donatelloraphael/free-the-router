@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="sidenav-backdrop" @click="closingState = true; closeSideMenu(); toggleClosedState(); toggleClosingState();" :class="{ closing: closingState, closed: setClosingState() }">
+    <div class="sidenav-backdrop" @click="dropdownState = false; closeSideMenuStateChanges() " :class="{ closing: closingState, closed: setClosingState() }">
     </div>
     
     <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
@@ -16,7 +16,7 @@
       <nuxt-link to="/help"><span @click="closeSideMenuStateChanges()">Help</span></nuxt-link>
 
       <div class="nav-country-dropdown">
-        <button class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle"><span>
+        <button class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle()"><span>
         Country</span>
         </button>
         <div class="dropdown-menu-sidebar" @click="closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
@@ -64,10 +64,7 @@
       dropdownToggle() {
         this.dropdownState = !this.dropdownState;
         let vm = this;
-        window.addEventListener("click", function(event) {
-          vm.dropdownState = false;
-          return;
-        });
+        // console.log("dropdownstate: ", vm.dropdownState);
       },
       closeSideMenuStateChanges() {
         this.closingState = true; 
@@ -136,7 +133,7 @@
   }
 
   @keyframes backdrop-show {
-    from{opacity: 0;}
+    from{opacity: 0}
     to{opacity: 100%}
   }
 
@@ -178,9 +175,31 @@
     background-color: #0b0e85;
   }
 
+  .dropdown-menu-sidebar {
+    display: none;
+    position: relative;
+  }
+
+  .dropdown-menu-sidebar a {
+    color: white;
+    border-radius: 5px;
+    font-family: "Courier Prime", monospace;
+  }
+
+  .dropdown-menu-sidebar a:hover {
+    background-color: #0b0e85;
+  }
   .dropdown-menu-sidebar.active {
     display: flex;
     flex-direction: column;
+    color: white;
+    animation-name: dropdown-slide;
+    animation-duration: 0.7s;
+  }
+
+  @keyframes dropdown-slide {
+    from{opacity: 0; bottom: -100px;}
+    to{opacity: 100%; bottom: 0;}
   }
 
 

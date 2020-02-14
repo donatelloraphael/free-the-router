@@ -225,6 +225,7 @@
 		padding: 0 0 0 10px;
 		border: 1px solid grey;
 		border-right: none;
+		border-radius: 5px 0 0 5px;
 	}
 
 	input.search-box:focus {
@@ -236,6 +237,7 @@
 		padding: 0 5px;
 		border: 1px solid grey;
 		font-family: "Courier Prime", monospace;
+		border-radius: 0 5px 5px 0;
 	}
 
 
