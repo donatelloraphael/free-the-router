@@ -1,12 +1,54 @@
 <template>
 	<footer>
+
 		<div class="main-footer" :style="{ top: documentHeight + 'px', display: displayFooter }">
-			
+
+			<span class="logo">
+				<nuxt-link to="/"><img src="../../assets/images/free-the-router.png" alt="Free The Router Logo linking to homepage"></nuxt-link>
+			</span>
+
+			<div class="firmwares">
+				<h3>Firmware</h3>
+				<nuxt-link to="/firmware/openwrt">OpenWrt</nuxt-link>
+				<nuxt-link to="/firmware/dd-Wrt">DD-Wrt</nuxt-link>
+				<nuxt-link to="/firmware/gargoyle">Gargoyle</nuxt-link>
+				<nuxt-link to="/firmware/fresh-tomato">FreshTomato</nuxt-link>
+				<nuxt-link to="/firmware/advanced-tomato">AdvancedTomato</nuxt-link>
+				<nuxt-link to="/firmware/tomato-shibby">Tomato by Shibby</nuxt-link>
+			</div>
+
+			<div class="info">
+				<h3>Information</h3>
+				<nuxt-link to="/faq">FAQ</nuxt-link>
+				<nuxt-link to="/terms">Terms of Service</nuxt-link>
+				<nuxt-link to="/resources">Resources</nuxt-link>
+				<nuxt-link to="/brands">Brands</nuxt-link>
+			</div>
+
+			<div class="more">
+				<h3>Know More</h3>
+				<nuxt-link to="/aboutus">About Us</nuxt-link>
+				<nuxt-link to="/contact">Contact Us</nuxt-link>
+				<nuxt-link to="/paid-verification">Paid Verification</nuxt-link>
+				<nuxt-link to="/sitemap">Sitemap</nuxt-link>
+			</div>
+
+			<div id="placeholder-block">
+			</div>
+
+			<div class="sub-footer" :style="{ top: subFooterPosition + 'px', display: displayFooter }">
+				<p>Copyright &copy; Free The Router | All Rights Reserved</p>
+			</div>
 
 		</div>
+
+		
+
 		<div class="sub-footer" :style="{ top: subFooterPosition + 'px', display: displayFooter }">
 			<p>Copyright &copy; Free The Router | All Rights Reserved</p>
 		</div>
+
+		
 	</footer>
 </template>	
 
@@ -22,9 +64,9 @@
 				displayFooter: "none"
 			}
 		},
-		beforeMount() {
+		mounted() {
 
-				/////////////////////////Hacked Up solution to footer not being positioned at bottom////////////////////////
+				////////////Hacked Up solution to footer not being positioned at bottom///////////////
 
 				this.documentHeight = ($(document).height()) - convertRemToPixels(7);
 
@@ -36,11 +78,17 @@
 
     		this.subFooterPosition = this.documentHeight + convertRemToPixels(15);
 
-				/////////////////////////Don't show footer and sub-footer covering header when loading page///////////////////////////
+				/////////////Don't show footer and sub-footer covering header when loading page////////////////
 
 				setTimeout(() => {
 					this.displayFooter = "flex";
 				}, 200);
+	
+				// /////////////////Change sub-footer height accoring to media queries//////////////////////
+				// if (window.matchMedia("(max-width: 711px)").matches) {
+				// 	this.subFooterPosition += convertRemToPixels(30); 
+				// 	console.log(this.subFooterPosition);
+				// }
 		}
 	};
 </script>
@@ -50,15 +98,76 @@
 	.main-footer {
 		width: 100%;
 		background-color: #2e3192;
-		position: absolute;
-		z-index: 10;
+		position: relative;
+		z-index: 4;
     top: 0;
     left: 0;
     right: 0;
-    height:15rem;
+    height:auto;
     clear: both;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: auto 0;
 	}
 
+	.main-footer span {
+		margin-left: 40px;
+	}
+
+	.main-footer div {
+		margin: 0;
+		padding: 20px;
+	}
+
+	.logo {
+		grid-area: logo;
+		position: relative;
+		z-index: 11;
+		background-color: red;
+		height: 15rem;
+		padding: 50px 40px;
+	}
+
+	.logo img {
+		width: 13rem;
+		height: 9rem;
+		margin: auto;
+	}
+
+	.main-footer h3 {
+		font-family: "Courier Prime", monospace;
+		color: white;
+		padding: 1rem 0 0 0;
+	}
+
+	.main-footer a {
+		text-decoration: none;
+		color: white;
+		font-family: "Courier Prime", monospace;
+	}
+
+	.main-footer a:hover {
+		color: red;
+	}
+
+	.firmwares {
+		display: flex;
+		flex-direction: column;
+		margin: auto;
+	}
+
+	.info {
+		display: flex;
+		flex-direction: column;
+		margin: 2rem auto;
+	}
+
+	.more {
+		display: flex;
+		flex-direction: column;
+		margin: 2rem auto;
+	}
 
 
 	/*******************Sub-Footer**********************/
@@ -66,14 +175,29 @@
 	.sub-footer {
 		width: 100%;
 		background-color: #e1e1e1;
-		height: 2rem;
-		position: absolute;
+		height: 3rem;
+		/*position: relative;*/
+		/*margin-bottom: 2rem;		*/
 		z-index: 10;
 		font-family: "Courier Prime", monospace;
-		display: flex;
+		display: block;
 		justify-content: center;
 		align-items: center;
 		padding-top: 5px;
+	}
+	
+	.sub-footer p {
+		padding-top: 10px;
+	}
+
+	@media (max-width: 600px) {
+		.main-footer div {
+			padding-left: 100px;
+			margin: 0;
+		}
+		.sub-footer {
+			height: auto;
+		}
 	}
 
 </style>

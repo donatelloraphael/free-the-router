@@ -63,12 +63,9 @@ export default {
   .container-grid {
     display: grid;
     position: absolute;
-    /*top: 8rem;*/
-    /*bottom: 0;*/
     z-index: 5;
-    /*grid-gap: 10px;*/
     min-height: 100%; /*Height of header '8rem' + footer '10rem'*/
-    width: 100vw;
+    width: 100%;
     grid-template-areas: "bg-left body body body body bg-right";
                          /*". . . . . .";*/
   }

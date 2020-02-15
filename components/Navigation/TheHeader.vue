@@ -10,25 +10,19 @@
 					<input class="search-box" type="text" placeholder="Search here">
 					<button type="submit">Search</i></button>
 				</form>
-	    	<!-- <b-nav-form>
-	      	<b-form-input class="mr-sm-1" placeholder="Search"></b-form-input>
-	      	<b-button variant="outline-dark" class="my-2 my-sm-0" type="submit">Search</b-button>
-	    	</b-nav-form> -->
-				
+	   
 				<nav class="navigation-items">
 		      <ul class="nav-list pre-header navbar-nav mr-auto">
 		      	<li class="nav-item dropdown">
 
-		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle">
-          			Country
-        			</a>
-        			<select class="dropdown-menu" :class="{ active: dropdownState }" @click="setCountry($event.target.value)" aria-labelledby="navbarDropdown">
+        			<select class="dropdown-menu" @click="setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
       					<option class="dropdown-item" value="india" :selected="'india' == $store.getters.getCountry" href="#">India</option>
 								<option class="dropdown-item" value="usa" :selected="'usa' == $store.getters.getCountry" href="#">USA</option>
 								<option class="dropdown-item" value="canada" :selected="'canada' == $store.getters.getCountry" href="#">Canada</option>
 								<option class="dropdown-item" value="uk" :selected="'uk' == $store.getters.getCountry" href="#">UK</option>
-						</select>
-						<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
+							</select>
+							<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
+						</li>
 		      	
 	      		<span class="divider">|</span>
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
@@ -76,8 +70,7 @@
 		data() {
 			return {
 				isActive: false,
-				lastScrollTop: 0,
-				dropdownState: false,
+				lastScrollTop: 0
 			}
 		},
 		components: {
@@ -87,21 +80,13 @@
 			toggleActive() {
 				this.isActive = !this.isActive;
 			},
-			dropdownToggle() {
-				this.dropdownState = !this.dropdownState;
-				let vm = this;
-				window.addEventListener("click", function(event) {
-					vm.dropdownState = false;
-					return;
-				});
-			},
 			setCountry(country) {
 				this.$store.dispatch("setCountry", country);
 				this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
 				// console.log("this: ", country);
 			}
 		},
-		mounted() {
+		beforeUpdate() {
 
 			////////////////////Hide header when scrolling down and show it scrolling up/////////////////////////////
 
@@ -249,71 +234,24 @@
 		width: 1.5rem;
 		height: .9rem;
 		position: absolute;
+		z-index: 1000;
 		top: -1rem;
-		left: 1.5rem;
+		left: 1.8rem;
 	}
 
 	/**********************************Dropdown****************************************/
 
-	.dropdown {
-  	position: relative;
-  	display: inline-block;
-  	z-index: 100;
-	}
-
 	.dropdown-menu {
-	  display: none;
-	  position: absolute !important;
-	  top: 2rem;
-	  background-color: #f9f9f9;
+	  display: flex;
+	  background-color: white;
 	  font-family: "Courier Prime", monospace;
-	  min-width: 160px;
-	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	  min-width: 50px;
 	  z-index: 1000;
-	  animation-name: country-dropdown;
-		animation-duration: .3s;
 	}
 
-	.dropdown-menu.dropdown-item {
-	  color: black;
-	  padding: 12px 16px !important;
-	  text-decoration: none;
-	  display: block;
-	}
-
-	.dropdown-menu option:hover {
-		background-color: #f1f1f1;
-	}
-
-	.dropdown-menu.show	{
-		display: flex;
-		flex-direction: column;
-		align-items: space-between;
-		height: auto;
-	}
-
-	@keyframes country-dropdown {
-		from{opacity: 0}
-		to{opacity: 100}
-	}
-
-	/****************************Dropdown in mobile view****************************/
-
-	.nav-country-dropdown .dropdown-toggle {
-		text-decoration: none;
-		color: white;
-		font-family: "Courier Prime", monospace;
-		position: relative;
-		right: 0;
-		float:  right;
-	}
-
-	.nav-country-dropdown .dropdown-toggle:hover {
+	.dropdown-menu:hover {
 		color: green;
-	}
-
-	.dropdown-menu-2 a:hover {
-		color: green;
+		cursor: pointer;
 	}
 
 	/*************************************NAVBAR***************************************/

@@ -17,7 +17,7 @@
 
       <div class="nav-country-dropdown">
   
-        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value); dropdownDelayedToggle(); closeSideMenuStateChanges()" aria-labelledby="navbarDropdown">
+        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value);" aria-labelledby="navbarDropdown">
           <option class="dropdown-item" value="india" :selected="'india' == $store.getters.getCountry" href="#">India</option>
           <option class="dropdown-item" value="usa" :selected="'usa' == $store.getters.getCountry" href="#">USA</option>
           <option class="dropdown-item" value="canada" :selected="'canada' == $store.getters.getCountry" href="#">Canada</option>
