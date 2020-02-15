@@ -16,15 +16,14 @@
       <nuxt-link to="/help"><span @click="closeSideMenuStateChanges()">Help</span></nuxt-link>
 
       <div class="nav-country-dropdown">
-        <button for="dropdown-menu-sidebar" class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle()"><span>
-        Country</span>
-        </button>
-        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value); dropdownDelayedToggle(); closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
+  
+        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value); dropdownDelayedToggle(); closeSideMenuStateChanges()" aria-labelledby="navbarDropdown">
           <option class="dropdown-item" value="india" :selected="'india' == $store.getters.getCountry" href="#">India</option>
           <option class="dropdown-item" value="usa" :selected="'usa' == $store.getters.getCountry" href="#">USA</option>
           <option class="dropdown-item" value="canada" :selected="'canada' == $store.getters.getCountry" href="#">Canada</option>
           <option class="dropdown-item" value="uk" :selected="'uk' == $store.getters.getCountry" href="#">UK</option>
         </select>
+
       </div>
 
     </div>
@@ -38,7 +37,6 @@
       return {
         closedState: true,
         closingState: false,
-        dropdownState: false
       }
     },
     props: ["isActive"],
@@ -60,9 +58,6 @@
       },
       setClosingState() {
         return !this.isActive && !this.closingState;
-      },
-      dropdownToggle() {
-        this.dropdownState = !this.dropdownState;
       },
       ///////////Delayed toggle to keep country dropdown in screen through closing action///////////////
       dropdownDelayedToggle() {
@@ -186,9 +181,12 @@
   }
 
   .dropdown-menu-sidebar {
-    display: none;
+    display: flex;
     position: relative;
+    left: 8px;
+    top: 18px;
     color: black;
+    flex-direction: column;
     padding: 5px 12px;
     border-radius: 10px;
 
@@ -200,24 +198,11 @@
     font-family: "Courier Prime", monospace;
   }
 
-  .dropdown-menu-sidebar a:hover {
+  .dropdown-menu-sidebar option:hover {
     background-color: #0b0e85;
   }
-  .dropdown-menu-sidebar a:focus {
+  .dropdown-menu-sidebar option:focus {
     background-color: #0b0e85;
   }
-  .dropdown-menu-sidebar.active {
-    display: flex;
-    flex-direction: column;
-    color: black;
-    animation-name: dropdown-slide;
-    animation-duration: 0.7s;
-  }
-
-  @keyframes dropdown-slide {
-    from{opacity: 0; bottom: -100px;}
-    to{opacity: 100%; bottom: 0;}
-  }
-
 
 </style>
