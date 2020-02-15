@@ -16,15 +16,15 @@
       <nuxt-link to="/help"><span @click="closeSideMenuStateChanges()">Help</span></nuxt-link>
 
       <div class="nav-country-dropdown">
-        <button class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle()"><span>
+        <button for="dropdown-menu-sidebar" class="dropdown-toggle btn btn-blue" role="button" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle()"><span>
         Country</span>
         </button>
-        <div class="dropdown-menu-sidebar" @click="dropdownDelayedToggle(); closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">India</a>
-          <a class="dropdown-item" href="#">USA</a>
-          <a class="dropdown-item" href="#">Canada</a>
-          <a class="dropdown-item" href="#">UK</a>
-        </div>
+        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value); dropdownDelayedToggle(); closeSideMenuStateChanges()" :class="{ active: dropdownState }" aria-labelledby="navbarDropdown">
+          <option class="dropdown-item" value="india" :selected="'india' == $store.getters.getCountry" href="#">India</option>
+          <option class="dropdown-item" value="usa" :selected="'usa' == $store.getters.getCountry" href="#">USA</option>
+          <option class="dropdown-item" value="canada" :selected="'canada' == $store.getters.getCountry" href="#">Canada</option>
+          <option class="dropdown-item" value="uk" :selected="'uk' == $store.getters.getCountry" href="#">UK</option>
+        </select>
       </div>
 
     </div>
@@ -75,6 +75,12 @@
         this.closeSideMenu(); 
         this.toggleClosingState(); 
         this.toggleClosedState();
+      },
+      setCountry(country) {
+        this.$store.dispatch("setCountry", country);
+        this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
+        console.log(country);
+        console.log("this: ", this.$store.getters.getCountry);
       }
     }
   };
@@ -182,6 +188,10 @@
   .dropdown-menu-sidebar {
     display: none;
     position: relative;
+    color: black;
+    padding: 5px 12px;
+    border-radius: 10px;
+
   }
 
   .dropdown-menu-sidebar a {
@@ -199,7 +209,7 @@
   .dropdown-menu-sidebar.active {
     display: flex;
     flex-direction: column;
-    color: white;
+    color: black;
     animation-name: dropdown-slide;
     animation-duration: 0.7s;
   }

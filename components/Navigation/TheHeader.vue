@@ -22,13 +22,13 @@
 		      		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="dropdownToggle">
           			Country
         			</a>
-        			<select class="dropdown-menu" :class="{ active: dropdownState }" v-model="selectedCountry"  @click="setCountry(selectedCountry)" aria-labelledby="navbarDropdown">
-      					<option class="dropdown-item" value="india" href="#">India</option>
-								<option class="dropdown-item" value="usa" href="#">USA</option>
-								<option class="dropdown-item" value="canada" href="#">Canada</option>
-								<option class="dropdown-item" value="uk" href="#">UK</option>
+        			<select class="dropdown-menu" :class="{ active: dropdownState }" @click="setCountry($event.target.value)" aria-labelledby="navbarDropdown">
+      					<option class="dropdown-item" value="india" :selected="'india' == $store.getters.getCountry" href="#">India</option>
+								<option class="dropdown-item" value="usa" :selected="'usa' == $store.getters.getCountry" href="#">USA</option>
+								<option class="dropdown-item" value="canada" :selected="'canada' == $store.getters.getCountry" href="#">Canada</option>
+								<option class="dropdown-item" value="uk" :selected="'uk' == $store.getters.getCountry" href="#">UK</option>
 						</select>
-						<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
+						<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
 		      	
 	      		<span class="divider">|</span>
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
@@ -78,8 +78,6 @@
 				isActive: false,
 				lastScrollTop: 0,
 				dropdownState: false,
-				selectedCountry: "india",
-				flagUrl: ''
 			}
 		},
 		components: {
@@ -98,11 +96,9 @@
 				});
 			},
 			setCountry(country) {
-
-				// webpack isn’t smart enough to understand that you want some part of some string in your code interpreted as a path that it should resolve. That works in HTML and CSS because of their static nature, but not inside of Javasript code. So you have to 'require' the path:
-
-				this.flagUrl = `url(${require(`assets/images/country-flags/${this.selectedCountry}.png`)})`;
-				console.log("this: ", country);
+				this.$store.dispatch("setCountry", country);
+				this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
+				// console.log("this: ", country);
 			}
 		},
 		mounted() {
@@ -150,9 +146,6 @@
 
 				vm.lastScrollTop = scrollPosition;
 			}
-			///////////////////////////Set country flag Url at start of the app///////////////////////////
-
-			this.flagUrl = `url(${require(`assets/images/country-flags/${this.selectedCountry}.png`)})`;
 		}
 	};
 
@@ -261,7 +254,7 @@
 	}
 
 	/**********************************Dropdown****************************************/
-	
+
 	.dropdown {
   	position: relative;
   	display: inline-block;
