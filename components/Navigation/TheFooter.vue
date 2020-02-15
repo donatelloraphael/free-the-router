@@ -108,7 +108,7 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    padding: auto 0;
+    padding: auto;
 	}
 
 	.main-footer span {
@@ -125,8 +125,9 @@
 		position: relative;
 		z-index: 11;
 		background-color: red;
-		height: 15rem;
+		height: auto;
 		padding: 50px 40px;
+		margin: 0;
 	}
 
 	.logo img {
@@ -154,19 +155,16 @@
 	.firmwares {
 		display: flex;
 		flex-direction: column;
-		margin: auto;
 	}
 
 	.info {
 		display: flex;
 		flex-direction: column;
-		margin: 2rem auto;
 	}
 
 	.more {
 		display: flex;
 		flex-direction: column;
-		margin: 2rem auto;
 	}
 
 
@@ -176,8 +174,6 @@
 		width: 100%;
 		background-color: #e1e1e1;
 		height: 3rem;
-		/*position: relative;*/
-		/*margin-bottom: 2rem;		*/
 		z-index: 10;
 		font-family: "Courier Prime", monospace;
 		display: block;
