@@ -7,7 +7,7 @@
 				<nuxt-link to="/"><img src="../../assets/images/free-the-router.png" alt="Free The Router Logo linking to homepage"></nuxt-link>
 			</span>
 
-			<div class="firmwares">
+			<div class="firmware">
 				<h3>Firmware</h3>
 				<nuxt-link to="/firmware/openwrt">OpenWrt</nuxt-link>
 				<nuxt-link to="/firmware/dd-Wrt">DD-Wrt</nuxt-link>
@@ -108,7 +108,6 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    padding: auto;
 	}
 
 	.main-footer span {
@@ -127,7 +126,6 @@
 		background-color: red;
 		height: auto;
 		padding: 50px 40px;
-		margin: 0;
 	}
 
 	.logo img {
@@ -152,7 +150,7 @@
 		color: red;
 	}
 
-	.firmwares {
+	.firmware {
 		display: flex;
 		flex-direction: column;
 	}
@@ -195,5 +193,11 @@
 			height: auto;
 		}
 	}
+
+	/*@media (max-width: 964px) {
+		main-footer div.more {
+			padding: auto 50px;
+		}
+	}*/
 
 </style>

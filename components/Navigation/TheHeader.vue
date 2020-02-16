@@ -240,13 +240,15 @@
 	}
 
 	/**********************************Dropdown****************************************/
-
+	
 	.dropdown-menu {
-	  display: flex;
+		display: flex;
+	  margin: 0 auto;
 	  background-color: white;
 	  font-family: "Courier Prime", monospace;
 	  min-width: 50px;
 	  z-index: 1000;
+	  border: none;
 	}
 
 	.dropdown-menu:hover {
@@ -351,8 +353,9 @@
 
 	
 
-	/*************************************HEADER-TOGGLE***************************************/
-	
+	/*************************************MEDIA QUERIES***************************************/
+
+	/*Header Toggle*/
 	@media (max-width: 768px) {
 		.navbar-list, .navigation-items {
 			display: none;

@@ -170,16 +170,7 @@
   }
 
   /*************************************Country dropdown************************************/
-  .nav-country-dropdown button {
-    position: relative;
-    padding-right: 50px;
-    padding-left: 0;
-  }
-
-  .nav-country-dropdown button:hover {
-    background-color: #0b0e85;
-  }
-
+  
   .dropdown-menu-sidebar {
     display: flex;
     position: relative;
@@ -196,13 +187,6 @@
     color: white;
     border-radius: 5px;
     font-family: "Courier Prime", monospace;
-  }
-
-  .dropdown-menu-sidebar option:hover {
-    background-color: #0b0e85;
-  }
-  .dropdown-menu-sidebar option:focus {
-    background-color: #0b0e85;
   }
 
 </style>
