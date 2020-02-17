@@ -41,13 +41,6 @@
 			</div>
 
 		</div>
-
-		
-
-		<div class="sub-footer" :style="{ top: subFooterPosition + 'px', display: displayFooter }">
-			<p>Copyright &copy; Free The Router | All Rights Reserved</p>
-		</div>
-
 		
 	</footer>
 </template>	
@@ -66,7 +59,7 @@
 		},
 		mounted() {
 
-				////////////Hacked Up solution to footer not being positioned at bottom///////////////
+				////////////Fucked up hack to footer not being positioned at bottom///////////////
 
 				this.documentHeight = ($(document).height()) - convertRemToPixels(7);
 
@@ -97,9 +90,10 @@
 
 	.main-footer {
 		width: 100%;
+		height: auto;
 		background-color: #2e3192;
 		position: relative;
-		z-index: 4;
+		z-index: 6;
     top: 0;
     left: 0;
     right: 0;
@@ -108,6 +102,8 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    /*border-top: 1px solid black;*/
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 1);
 	}
 
 	.main-footer span {

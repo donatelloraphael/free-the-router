@@ -1,8 +1,14 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 
+import TopPicksModule from '@/store/TopPicks';
+
 const createStore = () => {
 	return new Vuex.Store({
+
+		modules: {
+			TopPicksModule
+		},
 		state: () => ({
 			selectedCountry: "",
 			flagUrl: ""

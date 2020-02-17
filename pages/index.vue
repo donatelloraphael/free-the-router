@@ -3,6 +3,7 @@
     <section class="body">
       
       <div class="top-picks">
+        <app-top-picks></app-top-picks>
         
       </div>
       <div class="popular">
@@ -28,20 +29,12 @@
     <div class="bg-right">
   
     </div>
-
-    <section class="footer">
-      <div class="main-footer">
-        
-      </div>
-      <div class="copyright">
-        
-      </div>
-    </section>
     
   </div>
 </template>
 
 <script>
+import TopPicks from '../components/Carousals/TopPicks'
 
 export default {
   head() {
@@ -52,6 +45,9 @@ export default {
         { src: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" }
       ]
     }
+  },
+  components: {
+    appTopPicks: TopPicks
   }
 };
   
@@ -64,33 +60,45 @@ export default {
     display: grid;
     position: absolute;
     z-index: 5;
-    min-height: 100%; /*Height of header '8rem' + footer '10rem'*/
+    min-height: 100vh; /*Height of header '8rem' + footer '10rem'*/
     width: 100%;
     grid-template-areas: "bg-left body body body body bg-right";
                          /*". . . . . .";*/
+    text-align: center;
   }
 
   .bg-left {
     grid-area: bg-left;
-    background-color: pink;
+    background-color: #2e3192;
+    padding: 8rem 0 0 0;
   }
 
  .bg-right {
     grid-area: bg-right;
-    background-color: pink;
+    background-color: #2e3192;
+    padding: 8rem 0 0 0;
+    
   }
 
   .body {
     grid-area: body;
-    background-color: green;
+    /*background-color: green;*/
+    padding: 8rem 0 0 0;
   }
 
   .top-picks {
-    width: 200px;
-    height: 1600px;
-    background-color: magenta;  
+    width: auto;
+    height: 40vw;
+    /*background-color: cyan;*/
+    display: block;
+    margin: auto;
   }
 
+  @media (max-width: 769px) {
+    .bg-left, .bg-right {
+      display: none;
+    }
+  }
 
 
 </style>
