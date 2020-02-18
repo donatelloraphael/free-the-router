@@ -95,14 +95,12 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 }
 
 .firmware:hover {
-	color: #deff00;
+	color: white;
 	background-color: #8384b3;
 }
 
 .active {
-	background-color: #8384b3;
-	border-right: 5px solid #2e3192 !important;
-	/*border-left: 5px solid #2e3192;*/
+	background-color: #2e3192 !important;
 	color: white !important;
 }
 
@@ -131,8 +129,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		grid-template-columns: repeat( auto-fit, minmax(150px, 1fr));
 		grid-template-rows: repeat(auto-fit, minmax(30px, 1fr));*/
 	}
-
-
 
 	.firmware-router {
 		width: 100%;
@@ -195,8 +191,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		height: 70vw;
 		margin: 0px auto;
 	}
-
-	
 
 	.firmware-name {
 		width: 100%;
