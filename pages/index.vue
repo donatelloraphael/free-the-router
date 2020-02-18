@@ -65,6 +65,7 @@ export default {
     grid-template-areas: "bg-left body body body body body body bg-right";
                          /*". . . . . .";*/
     text-align: center;
+    margin-bottom: 250px;
   }
 
   .bg-left {

@@ -1,25 +1,28 @@
 <template>
 	<div class="top-picks-container">
 		<div class="firmware-name">
-			<div class="firmware">
-				<p>OpenWrt</p>
-			</div>
-			<div class="firmware">
-				<p>DD-Wrt</p>
-			</div>
-			<div class="firmware">
-				<p>Gargoyle</p>
-			</div>
-			<div class="firmware">
-				<p>FreshTomato</p>
-			</div>
-			<div class="firmware">
-				<p>AdvancedTomato</p>
-			</div>
-			<div class="firmware">
-				<p>Tomato by Shibby</p>
-			</div>
+				<div class="firmware">
+					<p>OpenWrt</p>
+				</div>
+				
+				<div class="firmware">
+					<p>DD-Wrt</p>
+				</div>
 			
+				<div class="firmware">
+					<p>Gargoyle</p>
+				</div>
+				<div class="firmware">
+					<p>FreshTomato</p>
+				</div>
+
+				<div class="firmware">
+					<p>AdvancedTomato</p>
+				</div>
+				<div class="firmware">
+					<p>Tomato by Shibby</p>
+				</div>
+					
 
 		</div>
 
@@ -43,16 +46,17 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 
 </script>
 
-<style>
+<style scoped>
 
 .top-picks-container {
 	width: 90%;
 	height: 30vw;
 	margin: 50px auto;
-	/*border: 1px solid grey;*/
+	border: 1px solid grey;
 	box-shadow: 0px 0px 8px;
 	display: flex;
 	flex-wrap: wrap-reverse;
+	background-color: red;
 }
 
 .firmware-router {
@@ -83,59 +87,94 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 }
 
 .firmware p {
-	margin: 1.2rem auto;
+	margin: 1rem 50px;
 }
 
 /**************************Media Queries********************************/
 @media (max-width: 1200px) {
 	.top-picks-container {
 		width: 70vw;
-		height: 60vw;
+		height: 50vw;
 		margin: 30px auto;
 	}
 
 	.firmware-name {
 		width: 100%;
-		height: 25%;
+		height: 15%;
+		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		padding: 0;
+		padding: 0 120px;
+		/*grid-template-areas: "first second third";
+		grid-template-columns: repeat( auto-fit, minmax(150px, 1fr));
+		grid-template-rows: repeat(auto-fit, minmax(30px, 1fr));*/
 	}
+
+
 
 	.firmware-router {
 		width: 100%;
-		height: 75%;
+		height: 85%;
 		border: none;
 	}
 
 	.firmware {
-		padding: 10px 30px;
-		flex-grow: 1;
+		margin: 0;
+		padding: auto;
+		width: 150px;
+		flex-shrink: 1;
 	}
 
 	.firmware p {
 		margin: auto;
 		padding: 0;
+		display: inline-flex;
+		line-height: 1;
 	}
 
-
-
 }
-@media (max-width: 768px) {
+
+@media (max-width: 1002px) {
+	.firmware-name {
+		padding: 0 50px;
+	}
+}
+
+@media (max-width: 789px) {
 	.top-picks-container {
 		width: 90vw;
-		height: 80vw;
+		height: 70vw;
 		margin: 30px auto;
 	}
 
 	.firmware-name {
 		width: 100%;
 		height: 25%;
+		padding: 0 60px;
 	}
 
 	.firmware-router {
 		width: 100%;
 		height: 75%;
+	}
+}
+
+@media (max-width: 470px) {
+	.top-picks-container {
+		width: 90vw;
+		height: 90vw;
+		margin: 30px auto;
+	}
+
+	.firmware-name {
+		width: 100%;
+		height: 40%;
+		padding: 0;
+	}
+
+	.firmware-router {
+		width: 100%;
+		height: 60%;
 	}
 }
 	
