@@ -1,29 +1,29 @@
 <template>
 	<div class="top-picks-container">
 		<div class="firmware-name">
-				<div class="firmware">
+				<div class="firmware" id="openwrt" :class="{ active: 'openwrt' == selected }" @click="selected = 'openwrt'">
 					<p>OpenWrt</p>
 				</div>
-				
-				<div class="firmware">
+			
+				<div class="firmware" id="ddwrt" :class="{ active: 'ddwrt' == selected }" @click="selected = 'ddwrt'">
 					<p>DD-Wrt</p>
 				</div>
 			
-				<div class="firmware">
+				<div class="firmware" id="gargoyle" :class="{ active: 'gargoyle' == selected }" @click="selected = 'gargoyle'">
 					<p>Gargoyle</p>
 				</div>
-				<div class="firmware">
+				
+				<div class="firmware" id="freshtomato" :class="{ active: 'freshtomato' == selected }" @click="selected = 'freshtomato'">
 					<p>FreshTomato</p>
 				</div>
-
-				<div class="firmware">
+				
+				<div class="firmware" id="advancedtomato" :class="{ active: 'advancedtomato' == selected }" @click="selected = 'advancedtomato'">
 					<p>AdvancedTomato</p>
 				</div>
-				<div class="firmware">
+				
+				<div class="firmware" id="tomatobyshibby" :class="{ active: 'tomatobyshibby' == selected }" @click="selected = 'tomatobyshibby'">
 					<p>Tomato by Shibby</p>
 				</div>
-					
-
 		</div>
 
 		<div class="firmware-router">
@@ -41,6 +41,11 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		components: {
 			TopPicksCard
 		},
+		data() {
+			return {
+				selected: "openwrt"
+			}
+		}
 
 	};
 
@@ -56,13 +61,12 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	box-shadow: 0px 0px 8px;
 	display: flex;
 	flex-wrap: wrap-reverse;
-	background-color: red;
 }
 
 .firmware-router {
 	width: 70%;
 	height: 100%;
-	background-color: green;
+	/*background-color: green;*/
 	border-left: 3px solid #d4d4d4;
 }
 
@@ -70,7 +74,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 .firmware-name {
 	width: 30%;
 	height: 100%;
-	background-color: yellow;
+	/*background-color: yellow;*/
 	display: flex;
 	flex-direction: column;
 	align-items: space-between;
@@ -80,15 +84,33 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 
 .firmware {
 	display: flex;
-	border: 1px solid grey;
-	border-right: 5px solid orange;
-	font-family: "Open Sans", sans-serif;
+	color: grey;
+	border-top: 1px solid #bdbdbe;
+	font-family: "Montserrat", "Open Sans", sans-serif;
+	cursor: pointer;
+}
 
+.firmware:last-child {
+	border-bottom: 1px solid #bdbdbe;
+}
+
+.firmware:hover {
+	color: #deff00;
+	background-color: #8384b3;
+}
+
+.active {
+	background-color: #8384b3;
+	border-right: 5px solid #2e3192 !important;
+	/*border-left: 5px solid #2e3192;*/
+	color: white !important;
 }
 
 .firmware p {
 	margin: 1rem 50px;
 }
+
+
 
 /**************************Media Queries********************************/
 @media (max-width: 1200px) {
@@ -104,7 +126,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		padding: 0 120px;
+		padding: 0 100px;
 		/*grid-template-areas: "first second third";
 		grid-template-columns: repeat( auto-fit, minmax(150px, 1fr));
 		grid-template-rows: repeat(auto-fit, minmax(30px, 1fr));*/
@@ -121,8 +143,9 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	.firmware {
 		margin: 0;
 		padding: auto;
-		width: 150px;
+		width: 170px;
 		flex-shrink: 1;
+		border-left: 1px solid grey;
 	}
 
 	.firmware p {
@@ -132,11 +155,37 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		line-height: 1;
 	}
 
+	#gargoyle {
+		border-right: 1px solid grey;
+		border-left: none;
+	}
+
+	#tomatobyshibby {
+		border-right: 1px solid grey;
+	}
+
+	#ddwrt {
+		border-right: 1px solid grey;
+	}
+
+	#freshtomato {
+		border-right: 1px solid grey;
+		border-right: none;
+	}
+
 }
 
-@media (max-width: 1002px) {
+@media (max-width: 1018px) {
 	.firmware-name {
 		padding: 0 50px;
+	}
+
+	.firmware {
+		border: 1px solid grey !important;
+	}
+
+	.active {
+		border-right: 5px solid #2e3192 !important;
 	}
 }
 
@@ -144,37 +193,39 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	.top-picks-container {
 		width: 90vw;
 		height: 70vw;
-		margin: 30px auto;
+		margin: 0px auto;
 	}
+
+	
 
 	.firmware-name {
 		width: 100%;
-		height: 25%;
-		padding: 0 60px;
+		height: 30%;
+		padding: 0 40px;
 	}
 
 	.firmware-router {
 		width: 100%;
-		height: 75%;
+		height: 70%;
 	}
 }
 
 @media (max-width: 470px) {
 	.top-picks-container {
 		width: 90vw;
-		height: 90vw;
+		height: 130vw;
 		margin: 30px auto;
 	}
 
 	.firmware-name {
 		width: 100%;
-		height: 40%;
+		height: 25%;
 		padding: 0;
 	}
 
 	.firmware-router {
 		width: 100%;
-		height: 60%;
+		height: 105%;
 	}
 }
 	

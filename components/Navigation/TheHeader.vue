@@ -208,6 +208,7 @@
 	input.search-box {
 		height: 2rem;
 		width: 30vw;
+		font-size: 0.9rem;
 		padding: 0 0 0 10px;
 		border: 1px solid grey;
 		border-right: none;
