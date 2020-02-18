@@ -62,7 +62,7 @@ export default {
     z-index: 5;
     min-height: 100vh; /*Height of header '8rem' + footer '10rem'*/
     width: 100%;
-    grid-template-areas: "bg-left body body body body bg-right";
+    grid-template-areas: "bg-left body body body body body body bg-right";
                          /*". . . . . .";*/
     text-align: center;
   }
