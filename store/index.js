@@ -9,11 +9,11 @@ const createStore = () => {
 		modules: {
 			TopPicksModule
 		},
+
 		state: () => ({
 			selectedCountry: "",
 			flagUrl: ""
 		}),
-
 
 		mutations: {
 			setCountry(state, country) {
@@ -36,13 +36,35 @@ const createStore = () => {
 				// TODO: set initial country
 				vuexContext.dispatch("setCountry", "india");
 				vuexContext.dispatch("setFlagUrl", vuexContext.state.selectedCountry);
+				// Get Top Picks
+				vuexContext.dispatch("TopPicksModule/populateTopPicks");
+				// setTimeout(() => {
+				// 	console.log(context.store.getters["TopPicksModule/getTopPicks"]);
+				// }, 5000);
 			},
 			setCountry(vuexContext, country) {
 				vuexContext.commit("setCountry", country);
 			},
 			setFlagUrl(vuexContext, country) {
 				vuexContext.commit("setFlagUrl", country);
+			},
+
+			parseFirestore(vuexContext, response) {
+				const parsedArray = [];
+				response.data.documents.forEach((item, index) => {
+					const itemsArray = [];
+					const entries = Object.entries(item.fields);
+					for (const [property, value] of entries) {
+						let singleItem = {};
+						singleItem[property] = Object.values(value)[0];
+						
+						itemsArray.push(singleItem);
+					}
+					parsedArray.push(itemsArray);
+				});
+				return parsedArray;
 			}
+				
 		},
 
 		

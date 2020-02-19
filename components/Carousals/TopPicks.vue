@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="firmware-router">
-			
+			<app-top-picks-card :selected="selected"></app-top-picks-card>
 		</div>
 	</div>
 	
@@ -39,7 +39,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	export default {
 		name: "TopPicks",
 		components: {
-			TopPicksCard
+			appTopPicksCard: TopPicksCard
 		},
 		data() {
 			return {
