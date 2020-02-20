@@ -1,6 +1,6 @@
 <template>
 	<div class="top-container">
-		<div class="main">
+		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }" @click="logSelected()">
 			
 		</div>
 		<div class="alt-1">
@@ -17,7 +17,19 @@
 <script>
 export default {
 	name: "TopPicksCard",
-	props: ['selected']
+	props: ["topPicks"],
+	data() {
+		return {
+			selectedFirmware: "openwrt"
+		}
+	},
+	methods: {
+		logSelected() {
+			setTimeout(() => {
+				console.log('XXXXXXXXXX', this.topPicks);
+			}, 5000);
+		}
+	}
 };
 	
 </script>
@@ -32,23 +44,23 @@ export default {
 		height: 100%;
 		grid-template-areas: "main main alt-1"
 												 "main main alt-2";
-												 background-color: black;
 	}
 
 	.main {
-		background-color: magenta;
+		/*background-color: magenta;*/
 		grid-area: main;
 		min-width: 225px;
+		background-image: 
 	}
 
 	.alt-1 {
-		background-color: red;
+		/*background-color: red;*/
 		grid-area: alt-1;
 		min-width: 100px;
 	}
 
 	.alt-2 {
-		background-color: pink;
+		/*background-color: pink;*/
 		grid-area: alt-2;
 		min-width: 100px;
 	}

@@ -6,7 +6,8 @@ const TopPicksModule = {
 
 	state() {
 		return {
-			topPicks: []
+			topPicks: [],
+			selectedFirmware: "openwrt"
 		}
 	},
 	mutations: {
@@ -15,18 +16,22 @@ const TopPicksModule = {
 		}
 	},
 	actions: {
-		populateTopPicks(vuexContext) {
-			axios.get("https://firestore.googleapis.com/v1/projects/free-the-router/databases/(default)/documents/top-picks/openwrt/1")
-				.then(response => vuexContext.dispatch("parseFirestore", response, { root: true }))	//dispatches in the global context
-				.then(parsedArray => vuexContext.dispatch("setTopPicks", parsedArray));
-		},
-		setTopPicks(vuexContext, array ) {
-			vuexContext.commit('setTopPicks', array);
+		populateTopPicks(vuexContext, selectedFirmware) {
+			axios.get("https://firestore.googleapis.com/v1/projects/free-the-router/databases/(default)/documents/top-picks/" + selectedFirmware + "/1")
+				.then(response =>	vuexContext.dispatch("parseFirestore", response, { root: true }))	//dispatches in the global context
+				.then(parsedArray => {
+						if (!parsedArray) {
+							return;
+						}
+						vuexContext.commit("setTopPicks", parsedArray)});
 		}
 	},
 	getters: {
 		getTopPicks(state) {
 			return state.topPicks;
+		},
+		getSelectedFirmware(state) {
+			return state.selectedFirmware;
 		}
 	}
 

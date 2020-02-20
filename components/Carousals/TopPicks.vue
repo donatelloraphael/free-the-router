@@ -1,33 +1,33 @@
 <template>
 	<div class="top-picks-container">
 		<div class="firmware-name">
-				<div class="firmware" id="openwrt" :class="{ active: 'openwrt' == selected }" @click="selected = 'openwrt'">
+				<div class="firmware" id="openwrt" :class="{ active: 'openwrt' == selected }" @click="selected = 'openwrt'; setTopPicks()">
 					<p>OpenWrt</p>
 				</div>
 			
-				<div class="firmware" id="ddwrt" :class="{ active: 'ddwrt' == selected }" @click="selected = 'ddwrt'">
+				<div class="firmware" id="ddwrt" :class="{ active: 'ddwrt' == selected }" @click="selected = 'ddwrt'; setTopPicks()">
 					<p>DD-Wrt</p>
 				</div>
 			
-				<div class="firmware" id="gargoyle" :class="{ active: 'gargoyle' == selected }" @click="selected = 'gargoyle'">
+				<div class="firmware" id="gargoyle" :class="{ active: 'gargoyle' == selected }" @click="selected = 'gargoyle'; setTopPicks()">
 					<p>Gargoyle</p>
 				</div>
 				
-				<div class="firmware" id="freshtomato" :class="{ active: 'freshtomato' == selected }" @click="selected = 'freshtomato'">
+				<div class="firmware" id="freshtomato" :class="{ active: 'freshtomato' == selected }" @click="selected = 'freshtomato'; setTopPicks()">
 					<p>FreshTomato</p>
 				</div>
 				
-				<div class="firmware" id="advancedtomato" :class="{ active: 'advancedtomato' == selected }" @click="selected = 'advancedtomato'">
+				<div class="firmware" id="advancedtomato" :class="{ active: 'advancedtomato' == selected }" @click="selected = 'advancedtomato'; setTopPicks()">
 					<p>AdvancedTomato</p>
 				</div>
 				
-				<div class="firmware" id="tomatobyshibby" :class="{ active: 'tomatobyshibby' == selected }" @click="selected = 'tomatobyshibby'">
+				<div class="firmware" id="tomatobyshibby" :class="{ active: 'tomatobyshibby' == selected }" @click="selected = 'tomatobyshibby'; setTopPicks()">
 					<p>Tomato by Shibby</p>
 				</div>
 		</div>
 
 		<div class="firmware-router">
-			<app-top-picks-card :selected="selected"></app-top-picks-card>
+			<app-top-picks-card :topPicks="topPicks"></app-top-picks-card>
 		</div>
 	</div>
 	
@@ -38,12 +38,18 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 
 	export default {
 		name: "TopPicks",
+		props: ["topPicks"],
 		components: {
 			appTopPicksCard: TopPicksCard
 		},
 		data() {
 			return {
 				selected: "openwrt"
+			}
+		},
+		methods: {
+			setTopPicks() {
+				this.$store.dispatch("TopPicksModule/populateTopPicks", this.selected);
 			}
 		}
 
@@ -142,7 +148,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		padding: auto;
 		width: 170px;
 		flex-shrink: 1;
-		border-left: 1px solid grey;
+		border: 1px solid grey;
 
 	}
 
@@ -151,24 +157,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		padding: 0;
 		display: inline-flex;
 		line-height: 1;
-	}
-
-	#gargoyle {
-		border-right: 1px solid grey;
-		border-left: none;
-	}
-
-	#tomatobyshibby {
-		border-right: 1px solid grey;
-	}
-
-	#ddwrt {
-		border-right: 1px solid grey;
-	}
-
-	#freshtomato {
-		border-right: 1px solid grey;
-		border-right: none;
 	}
 
 }

@@ -32,15 +32,10 @@ const createStore = () => {
 
 		actions: {
 			nuxtServerInit(vuexContext, context) {
-
-				// TODO: set initial country
+			
+							// TODO: set initial country
 				vuexContext.dispatch("setCountry", "india");
 				vuexContext.dispatch("setFlagUrl", vuexContext.state.selectedCountry);
-				// Get Top Picks
-				vuexContext.dispatch("TopPicksModule/populateTopPicks");
-				// setTimeout(() => {
-				// 	console.log(context.store.getters["TopPicksModule/getTopPicks"]);
-				// }, 5000);
 			},
 			setCountry(vuexContext, country) {
 				vuexContext.commit("setCountry", country);
@@ -50,7 +45,12 @@ const createStore = () => {
 			},
 
 			parseFirestore(vuexContext, response) {
+				// console.log(response);
 				const parsedArray = [];
+				if (!response.data.documents) {
+					console.log("Cannot load resources");
+					return null;
+				}
 				response.data.documents.forEach((item, index) => {
 					const itemsArray = [];
 					const entries = Object.entries(item.fields);

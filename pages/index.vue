@@ -3,7 +3,7 @@
     <section class="body">
       
       <div class="top-picks">
-        <app-top-picks></app-top-picks>
+        <app-top-picks :topPicks="topPicks"></app-top-picks>
         
       </div>
       <div class="popular">
@@ -46,8 +46,19 @@ export default {
       ]
     }
   },
+  
   components: {
     appTopPicks: TopPicks
+  },
+  asyncData(context) {
+    // set Top Picks
+    context.store.dispatch("TopPicksModule/populateTopPicks", context.store.getters["TopPicksModule/getSelectedFirmware"]);
+    return { topPicks: context.store.getters["TopPicksModule/getTopPicks"]};
+  }, 
+  mounted() {
+    setTimeout(() => {
+      console.log(this.topPicks);
+    }, 5000);
   }
 };
   
