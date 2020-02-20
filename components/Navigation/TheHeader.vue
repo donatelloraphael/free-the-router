@@ -297,13 +297,13 @@
 	}
 
 	.navbar-list a.active {
-		color: #deff00;
+		color: #deff00 !important;
 		border-bottom: 4px solid #deff00;
 	}
 
 	.navbar-list a:hover {
 		color: white;
-		background-color: pink;
+		background-color: #0686f1;
 	}
 
 	/**********************************Side Menu Toggler**************************************/

@@ -87,13 +87,13 @@ export default {
     padding: 8rem 0 0 0;
   }
 
-  .top-picks {
+ /* .top-picks {
     width: auto;
     height: 40vw;
-    /*background-color: cyan;*/
+    background-color: cyan;
     display: block;
     margin: auto;
-  }
+  }*/
 
   @media (max-width: 769px) {
     .bg-left, .bg-right {
