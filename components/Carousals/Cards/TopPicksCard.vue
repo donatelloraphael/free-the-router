@@ -20,7 +20,8 @@ export default {
 	props: ["topPicks"],
 	data() {
 		return {
-			selectedFirmware: "openwrt"
+			selectedFirmware: "openwrt",
+			mainUrl: ""
 		}
 	},
 	methods: {

@@ -45,7 +45,6 @@ const createStore = () => {
 			},
 
 			parseFirestore(vuexContext, response) {
-				// console.log(response);
 				const parsedArray = [];
 				if (!response.data.documents) {
 					console.log("Cannot load resources");
@@ -64,7 +63,6 @@ const createStore = () => {
 				});
 				return parsedArray;
 			}
-				
 		},
 
 		
