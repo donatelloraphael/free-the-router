@@ -37,15 +37,15 @@
 import TopPicks from '../components/Carousals/TopPicks'
 
 export default {
-  head() {
-    return {
-      script: [
-        { src: "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" },
-        { src: "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" },
-        { src: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" }
-      ]
-    }
-  },
+  // head() {
+  //   return {
+  //     script: [
+  //       { src: "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" },
+  //       { src: "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" },
+  //       { src: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" }
+  //     ]
+  //   }
+  // },
   
   components: {
     appTopPicks: TopPicks
@@ -53,9 +53,9 @@ export default {
 
   async asyncData(context) {
     // set Top Picks
-    const array = await context.store.dispatch("TopPicksModule/populateTopPicks", context.store.getters["TopPicksModule/getSelectedFirmware"]);
-      console.log('ZZZZZZzZZ', array);
-      return { topPicks: array };
+    const topPicksArray = await context.store.dispatch("TopPicksModule/populateTopPicks", context.store.getters["TopPicksModule/getSelectedFirmware"]);
+    console.log('ZZZZZZzZZ', topPicksArray);
+    return { topPicks: topPicksArray };
   }
 };
   
