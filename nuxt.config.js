@@ -60,6 +60,9 @@ export default {
     extend (config, ctx) {
     }
   },
+  env: {
+    firebaseAPIKey: "AIzaSyAGPDCLt8tpLYIKuFuBL_RXHq5Wgeu0VRQ"
+  },
   router: {
     linkActiveClass: 'active',
     scrollBehavior (to, from, savedPosition) {

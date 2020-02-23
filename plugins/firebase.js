@@ -7,7 +7,7 @@ import "firebase/analytics";
 if (!firebase.apps.length) {   
 
  		const config = {
-        apiKey: "AIzaSyAGPDCLt8tpLYIKuFuBL_RXHq5Wgeu0VRQ",
+        apiKey: process.env.firebaseAPIKey,
 			  authDomain: "free-the-router.firebaseapp.com",
 			  databaseURL: "https://free-the-router.firebaseio.com",
 			  projectId: "free-the-router",

@@ -1,33 +1,33 @@
 <template>
 	<div class="top-picks-container">
 		<div class="firmware-name">
-				<div class="firmware" id="openwrt" :class="{ active: 'openwrt' == selected }" @click="selected = 'openwrt'; setTopPicks()">
+				<div class="firmware" id="openwrt" :class="{ active: 'openwrt' == selected }" @click="selected = 'openwrt'">
 					<p>OpenWrt</p>
 				</div>
 			
-				<div class="firmware" id="ddwrt" :class="{ active: 'ddwrt' == selected }" @click="selected = 'ddwrt'; setTopPicks()">
+				<div class="firmware" id="ddwrt" :class="{ active: 'ddwrt' == selected }" @click="selected = 'ddwrt'">
 					<p>DD-Wrt</p>
 				</div>
 			
-				<div class="firmware" id="gargoyle" :class="{ active: 'gargoyle' == selected }" @click="selected = 'gargoyle'; setTopPicks()">
+				<div class="firmware" id="gargoyle" :class="{ active: 'gargoyle' == selected }" @click="selected = 'gargoyle'">
 					<p>Gargoyle</p>
 				</div>
 				
-				<div class="firmware" id="freshtomato" :class="{ active: 'freshtomato' == selected }" @click="selected = 'freshtomato'; setTopPicks()">
+				<div class="firmware" id="freshtomato" :class="{ active: 'freshtomato' == selected }" @click="selected = 'freshtomato'">
 					<p>FreshTomato</p>
 				</div>
 				
-				<div class="firmware" id="advancedtomato" :class="{ active: 'advancedtomato' == selected }" @click="selected = 'advancedtomato'; setTopPicks()">
+				<div class="firmware" id="advancedtomato" :class="{ active: 'advancedtomato' == selected }" @click="selected = 'advancedtomato'">
 					<p>AdvancedTomato</p>
 				</div>
 				
-				<div class="firmware" id="tomatobyshibby" :class="{ active: 'tomatobyshibby' == selected }" @click="selected = 'tomatobyshibby'; setTopPicks()">
+				<div class="firmware" id="tomatobyshibby" :class="{ active: 'tomatobyshibby' == selected }" @click="selected = 'tomatobyshibby'">
 					<p>Tomato by Shibby</p>
 				</div>
 		</div>
 
 		<div class="firmware-router">
-			<app-top-picks-card :topPicks="topPicks"></app-top-picks-card>
+			<app-top-picks-card :topPicks="topPicks" :selected="selected"></app-top-picks-card>
 		</div>
 	</div>
 	
@@ -46,13 +46,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 			return {
 				selected: "openwrt"
 			}
-		},
-		methods: {
-			setTopPicks() {
-				this.$store.dispatch("TopPicksModule/populateTopPicks", this.selected);
-			}
 		}
-
 	};
 
 </script>

@@ -1,12 +1,12 @@
 <template>
 	<div class="top-container">
-		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }" @click="logSelected()">
+		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }">
 			
 		</div>
-		<div class="alt-1">
+		<div class="alt-1" :style="{ 'background-image': 'url(' + alt1Url + ')' }">
 			
 		</div>
-		<div class="alt-2">
+		<div class="alt-2" :style="{ 'background-image': 'url(' + alt2Url + ')' }">
 			
 		</div>
 		
@@ -17,20 +17,26 @@
 <script>
 export default {
 	name: "TopPicksCard",
-	props: ["topPicks"],
+	props: ["topPicks", "selected"],
 	data() {
 		return {
-			selectedFirmware: "openwrt",
-			mainUrl: ""
+			mainUrl: this.topPicks[this.selected][0].imageUrl,
+			alt1Url: this.topPicks[this.selected][1].imageUrl,
+			alt2Url: this.topPicks[this.selected][2].imageUrl
 		}
 	},
 	methods: {
 		logSelected() {
-			setTimeout(() => {
-				console.log('XXXXXXXXXX', this.topPicks);
-			}, 5000);
+			console.log(this.selected);
 		}
-	}
+	},
+	watch: {
+	 	selected() {
+		 	this.mainUrl = this.topPicks[this.selected][0].imageUrl;
+	 		this.alt1Url = this.topPicks[this.selected][1].imageUrl;
+	 		this.alt2Url = this.topPicks[this.selected][2].imageUrl;
+	 	}
+	 },
 };
 	
 </script>
@@ -51,19 +57,21 @@ export default {
 		/*background-color: magenta;*/
 		grid-area: main;
 		min-width: 225px;
-		background-image: 
+		background: no-repeat center / 90%;
 	}
 
 	.alt-1 {
 		/*background-color: red;*/
 		grid-area: alt-1;
 		min-width: 100px;
+		background: no-repeat center / 100%;
 	}
 
 	.alt-2 {
 		/*background-color: pink;*/
 		grid-area: alt-2;
 		min-width: 100px;
+		background: no-repeat center / 100%;
 	}
 		
 	@media (max-width: 470px) {

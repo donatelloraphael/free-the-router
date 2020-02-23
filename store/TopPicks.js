@@ -33,14 +33,17 @@ const TopPicksModule = {
 		// 			})
 		// 			.catch(error => console.log(error));
 		// }
-		
+
 		////////////////////////////SDK Method//////////////////////////////////////////////////
 
 		populateTopPicks(vuexContext, selectedFirmware) {
 			
 			const routers = [];
-			 return db.collection("top-picks").doc("openwrt").collection("1").get()
+			 return db.collection("top-picks").doc(selectedFirmware).collection("1").get()
 				.then(topPicks => {
+					if (!topPicks) {
+						return;
+					}
 					topPicks.forEach(router => {
 						routers.push(router.data());
 					})

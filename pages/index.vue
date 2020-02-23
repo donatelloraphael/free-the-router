@@ -52,8 +52,17 @@ export default {
   },
 
   async asyncData(context) {
+    const firmwareList = ["openwrt", "ddwrt", "gargoyle", "freshtomato", "advancedtomato", "tomatobyshibby"];
     // set Top Picks
-    const topPicksArray = await context.store.dispatch("TopPicksModule/populateTopPicks", context.store.getters["TopPicksModule/getSelectedFirmware"]);
+    
+     context.store.dispatch("TopPicksModule/populateTopPicks", "openwrt");
+     context.store.dispatch("TopPicksModule/populateTopPicks", "ddwrt");
+     context.store.dispatch("TopPicksModule/populateTopPicks", "gargoyle");
+     context.store.dispatch("TopPicksModule/populateTopPicks", "freshtomato");
+     context.store.dispatch("TopPicksModule/populateTopPicks", "advancedtomato");
+     let topPicksArray = await context.store.dispatch("TopPicksModule/populateTopPicks", "tomatobyshibby");
+
+    
     console.log('ZZZZZZzZZ', topPicksArray);
     return { topPicks: topPicksArray };
   }
