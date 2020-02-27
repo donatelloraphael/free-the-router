@@ -44,25 +44,27 @@ const createStore = () => {
 				vuexContext.commit("setFlagUrl", country);
 			},
 
-			parseFirestore(vuexContext, response) {
-				const parsedArray = [];
-				if (!response.data.documents) {
-					console.log("Cannot load resources");
-					return null;
-				}
-				response.data.documents.forEach((item, index) => {
-					const itemsArray = [];
-					const entries = Object.entries(item.fields);
-					for (const [property, value] of entries) {
-						let singleItem = {};
-						singleItem[property] = Object.values(value)[0];
+			//////////////////Function to parse Firestore API Query////////////////////////
+			
+			// parseFirestore(vuexContext, response) {
+			// 	const parsedArray = [];
+			// 	if (!response.data.documents) {
+			// 		console.log("Cannot load resources");
+			// 		return null;
+			// 	}
+			// 	response.data.documents.forEach((item, index) => {
+			// 		const itemsArray = [];
+			// 		const entries = Object.entries(item.fields);
+			// 		for (const [property, value] of entries) {
+			// 			let singleItem = {};
+			// 			singleItem[property] = Object.values(value)[0];
 						
-						itemsArray.push(singleItem);
-					}
-					parsedArray.push(itemsArray);
-				});
-				return parsedArray;
-			}
+			// 			itemsArray.push(singleItem);
+			// 		}
+			// 		parsedArray.push(itemsArray);
+			// 	});
+			// 	return parsedArray;
+			// }
 		},
 
 		

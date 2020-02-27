@@ -1,6 +1,6 @@
 <template>
 	<div class="top-container">
-		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }">
+		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }" @click="fillMostPopular()">
 			
 		</div>
 		<div class="alt-1" :style="{ 'background-image': 'url(' + alt1Url + ')' }">
@@ -9,6 +9,8 @@
 		<div class="alt-2" :style="{ 'background-image': 'url(' + alt2Url + ')' }">
 			
 		</div>
+
+		<app-fill-most-popular></app-fill-most-popular>
 		
 	</div>
 	
@@ -36,7 +38,7 @@ export default {
 	 		this.alt1Url = this.topPicks[this.selected][1].imageUrl;
 	 		this.alt2Url = this.topPicks[this.selected][2].imageUrl;
 	 	}
-	 },
+	 }
 };
 	
 </script>
