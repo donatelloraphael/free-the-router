@@ -148,7 +148,7 @@ export default {
 
 	.alt1-contents {
 		color: white;
-		background-color: rgba(46, 49, 146, 0.8);
+		background-color: rgba(54, 150, 200, 0.8);
 		margin: 20px 10px;
 		/*border-radius: 10px;*/
 	}
@@ -165,7 +165,7 @@ export default {
 	.alt2-contents {
 		color: white;
 		/*background-color: rgba(205, 11, 196, 0.5);*/
-		background-color: rgba(170, 0, 0, 0.8);
+		background-color: rgba(154, 23, 193, 0.8);
 		/*border-radius: 10px;*/
 		margin: 20px 10px;
 	}
