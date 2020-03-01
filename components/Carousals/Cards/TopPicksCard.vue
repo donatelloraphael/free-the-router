@@ -90,7 +90,7 @@ export default {
 	}
 
 	.contents {
-		width: 35%;
+		width: 30%;
 		position: absolute;
 		margin: 20px 10px;
 		/*border-radius: 15px;*/

@@ -63,7 +63,7 @@ export default {
      let topPicksArray = await context.store.dispatch("TopPicksModule/populateTopPicks", "tomatobyshibby");
 
     
-    console.log('ZZZZZZzZZ', topPicksArray);
+    console.log('pages/index:', topPicksArray);
     return { topPicks: topPicksArray };
   }
 };
