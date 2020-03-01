@@ -190,13 +190,18 @@ export default {
 
 	@media (max-width: 789px) {
 		.contents {
-			width: 55%;
+			width: 50%;
 			font-size: 0.8rem;
 		}
 
 		.contents .name {
 			font-size: 0.8rem;
 		}
+
+		.alt1-contents, .alt2-contents {
+			font-size: 0.8rem;
+		}
+		
 
 	}
 
