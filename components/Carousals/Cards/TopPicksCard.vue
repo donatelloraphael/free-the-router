@@ -7,7 +7,7 @@
 				<p class="specs">{{ topPicks[selected][0].specs }}</p>
 				<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][0].price }}</p>
 				<a  class="link-container":href="topPicks[selected][0].productUrl" target="_blank">
-					<div class="button">Shop now</div>
+					<button>Shop now</button>
 				</a>
 			</div>
 		</div>
@@ -90,14 +90,14 @@ export default {
 	}
 
 	.contents {
-		width: 30%;
+		width: 35%;
 		position: absolute;
 		margin: 20px 10px;
 		/*border-radius: 15px;*/
 		background-color: rgba(52, 176, 68, 0.8);
 		/*background-color: rgba(183, 183, 183, 0.5);*/
 		font-size: 1rem;
-		border-radius: 10px;
+		/*border-radius: 10px;*/
 	}
 
 	.name {
@@ -126,13 +126,14 @@ export default {
 		color: white;
 	}
 
-	.button {
-		padding: 5px 10px;
+	button {
+		padding: 7px 10px;
 		margin: 0 0 5px 0;
 		background-color: blue;
 		cursor: pointer;
 		display: inline-block;
 		color: white;
+		border: none;
 	}
 
 
@@ -149,7 +150,7 @@ export default {
 		color: white;
 		background-color: rgba(46, 49, 146, 0.8);
 		margin: 20px 10px;
-		border-radius: 10px;
+		/*border-radius: 10px;*/
 	}
 
 	.alt-2 {
@@ -165,7 +166,7 @@ export default {
 		color: white;
 		/*background-color: rgba(205, 11, 196, 0.5);*/
 		background-color: rgba(170, 0, 0, 0.8);
-		border-radius: 10px;
+		/*border-radius: 10px;*/
 		margin: 20px 10px;
 	}
 	
@@ -211,6 +212,17 @@ export default {
 			height: 60%;
 		}
 
+		a {
+			margin: 0 0 5px 0;
+			padding: 0;
+			width: 50%;
+			height: 40%;
+		}
+
+		.specs {
+			font-size: 0.6rem !important;
+		}
+
 		.contents {
 			width: 80%;
 			/*font-family: "Open Sans", sans-serif;*/
@@ -236,15 +248,28 @@ export default {
 		}
 
 		.alt-1 {
-			width: 50%;
-			height: 40%;
+			width: 100%;
+			height: 100%;
+			display: inline-block;
+			line-height: 1;
 		}
 
 		.alt-2 {
-			width: 50%;
-			height: 40%;
+			width: 100%;
+			height: 100%;
+			display: inline-block;
+			line-height: 1;
+		}
+
+		.alt1-contents, .alt2-contents {
+			width: 100%;
+			margin: 0;
+			padding: 10px 0;
+			font-size: 0.8rem
 		}
 	}
+
+
 
 
 </style>
