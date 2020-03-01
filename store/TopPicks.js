@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 
-import {db} from '~/plugins/firebase.js'
+import {db} from '~/plugins/firebase.js';
 
 const TopPicksModule = {
 	namespaced: true,

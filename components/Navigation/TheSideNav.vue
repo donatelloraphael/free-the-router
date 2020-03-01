@@ -74,8 +74,8 @@
       setCountry(country) {
         this.$store.dispatch("setCountry", country);
         this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
-        console.log(country);
-        console.log("this: ", this.$store.getters.getCountry);
+        // console.log(country);
+        // console.log("this: ", this.$store.getters.getCountry);
       }
     }
   };

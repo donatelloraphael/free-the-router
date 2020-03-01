@@ -7,7 +7,7 @@
         
       </div>
       <div class="popular">
-        
+        <app-most-popular :mostPopular="mostPopular"></app-most-popular>
       </div>
       <div class="deals">
         
@@ -34,37 +34,39 @@
 </template>
 
 <script>
-import TopPicks from '../components/Carousals/TopPicks'
+import TopPicks from '../components/Carousals/TopPicks';
+import MostPopular from '../components/Carousals/MostPopular';
 
 export default {
-  // head() {
-  //   return {
-  //     script: [
-  //       { src: "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" },
-  //       { src: "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" },
-  //       { src: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" }
-  //     ]
-  //   }
-  // },
-  
   components: {
-    appTopPicks: TopPicks
+    appTopPicks: TopPicks,
+    appMostPopular: MostPopular
   },
 
   async asyncData(context) {
-    const firmwareList = ["openwrt", "ddwrt", "gargoyle", "freshtomato", "advancedtomato", "tomatobyshibby"];
-    // set Top Picks
+    // const firmwareList = ["openwrt", "ddwrt", "gargoyle", "freshtomato", "advancedtomato", "tomatobyshibby"];
     
+    // set Top Picks
      context.store.dispatch("TopPicksModule/populateTopPicks", "openwrt");
      context.store.dispatch("TopPicksModule/populateTopPicks", "ddwrt");
      context.store.dispatch("TopPicksModule/populateTopPicks", "gargoyle");
      context.store.dispatch("TopPicksModule/populateTopPicks", "freshtomato");
      context.store.dispatch("TopPicksModule/populateTopPicks", "advancedtomato");
-     let topPicksArray = await context.store.dispatch("TopPicksModule/populateTopPicks", "tomatobyshibby");
 
+     /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
+
+     const [topPicksArray, mostPopularArray] = await Promise.all([
+        context.store.dispatch("TopPicksModule/populateTopPicks", "tomatobyshibby"),
+        context.store.dispatch("MostPopularModule/populateMostPopular")
+      ]) ;
     
-    console.log('pages/index:', topPicksArray);
-    return { topPicks: topPicksArray };
+    // console.log('pages/index:', topPicksArray);
+
+    ////////////////////////////return asyncData variables//////////////////////////////////
+    return { 
+      topPicks: topPicksArray ,
+      mostPopular: mostPopularArray
+    };
   }
 };
   
