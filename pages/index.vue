@@ -4,8 +4,12 @@
       
       <div class="top-picks">
         <app-top-picks :topPicks="topPicks"></app-top-picks>
-        
       </div>
+      
+      <div class="divider">
+        <hr class="dotted-divider">
+      </div>
+
       <div class="popular">
         <app-most-popular :mostPopular="mostPopular"></app-most-popular>
       </div>
@@ -105,15 +109,21 @@ export default {
     /*background-color: green;*/
     padding: 8rem 0 0 0;
   }
+  
+  .divider {
+    padding: 10px 0;
+    background-color: #2e3192;
+    height: 30px;
+    width: 100%;
+  }
 
- /* .top-picks {
-    width: auto;
-    height: 40vw;
-    background-color: cyan;
-    display: block;
+  hr.dotted-divider {
+    border: none;
+    border-top: 10px dotted #8384b3;
+    width: 100%;
     margin: auto;
-  }*/
-
+  }
+  
   @media (max-width: 769px) {
     .bg-left, .bg-right {
       display: none;

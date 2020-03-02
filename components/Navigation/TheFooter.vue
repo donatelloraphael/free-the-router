@@ -134,12 +134,14 @@
 		font-family: "Courier Prime", monospace;
 		color: white;
 		padding: 1rem 0 0 0;
+		margin: 10px 0;
 	}
 
 	.main-footer a {
 		text-decoration: none;
 		color: white;
 		font-family: "Courier Prime", monospace;
+		padding: 5px 0;
 	}
 
 	.main-footer a:hover {

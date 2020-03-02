@@ -170,7 +170,7 @@ export default {
 		margin: 20px 10px;
 	}
 	
-	a:hover {
+	a {
 		text-decoration: none;
 	}
 

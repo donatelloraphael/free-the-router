@@ -115,7 +115,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	.top-picks-container {
 		width: 70vw;
 		height: 50vw;
-		margin: 30px auto;
+		margin: 30px auto 50px;
 	}
 
 	.firmware-name {
@@ -192,7 +192,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	.top-picks-container {
 		width: 90%;
 		height: 100%;
-		margin: 10px auto;
+		margin: 10px auto 30px;
 	}
 
 	.firmware {

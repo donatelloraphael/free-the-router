@@ -227,6 +227,10 @@
 		border-radius: 0 5px 5px 0;
 	}
 
+	.dropdown {
+		position: relative;
+	}
+
 	.dropdown-toggle {
 		display: inline-block;
 	}
@@ -236,8 +240,8 @@
 		height: .9rem;
 		position: absolute;
 		z-index: 1000;
-		top: -1rem;
-		left: 1.8rem;
+		top: -1.5rem;
+		left: 1.5rem;
 	}
 
 	/**********************************Dropdown****************************************/
@@ -247,6 +251,7 @@
 	  margin: 0 auto;
 	  background-color: white;
 	  font-family: "Courier Prime", monospace;
+	  font-size: 0.9rem;
 	  min-width: 50px;
 	  z-index: 1000;
 	  border: none;
