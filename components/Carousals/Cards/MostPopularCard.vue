@@ -34,7 +34,7 @@
 	.image {
 		width: 100%;
 		height: 60%;
-		background: no-repeat center / 80%;
+		background: no-repeat center / 70%;
 	}
 
 </style>
