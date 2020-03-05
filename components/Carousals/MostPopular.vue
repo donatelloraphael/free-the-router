@@ -172,7 +172,7 @@
 	h3 {
 		font-size: 1.6rem;
 		font-family: "Courier Prime", monospace;
-		margin: 20px;
+		margin: 26px 20px 20px 20px;
 	}
 
 	.container-mp {

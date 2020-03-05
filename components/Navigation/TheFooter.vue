@@ -1,7 +1,7 @@
 <template>
 	<footer>
 
-		<div class="main-footer" :style="{ top: documentHeight + 'px', display: displayFooter }">
+		<div class="main-footer" :style="{ top: documentHeight + 'px' }">
 
 			<span class="logo">
 				<nuxt-link to="/"><img src="../../assets/images/free-the-router.png" alt="Free The Router Logo linking to homepage"></nuxt-link>
@@ -36,7 +36,7 @@
 			<div id="placeholder-block">
 			</div>
 
-			<div class="sub-footer" :style="{ top: subFooterPosition + 'px', display: displayFooter }">
+			<div class="sub-footer" :style="{ top: subFooterPosition + 'px' }">
 				<p>Copyright &copy; Free The Router | All Rights Reserved</p>
 			</div>
 
@@ -52,9 +52,9 @@
 		name: "TheFooter",
 		data() {
 			return {
-				documentHeight: 0,
+				documentHeight: 1000,
 				subFooterPosition: 0,
-				displayFooter: "none"
+				// displayFooter: "flex"
 			}
 		},
 		mounted() {
@@ -73,9 +73,9 @@
 
 				/////////////Don't show footer and sub-footer covering header when loading page////////////////
 
-				setTimeout(() => {
-					this.displayFooter = "flex";
-				}, 200);
+				// setTimeout(() => {
+				// 	this.displayFooter = "flex";
+				// }, 200);
 	
 				// /////////////////Change sub-footer height accoring to media queries//////////////////////
 				// if (window.matchMedia("(max-width: 711px)").matches) {
@@ -94,10 +94,9 @@
 		background-color: #2e3192;
 		position: relative;
 		z-index: 6;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    height:auto;
     clear: both;
     display: flex;
     flex-flow: row wrap;
