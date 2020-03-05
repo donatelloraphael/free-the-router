@@ -2,27 +2,27 @@
 	<div class="most-popular">
 		<h3>Most Popular</h3>
 		<div class="container-mp" id="slider">
-			<div class="cards card-1">
-				<i class="fas fa-angle fa-angle-left fa-angle-left-1" @click="leftScroll(4)"></i>
-				<i class="fas fa-angle fa-angle-left fa-angle-left-2" @click="leftScroll(3)"></i>
-				<i class="fas fa-angle fa-angle-left fa-angle-left-3" @click="leftScroll(2)"></i>
-				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition"></app-most-popular-card>
+			
+			<i class="fas fa-angle fa-angle-left" @click="leftScroll(getCardCount())"></i>
+
+			<div class="cards card-1">			
+			<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition"></app-most-popular-card>
 			</div>
 
 			<div class="cards card-2">
-				<i class="fas fa-angle fa-angle-right fa-angle-right-3" @click="rightScroll(2)"></i>
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition + 1"></app-most-popular-card>
 			</div>
 
 			<div class="cards card-3">
-				<i class="fas fa-angle fa-angle-right fa-angle-right-2" @click="rightScroll(3)"></i>
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition + 2"></app-most-popular-card>
 			</div>
 
 			<div class="cards card-4">
-				<i class="fas fa-angle fa-angle-right" @click="rightScroll(4)"></i>
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition + 3"></app-most-popular-card>
 			</div>
+
+			<i class="fas fa-angle fa-angle-right" @click="rightScroll(getCardCount())"></i>
+
 		</div>
 
 		<div class="pagination-large">
@@ -70,7 +70,18 @@
 			}
 		},
 		methods: {
+			getCardCount() {
+				if (window.matchMedia("(max-width: 825px)").matches || window.matchMedia("(max-width: 789px)").matches) {
+					return 2;
+				} else if (window.matchMedia("(max-width: 1250px)").matches) {
+					return 3;
+				} else {
+					return 4;
+				}
+			},
+
 			leftScroll(cardCount) {
+				console.log(cardCount);
 				if (cardCount === 4) {
 					if (this.cardPosition <= 3) {
 						return;
@@ -125,6 +136,7 @@
 		height: 20rem;
 		margin: 30px auto;
 		display: flex;
+		position: relative;
 		box-shadow: 0px 0px 8px;
 		justify-content: space-between;
 	}
@@ -145,6 +157,7 @@
 		color: rgba(0, 0, 0, 0.5);
 		cursor: pointer;
 		transition: color 0.4s ease;
+		z-index: 10;
 	}
 
 	.fa-angle:hover {
@@ -157,22 +170,6 @@
 
 	.fa-angle-right {
 		right: 0;
-	}
-	
-	.fa-angle-right-2 {
-		display: none;
-	}
-
-	.fa-angle-right-3 {
-		display: none;
-	}
-
-	.fa-angle-left-2 {
-		display: none;
-	}
-
-	.fa-angle-left-3 {
-		display: none;
 	}
 
 	/***************************Carousel Pagination***********************/
@@ -232,18 +229,6 @@
 			display: none;
 		}
 
-		.fa-angle-right-2 {
-			display: inline-block;
-		}
-
-		.fa-angle-left-2 {
-			display: inline-block;
-		}
-
-		.fa-angle-left-1 {
-			display: none;
-		}
-
 		.pagination-large {
 			display: none;
 		}
@@ -265,22 +250,6 @@
 
 		.card-3 {
 			display: none;
-		}
-
-		.fa-angle-right-3 {
-			display: inline-block;
-		}
-
-		.fa-angle-left-1 {
-			display: none;
-		}
-
-		.fa-angle-left-2 {
-			display: none;
-		}
-
-		.fa-angle-left-3 {
-			display: inline-block;
 		}
 
 		.pagination-medium {
