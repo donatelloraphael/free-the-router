@@ -97,6 +97,7 @@
 				}
 				this.cardPosition -= cardCount;
 			},
+
 			rightScroll(cardCount) {
 				if (cardCount === 4 || cardCount === 3) {
 					if (this.cardPosition >= 12) {
@@ -110,6 +111,7 @@
 					
 				this.cardPosition += cardCount;
 			  console.log(this.cardPosition);
+			  
 			},
 			checkActiveDot(cardCount, dotNumber) {
 				if (Math.floor(this.cardPosition / cardCount) === dotNumber) {
@@ -118,6 +120,48 @@
 					return false;
 				}
 			}
+		},
+
+		mounted() {
+
+			///////////////////////Swipe on touch///////////////////////////////////
+
+			let cards = document.querySelectorAll('.cards');
+			let vm = this;
+
+			let	threshold = 50,
+      		posX1 = 0,
+      		posX2 = 0;
+
+  		// Touch events
+		  cards.forEach(card => {
+		  	card.addEventListener('touchstart', dragStart);
+		  	card.addEventListener('touchend', dragEnd);
+		  	card.addEventListener('touchmove', dragAction);
+		  });
+
+		  function dragStart (e) {
+		    e = e || window.event;
+		    e.preventDefault();
+		    
+		    posX1 = e.touches[0].clientX;
+		  }
+
+		  function dragAction (e) {
+		    e = e || window.event;
+		    
+	      posX2 = posX1 - e.touches[0].clientX;
+		  }
+
+		  function dragEnd (e) {
+		    // console.log("posFinal: ", posX2);
+		    // console.log('posInitial: ', posX1);
+		    if (posX2 > threshold) {
+		    	vm.rightScroll(vm.getCardCount());
+		    } else if (posX2 < -threshold) {
+		    	vm.leftScroll(vm.getCardCount());
+		    }
+		  }
 		}
 		
 	};
