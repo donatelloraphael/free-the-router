@@ -13,12 +13,41 @@
       <div class="popular">
         <app-most-popular :mostPopular="mostPopular"></app-most-popular>
       </div>
-      <div class="deals">
-        
+     
+      <div class="divider">
+        <hr class="dotted-divider">
       </div>
+
       <div class="by-price">
-        
+        <h1>By Price</h1>
+        <div class="price-container">
+          <div class="blue-container">
+            <div class="price-card">
+              <h2>Rs. 0-1500</h2>
+            </div>
+          </div>
+          <div class="blue-container">
+            <div class="price-card">
+              <h2>Rs. 1500-3000</h2>
+            </div>
+          </div>
+          <div class="blue-container">
+            <div class="price-card">
+              <h2>Rs. 3000-6000</h2>
+            </div>
+          </div>
+          <div class="blue-container">  
+            <div class="price-card">
+              <h2>Rs. 6000 and up</h2>
+            </div>
+          </div>
+        </div>
       </div>
+      
+      <div class="divider">
+        <hr class="dotted-divider">
+      </div>
+
       <div class="cf-info">
         
       </div>
@@ -95,6 +124,7 @@ export default {
     grid-area: bg-left;
     background-color: #2e3192;
     padding: 8rem 0 0 0;
+    height: 2910px;
   }
 
  .bg-right {
@@ -111,6 +141,7 @@ export default {
   }
   
   .divider {
+    margin: 30px 0;
     padding: 10px 0;
     background-color: #2e3192;
     height: 30px;
@@ -123,10 +154,68 @@ export default {
     width: 100%;
     margin: auto;
   }
-  
+
+  /*****************************BY PRICE**********************************/
+  h1 {
+    font-family: "Courier Prime", monospace;
+    margin: 30px auto 15px auto;
+    font-size: 1.6rem;
+  }
+
+  .price-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 30rem;
+    width: 70%;
+    /*background-color: yellow;*/
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+  }
+
+  .blue-container {
+    background-color: #2e3192;
+    height: 40%;
+    width: 40%;
+    margin: 0 0 0 3%;
+    border-radius: 20px;
+  }
+
+  .price-card {
+    background: no-repeat center / 40% url('../assets/images/router.png');
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .price-card h2 {
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    margin: auto;
+
+  }
+
+
+
+  /*******************************MEDIA QUERYS****************************/
   @media (max-width: 769px) {
     .bg-left, .bg-right {
       display: none;
+    }
+
+    .price-container {
+      width: 90%;
+      padding: 0;
+    }
+
+    .blue-container {
+      width: 45%;
+    }
+
+    .price-card h2 {
+      font-size: 1.2rem;
     }
   }
 

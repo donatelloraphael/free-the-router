@@ -61,7 +61,7 @@
 
 				////////////Fucked up hack to footer not being positioned at bottom///////////////
 
-				this.documentHeight = ($(document).height()) - convertRemToPixels(7) + 400;
+				this.documentHeight = ($(document).height()) - convertRemToPixels(7) + 800;
 
 				function convertRemToPixels(rem) {    
     			return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -69,7 +69,7 @@
 
     		///////////////////////Sub-footer////////////////////////////////////////
 
-    		this.subFooterPosition = this.documentHeight + convertRemToPixels(15) + 400;
+    		this.subFooterPosition = this.documentHeight + convertRemToPixels(15) + 800;
 
 				/////////////Don't show footer and sub-footer covering header when loading page////////////////
 
@@ -171,7 +171,7 @@
 		height: 3rem;
 		z-index: 10;
 		font-family: "Courier Prime", monospace;
-		display: block;
+		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
