@@ -1,7 +1,7 @@
 <template>
 	<div class="most-popular">
 		<h3>Most Popular</h3>
-		<div class="container-mp">
+		<div class="container-mp" id="slider">
 			<div class="cards card-1">
 				<i class="fas fa-angle fa-angle-left fa-angle-left-1" @click="leftScroll(4)"></i>
 				<i class="fas fa-angle fa-angle-left fa-angle-left-2" @click="leftScroll(3)"></i>
@@ -108,9 +108,7 @@
 				}
 			}
 		}
-		// mounted() {
-		// 	console.log("most popular: ", this.mostPopular);
-		// }
+		
 	};
 </script>
 
