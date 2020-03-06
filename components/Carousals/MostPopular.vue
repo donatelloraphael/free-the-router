@@ -6,7 +6,7 @@
 			<i class="fas fa-angle fa-angle-left" @click="leftScroll(getCardCount())"></i>
 
 			<div class="cards card-1">			
-			<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition"></app-most-popular-card>
+				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition"></app-most-popular-card>
 			</div>
 
 			<div class="cards card-2">
@@ -169,6 +169,14 @@
 
 <style scoped>
 
+  .most-popular {
+  	width: 100%;
+  }
+
+	.popular {
+		width: 100%;
+	}
+
 	h3 {
 		font-size: 1.6rem;
 		font-family: "Courier Prime", monospace;
@@ -176,7 +184,7 @@
 	}
 
 	.container-mp {
-		width: 90%;
+		width: 80vw;
 		height: 20rem;
 		margin: 30px auto;
 		display: flex;
@@ -189,8 +197,6 @@
 		border: 1px solid grey;
 		height: 100%;
 		width: 25%;
-		position: relative;
-
 	}
 
 	/*****************Navigation Arrow*************************/
