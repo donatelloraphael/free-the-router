@@ -157,10 +157,4 @@
 		}
 	}
 
-	/*@media (max-width: 964px) {
-		main-footer div.more {
-			padding: auto 50px;
-		}
-	}*/
-
 </style>
