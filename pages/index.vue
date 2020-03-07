@@ -132,9 +132,7 @@ export default {
      const [topPicksArray, mostPopularArray] = await Promise.all([
         context.store.dispatch("TopPicksModule/populateTopPicks", "tomatobyshibby"),
         context.store.dispatch("MostPopularModule/populateMostPopular")
-      ]) ;
-    
-    // console.log('pages/index:', topPicksArray);
+      ]);
 
     ////////////////////////////return asyncData variables//////////////////////////////////
     return { 
@@ -150,18 +148,12 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  /*display: flex;*/
-  /*justify-content: center;
-  align-items: center;*/
   text-align: center;
 }
 
 .container-grid {
   display: grid;
   grid-template-areas: "bg-left body body body body body body bg-right";
-                         /*". . . . . .";*/
-  text-align: center;
-  /*margin-bottom: 250px;*/
 }
 
 .bg-left {
