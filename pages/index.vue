@@ -1,6 +1,7 @@
+
 <template>
 <div>
-  <div class="container-grid fluid">
+  <div class="container container-grid fluid">
     <section class="body">
       
       <div class="top-picks">
@@ -103,7 +104,6 @@
     </div>
     
   </div>
-  <app-footer></app-footer>
 </div>
 </template>
 
@@ -146,40 +146,37 @@ export default {
   
 </script>
 
-<style>
-  footer {
-    position: relative;
-    bottom: 0;
-  }
-</style>
-
 <style scoped>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  /*display: flex;*/
+  /*justify-content: center;
+  align-items: center;*/
+  text-align: center;
+}
 
-  /*Main grid*/
-  .container-grid {
-    display: grid;
-    position: absolute;
-    z-index: 5;
-    height: 100%; /*Height of header '8rem' + footer '10rem'*/
-    width: 100%;
-    grid-template-areas: "bg-left body body body body body body bg-right";
+.container-grid {
+  display: grid;
+  grid-template-areas: "bg-left body body body body body body bg-right";
                          /*". . . . . .";*/
-    text-align: center;
-    margin-bottom: 250px;
-  }
+  text-align: center;
+  /*margin-bottom: 250px;*/
+}
 
-  .bg-left {
+.bg-left {
     grid-area: bg-left;
     background-color: #2e3192;
     width: 50px;
     padding: 8rem 0 0 0;
-    height: 3510px;
+    height: 100%;
   }
 
  .bg-right {
     grid-area: bg-right;
     background-color: #2e3192;
     width: 50px;
+    height: 100%;
     padding: 8rem 0 0 0;
     
   }
@@ -189,7 +186,8 @@ export default {
     /*background-color: green;*/
     padding: 8rem 0 0 0;
   }
-  
+
+
   .divider {
     margin: 30px 0;
     padding: 10px 0;
@@ -290,8 +288,7 @@ export default {
   width: 60%;
  }
 
-
-  /*******************************MEDIA QUERYS****************************/
+ /*******************************MEDIA QUERYS****************************/
   @media (max-width: 769px) {
     .bg-left, .bg-right {
       display: none;
@@ -326,5 +323,5 @@ export default {
   }
 
 
-</style>
 
+</style>
