@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="container-grid fluid">
     <section class="body">
       
@@ -63,7 +64,33 @@
           Even though we try to make this site accurate as possible, sellers might sell routers of different versions. This might be a problem as some versions of routers might not be supported by your preferred custom firmware. We try to make the versions of the router supported by the custom firmwares available in this website for your easy access. <strong>It is advised to check with the sellers what they are selling is the correct version of router you want so you can avoid any unwanted results. Also, it is important to follow the installation instructions that comes with different custom firmwares to avoid bricking your device. Be aware that installing custom firmware in your brand new router voids any warranty it may have in most cases.</strong>
         </p>
       </div>
+
+      <div class="divider">
+        <hr class="dotted-divider">
+      </div>
+
       <div class="custom-firmwares">
+        <h1>Custom Firmwares</h1>
+        <div class="firmwares">
+          <div class="openwrt firmware left">
+            <img alt="openwrt logo" src="../assets/images/firmwares/openwrt.png">
+          </div>
+          <div class="ddwrt firmware right">
+            <img alt="ddwrt logo" src="../assets/images/firmwares/ddwrt.png">
+          </div>
+          <div class="gargoyle firmware left">
+            <img alt="gargoyle logo" src="../assets/images/firmwares/gargoyle.png">
+          </div>
+          <div class="freshtomato firmware right">
+            <img alt="freshtomato logo" src="../assets/images/firmwares/freshtomato.png">
+          </div>
+          <div class="advancedtomato firmware left">
+            <img alt="advancedtomato logo" src="../assets/images/firmwares/advancedtomato.png">
+          </div>
+          <div class="tomatobyshibby firmware right">
+            <img alt="tomatobyshibby logo" src="../assets/images/firmwares/tomatobyshibby.png">
+          </div>
+        </div>
         
       </div>
     </section>
@@ -76,6 +103,8 @@
     </div>
     
   </div>
+  <app-footer></app-footer>
+</div>
 </template>
 
 <script>
@@ -117,6 +146,13 @@ export default {
   
 </script>
 
+<style>
+  footer {
+    position: relative;
+    bottom: 0;
+  }
+</style>
+
 <style scoped>
 
   /*Main grid*/
@@ -124,7 +160,7 @@ export default {
     display: grid;
     position: absolute;
     z-index: 5;
-    min-height: 100vh; /*Height of header '8rem' + footer '10rem'*/
+    height: 100%; /*Height of header '8rem' + footer '10rem'*/
     width: 100%;
     grid-template-areas: "bg-left body body body body body body bg-right";
                          /*". . . . . .";*/
@@ -169,6 +205,7 @@ export default {
     margin: auto;
   }
 
+
   /*****************************BY PRICE**********************************/
   h1 {
     font-family: "Courier Prime", monospace;
@@ -179,7 +216,7 @@ export default {
   .price-container {
     display: flex;
     flex-wrap: wrap;
-    height: 30rem;
+    height: auto;
     width: 70%;
     /*background-color: yellow;*/
     margin: auto;
@@ -190,17 +227,17 @@ export default {
 
   .blue-container {
     background-color: #2e3192;
-    height: 40%;
     width: 40%;
     margin: 0 0 0 3%;
     border-radius: 20px;
+    margin-bottom: 2vw;
   }
 
   .price-card {
     background: no-repeat center / 40% url('../assets/images/router.png');
     color: white;
+    height: 10rem;
     width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
   }
@@ -224,6 +261,34 @@ export default {
     margin: 0 0 30px 0;
   }
 
+  /***********************************CUSTOM FIRMWARES***********************/
+  .firmwares {
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 30px auto;
+    justify-content: center;
+  }
+
+  .firmware {
+    width: 30%;
+    height: 10vw;
+    margin-bottom: 40px;
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .right {
+    margin-right: 0;
+  }
+
+ .firmware img {
+  height: 50%;
+  width: 60%;
+ }
 
 
   /*******************************MEDIA QUERYS****************************/
@@ -247,6 +312,16 @@ export default {
 
     .cf-info {
       width: 80%;
+    }
+
+    .firmware {
+      height: 20vw;
+      width: 70%;
+      margin-bottom: 20px;
+    }
+
+    .left {
+      margin-right: 0;
     }
   }
 

@@ -58,24 +58,32 @@
 			}
 		},
 		mounted() {
+				const vm = this;
 
 				////////////Fucked up hack to footer not being positioned at bottom///////////////
 
-				this.documentHeight = ($(document).height()) - convertRemToPixels(7) + 800;
-
 				function convertRemToPixels(rem) {    
-    			return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-    		}
+	    			return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+	    		}
 
-    		///////////////////////Sub-footer////////////////////////////////////////
+				function setFooterPosition() {
+					vm.documentHeight = ($(document).height()) - convertRemToPixels(7) + 100;
 
-    		this.subFooterPosition = this.documentHeight + convertRemToPixels(15) + 800;
+	    		///////////////////////Sub-footer////////////////////////////////////////
 
-				/////////////Don't show footer and sub-footer covering header when loading page////////////////
+	    		vm.subFooterPosition = vm.documentHeight + convertRemToPixels(15) + 100;
 
-				// setTimeout(() => {
-				// 	this.displayFooter = "flex";
-				// }, 200);
+					/////////////Don't show footer and sub-footer covering header when loading page////////////////
+
+					// setTimeout(() => {
+					// 	this.displayFooter = "flex";
+					// }, 200);
+
+					console.log(vm.documentHeight);
+				}
+
+				setFooterPosition();
+				
 	
 				// /////////////////Change sub-footer height accoring to media queries//////////////////////
 				// if (window.matchMedia("(max-width: 711px)").matches) {
