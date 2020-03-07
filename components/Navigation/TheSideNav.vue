@@ -9,7 +9,7 @@
       <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link>
       <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link>
       <nuxt-link to="/shop"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
-      <nuxt-link to="/deals"><span @click="closeSideMenuStateChanges()">Deals</span></nuxt-link>
+      <!-- <nuxt-link to="/deals"><span @click="closeSideMenuStateChanges()">Deals</span></nuxt-link> -->
       <nuxt-link to="/wishlist"><span @click="closeSideMenuStateChanges()">Wishlist</span></nuxt-link>
       <nuxt-link to="/supported-devices"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
       <nuxt-link to="/resources"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
