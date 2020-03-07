@@ -1,7 +1,7 @@
 <template>
 	<footer>
 
-		<div class="main-footer" :style="{ top: documentHeight + 'px' }">
+		<div class="main-footer">
 
 			<span class="logo">
 				<nuxt-link to="/"><img src="../../assets/images/free-the-router.png" alt="Free The Router Logo linking to homepage"></nuxt-link>
@@ -36,7 +36,7 @@
 			<div id="placeholder-block">
 			</div>
 
-			<div class="sub-footer" :style="{ top: subFooterPosition + 'px' }">
+			<div class="sub-footer">
 				<p>Copyright &copy; Free The Router | All Rights Reserved</p>
 			</div>
 
@@ -49,48 +49,7 @@
 	
 
 	export default {
-		name: "TheFooter",
-		data() {
-			return {
-				documentHeight: 1000,
-				subFooterPosition: 0,
-				// displayFooter: "flex"
-			}
-		},
-		mounted() {
-				const vm = this;
-
-				////////////Fucked up hack to footer not being positioned at bottom///////////////
-
-				function convertRemToPixels(rem) {    
-	    			return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-	    		}
-
-				function setFooterPosition() {
-					vm.documentHeight = ($(document).height()) - convertRemToPixels(7) + 100;
-
-	    		///////////////////////Sub-footer////////////////////////////////////////
-
-	    		vm.subFooterPosition = vm.documentHeight + convertRemToPixels(15) + 100;
-
-					/////////////Don't show footer and sub-footer covering header when loading page////////////////
-
-					// setTimeout(() => {
-					// 	this.displayFooter = "flex";
-					// }, 200);
-
-					console.log(vm.documentHeight);
-				}
-
-				setFooterPosition();
-				
-	
-				// /////////////////Change sub-footer height accoring to media queries//////////////////////
-				// if (window.matchMedia("(max-width: 711px)").matches) {
-				// 	this.subFooterPosition += convertRemToPixels(30); 
-				// 	console.log(this.subFooterPosition);
-				// }
-		}
+		name: "TheFooter"
 	};
 </script>
 
