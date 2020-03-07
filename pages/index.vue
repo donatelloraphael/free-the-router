@@ -8,18 +8,14 @@
         <app-top-picks :topPicks="topPicks"></app-top-picks>
       </div>
       
-      <div class="divider">
-        <hr class="dotted-divider">
-      </div>
+      <hr class="dotted-divider">
 
       <div class="popular">
         <app-most-popular :mostPopular="mostPopular"></app-most-popular>
       </div>
      
-      <div class="divider">
-        <hr class="dotted-divider">
-      </div>
-
+      <hr class="dotted-divider">
+     
       <div class="by-price">
         <h1>By Price</h1>
         <div class="price-container">
@@ -46,9 +42,7 @@
         </div>
       </div>
       
-      <div class="divider">
-        <hr class="dotted-divider">
-      </div>
+      <hr class="dotted-divider">
 
       <div class="cf-info">
         <h1>Why custom firmware?</h1>
@@ -66,9 +60,7 @@
         </p>
       </div>
 
-      <div class="divider">
-        <hr class="dotted-divider">
-      </div>
+      <hr class="dotted-divider">
 
       <div class="custom-firmwares">
         <h1>Custom Firmwares</h1>
@@ -178,23 +170,6 @@ export default {
     /*background-color: green;*/
     padding: 8rem 0 0 0;
   }
-
-
-  .divider {
-    margin: 30px 0;
-    padding: 10px 0;
-    background-color: #2e3192;
-    height: 30px;
-    width: 100%;
-  }
-
-  hr.dotted-divider {
-    border: none;
-    border-top: 10px dotted #8384b3;
-    width: 100%;
-    margin: auto;
-  }
-
 
   /*****************************BY PRICE**********************************/
   h1 {
