@@ -4,10 +4,10 @@
 		<div class="bg-left"></div>
 
 		<div class="body">
-			<div class="openwrt firmware">
+			<div class="firmware" id="openwrt">
 				<div class="col-left">
 					<a href="https://www.openwrt.org/">
-						<h2>OpenWrt</h2>
+						<!-- <h2>OpenWrt</h2> -->
 						<img src="@/assets/images/firmwares/openwrt.png" alt="OpenWrt logo">
 					</a>
 					<p>
@@ -31,6 +31,129 @@
 			</div>
 
       <hr class="dotted-divider">
+
+			<div class="firmware" id="ddwrt">
+				<div class="col-left">
+					<a href="https://dd-wrt.com">
+						<!-- <h2>DD-WRT</h2> -->
+						<img src="@/assets/images/firmwares/ddwrt.png" alt="DD-Wrt logo">
+					</a>
+					<p>
+						<a href="https://en.wikipedia.org/wiki/DD-WRT">DD-WRT</a> is a Linux based Open Source firmware for routers, access points, and embedded systems. DD-WRT is a popular and stable custom firmware available with support for many devices. It was created by Sebastian Gottschall, the primary maintainer of DD-WRT project, in 2005. DD-WRT provides out of the box easy management of the router by a simple web interface. DD-WRT is freely available for private use cases while platforms used for commercial purposes require a paid license. Being an open source project that is actively maintained, DD-WRT like most of the custom firmwares featured here, fixes security flaws quickly as they are discovered.
+					</p>
+					<p>
+						Some of the features supported by DD-WRT are Access control, Bandwidth monitoring, File sharing, Quality of Service (QoS), Wireless access point configuration, overclocking, enhanced frequencies, VPN integration, Dynamic DNS, ability to link routers, Wake-on-LAN, etc. Overall, DD-WRT is a solid choice as a custom firmware that require little set up to use. 
+					</p>
+
+				</div>
+				<div class="col-right">
+					<nuxt-link to="#">
+						<div class="devices">
+							View compatable devices
+						</div>
+					</nuxt-link>
+				</div>
+			</div>
+
+      <hr class="dotted-divider">
+
+      <div class="firmware" id="gargoyle">
+				<div class="col-left">
+					<a href="https://www.gargoyle-router.com/">
+						<!-- <h2>Gargoyle</h2> -->
+						<img src="@/assets/images/firmwares/gargoyle.png" alt="Gargoyle logo">
+					</a>
+					<p>
+						<a href="https://en.wikipedia.org/wiki/Gargoyle_(router_firmware)">Gargoyle</a> is an OpenWrt based Linux distribution for routers and access points. Gargoyle is mainly meant for routers with Atheros or Broadcom chipsets. Some models of Asus, Netgear, Linksys and TP-Link routers are also supported. Gargoyle project is Open Source and was started in 2008 by Eric Bishop. Gargoyle firmware aims to extend the functionality of supported routers far beyond what the stock factory firmware provides.
+					</p>
+					<p>
+						Some of the features supported by Gargoyle are Network are Network File Sharing, advanced Bandwidth Monitoring and quotas, VPN server and client, Bandwidth Throttling, blocking forbidden websites, using as a Wireless Bridge, Quality of Service (QoS) with active congestion control, advertisement blocking, and wifi scheduling.
+					</p>
+
+				</div>
+				<div class="col-right">
+					<nuxt-link to="#">
+						<div class="devices">
+							View compatable devices
+						</div>
+					</nuxt-link>
+				</div>
+			</div>
+
+      <hr class="dotted-divider">
+
+			<div class="firmware" id="advancedtomato">
+				<div class="col-left">
+					<a href="https://advancedtomato.com/">
+						<!-- <h2>AdvancedTomato</h2> -->
+						<img src="@/assets/images/firmwares/advancedtomato.png" alt="Advanced Tomato logo">
+					</a>
+					<p>
+						<a href="https://advancedtomato.com/">AdvancedTomato</a> is an Open Source Linux distribution for routers and access points based on Tomato by Shibby. AdvancedTomato is mainly meant for routers with Broadcom chipsets. As AdvancedTomato is a fork of Tomato by Shibby, it doesn't offer any functionalities that is not provided by Tomato by Shibby. But the different lies in the Graphical User Interface as AdvancedTomato employs a GUI design that is clean and contemporary flat design unlike the dated design of GUI of Tomato by Shibby.
+					</p>
+					<p>
+						Unfortunately, despite the fact that AdvancedTomato is a fork of Tomato by Shibby, due to difference in web handler, it cannot be directly installed on to any router that supports Tomato by Shibby. Also, the releases of new versions of the firmware is dependent on the release of new versions of Tomato by Shibby. Since there has been no new version of the former in last 2 years, current AdvancedTomato releases also lags by that much.
+					</p>
+
+				</div>
+				<div class="col-right">
+					<nuxt-link to="#">
+						<div class="devices">
+							View compatable devices
+						</div>
+					</nuxt-link>
+				</div>
+			</div>
+
+			<hr class="dotted-divider">
+
+			<div class="firmware" id="freshtomato">
+				<div class="col-left">
+					<a href="https://exotic.se/freshtomato/">
+						<!-- <h2>FreshTomato</h2> -->
+						<img src="@/assets/images/firmwares/freshtomato.png" alt="Fresh Tomato logo">
+					</a>
+					<p>
+						<a href="https://en.wikipedia.org/wiki/Tomato_(firmware)">FreshTomato</a> is an alternative open source firmware for Broadcom-based routers. FreshTomato is a fork of the original Tomato firmware for routers. Tomato project fragmented in to different forks over the years. FreshTomato is a fork that is still under active development and features have been added to it over the other forks of Tomato. 
+					</p>
+					<p>
+						The features provided by FreshTomato includes but not limited to, an easy Graphical User Interface, Personal Web Server, Quality of Service(QoS), advanced bandwidth monitoring and Quotas, customizable firewall, Dynamic DNS, FileSharing by SMB, USB support to create devices such as printer, DLNA Server, VPN Service, Bittorrent client, Overclocking, etc.
+					</p>
+
+				</div>
+				<div class="col-right">
+					<nuxt-link to="#">
+						<div class="devices">
+							View compatable devices
+						</div>
+					</nuxt-link>
+				</div>
+			</div>
+
+			<hr class="dotted-divider">
+
+			<div class="firmware" id="tomatobyshibby">
+				<div class="col-left">
+					<a href="https://tomato.groov.pl/">
+						<!-- <h2>FreshTomato</h2> -->
+						<img src="@/assets/images/firmwares/tomatobyshibby.png" alt="Tomato by Shibby logo">
+					</a>
+					<p>
+						<a href="https://en.wikipedia.org/wiki/Tomato_(firmware)">Tomato by Shibby</a> is an Open Source firmware for routers and access points based on Linux. The firmware is fork of the original Toamto by Jonathan Zarate. The firmware provides many of the features provided by other Tomato forks and a few extra features.
+					</p>
+					<p>
+						The extra features provided by Tomato by Shibby includes Torrent client integration, NFS server integration, DNScrypt-proxy integration, Support for USB 3G modems, IPTraffic Monitor, configurable Quality of Service (QoS), built-in FTP and SAMBA servers, OpenVPN Server and client, support for mass storage memory and different file systems, Torrent client integration (Transmission) with user-friendly GUI for configuration, and many more. Unfortunately, TOmato by Shibby is not under active developement as no new versions have been released in the last 2 years.
+					</p>
+
+				</div>
+				<div class="col-right">
+					<nuxt-link to="#">
+						<div class="devices">
+							View compatable devices
+						</div>
+					</nuxt-link>
+				</div>
+			</div>
 
 		</div>
 		<div class="bg-right"></div>
