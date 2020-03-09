@@ -146,7 +146,7 @@ export default {
       };
   },
 
-  beforeDestroy() {
+  mounted() {
     const expirationTimer = 3600;
     
 
