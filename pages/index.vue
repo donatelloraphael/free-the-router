@@ -147,11 +147,17 @@ export default {
   },
 
   beforeDestroy() {
+    const expirationTimer = 3600;
+    
+
     if (process.client) {
-      // console.log('object', this.topPicks);
-      localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
-      localStorage.setItem("topPicksMostPopularTime", new Date().getTime());
-      localStorage.setItem("mostPopularArray", JSON.stringify(this.mostPopular));
+      const topPicksMostPopularTime = localStorage.getItem("topPicksMostPopularTime");
+      
+      if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + 5 * 1000) < new Date().getTime()) {
+        localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
+        localStorage.setItem("topPicksMostPopularTime", new Date().getTime());
+        localStorage.setItem("mostPopularArray", JSON.stringify(this.mostPopular));
+      }
     }
   }
 };
