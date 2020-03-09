@@ -130,27 +130,29 @@ export default {
   },
   
   async asyncData(context) {
-    // const firmwareList = ["openwrt", "ddwrt", "gargoyle", "freshtomato", "advancedtomato", "tomatobyshibby"];
     
-    // set Top Picks
-     context.store.dispatch("TopPicksModule/populateTopPicks", "openwrt");
-     context.store.dispatch("TopPicksModule/populateTopPicks", "ddwrt");
-     context.store.dispatch("TopPicksModule/populateTopPicks", "gargoyle");
-     context.store.dispatch("TopPicksModule/populateTopPicks", "freshtomato");
-     context.store.dispatch("TopPicksModule/populateTopPicks", "advancedtomato");
 
-     /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
+      /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
 
-     const [topPicksArray, mostPopularArray] = await Promise.all([
-        context.store.dispatch("TopPicksModule/populateTopPicks", "tomatobyshibby"),
+      const [topPicksArray, mostPopularArray] = await Promise.all([
+        context.store.dispatch("TopPicksModule/populateTopPicks"),
         context.store.dispatch("MostPopularModule/populateMostPopular")
       ]);
 
-    ////////////////////////////return asyncData variables//////////////////////////////////
-    return { 
-      topPicks: topPicksArray ,
-      mostPopular: mostPopularArray
-    };
+      ////////////////////////////return asyncData variables//////////////////////////////////
+      return { 
+        topPicks: topPicksArray,
+        mostPopular: mostPopularArray
+      };
+  },
+
+  beforeDestroy() {
+    if (process.client) {
+      // console.log('object', this.topPicks);
+      localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
+      localStorage.setItem("topPicksMostPopularTime", new Date().getTime());
+      localStorage.setItem("mostPopularArray", JSON.stringify(this.mostPopular));
+    }
   }
 };
   

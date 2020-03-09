@@ -36,10 +36,10 @@ const TopPicksModule = {
 
 		////////////////////////////SDK Method//////////////////////////////////////////////////
 
-		populateTopPicks(vuexContext, selectedFirmware) {
-			
+		populateTopPicksFirmware(vuexContext, selectedFirmware) {
 			const routers = [];
-			 return db.collection("top-picks").doc(selectedFirmware).collection("1").get()
+
+				return db.collection("top-picks").doc(selectedFirmware).collection("1").get()
 				.then(topPicks => {
 					if (!topPicks) {
 						return;
@@ -50,9 +50,37 @@ const TopPicksModule = {
 				})
 				.then(() => vuexContext.commit("setTopPicks", { selectedFirmware, routers }))
 				.then(() => vuexContext.getters.getTopPicks);
-			
+		},
 
+		async populateTopPicks(vuexContext) {
+			const expirationTimer = 3600;
+	    var topPicksMostPopularTime;
+	    var topPicksArray;
+
+	    if (process.client) {
+	    	topPicksMostPopularTime = localStorage.getItem("topPicksMostPopularTime");
+	    }
+
+	    // set Top Picks
+	    if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + expirationTimer * 1000) < new Date().getTime()) {
+	      
+	      [topPicksArray] = await Promise.all([
+	      	vuexContext.dispatch("populateTopPicksFirmware", "openwrt"),
+		      vuexContext.dispatch("populateTopPicksFirmware", "ddwrt"),
+		      vuexContext.dispatch("populateTopPicksFirmware", "gargoyle"),
+		      vuexContext.dispatch("populateTopPicksFirmware", "freshtomato"),
+		      vuexContext.dispatch("populateTopPicksFirmware", "advancedtomato"),
+	      	vuexContext.dispatch("populateTopPicksFirmware", "tomatobyshibby")
+	      ]);
+				return topPicksArray;
+
+			} else {
+				// console.log('client: ', JSON.parse(localStorage.topPicksArray));
+				return JSON.parse(localStorage.topPicksArray);
+			}
 		}
+
+
 	},
 	getters: {
 		getTopPicks(state) {

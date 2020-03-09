@@ -81,7 +81,7 @@
 			},
 
 			leftScroll(cardCount) {
-				console.log(cardCount);
+				// console.log(cardCount);
 				if (cardCount === 4) {
 					if (this.cardPosition <= 3) {
 						return;
@@ -110,7 +110,7 @@
 				}
 					
 				this.cardPosition += cardCount;
-			  console.log(this.cardPosition);
+			  // console.log(this.cardPosition);
 			  
 			},
 			checkActiveDot(cardCount, dotNumber) {

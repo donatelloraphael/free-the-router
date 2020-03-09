@@ -32,10 +32,7 @@
 <script>
 	export default {
 		name: "MostPopularCard",
-		props: ["mostPopular", "cardPosition"],
-		mounted() {
-			console.log(this.mostPopular[this.cardPosition]);
-		}
+		props: ["mostPopular", "cardPosition"]
 	};
 </script>
 
