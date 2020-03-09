@@ -66,22 +66,34 @@
         <h1>Custom Firmwares</h1>
         <div class="firmwares">
           <div class="openwrt firmware left">
-            <img alt="openwrt logo" src="../assets/images/firmwares/openwrt.png">
+            <nuxt-link to="/firmware/#openwrt" @click.native="scrollTo('#openwrt')">
+              <img alt="openwrt logo" src="../assets/images/firmwares/openwrt.png">
+            </nuxt-link>
           </div>
           <div class="ddwrt firmware right">
-            <img alt="ddwrt logo" src="../assets/images/firmwares/ddwrt.png">
+            <nuxt-link to="/firmware#ddwrt" @click.native="scrollTo('#ddwrt')">
+              <img alt="ddwrt logo" src="../assets/images/firmwares/ddwrt.png">
+            </nuxt-link>
           </div>
           <div class="gargoyle firmware left">
-            <img alt="gargoyle logo" src="../assets/images/firmwares/gargoyle.png">
+            <nuxt-link to="/firmware/#gargoyle" @click.native="scrollTo('#gargoyle')">
+              <img alt="gargoyle logo" src="../assets/images/firmwares/gargoyle.png">
+            </nuxt-link>
           </div>
           <div class="freshtomato firmware right">
-            <img alt="freshtomato logo" src="../assets/images/firmwares/freshtomato.png">
+            <nuxt-link to="/firmware/#freshtomato" @click.native="scrollTo('#freshtomato')">
+              <img alt="freshtomato logo" src="../assets/images/firmwares/freshtomato.png">
+            </nuxt-link>
           </div>
           <div class="advancedtomato firmware left">
-            <img alt="advancedtomato logo" src="../assets/images/firmwares/advancedtomato.png">
+            <nuxt-link to="/firmware/#advancedtomato" @click.native="scrollTo('#advancedtomato')">
+              <img alt="advancedtomato logo" src="../assets/images/firmwares/advancedtomato.png">
+            </nuxt-link>
           </div>
           <div class="tomatobyshibby firmware right">
-            <img alt="tomatobyshibby logo" src="../assets/images/firmwares/tomatobyshibby.png">
+            <nuxt-link to="/firmware/#tomatobyshibby" @click.native="scrollTo('#tomatobyshibby')">
+              <img alt="tomatobyshibby logo" src="../assets/images/firmwares/tomatobyshibby.png">
+            </nuxt-link>
           </div>
         </div>
         
@@ -103,12 +115,20 @@
 import TopPicks from '../components/Carousals/TopPicks';
 import MostPopular from '../components/Carousals/MostPopular';
 
+const TIMEOUT = 1;
+
 export default {
   components: {
     appTopPicks: TopPicks,
     appMostPopular: MostPopular
   },
 
+  methods: {
+    scrollTo: function (hashtag) {
+      setTimeout(() => { location.href = hashtag }, TIMEOUT)
+    }
+  },
+  
   async asyncData(context) {
     // const firmwareList = ["openwrt", "ddwrt", "gargoyle", "freshtomato", "advancedtomato", "tomatobyshibby"];
     
@@ -248,6 +268,11 @@ export default {
   
   .right {
     margin-right: 0;
+  }
+
+  .firmware a {
+    width: 100%;
+    height: 100%;
   }
 
  .firmware img {

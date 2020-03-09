@@ -3,8 +3,8 @@
 		
 		<div class="bg-left"></div>
 
-		<div class="body">
-			<div class="firmware" id="openwrt">
+		<div class="body" id="openwrt">
+			<div class="firmware">
 				<div class="col-left">
 					<a href="https://www.openwrt.org/">
 						<!-- <h2>OpenWrt</h2> -->
@@ -30,9 +30,9 @@
 				</div>
 			</div>
 
-      <hr class="dotted-divider">
+      <hr class="dotted-divider" id="ddwrt">
 
-			<div class="firmware" id="ddwrt">
+			<div class="firmware">
 				<div class="col-left">
 					<a href="https://dd-wrt.com">
 						<!-- <h2>DD-WRT</h2> -->
@@ -55,9 +55,9 @@
 				</div>
 			</div>
 
-      <hr class="dotted-divider">
+      <hr class="dotted-divider" id="gargoyle">
 
-      <div class="firmware" id="gargoyle">
+      <div class="firmware">
 				<div class="col-left">
 					<a href="https://www.gargoyle-router.com/">
 						<!-- <h2>Gargoyle</h2> -->
@@ -80,9 +80,9 @@
 				</div>
 			</div>
 
-      <hr class="dotted-divider">
+      <hr class="dotted-divider" id="advancedtomato">
 
-			<div class="firmware" id="advancedtomato">
+			<div class="firmware">
 				<div class="col-left">
 					<a href="https://advancedtomato.com/">
 						<!-- <h2>AdvancedTomato</h2> -->
@@ -105,9 +105,9 @@
 				</div>
 			</div>
 
-			<hr class="dotted-divider">
+			<hr class="dotted-divider" id="freshtomato">
 
-			<div class="firmware" id="freshtomato">
+			<div class="firmware">
 				<div class="col-left">
 					<a href="https://exotic.se/freshtomato/">
 						<!-- <h2>FreshTomato</h2> -->
@@ -130,9 +130,9 @@
 				</div>
 			</div>
 
-			<hr class="dotted-divider">
+			<hr class="dotted-divider" id="tomatobyshibby">
 
-			<div class="firmware" id="tomatobyshibby">
+			<div class="firmware">
 				<div class="col-left">
 					<a href="https://tomato.groov.pl/">
 						<!-- <h2>FreshTomato</h2> -->
@@ -142,7 +142,7 @@
 						<a href="https://en.wikipedia.org/wiki/Tomato_(firmware)">Tomato by Shibby</a> is an Open Source firmware for routers and access points based on Linux. The firmware is fork of the original Toamto by Jonathan Zarate. The firmware provides many of the features provided by other Tomato forks and a few extra features.
 					</p>
 					<p>
-						The extra features provided by Tomato by Shibby includes Torrent client integration, NFS server integration, DNScrypt-proxy integration, Support for USB 3G modems, IPTraffic Monitor, configurable Quality of Service (QoS), built-in FTP and SAMBA servers, OpenVPN Server and client, support for mass storage memory and different file systems, Torrent client integration (Transmission) with user-friendly GUI for configuration, and many more. Unfortunately, TOmato by Shibby is not under active developement as no new versions have been released in the last 2 years.
+						The extra features provided by Tomato by Shibby includes Torrent client integration, NFS server integration, DNScrypt-proxy integration, Support for USB 3G modems, IPTraffic Monitor, configurable Quality of Service (QoS), built-in FTP and SAMBA servers, OpenVPN Server and client, support for mass storage memory and different file systems, Torrent client integration (Transmission) with user-friendly GUI for configuration, and many more. Unfortunately, Tomato by Shibby is not under active development as no new versions have been released in the last 2 years.
 					</p>
 
 				</div>
@@ -160,6 +160,25 @@
 	</div>
 	
 </template>
+
+<script>
+	const TIMEOUT = 1;
+
+	export default {
+		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		
+		mounted () {
+	    // From testing, without a brief timeout, it won't work.
+	    if (this.$route.hash) {
+	      setTimeout(() => this.scrollTo(this.$route.hash), TIMEOUT)
+	    }
+	  },
+	  methods: {
+	    scrollTo: function (hashtag) {
+	      setTimeout(() => { location.href = hashtag }, TIMEOUT)
+	    }
+	  }
+	};
+</script>
 
 <style scoped>
 

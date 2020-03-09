@@ -9,12 +9,12 @@
 
 			<div class="firmware">
 				<h3>Firmware</h3>
-				<nuxt-link to="/firmware/openwrt">OpenWrt</nuxt-link>
-				<nuxt-link to="/firmware/dd-Wrt">DD-Wrt</nuxt-link>
-				<nuxt-link to="/firmware/gargoyle">Gargoyle</nuxt-link>
-				<nuxt-link to="/firmware/fresh-tomato">FreshTomato</nuxt-link>
-				<nuxt-link to="/firmware/advanced-tomato">AdvancedTomato</nuxt-link>
-				<nuxt-link to="/firmware/tomato-shibby">Tomato by Shibby</nuxt-link>
+				<nuxt-link to="/firmware/#openwrt" @click.native="scrollTo('#openwrt')">OpenWrt</nuxt-link>
+				<nuxt-link to="/firmware/#ddwrt" @click.native="scrollTo('#ddwrt')">DD-Wrt</nuxt-link>
+				<nuxt-link to="/firmware/#gargoyle" @click.native="scrollTo('#gargoyle')">Gargoyle</nuxt-link>
+				<nuxt-link to="/firmware/#freshtomato" @click.native="scrollTo('#freshtomato')">FreshTomato</nuxt-link>
+				<nuxt-link to="/firmware/#advancedtomato" @click.native="scrollTo('#advancedtomato')">AdvancedTomato</nuxt-link>
+				<nuxt-link to="/firmware/#tomatobyshibby" @click.native="scrollTo('#tomatobyshibby')">Tomato by Shibby</nuxt-link>
 			</div>
 
 			<div class="info">
@@ -46,10 +46,15 @@
 </template>	
 
 <script>
-	
+	const TIMEOUT = 1;
 
 	export default {
-		name: "TheFooter"
+		name: "TheFooter",
+		methods: {
+			scrollTo: function (hashtag) {
+	      setTimeout(() => { location.href = hashtag }, TIMEOUT)
+	    }
+		}
 	};
 </script>
 
