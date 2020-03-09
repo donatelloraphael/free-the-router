@@ -276,7 +276,7 @@
   	font-family: "Montserrat", "Open Sans", sans-serif;
   	font-size: 1.8rem;
   	color: white;
-  	padding: 10px;
+  	padding: 20px 10px;
   	margin: 20px;
   	border-radius: 20px;
   }
@@ -304,6 +304,10 @@
 
 		.col-right  {
 			width: 100%;
+		}
+
+		.devices {
+			padding: 30px;
 		}
   }
 

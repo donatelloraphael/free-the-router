@@ -16,8 +16,12 @@
     margin-bottom: 100px;/* Height of footer*/
   }
 
-  h2 {
+  h1, h2, h3 {
     font-family: "Courier Prime", monospace;
+  }
+
+  p {
+    font-family: "Montserrat", "Open Sans", sans-serif;
   }
 
   hr.dotted-divider {

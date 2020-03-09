@@ -65,6 +65,7 @@
 	}
 
 	h3 {
+		font-family: "Montserrat", "Open Sans", sans-serif;
 		font-size: 1rem;
 		font-weight: normal;
 		padding: 5px 0;
