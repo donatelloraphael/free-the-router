@@ -153,7 +153,7 @@ export default {
     if (process.client) {
       const topPicksMostPopularTime = localStorage.getItem("topPicksMostPopularTime");
       
-      if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + 5 * 1000) < new Date().getTime()) {
+      if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + expirationTimer * 1000) < new Date().getTime()) {
         localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
         localStorage.setItem("topPicksMostPopularTime", new Date().getTime());
         localStorage.setItem("mostPopularArray", JSON.stringify(this.mostPopular));
