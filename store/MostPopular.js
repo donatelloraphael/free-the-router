@@ -19,15 +19,21 @@ const MostPopularModule = {
 
 	actions: {
 		populateMostPopular(vuexContext) {
-			const expirationTimer = 3600;
 			const mostPopularArray = [];
-	    var topPicksMostPopularTime;
+	    var topPicksMostPopularExpirationTime;
+	    const currentTime = new Date().getTime();
+	    // console.log('current: ', currentTime);
+
 
 			if (process.client) {
-	    	topPicksMostPopularTime = localStorage.getItem("topPicksMostPopularTime");
+	    	topPicksMostPopularExpirationTime = localStorage.getItem("topPicksMostPopularExpirationTime");
 	    }
 
-	    if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + expirationTimer * 1000) < new Date().getTime()) {
+	    // console.log('stored: ', Number.parseInt(topPicksMostPopularExpirationTime));
+	    // console.log('check: ', (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime));
+
+
+	    if (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime) {
 				return db.collection("most-popular").get()
 					.then(querySnapshot => {
 						querySnapshot.forEach(doc => {
@@ -35,6 +41,7 @@ const MostPopularModule = {
 						})
 					}).then(() => mostPopularArray);
 			} else {
+				// console.log(localStorage.mostPopularArray);
 				return JSON.parse(localStorage.mostPopularArray);
 			}
 		}

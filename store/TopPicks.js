@@ -54,15 +54,15 @@ const TopPicksModule = {
 
 		async populateTopPicks(vuexContext) {
 			const expirationTimer = 3600;
-	    var topPicksMostPopularTime;
+	    var topPicksMostPopularExpirationTime;
 	    var topPicksArray;
 
 	    if (process.client) {
-	    	topPicksMostPopularTime = localStorage.getItem("topPicksMostPopularTime");
+	    	topPicksMostPopularExpirationTime = localStorage.getItem("topPicksMostPopularExpirationTime");
 	    }
 
 	    // set Top Picks
-	    if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + expirationTimer * 1000) < new Date().getTime()) {
+	    if (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime) + expirationTimer * 1000) < new Date().getTime()) {
 	      
 	      [topPicksArray] = await Promise.all([
 	      	vuexContext.dispatch("populateTopPicksFirmware", "openwrt"),

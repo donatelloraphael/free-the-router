@@ -1,4 +1,3 @@
-
 <template>
 <div>
   <div class="container container-grid fluid">
@@ -130,7 +129,6 @@ export default {
   },
   
   async asyncData(context) {
-    
 
       /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
 
@@ -148,14 +146,19 @@ export default {
 
   mounted() {
     const expirationTimer = 3600;
-    
+    const currentTime = new Date().getTime();
 
     if (process.client) {
-      const topPicksMostPopularTime = localStorage.getItem("topPicksMostPopularTime");
+      const topPicksMostPopularExpirationTime = localStorage.getItem("topPicksMostPopularExpirationTime");
+
+      //console.log('CLIENT');
+      // console.log('stored: ', topPicksMostPopularExpirationTime);
+      // console.log('current: ', currentTime);
+      // console.log('check: ', (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime));
       
-      if (!topPicksMostPopularTime || (Number.parseInt(topPicksMostPopularTime) + expirationTimer * 1000) < new Date().getTime()) {
+      if (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime) {
         localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
-        localStorage.setItem("topPicksMostPopularTime", new Date().getTime());
+        localStorage.setItem("topPicksMostPopularExpirationTime", currentTime + expirationTimer * 1000);
         localStorage.setItem("mostPopularArray", JSON.stringify(this.mostPopular));
       }
     }
