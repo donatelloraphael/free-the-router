@@ -19,18 +19,19 @@
 
 			<div class="info">
 				<h3>Information</h3>
-				<nuxt-link to="/faq">FAQ</nuxt-link>
-				<nuxt-link to="/terms">Terms of Service</nuxt-link>
-				<nuxt-link to="/resources">Resources</nuxt-link>
-				<nuxt-link to="/brands">Brands</nuxt-link>
+				<nuxt-link to="/resources/#faq" @click.native="scrollTo('#faq')">FAQ</nuxt-link>
+				<nuxt-link to="/about/#terms" @click.native="scrollTo('#terms')">Terms of Service</nuxt-link>
+				<nuxt-link to="/about/#privacy" @click.native="scrollTo('#privacy')">Privacy Policy</nuxt-link>
+				<nuxt-link to="/resources/#resources" @click.native="scrollTo('#resources')">Resources</nuxt-link>
 			</div>
 
 			<div class="more">
 				<h3>Know More</h3>
-				<nuxt-link to="/aboutus">About Us</nuxt-link>
-				<nuxt-link to="/contact">Contact Us</nuxt-link>
-				<nuxt-link to="/paid-verification">Paid Verification</nuxt-link>
-				<nuxt-link to="/sitemap">Sitemap</nuxt-link>
+				<nuxt-link to="/about/#about" @click.native="scrollTo('#about')">About Us</nuxt-link>
+				<nuxt-link to="/about/#contact" @click.native="scrollTo('#contact')">Contact Us</nuxt-link>
+				<!-- <nuxt-link to="/paid-verification">Paid Verification</nuxt-link>
+				<nuxt-link to="/brands">Brands</nuxt-link>
+				<nuxt-link to="/sitemap">Sitemap</nuxt-link> -->
 			</div>
 
 			<div id="placeholder-block">

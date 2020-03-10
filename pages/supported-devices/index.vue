@@ -64,7 +64,7 @@
 			<div class="firmware" id="tomatobyshibby">
 				<div class="content">
 					<h1><a href="https://tomato.groov.pl/">Tomato by Shibby</a></h1>
-					<p>The list of supported devices on the <a href="https://tomato.groov.pl/?page_id=164">Tomato by Shibby download page.</a></p>
+					<p>The list of supported devices on the <a href="https://tomato.groov.pl/?page_id=69">Tomato by Shibby site.</a></p>
 				</div>
 				<a href="https://tomato.groov.pl/"><img src="@/assets/images/firmwares/tomatobyshibby.png" alt="Tomato by Shibby logo"></a>
 			</div>
@@ -146,7 +146,7 @@
 		float: right;
 		width: 300px;
 	}
-	
+
 	/***************MEDIA QUERIES*******************/
 	@media (max-width: 1200px) {
 		.bg-left, .bg-right {
