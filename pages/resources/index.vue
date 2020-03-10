@@ -234,6 +234,14 @@
 		.bg-left, .bg-right {
 			display: none;
 		}
+		
+		.faq {
+			width: 90%;
+		}
+		
+		.content {
+			width: 100%;
+		}
 	}
 
 </style>

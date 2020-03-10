@@ -158,6 +158,10 @@
 		.bg-left, .bg-right {
 			display: none;
 		}
+
+		.content {
+			width: 100%;
+		}
 	}
 
 </style>

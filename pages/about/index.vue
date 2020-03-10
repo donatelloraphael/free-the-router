@@ -273,6 +273,10 @@
 		.bg-left, .bg-right {
 			display: none;
 		}
+
+		.about, .terms, .privacy {
+			width: 90%;
+		}
 	}
 
 </style>
