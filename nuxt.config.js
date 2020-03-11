@@ -61,14 +61,27 @@ module.exports = {
     extractCSS: true,
     babel: {
       presets: [
-        'es2015',
-        'stage-0'
+        [
+          "@babel/preset-env",
+            {
+              "targets": {
+                "chrome": "58",
+                "ie": "11"
+              },
+              "useBuiltIns": "entry",
+              "corejs": 3
+            }
+        ],
       ],
       plugins: [
-        ["transform-runtime", {
-          "polyfill": true,
+        ["@babel/plugin-transform-runtime", {
+          "corejs": 3,
           "regenerator": true
         }],
+
+        ["module-resolver", {
+          "root": ["./src"]
+        }]
       ]
     },
     /*

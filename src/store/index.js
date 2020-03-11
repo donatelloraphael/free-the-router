@@ -1,5 +1,4 @@
 import Vuex from 'vuex';
-import axios from 'axios';
 
 import TopPicksModule from '@/store/TopPicks';
 import MostPopularModule from '@/store/MostPopular';
