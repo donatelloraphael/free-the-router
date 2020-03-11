@@ -314,7 +314,7 @@
 	@media (max-width: 789px) {
 		.container-mp {
 			margin: 30px auto;
-			height: 25rem;
+			height: 23rem;
 		}
 	}
 </style>
