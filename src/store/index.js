@@ -1,7 +1,10 @@
+import Vue from 'vue'
 import Vuex from 'vuex';
 
 import TopPicksModule from '@/store/TopPicks';
 import MostPopularModule from '@/store/MostPopular';
+
+Vue.use(Vuex);
 
 const createStore = () => {
 	return new Vuex.Store({
