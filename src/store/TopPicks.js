@@ -1,5 +1,4 @@
 import Vuex from 'vuex';
-import axios from 'axios';
 
 import {db} from '~/plugins/firebase.js';
 

@@ -111,4 +111,14 @@
 		border: 1px solid grey;
 	}
 
+	@media (max-width: 789px) {
+		.image {
+			height: 50%;
+		}
+		
+		.description {
+			height: 50%;
+		}
+	}
+
 </style>

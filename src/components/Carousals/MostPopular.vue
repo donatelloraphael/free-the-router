@@ -185,7 +185,7 @@
 
 	.container-mp {
 		width: 80vw;
-		height: 20rem;
+		height: 25rem;
 		margin: 30px auto;
 		display: flex;
 		position: relative;
@@ -314,6 +314,7 @@
 	@media (max-width: 789px) {
 		.container-mp {
 			margin: 30px auto;
+			height: 23rem;
 		}
 	}
 </style>

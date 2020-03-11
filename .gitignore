@@ -88,3 +88,8 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Mine
+functions/.nuxt/
+functions/node_modules/
+public/assets/

@@ -151,6 +151,7 @@
 	
 	.sub-footer p {
 		padding-top: 3px;
+		font-family: "Courier Prime", monospace;
 	}
 
 	@media (max-width: 600px) {
