@@ -18,10 +18,10 @@
       <div class="nav-country-dropdown">
   
         <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value);" aria-labelledby="navbarDropdown">
-          <option class="dropdown-item" value="india" :selected="'india' == $store.getters.getCountry" href="#">India</option>
-          <option class="dropdown-item" value="usa" :selected="'usa' == $store.getters.getCountry" href="#">USA</option>
-          <option class="dropdown-item" value="canada" :selected="'canada' == $store.getters.getCountry" href="#">Canada</option>
-          <option class="dropdown-item" value="uk" :selected="'uk' == $store.getters.getCountry" href="#">UK</option>
+          <option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
+          <option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
+          <option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
+          <option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
         </select>
 
       </div>

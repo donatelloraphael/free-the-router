@@ -15,8 +15,8 @@ const createStore = () => {
 		},
 
 		state: () => ({
-			selectedCountry: "",
-			flagUrl: ""
+			selectedCountry: "US",
+			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`
 		}),
 
 		mutations: {
@@ -38,8 +38,8 @@ const createStore = () => {
 			nuxtServerInit(vuexContext, context) {
 			
 							// TODO: set initial country
-				vuexContext.dispatch("setCountry", "india");
-				vuexContext.dispatch("setFlagUrl", vuexContext.state.selectedCountry);
+				// vuexContext.dispatch("setCountry", "US");
+				// vuexContext.dispatch("setFlagUrl", vuexContext.state.selectedCountry);
 			},
 			setCountry(vuexContext, country) {
 				vuexContext.commit("setCountry", country);

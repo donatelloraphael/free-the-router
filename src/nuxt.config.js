@@ -1,4 +1,5 @@
 // const bodyParser = require('body-parser');
+require('dotenv').config();
 
 module.exports = {
   mode: 'universal',
@@ -26,7 +27,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color20
   */
-  loading: { color: '#fff' },
+  loading: { color: '#2015a2' },
   /*
   ** Global CSS
   */
@@ -43,16 +44,16 @@ module.exports = {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    [ '@nuxtjs/dotenv' ]
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-        
     // Doc: https://bootstrap-vue.js.org
   ],
   srcDir: 'src',
-  buildDir: 'functions/.nuxt',
+  buildDir: '.nuxt',
   /*
   ** Build configuration
   */
@@ -91,7 +92,8 @@ module.exports = {
     }
   },
   env: {
-    firebaseAPIKey: "AIzaSyAGPDCLt8tpLYIKuFuBL_RXHq5Wgeu0VRQ"
+    firebaseAPIKey: "AIzaSyAGPDCLt8tpLYIKuFuBL_RXHq5Wgeu0VRQ",
+    geolocationDBAPIKey: "0f761a30-fe14-11e9-b59f-e53803842572"
   },
   router: {
     linkActiveClass: 'active',
@@ -109,5 +111,8 @@ module.exports = {
   },
   serverMiddleware: [
     // bodyParser.urlencoded({extended: true})
-  ]
+  ],
+  router: {
+    middleware: 'detectCountry'
+  }
 }
