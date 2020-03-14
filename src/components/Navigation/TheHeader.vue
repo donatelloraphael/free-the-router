@@ -64,6 +64,7 @@
 
 <script>
 	import TheSideNav from "@/components/Navigation/TheSideNav";
+	import $ from "jquery";
 
 	export default {
 		name: "TheHeader",

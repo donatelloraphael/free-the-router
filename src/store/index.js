@@ -42,9 +42,15 @@ const createStore = () => {
 				// vuexContext.dispatch("setFlagUrl", vuexContext.state.selectedCountry);
 			},
 			setCountry(vuexContext, country) {
+				if (!country) {
+					return;
+				}
 				vuexContext.commit("setCountry", country);
 			},
 			setFlagUrl(vuexContext, country) {
+				if (!country) {
+					return;
+				}
 				vuexContext.commit("setFlagUrl", country);
 			},
 
