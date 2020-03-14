@@ -10,11 +10,21 @@
 					<input class="search-box" type="text" placeholder="Search here">
 					<button type="submit">Search</i></button>
 				</form>
+
+				<div class="hidden">
+					<select class="dropdown-menu" @click="setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
+  					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
+						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
+						<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
+					</select>
+					<span id="country-flag2" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
+				</div>
 	   
 				<nav class="navigation-items">
 		      <ul class="nav-list pre-header navbar-nav mr-auto">
+		      	
 		      	<li class="nav-item dropdown">
-
         			<select class="dropdown-menu" @click="setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
 								<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
       					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
@@ -24,12 +34,12 @@
 							<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
 						</li>
 		      	
-	      		<span class="divider">|</span>
-		        <li class="nav-item"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
-		        <span class="divider">|</span>
-		        <li class="nav-item"><nuxt-link class="nav-link" to="/register">Register</nuxt-link></li>
-		        <span class="divider">|</span>
-		        <li class="nav-item"><nuxt-link class="nav-link" to="/wishlist">Wishlist</nuxt-link></li>
+	      		<span class="divider to-hide">|</span>
+		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
+		        <span class="divider to-hide">|</span>
+		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/register">Register</nuxt-link></li>
+		        <span class="divider to-hide">|</span>
+		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/wishlist">Wishlist</nuxt-link></li>
 		        <!-- <span class="divider">|</span>
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/account">Account</nuxt-link></b-nav-item></li> -->
 		      </ul>
@@ -92,18 +102,23 @@
 		},
 
 		mounted() {
-			let countryExpirationTime;
-			let storedCountry;
+			if (this.$store.getters.getFirstLoad) {
+				let countryExpirationTime;
+				let storedCountry;
 
-			if (process.client) {
-    		countryExpirationTime = localStorage.getItem("countryExpirationTime");
-    		storedCountry = localStorage.getItem("storedCountry");
-    	}
+				if (process.client) {
+	    		countryExpirationTime = localStorage.getItem("countryExpirationTime");
+	    		storedCountry = localStorage.getItem("storedCountry");
+	    	}
 
-	    if (countryExpirationTime && (Number.parseInt(countryExpirationTime)) > new Date().getTime()) {
-	    	this.$store.dispatch("setCountry", storedCountry);
-	    	this.$store.dispatch("setFlagUrl", storedCountry);
-	    }
+		    if (countryExpirationTime && (Number.parseInt(countryExpirationTime)) > new Date().getTime()) {
+		    	this.$store.dispatch("setCountry", storedCountry);
+		    	this.$store.dispatch("setFlagUrl", storedCountry);
+		    }
+
+		    this.$store.dispatch("toggleFirstLoad");
+			}
+			
 		},
 
 		beforeUpdate() {
@@ -247,6 +262,10 @@
 		border-radius: 0 5px 5px 0;
 	}
 
+	.hidden {
+		display: none;
+	}
+
 	.dropdown {
 		position: relative;
 	}
@@ -262,6 +281,15 @@
 		z-index: 1000;
 		top: -1.5rem;
 		left: 1.5rem;
+	}
+
+	#country-flag2 {
+		width: 1.5rem;
+		height: .9rem;
+		position: absolute;
+		z-index: 1000;
+		right: 2rem;
+
 	}
 
 	/**********************************Dropdown****************************************/
@@ -383,8 +411,12 @@
 
 	/*Header Toggle*/
 	@media (max-width: 768px) {
-		.navbar-list, .navigation-items {
+		.navigation-items, .navbar-list {
 			display: none;
+		}
+
+		.hidden {
+			display: block;
 		}
 		
 		.search {

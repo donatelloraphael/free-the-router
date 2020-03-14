@@ -16,10 +16,14 @@ const createStore = () => {
 
 		state: () => ({
 			selectedCountry: "US",
-			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`
+			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`,
+			firstLoad: true
 		}),
 
 		mutations: {
+			toggleFirstLoad(state) {
+				state.firstLoad = false;
+			},
 			setCountry(state, country) {
 				state.selectedCountry = country;
 			},
@@ -35,6 +39,9 @@ const createStore = () => {
 
 
 		actions: {
+			toggleFirstLoad(vuexContext) {
+				vuexContext.commit("toggleFirstLoad");
+			},
 			setCountry(vuexContext, country) {
 				if (!country) {
 					return;
@@ -51,21 +58,6 @@ const createStore = () => {
 				}
 				vuexContext.commit("setFlagUrl", country);
 			},
-			initializeCountry(vuexContext, country) {
-				let countryExpirationTime;
-
-				if (process.client) {
-	    		countryExpirationTime = localStorage.getItem("countryExpirationTime");
-	    	}
-	    	if (!countryExpirationTime || (Number.parseInt(countryExpirationTime)) < new Date().getTime()) {
-	    		vuexContext.dispatch("setCountry", country);
-	    		vuexContext.dispatch("setFlagUrl", country);
-	    	} else {
-	    		const storedCountry = localStorage.getItem("storedCountry");
-	    		vuexContext.dispatch("setCountry", storedCountry);
-	    		vuexContext.dispatch("setFlagUrl", storedCountry);
-	    	}
-			}
 
 			//////////////////Function to parse Firestore API Query////////////////////////
 			
@@ -97,6 +89,9 @@ const createStore = () => {
 			},
 			getFlagUrl(state) {
 				return state.flagUrl;
+			},
+			getFirstLoad(state) {
+				return state.firstLoad;
 			}
 		}
 	});
