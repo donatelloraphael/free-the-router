@@ -68,15 +68,18 @@
 
 	export default {
 		name: "TheHeader",
+
 		data() {
 			return {
 				isActive: false,
 				lastScrollTop: 0
 			}
 		},
+
 		components: {
 			appSidenav: TheSideNav
 		},
+
 		methods: {
 			toggleActive() {
 				this.isActive = !this.isActive;
@@ -87,6 +90,22 @@
 				// console.log("this: ", country);
 			}
 		},
+
+		mounted() {
+			let countryExpirationTime;
+			let storedCountry;
+
+			if (process.client) {
+    		countryExpirationTime = localStorage.getItem("countryExpirationTime");
+    		storedCountry = localStorage.getItem("storedCountry");
+    	}
+
+	    if (countryExpirationTime && (Number.parseInt(countryExpirationTime)) > new Date().getTime()) {
+	    	this.$store.dispatch("setCountry", storedCountry);
+	    	this.$store.dispatch("setFlagUrl", storedCountry);
+	    }
+		},
+
 		beforeUpdate() {
 
 			////////////////////Hide header when scrolling down and show it scrolling up/////////////////////////////

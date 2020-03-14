@@ -35,15 +35,13 @@ const createStore = () => {
 
 
 		actions: {
-			nuxtServerInit(vuexContext, context) {
-			
-							// TODO: set initial country
-				// vuexContext.dispatch("setCountry", "US");
-				// vuexContext.dispatch("setFlagUrl", vuexContext.state.selectedCountry);
-			},
 			setCountry(vuexContext, country) {
 				if (!country) {
 					return;
+				}
+				if (process.client) {
+					localStorage.setItem("storedCountry", country);
+					localStorage.setItem("countryExpirationTime", new Date().getTime() + (86400 * 1000));
 				}
 				vuexContext.commit("setCountry", country);
 			},
@@ -53,6 +51,21 @@ const createStore = () => {
 				}
 				vuexContext.commit("setFlagUrl", country);
 			},
+			initializeCountry(vuexContext, country) {
+				let countryExpirationTime;
+
+				if (process.client) {
+	    		countryExpirationTime = localStorage.getItem("countryExpirationTime");
+	    	}
+	    	if (!countryExpirationTime || (Number.parseInt(countryExpirationTime)) < new Date().getTime()) {
+	    		vuexContext.dispatch("setCountry", country);
+	    		vuexContext.dispatch("setFlagUrl", country);
+	    	} else {
+	    		const storedCountry = localStorage.getItem("storedCountry");
+	    		vuexContext.dispatch("setCountry", storedCountry);
+	    		vuexContext.dispatch("setFlagUrl", storedCountry);
+	    	}
+			}
 
 			//////////////////Function to parse Firestore API Query////////////////////////
 			

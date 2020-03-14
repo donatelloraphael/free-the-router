@@ -7,7 +7,6 @@ export default async function (context) {
 											.then((result) => {
 												return String(result.data.country_code);
 											});
-	
 		context.store.dispatch("setCountry", await country);
 		context.store.dispatch("setFlagUrl", await country);
 	}
