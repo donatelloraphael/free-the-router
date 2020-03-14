@@ -3,7 +3,7 @@
 		<h3>Most Popular</h3>
 		<div class="container-mp" id="slider">
 			
-			<i class="fas fa-angle fa-angle-left" @click="leftScroll(getCardCount())"></i>
+			<i class="fas fa-angle fa-angle-left" @click="leftScroll(getCardCount())" @touchstart="toggleHover($event)"></i>
 
 			<div class="cards card-1">			
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition"></app-most-popular-card>
@@ -21,7 +21,7 @@
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition + 3"></app-most-popular-card>
 			</div>
 
-			<i class="fas fa-angle fa-angle-right" @click="rightScroll(getCardCount())"></i>
+			<i class="fas fa-angle fa-angle-right" @click="rightScroll(getCardCount())" @touchstart="toggleHover($event)"></i>
 
 		</div>
 
@@ -113,6 +113,15 @@
 			  // console.log(this.cardPosition);
 			  
 			},
+
+			toggleHover(event) {
+				var el = event.target;
+				el.style.color = "rgba(255, 0, 0, 0.5)";
+				setTimeout(() => {
+					el.style.color = "rgba(0, 0, 0, 0.5)";
+				}, 200);
+			},
+
 			checkActiveDot(cardCount, dotNumber) {
 				if (Math.floor(this.cardPosition / cardCount) === dotNumber) {
 					return true;
@@ -210,16 +219,18 @@
 		z-index: 10;
 	}
 
-	.fa-angle:hover {
-		color: rgba(255, 0, 0, 0.5);
-	}
-
 	.fa-angle-left {
 		left: 0;
 	}
 
 	.fa-angle-right {
 		right: 0;
+	}
+
+	@media(hover: hover) {
+		.fa-angle:hover {
+			color: rgba(255, 0, 0, 0.5);
+		}
 	}
 
 	/***************************Carousel Pagination***********************/
@@ -294,7 +305,7 @@
 	}
 
 	@media (max-width: 825px) {
-		.cards {
+			.cards {
 			min-width: 50%;
 		}
 
@@ -313,6 +324,7 @@
 
 	@media (max-width: 789px) {
 		.container-mp {
+			width: 90vw;
 			margin: 30px auto;
 			height: 23rem;
 		}
