@@ -8,6 +8,5 @@ export default async function (context) {
 												return String(result.data.country_code);
 											});
 		context.store.dispatch("setCountry", await country);
-		context.store.dispatch("setFlagUrl", await country);
 	}
 }

@@ -51,6 +51,7 @@ const createStore = () => {
 					localStorage.setItem("countryExpirationTime", new Date().getTime() + (86400 * 1000));
 				}
 				vuexContext.commit("setCountry", country);
+				vuexContext.dispatch("setFlagUrl", country);
 			},
 			setFlagUrl(vuexContext, country) {
 				if (!country) {

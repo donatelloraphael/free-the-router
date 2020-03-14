@@ -289,6 +289,7 @@
 		position: absolute;
 		z-index: 1000;
 		right: 2rem;
+		top: 0.5rem;
 
 	}
 
