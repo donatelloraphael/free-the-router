@@ -1,4 +1,4 @@
-# free-the-router
+# Free The Router
 
 > Aggregator for routers supporting custom firmwares
 
