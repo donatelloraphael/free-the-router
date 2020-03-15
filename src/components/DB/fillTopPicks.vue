@@ -9,10 +9,90 @@
 		name: "FillTopPicks",
 
 		created() {
-			let advancedtomatoRef = db.collection("top-picks").doc("advancedtomato").collection("1");
-			let freshtomatoRef = db.collection("top-picks").doc("freshtomato").collection("1");
-			let gargoyleRef = db.collection("top-picks").doc("gargoyle").collection("1");
-			let tomatobyshibbyRef = db.collection("top-picks").doc("tomatobyshibby").collection("1");
+			let openwrtRef = db.collection("top-picks").doc("openwrt").collection("routers");
+			let ddwrtRef = db.collection("top-picks").doc("ddwrt").collection("routers");
+			let advancedtomatoRef = db.collection("top-picks").doc("advancedtomato").collection("routers");
+			let freshtomatoRef = db.collection("top-picks").doc("freshtomato").collection("routers");
+			let gargoyleRef = db.collection("top-picks").doc("gargoyle").collection("routers");
+			let tomatobyshibbyRef = db.collection("top-picks").doc("tomatobyshibby").collection("routers");
+
+			openwrtRef.doc("1").set({
+				company: 'TP-Link',
+	      id: 'tpl1',
+	      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51jCNA84pyL._SL1500_.jpg',
+	      name: 'Archer C50',
+	      nameDescription: 'TP-Link Archer C50 AC1200 Dual Band Wireless Cable Router, Wi-Fi Speed Up to 867 Mbps/5 GHz + 300 Mbps/2.4 GHz, Supports Parental Control, Guest Wi-Fi, VPN',
+	      price: 1899,
+	      productUrl: 'https://www.amazon.in/TP-Link-Archer-C50-Wireless-Router/dp/B071RSD473/ref=sr_1_3?keywords=archer+c50&qid=1582105630&sr=8-3',
+	      routerPath: '1/1',
+	      serialNumber: 1,
+	      specs: '8MB Flash, 64MB RAM'
+			});
+
+			openwrtRef.doc("2").set({
+				company: 'TP-Link',
+	      id: 'tpl2',
+	      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/61%2BEFQ-nFRL._SL1500_.jpg',
+	      name: 'Archer C20',
+	      nameDescription: 'TP-Link Archer C20 AC750 Wireless Dual Band Router (Blue, Not a Modem)',
+	      price: 1599,
+	      productUrl: 'https://www.amazon.in/TP-Link-Archer-C20-Wireless-Router/dp/B0759QMF85/ref=sr_1_3?keywords=archer+c20&qid=1582106754&sr=8-3',
+	      routerPath: '1/2',
+	      serialNumber: 2,
+	      specs: '8MB Flash, 64MB RAM'
+			});
+
+			openwrtRef.doc("3").set({
+				company: 'Asus',
+	      id: 'asus1',
+	      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51vczTMH1EL._SL1200_.jpg',
+	      name: 'RT-N 12',
+	      nameDescription: 'ASUS 3-In-1 Wireless Router (RT-N12)',
+	      price: 1750,
+	      productUrl: 'https://www.amazon.in/Wireless-Router-Range-Extender-Environment/dp/B00QB9SPU6/ref=sr_1_1?keywords=asus+rt+n12&qid=1582107127&sr=8-1',
+	      routerPath: '1/3',
+	      serialNumber: 3,
+	      specs: '8MB Flash, 32MB RAM'
+			});
+
+			ddwrtRef.doc("1").set({
+				company: 'D-Link',
+	      id: 'dlnk1',
+	      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/61G8eH0o25L._SL1500_.jpg',
+	      name: 'DIR-615',
+	      nameDescription: 'D-Link DIR-615 Wireless-N300 Router (Black, Not a Modem)',
+	      price: 929,
+	      productUrl: 'https://www.amazon.in/D-Link-DIR-615-Wireless-N300-Router-Black/dp/B0085IATT6',
+	      routerPath: '1/4',
+	      serialNumber: 4,
+	      specs: '4MB Flash, 32MB RAM'
+			});
+
+			ddwrtRef.doc("2").set({
+				company: 'TP-Link',
+	      id: 'tpl3',
+	      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/51lbDxqwveL._SL1200_.jpg',
+	      name: 'Archer C9 AC1900 ',
+	      nameDescription: 'Tp-Link Archer C9 AC1900 Wireless Dual Band Gigabit Router',
+	      price: 6290,
+	      productUrl: 'https://www.amazon.in/TP-Link-Archer-C9-Wireless-Gigabit/dp/B00KO15KV4/',
+	      routerPath: '1/5',
+	      serialNumber: 5,
+	      specs: '16MB Flash, 128MB RAM'
+			});
+
+			ddwrtRef.doc("3").set({
+				company: 'TP-Link',
+	      id: 'tpl4',
+	      imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/517C14Xx-JL._SL1000_.jpg',
+	      name: 'Archer C7 AC1750',
+	      nameDescription: 'Tp-Link Archer C7 AC1750 Wireless Dual Band Gigabit Router (Not a Modem)',
+	      price: 4999,
+	      productUrl: 'https://www.amazon.in/Tp-Link-Archer-C7-Wireless-Gigabit/dp/B00CEB53MS/',
+	      routerPath: '1/6',
+	      serialNumber: 6,
+	      specs: '16MB Flash, 128MB RAM'
+			});
 
 			freshtomatoRef.doc("1").set({
 				company: "Tenda",

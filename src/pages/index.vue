@@ -311,7 +311,7 @@ export default {
     }
 
     .cf-info {
-      width: 80%;
+      width: 90%;
     }
 
     .firmware {

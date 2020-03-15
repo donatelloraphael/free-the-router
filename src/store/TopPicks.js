@@ -38,7 +38,7 @@ const TopPicksModule = {
 		populateTopPicksFirmware(vuexContext, selectedFirmware) {
 			const routers = [];
 
-				return db.collection("top-picks").doc(selectedFirmware).collection("1").get()
+				return db.collection("top-picks").doc(selectedFirmware).collection("routers").get()
 				.then(topPicks => {
 					if (!topPicks) {
 						return;

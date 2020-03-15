@@ -18,7 +18,7 @@ module.exports = {
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Courier+Prime|Open+Sans|Montserrat&display=swap" }
     ],
     script: [
-      { src: "/scripts/font-awesome.js" }
+      { src: "font-awesome.js" }
     ]
   },
   /*
@@ -50,7 +50,7 @@ module.exports = {
     // Doc: https://bootstrap-vue.js.org
   ],
   srcDir: 'src',
-  buildDir: '.nuxt',
+  buildDir: 'functions/.nuxt',
   /*
   ** Build configuration
   */

@@ -12,26 +12,26 @@
 				</form>
 
 				<div class="hidden">
-					<select class="dropdown-menu" @click="setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+					<select class="dropdown-menu" @click="setFlagUrl(); setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
 						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
   					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
 						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
 						<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
 					</select>
-					<span id="country-flag2" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
+					<span id="country-flag2" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
 				</div>
 	   
 				<nav class="navigation-items">
 		      <ul class="nav-list pre-header navbar-nav mr-auto">
 		      	
 		      	<li class="nav-item dropdown">
-        			<select class="dropdown-menu" @click="setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+        			<select class="dropdown-menu" @click="setFlagUrl(); setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
 								<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
       					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
 								<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
 								<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
 							</select>
-							<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + $store.getters.getFlagUrl }"/>
+							<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
 						</li>
 		      	
 	      		<span class="divider to-hide">|</span>
@@ -82,7 +82,8 @@
 		data() {
 			return {
 				isActive: false,
-				lastScrollTop: 0
+				lastScrollTop: 0,
+				flagUrl: ''
 			}
 		},
 
@@ -96,8 +97,14 @@
 			},
 			setCountry(country) {
 				this.$store.dispatch("setCountry", country);
-				this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
+				// this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
 				// console.log("this: ", country);
+			},
+			setFlagUrl() {
+				setTimeout(() => {
+					this.flagUrl = this.$store.getters.getFlagUrl;
+				}, 10);
+				
 			}
 		},
 
@@ -118,6 +125,8 @@
 
 		    this.$store.dispatch("toggleFirstLoad");
 			}
+
+			this.flagUrl = this.$store.getters.getFlagUrl;
 			
 		},
 
