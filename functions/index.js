@@ -41,9 +41,7 @@ app.get('*', handleRequest)
 app.use(handleRequest)
 exports.nuxtssr = functions.https.onRequest(app)
 
-// exports.updateAllFirmwareRouters = functions.pubsub.schedule('* * * * *')
-//                                 .timeZone('Asia/Kolkata')
-//                                 .onRun(initFirmwareRoutersUpdateModule.updateAllFirmwareRouters());
+///////////////////////////OTHER FUNCTIONS////////////////////////////////////
 
 exports.updateAllFirmwareRouters = functions.pubsub.schedule('0 14 * * *')
                                     .timeZone('Asia/Kolkata')
