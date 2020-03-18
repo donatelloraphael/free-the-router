@@ -38,7 +38,7 @@
 			</div>
 
 			<div class="sub-footer">
-				<p>Copyright &copy; Free The Router | All Rights Reserved</p>
+				<p>Copyright &copy; {{new Date().getFullYear()}} Free The Router | All Rights Reserved</p>
 			</div>
 
 		</div>

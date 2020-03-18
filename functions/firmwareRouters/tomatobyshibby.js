@@ -27,6 +27,7 @@ exports.createTomatobyshibbyList = function() {
 				if (Number(year) > 2019 && loaded === false) {
 					getMainTable()
 					.then((devices) => {
+						loaded = true;
 						return setMainTable(devices);
 					}).then(() => {
 						return callAdvancedTomato()
@@ -34,7 +35,6 @@ exports.createTomatobyshibbyList = function() {
 						console.log(error);
 						return false;
 					});
-					loaded = true;
 				}
 			}
 		});
