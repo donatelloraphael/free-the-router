@@ -6,6 +6,7 @@ const express = require('express')
 const {PubSub} = require('@google-cloud/pubsub');
 
 const initFirmwareRoutersUpdateModule = require("./firmwareRouters/initFirmwareRoutersUpdate");
+const createTomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
 
 const pubSubClient = new PubSub();
 
@@ -48,3 +49,7 @@ exports.updateAllFirmwareRouters = functions.pubsub.schedule('0 14 * * *')
                                     .onRun((context) => {
                                     return initFirmwareRoutersUpdateModule.updateAllFirmwareRouters();
                                   });
+
+exports.createTomatobyshibby = functions.pubsub.topic("create-tomatobyshibby").onPublish((message) => {
+                                  return createTomatobyshibbyModule.createTomatobyshibbyList();
+                                });
