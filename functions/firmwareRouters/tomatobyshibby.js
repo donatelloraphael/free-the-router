@@ -1,4 +1,3 @@
-const {PubSub} = require('@google-cloud/pubsub');
 const axios = require('axios');
 const $ = require('cheerio');
 
@@ -10,41 +9,33 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
-const pubSubClient = new PubSub();
-
 let mainTable = [];
+let loaded = false;
 
-exports.createTomatobyshibbyList = function() {
+exports.createTomatobyshibbyList = async function() {
 	return axios.get("https://tomato.groov.pl/download/")
 	.then(result => {
 		//Checks if there is any change in last uploaded dates
-		let loaded = false;
 		
 		$('.fb-d', result.data).each((i, element) => {
 			if (i > 1) {
 				let year = $(element).text().slice(0, 4);
-
-				if (Number(year) > 2019 && loaded === false) {
-					getMainTable()
-					.then((devices) => {
-						loaded = true;
-						return setMainTable(devices);
-					}).then(() => {
-						return callAdvancedTomato()
-					}).catch((error) => {
-						console.log(error);
-						return false;
-					});
-				}
+				checkForChange(year);
 			}
 		});
-	}).then(() => {
-		return true;
 	}).catch(error => {
 		console.log(error);
 		return false;
 	});
+}
 
+async function checkForChange(year) {
+	if (Number(year) > 2019 && loaded === false) {
+		await getMainTable();
+		loaded = true;
+		await setMainTable(mainTable);
+		return true;
+	}
 }
 
 function getMainTable() {
@@ -247,11 +238,4 @@ async function setMainTable(devices) {
 		});
 	}
 	return true;
-}
-
-function callAdvancedTomato() {
-	const dataBuffer = Buffer.from("update");
-	pubSubClient.topic("create-advancedtomato").publish(dataBuffer);
-  console.log(`create-advancedtomato called.`);
-  return true;
 }

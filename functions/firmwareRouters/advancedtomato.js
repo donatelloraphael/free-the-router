@@ -1,4 +1,3 @@
-const {PubSub} = require('@google-cloud/pubsub');
 const axios = require('axios');
 const $ = require('cheerio');
 
@@ -7,21 +6,17 @@ const serviceAccount = require("../firebase-adminsdk.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://free-the-router-13e19.firebaseio.com"
-});
+}, "advancedtomato");
 const db = admin.firestore();
 
-const pubSubClient = new PubSub();
-
-let routerList = [];
-tomatobyshibbyList = [];
 const tomatoRef = db.collection("tomatobyshibby-main-list");
 const advancedtomatoRef = db.collection("advancedtomato-main-list");
 
-exports.createAdvancedtomatoList = function() {
+let routerList = [];
+let tomatobyshibbyList = [];
 
-}
-
-async function createAdvancedtomato() {
+exports.createAdvancedtomatoList = async function() {
+// async function createAdvancedtomatoList() {
 	await axios.get("https://advancedtomato.com/downloads")
 		.then((res) => {
 			$(".router-name", res.data).each((i, element) => {
@@ -31,13 +26,12 @@ async function createAdvancedtomato() {
 			return true;
 		})
 
-	tomatobyshibbyList = await tomatoRef.get()
-												.then((querySnapshot) => {
-													querySnapshot.forEach((doc) => {
-														tomatobyshibbyList.push(doc.data());
-													});
-													return tomatobyshibbyList;
-												})
+	await tomatoRef.get()
+	.then((querySnapshot) => {
+		querySnapshot.forEach((doc) => {
+			tomatobyshibbyList.push(doc.data());
+		});
+	})
 	
 	let nameIndex = await advancedtomatoRef.doc("index").get()
 								.then((doc) => {
@@ -50,25 +44,39 @@ async function createAdvancedtomato() {
 
 	for (let i = 0; i < routerListLength; i++) {
 		if (!nameIndex.includes(routerList[i])) {
-			routerListParsed = routerList[i].split(/[\s,.&\(]+/gi).join("");
-			console.log("+: ", routerListParsed);
-			for (let j = 0; j < shibbyLength - 1; j++) {
-				shibbyParsed = tomatobyshibbyList[j].fullName.split(/[\s,.&\(]+/gi).join("");
-				console.log("-: ", shibbyParsed);
 
+			for (let j = 0; j < shibbyLength - 1; j++) {
+
+				let routerParsed = routerList[i].split(/[\s,.&\(]+/gi).join("");
+				let shibbyParsed = tomatobyshibbyList[j].fullName.split(/[\s,&\(\)]+/gi).join("");
+				
+				let regex = new RegExp(routerParsed, "gi")
+				if (regex.test(shibbyParsed)) {
+					uploadAdvancedtomatoList(routerList[i], tomatobyshibbyList[j]);
+				} 
 			}
 		}
 	}
 }
 
 
-	
-
-tomatoRef.get()
-	.then((querySnapshot) => {
-		querySnapshot.forEach((doc) => {
-			
+async function uploadAdvancedtomatoList(routerName, routerAtTomatobyshibby) {
+	await advancedtomatoRef.doc(routerName).set({
+		fullName: routerName,
+		company: routerAtTomatobyshibby.company,
+		model: routerAtTomatobyshibby.model,
+		version: "",
+		notes: "",
+		specs: routerAtTomatobyshibby.specs
+	}).then(() => {
+		advancedtomatoRef.doc("index").update({
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(routerName)
 		})
-	});
+	}).then(() => {
+			return true;
+	}).catch((error) => {
+			console.log(error);
+	})
+}
 
-createAdvancedtomato();
+// createAdvancedtomatoList();

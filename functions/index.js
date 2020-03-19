@@ -3,12 +3,12 @@ const { Nuxt } = require('nuxt')
 const express = require('express')
 
 //////////////////OTHER FUNCTIONS//////////////////////////
-const {PubSub} = require('@google-cloud/pubsub');
+// const {PubSub} = require('@google-cloud/pubsub');
 
-const initFirmwareRoutersUpdateModule = require("./firmwareRouters/initFirmwareRoutersUpdate");
 const createTomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
+const createAdvancedtomatoModule = require("./firmwareRouters/advancedtomato");
 
-const pubSubClient = new PubSub();
+// const pubSubClient = new PubSub();
 
 //////////////////SERVER SIDE RENDER////////////////////////
 
@@ -44,12 +44,12 @@ exports.nuxtssr = functions.https.onRequest(app)
 
 ///////////////////////////OTHER FUNCTIONS////////////////////////////////////
 
-exports.updateAllFirmwareRouters = functions.pubsub.schedule('0 14 * * *')
-                                    .timeZone('Asia/Kolkata')
-                                    .onRun((context) => {
-                                    return initFirmwareRoutersUpdateModule.updateAllFirmwareRouters();
-                                  });
+exports.createTomatobyshibby = functions.pubsub.schedule('0 14 * * *')
+                                      .timeZone('Asia/Kolkata')
+                                      .onRun((context) => {
+                                      return createTomatobyshibbyModule.createTomatobyshibbyList();
+                                    });
 
-exports.createTomatobyshibby = functions.pubsub.topic("create-tomatobyshibby").onPublish((message) => {
-                                  return createTomatobyshibbyModule.createTomatobyshibbyList();
+exports.createAdvancedtomato = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
+                                  return createAdvancedtomatoModule.createAdvancedtomatoList();
                                 });
