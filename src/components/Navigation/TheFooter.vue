@@ -15,6 +15,7 @@
 				<nuxt-link to="/firmware/#freshtomato" @click.native="scrollTo('#freshtomato')">FreshTomato</nuxt-link>
 				<nuxt-link to="/firmware/#advancedtomato" @click.native="scrollTo('#advancedtomato')">AdvancedTomato</nuxt-link>
 				<nuxt-link to="/firmware/#tomatobyshibby" @click.native="scrollTo('#tomatobyshibby')">Tomato by Shibby</nuxt-link>
+				<nuxt-link to="/firmware/#asuswrt-merlin" @click.native="scrollTo('#asuswrt-merlin')">Asuswrt-Merlin</nuxt-link>
 			</div>
 
 			<div class="info">
@@ -93,7 +94,7 @@
 		z-index: 11;
 		background-color: red;
 		height: auto;
-		padding: 50px 40px;
+		padding: 60px 40px;
 	}
 
 	.logo img {

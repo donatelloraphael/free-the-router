@@ -94,6 +94,11 @@
               <img alt="tomatobyshibby logo" src="../assets/images/firmwares/tomatobyshibby.png">
             </nuxt-link>
           </div>
+          <div class="asuswrt-merlin firmware right">
+            <nuxt-link to="/firmware/#asuswrt-merlin" @click.native="scrollTo('#asuswrt-merlin')">
+              <img alt="asuswrt-merlin logo" src="../assets/images/firmwares/asuswrt-merlin.png">
+            </nuxt-link>
+          </div>
         </div>
         
       </div>

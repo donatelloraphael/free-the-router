@@ -234,7 +234,7 @@
 				routerPath: "1/16",
 				serialNumber: 16,
 				specs: "128MB Flash, 256MB RAM",
-				firmwares: ["tomatobyshibby", "advancedtomato", "freshtomato", "ddwrt", "openwrt"]
+				firmwares: ["tomatobyshibby", "advancedtomato", "freshtomato", "ddwrt", "openwrt", "asuswrt-merlin"]
 			});
 
 			mostpopularRef.doc("17").set({

@@ -155,6 +155,36 @@
 				</div>
 			</div>
 
+			<hr class="dotted-divider" id="asuswrt-merlin">
+
+			<div class="firmware">
+				<div class="col-left">
+					<a href="https://www.asuswrt-merlin.net/">
+						<!-- <h2>FreshTomato</h2> -->
+						<img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo">
+					</a>
+					<p>
+						<a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin</a> is an alternative firmware for recent Asus routers. It is based on the Asuswrt firmware recent Asus routers ship with, which is originally based on Tomato.
+					</p>
+					<p>
+						According to the <a href="https://github.com/RMerl/asuswrt-merlin.ng/wiki/About-Asuswrt">Home site of the project,</a>
+						<blockquote cite="https://github.com/RMerl/asuswrt-merlin.ng/wiki/About-Asuswrt">"The goal of this project is to fix issues and bring some minor functionality adjustments to the original Asus firmware. While some features do get added, this is not the main focus of this project.
+						It is not meant to replace existing projects such as Tomato or DD-WRT, but rather to offer an alternative for people who prefer the original firmware featureset."
+						</blockquote>
+					</p>
+
+				</div>
+				<div class="col-right">
+					<nuxt-link to="#">
+						<div class="devices">
+							View compatable devices
+						</div>
+					</nuxt-link>
+				</div>
+			</div>
+
+			<hr class="dotted-divider" id="asuswrt-merlin">
+
 		</div>
 		<div class="bg-right"></div>
 	</div>
@@ -283,6 +313,10 @@
 
   .devices:hover {
   	color: yellow;
+  }
+
+  blockquote {
+  	line-height: 1.8;
   }
 
 	@media (max-width: 1200px) {

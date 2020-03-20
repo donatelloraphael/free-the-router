@@ -22,6 +22,8 @@
 
 					<img class="firmware tomatobyshibby" alt="tomato by shibby logo" src="@/assets/images/firmwares/tomatobyshibby.png" v-if="mostPopular[cardPosition].firmwares.includes('tomatobyshibby')">
 
+					<img class="firmware asuswrt-merlin" alt="Asuswrt-Merlin logo" src="@/assets/images/firmwares/asuswrt-merlin.png" v-if="mostPopular[cardPosition].firmwares.includes('asuswrt-merlin')">
+
 				</div>
 			</div>
 			
@@ -109,6 +111,10 @@
 	img.tomatobyshibby {
 		height: 20px;
 		border: 1px solid grey;
+	}
+
+	img.asuswrt-merlin {
+		height: 22px;
 	}
 
 	@media (max-width: 789px) {

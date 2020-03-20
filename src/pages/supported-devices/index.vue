@@ -71,6 +71,16 @@
 
       <hr class="dotted-divider">
 
+      <div class="firmware" id="asuswrt-merlin">
+				<div class="content">
+					<h1><a href="https://www.asuswrt-merlin.net/">Asuswrt-Merlin</a></h1>
+					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site.</a></p>
+				</div>
+				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
+			</div>
+
+      <hr class="dotted-divider">
+
 		</div>
 
 		<div class="bg-right"></div>

@@ -118,6 +118,19 @@
 
       <hr class="dotted-divider">
 
+      <div class="firmware" id="asuswrt-merlin">
+				<div class="content">
+					<h1>Asuswrt-Merlin</h1>
+					<p>Asuswrt-Merlin <a href="https://www.asuswrt-merlin.net/">Homepage</a></p>
+					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site</a></p>
+					<p><a href="https://www.asuswrt-merlin.net/features">Features of the</a> Asuswrt-Merlin firmware
+					<p><a href="https://github.com/RMerl/asuswrt-merlin.ng/wiki/Installation/">Asuswrt-Merlin installation</a> on routers guide</p>
+				</div>
+				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
+			</div>
+
+      <hr class="dotted-divider">
+
 		</div>
 
 		<div class="bg-right"></div>

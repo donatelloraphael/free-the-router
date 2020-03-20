@@ -69,7 +69,8 @@ const TopPicksModule = {
 		      vuexContext.dispatch("populateTopPicksFirmware", "gargoyle"),
 		      vuexContext.dispatch("populateTopPicksFirmware", "freshtomato"),
 		      vuexContext.dispatch("populateTopPicksFirmware", "advancedtomato"),
-	      	vuexContext.dispatch("populateTopPicksFirmware", "tomatobyshibby")
+	      	vuexContext.dispatch("populateTopPicksFirmware", "tomatobyshibby"),
+	      	vuexContext.dispatch("populateTopPicksFirmware", "asuswrt-merlin")
 	      ]);
 				return topPicksArray;
 

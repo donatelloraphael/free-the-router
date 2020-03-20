@@ -15,7 +15,7 @@
 		<a  class="link-container":href="topPicks[selected][1].productUrl" target="_blank">
 			<div class="alt-1" :style="{ 'background-image': 'url(' + alt1Url + ')' }">
 				<div class="alt1-contents">
-					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][0].name }}</p>
+					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][1].name }}</p>
 					<p class="specs">{{ topPicks[selected][1].specs }}</p>
 					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][1].price }}</p>
 				</div>

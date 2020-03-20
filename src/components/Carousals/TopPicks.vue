@@ -24,6 +24,10 @@
 				<div class="firmware" id="tomatobyshibby" :class="{ active: 'tomatobyshibby' == selected }" @click="selected = 'tomatobyshibby'">
 					<p>Tomato by Shibby</p>
 				</div>
+
+				<div class="firmware" id="asuswrt-merlin" :class="{ active: 'asuswrt-merlin' == selected }" @click="selected = 'asuswrt-merlin'">
+					<p>Asuswrt-Merlin</p>
+				</div>
 		</div>
 
 		<div class="firmware-router">
