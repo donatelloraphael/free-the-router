@@ -8,6 +8,7 @@ const express = require('express')
 const createTomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
 const createAdvancedtomatoModule = require("./firmwareRouters/advancedtomato");
 const checkAsuswrtMerlinModule = require("./firmwareRouters/asuswrt-merlin");
+const checkFreshtomatoModule = require("./firmwareRouters/freshtomato");
 
 // const pubSubClient = new PubSub();
 
@@ -58,3 +59,7 @@ exports.createAdvancedtomato = functions.pubsub.topic("firebase-schedule-createT
 exports.checkAsuswrtMerlin = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
                                 return checkAsuswrtMerlinModule.checkMerlin();
                               });
+
+exports.checkFreshtomato = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
+                              return checkFreshtomatoModule.checkFreshTomato();
+                            });
