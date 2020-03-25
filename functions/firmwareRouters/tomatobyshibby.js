@@ -115,8 +115,10 @@ async function setMainTable(devices) {
 			});
 		}
 	}
+}
 
 	//Routers not included in the Main Table
+async function addExtraRouters() {
 
 	if (!fullNameIndex.includes("Belkin F5D8235-4 v3")) {
 		await mainListRef.doc("Belkin F5D8235-4 v3").set({
@@ -239,3 +241,5 @@ async function setMainTable(devices) {
 	}
 	return true;
 }
+
+// addExtraRouters();

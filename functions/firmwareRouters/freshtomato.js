@@ -136,3 +136,195 @@ exports.checkFreshTomato = async function() {
 }
 
 // checkFreshTomato();
+
+async function addExtraRouters() {
+	freshtomatoRef.doc("Buffalo WZR-1750DHP").set({
+		fullName: "Buffalo WZR-1750DHP",
+		company: "Buffalo",
+		model: "WZR-1750DHP",
+		specs: "128MB Flash, 512MB RAM",
+		firmwareVersion: "K26ARM",
+		LAN: "1 Gbps",
+		USB: "yes",
+		WiFi: "AC1750",
+		version: "",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Buffalo WZR-1750DHP")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Belkin F5D8235 v3").set({
+		fullName: "Belkin F5D8235 v3",
+		company: "Belkin",
+		model: "F5D8235",
+		version: "v3",
+		specs: "8MB Flash, 32MB RAM",
+		firmwareVersion: "K26",
+		LAN: "1 Gbps",
+		USB: "yes",
+		WiFi: "n300",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Belkin F5D8235 v3")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Belkin F7D3301").set({
+		fullName: "Belkin F7D3301",
+		company: "Belkin",
+		model: "F7D3301",
+		version: "",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26",
+		LAN: "1 Gbps",
+		USB: "yes",
+		WiFi: "n300",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Belkin F7D3301")
+	}, {merge: true});
+
+freshtomatoRef.doc("Belkin F7D7301").set({
+		fullName: "Belkin F7D7301",
+		company: "Belkin",
+		model: "F7D7301",
+		version: "",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26",
+		LAN: "1 Gbps",
+		USB: "yes",
+		WiFi: "n300",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Belkin F7D7301")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Belkin F7D3302").set({
+		fullName: "Belkin F7D3302",
+		company: "Belkin",
+		model: "F7D3302",
+		version: "",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26",
+		LAN: "100 Mbps",
+		USB: "yes",
+		WiFi: "n300",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Belkin F7D3302")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Belkin F7D7302 v1").set({
+		fullName: "Belkin F7D7302 v1",
+		company: "Belkin",
+		model: "F7D7302",
+		version: "v1",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26",
+		LAN: "100 Mbps",
+		USB: "yes",
+		WiFi: "n300",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Belkin F7D7302 v1")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Belkin Play F7D4302").set({
+		fullName: "Belkin Play F7D4302",
+		company: "Belkin",
+		model: "Play F7D4302",
+		version: "",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26",
+		LAN: "100 Mbps",
+		USB: "yes",
+		WiFi: "n600",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Belkin Play F7D4302")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Linksys E2500 v3").set({
+		fullName: "Linksys E2500 v3",
+		company: "Linksys",
+		model: "E2500",
+		version: "v3",
+		specs: "16MB Flash, 64MB RAM",
+		firmwareVersion: "K26RT-N",
+		LAN: "100 Mbps",
+		USB: "yes",
+		WiFi: "n600",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys E2500 v3")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Linksys E4200").set({
+		fullName: "Linksys E4200",
+		company: "Linksys",
+		model: "E4200",
+		version: "",
+		specs: "16MB Flash, 64MB RAM",
+		firmwareVersion: "K26RT-N",
+		LAN: "1 Gbps",
+		USB: "yes",
+		WiFi: "ac750",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys E4200")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Netgear WNDR3400 v1&v2&v3").set({
+		fullName: "Netgear WNDR3400 v1&v2&v3",
+		company: "Netgear",
+		model: "WNDR3400",
+		version: "v1&v2&v3",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26RT-N",
+		LAN: "100 Mbps",
+		USB: "yes",
+		WiFi: "n600",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR3400 v1&v2&v3")
+	}, {merge: true});
+
+	freshtomatoRef.doc("Netgear WNDR3700 v3").set({
+		fullName: "Netgear WNDR3700 v3",
+		company: "Netgear",
+		model: "WNDR3700",
+		version: "v3",
+		specs: "8MB Flash, 64MB RAM",
+		firmwareVersion: "K26RT-N",
+		LAN: "1 Gbps",
+		USB: "yes",
+		WiFi: "n600",
+		notes: ""
+	})
+
+	await freshtomatoRef.doc("index").update({
+		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR3700 v3")
+	}, {merge: true});
+
+}
+
+// addExtraRouters();
