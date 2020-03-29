@@ -54,10 +54,15 @@
 					<p>DD-WRT project <a href="https://dd-wrt.com/">Homepage</a></p>
 					<p>DD-WRT on <a href="https://en.wikipedia.org/wiki/DD-WRT">Wikipedia</a></p>
 					<p><a href="https://www.techradar.com/how-to/how-to-install-custom-firmware-on-your-router">How to install</a> DD-WRT custom firmware on your router</p>
+					<p>Firmware <a href="https://download1.dd-wrt.com/dd-wrtv2/downloads/betas/">download page</a></p>
 					<p>DD-WRT <a href="https://dd-wrt.com/support/router-database/">router database</a></p>
+					<p>Known <a href="https://wiki.dd-wrt.com/wiki/index.php/Known_incompatible_devices">incompatable devices.</a></p>
+					<p>DD-WRT <a href="https://wiki.dd-wrt.com/wiki/index.php/Firmware_FAQ">Firmware FAQ</a></p>
 					<p>DD-WRT <a href="https://forum.dd-wrt.com/phpBB2/">forums</a></p>
 					<p><a href="https://forum.dd-wrt.com/wiki/index.php/Main_Page">DD-WRT Wiki</a></p>
 					<p>DD-WRT <a href="https://www.reddit.com/r/DDWRT/">sub-reddit</a> on Reddit</p>
+					<p><a href="https://wiki.dd-wrt.com/wiki/index.php/Tutorials">Tutorials</a> for Different DD-WRT Configurations </p>
+					<p><a href="https://wiki.dd-wrt.com/wiki/index.php/Glossary">Glossary of</a> Networking Terms and explanations of DD-WRT features.</p>
 				</div>
 				<a href="https://dd-wrt.com/"><img src="@/assets/images/firmwares/ddwrt.png" alt="DD-WRT logo"></a>	
 			</div>

@@ -21,6 +21,7 @@
 					<h1><a href="https://dd-wrt.com/">DD-WRT</a></h1>
 					<p>Search for router here at <a href="https://dd-wrt.com/support/router-database/">DD-WRT router database.</a></p>
 					<p><a href="https://dd-wrt.com/wiki/index.php/Supported_Devices">Supported devices list</a> at the DD-WRT wiki.</p>
+					<p>Known <a href="https://wiki.dd-wrt.com/wiki/index.php/Known_incompatible_devices">incompatable devices.</a></p>
 				</div>
 				<a href="https://dd-wrt.com/"><img src="@/assets/images/firmwares/ddwrt.png" alt="DD-WRT logo"></a>	
 			</div>

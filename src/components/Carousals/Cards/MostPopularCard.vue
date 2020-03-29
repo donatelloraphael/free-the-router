@@ -87,6 +87,7 @@
 		justify-content: center;
 		padding: 0; 
 		flex-wrap: wrap;
+		margin-top: 10px;
 	}
 
 	img.firmware {
