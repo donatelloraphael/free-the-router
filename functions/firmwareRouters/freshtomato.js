@@ -122,6 +122,14 @@ exports.checkFreshTomato = async function() {
 						}, {merge: true});
 
 						isModified = true;
+
+						db.collection("mail").add({
+							to: "freetherouter@gmail.com",
+							message: {
+								subject: "FreshTomato has been updated",
+								text: "FreshTomato device list has been updated"
+							}
+						}).then(() => console.log('Queued email for delivery!'));
 					}
 				})
 			}).then(() => {

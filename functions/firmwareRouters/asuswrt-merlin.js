@@ -44,6 +44,15 @@ exports.checkMerlin = async function() {
 					})
 				}
 			}
+
+			db.collection("mail").add({
+				to: "freetherouter@gmail.com",
+				message: {
+					subject: "Asuswrt-Merlin has been updated",
+					text: "Asuswrt-Merlin device list has been updated"
+				}
+			}).then(() => console.log('Queued email for delivery!'));
+
 			indexDocRef.set({
 				changedOn: (new Date())
 			}, { merge: true })

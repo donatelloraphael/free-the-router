@@ -76,7 +76,15 @@ async function uploadAdvancedtomatoList(routerName, routerAtTomatobyshibby) {
 			return true;
 	}).catch((error) => {
 			console.log(error);
-	})
+	});
+
+	db.collection("mail").add({
+		to: "freetherouter@gmail.com",
+		message: {
+			subject: "AdvancedTomato has been updated",
+			text: "AdvancedTomato device list has been updated"
+		}
+	}).then(() => console.log('Queued email for delivery!'));
 }
 
 // createAdvancedtomatoList();

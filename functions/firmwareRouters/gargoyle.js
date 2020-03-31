@@ -28,6 +28,15 @@ exports.checkGargoyleList = async function() {
 				gargoyleRef.doc("index").set({
 					updatedOn: currentUpdationStatus
 				}, {merge: true});
+
+				db.collection("mail").add({
+					to: "freetherouter@gmail.com",
+					message: {
+						subject: "Gargoyle has been updated",
+						text: "Gargoyle device list has been updated"
+					}
+				}).then(() => console.log('Queued email for delivery!'));
+				
 				console.log("Router list was modified!");
 			} else {
 				console.log("No modification to supported devices list.")

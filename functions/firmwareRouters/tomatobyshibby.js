@@ -115,6 +115,14 @@ async function setMainTable(devices) {
 			});
 		}
 	}
+
+	db.collection("mail").add({
+		to: "freetherouter@gmail.com",
+		message: {
+			subject: "Tomato by Shibby has been updated",
+			text: "Tomato by Shibby device list has been updated"
+		}
+	}).then(() => console.log('Queued email for delivery!'));
 }
 
 	//Routers not included in the Main Table
