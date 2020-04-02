@@ -125,100 +125,81 @@ async function getDdwrtList(html) {
 					$("td", $(element).html()).each((k, element) => {
 						device["company"] = brandList[i-1];
 
-						if (!PoE) {
-							switch(k) {
-								case 0:
-									let nameArray = $(element).text().trim().split("(");
-									device["model"] = nameArray[0];
-									device["fullName"] = device.company + " " +  nameArray[0];
-									if (nameArray[1]) {
-										device["WiFi"] = nameArray[1].replace(")", "");
-									} else {
-										device["WiFi"] = "";
-									}
-									
-									break;
-								case 1:
-									device["version"] = $(element).html().replace(/<br>/gi, "&").replace(/\n|(&quot;)|(&#xA0;)|(&#xA0;?)|\-|\?/gmi, "").trim();
-									break;
-								case 4:
-									RAM = $(element).text().trim();
-									break;
-								case 5:
-									device["specs"] = $(element).text().trim() + "MB Flash, " + RAM + "MB RAM";
-									break;
-								case 13:
+						switch(k) {
+							case 0:
+								let nameArray = $(element).text().trim().split("(");
+								device["model"] = nameArray[0];
+								device["fullName"] = device.company + " " +  nameArray[0];
+								if (nameArray[1]) {
+									device["WiFi"] = nameArray[1].replace(")", "");
+								} else {
+									device["WiFi"] = "";
+								}
+								break;
+							case 1:
+								device["version"] = $(element).html().replace(/<br>/gi, "&").replace(/\n|(&quot;)|(&#xA0;)|(&#xA0;?)|\-|\?/gmi, "").trim();
+								break;
+							case 4:
+								RAM = $(element).text().trim();
+								break;
+							case 5:
+								device["specs"] = $(element).text().trim() + "MB Flash, " + RAM + "MB RAM";
+								break;
+							case 13:
+								if (!PoE) {
 									device["featureNotes"] = $(element).text().trim().replace(/^\-$/, "");
 									if (/USB/gi.test($(element).text())) {
 										device["USB"] = true;
 									} else {
 										device["USB"] = false;
 									}
-									break;
-								case 14:
+								}
+								break;
+							case 14:
+								if (!PoE) {
 									if (/(TBD)|(WIP)/gm.test($(element).text().trim())) {
 										device["ddwrtSupport"] = false;
 									} else {
 										device["ddwrtSupport"] = true;
 									}
-									break;
-								case 15:
-									if (/(donated\srouter\sneeded)/gmi.test($(element).text().trim())) {
-										device["ddwrtSupport"] = false;
-									} else if (/(needs\sDD-WRT\sactivation)/gmi.test($(element).text().trim())) {
-										device["needActivation"] = true;
-									} else {
-										device["needActivation"] = false;
-									}
-									break;
-							}	
-						} else {
-							switch(k) {
-								case 0:
-									let nameArray = $(element).text().trim().split("(");
-									device["model"] = nameArray[0];
-									device["fullName"] = device.company + " " +  nameArray[0];
-									if (nameArray[1]) {
-										device["WiFi"] = nameArray[1].replace(")", "");
-									} else {
-										device["WiFi"] = "";
-									}
-									break;
-								case 1:
-									device["version"] = $(element).html().replace(/<br>/gi, "&").replace(/\n|(&quot;)|(&#xA0;)|(&#xA0;?)|\-|\?/gmi, "").trim();
-									break;
-								case 4:
-									RAM = $(element).text().trim();
-									break;
-								case 5:
-									device["specs"] = $(element).text().trim() + "MB Flash, " + RAM + "MB RAM";
-									break;
-								case 14:
+								} else {
 									device["featureNotes"] = $(element).text().trim().replace(/^\-$/, "");
 									if (/USB/gi.test($(element).text())) {
 										device["USB"] = true;
 									} else {
 										device["USB"] = false;
 									}
-									break;
-								case 15:
+								}
+								break;
+							case 15:
+								if (!PoE) {
+									if (/(donated\s?router\s?needed)/gmi.test($(element).text().trim())) {
+										device["ddwrtSupport"] = false;
+									} else if (/(needs\s?DD-WRT\s?activation)/gmi.test($(element).text().trim())) {
+										device["needActivation"] = true;
+									} else {
+										device["needActivation"] = false;
+									}
+								} else {
 									if (/(TBD)|(WIP)/gm.test($(element).text().trim())) {
 										device["ddwrtSupport"] = false;
 									} else {
 										device["ddwrtSupport"] = true;
 									}
-									break;
-								case 16:
-									if (/(donated\srouter\sneeded)/gmi.test($(element).text().trim())) {
+								}						
+								break;
+							case 16:
+								if (PoE) {
+									if (/(donated\s?router\s?needed)/gmi.test($(element).text().trim())) {
 										device["ddwrtSupport"] = false;
-									} else if (/(needs\sDD-WRT\sactivation)/gmi.test($(element).text().trim())) {
+									} else if (/(needs\s?DD-WRT\s?activation)/gmi.test($(element).text().trim())) {
 										device["needActivation"] = true;
 									} else {
 										device["needActivation"] = false;
 									}
 									break;
-							}
-						}
+								}
+						}	
 					})
 					console.log(device);
 				}
