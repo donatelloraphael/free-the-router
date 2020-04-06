@@ -6,13 +6,13 @@ const serviceAccount = require("../firebase-adminsdk.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://free-the-router-13e19.firebaseio.com"
-}, "openwrt");
+});
 const db = admin.firestore();
 
 const openwrtRef = db.collection("openwrt-main-list");
 
-exports.checkOpenwrt = async function() {
-// async function checkOpenwrt() {
+// exports.checkOpenwrt = async function() {
+async function checkOpenwrt() {
 	let numberOfDevices = "";
 	let deviceArray = [];
 	let fullNameIndex = [];
@@ -126,4 +126,4 @@ exports.checkOpenwrt = async function() {
 	}
 }
 
-// checkOpenwrt();
+checkOpenwrt();
