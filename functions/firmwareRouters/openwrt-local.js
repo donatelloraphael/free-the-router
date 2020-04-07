@@ -39,7 +39,7 @@ async function checkOpenwrt() {
 					device["version"] = $(".version", $(element).html()).text();
 					device["supportedCurrentRelease"] = $(".supported_current_rel", $(element).html()).text();
 					device["specs"] = $(".flash_mb", $(element).html()).text() + "MB Flash, " + $(".ram_mb", $(element).html()).text() + "MB RAM";
-					device["LAN"] = typeof Number($(".ethernet_gbit_ports", $(element).html()).text()) === 'number' ? "1 Gbps" : "100 Mbps";
+					device["LAN"] = /\d/gmi.test($(".ethernet_gbit_ports", $(element).html()).text()) ? "1 Gbps" : "100 Mbps";
 					device["modem"] = $(".modem", $(element).html()).text() === "-" ? false : $(".modem", $(element).html()).text();
 					device["USB"] = $(".usb_ports", $(element).html()).text() === "-" ? false : $(".usb_ports", $(element).html()).text();
 					device["SATA"] = $(".sata_ports", $(element).html()).text() === "-" ? false : $(".sata_ports", $(element).html()).text();
