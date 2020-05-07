@@ -1,4 +1,4 @@
-//Automatic Check and Update
+//Automatic Update
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -8,7 +8,7 @@ const serviceAccount = require("../firebase-adminsdk.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://free-the-router-13e19.firebaseio.com"
-}, "advancedtomato");
+});
 const db = admin.firestore();
 
 const tomatoRef = db.collection("tomatobyshibby-main-list");
@@ -17,8 +17,8 @@ const advancedtomatoRef = db.collection("advancedtomato-main-list");
 let routerList = [];
 let tomatobyshibbyList = [];
 
-exports.createAdvancedtomatoList = async function() {
-// async function createAdvancedtomatoList() {
+// exports.createAdvancedtomatoList = async function() {
+async function createAdvancedtomatoList() {
 	await axios.get("https://advancedtomato.com/downloads")
 		.then((res) => {
 			$(".router-name", res.data).each((i, element) => {
@@ -86,4 +86,4 @@ exports.createAdvancedtomatoList = async function() {
 	}
 }
 
-// createAdvancedtomatoList();
+createAdvancedtomatoList();

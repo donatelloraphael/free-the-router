@@ -1,4 +1,4 @@
-//Automatic Check and Update
+//Automatic Update
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -54,36 +54,39 @@ exports.createAdvancedtomatoList = async function() {
 				
 				let regex = new RegExp(routerParsed, "gi")
 				if (regex.test(shibbyParsed)) {
-					
-					await advancedtomatoRef.doc(routerList[i]).set({
-					fullName: routerList[i],
-					company: tomatobyshibbyList[j].company,
-					model: tomatobyshibbyList[j].model,
-					version: "",
-					notes: "",
-					specs: tomatobyshibbyList[j].specs
-					}).then(() => {
-						advancedtomatoRef.doc("index").update({
-								fullNameIndex: admin.firestore.FieldValue.arrayUnion(routerList[i])
-						})
-					}).then(() => {
-							return true;
-					}).catch((error) => {
-							console.log(error);
-					});
-
-					db.collection("mail").add({
-						to: "freetherouter@gmail.com",
-						message: {
-							subject: "AdvancedTomato has been updated",
-							text: "AdvancedTomato device list has been updated"
-						}
-					}).then(() => console.log('Queued email for delivery!'));
-
+					uploadAdvancedtomatoList(routerList[i], tomatobyshibbyList[j]);
 				} 
 			}
 		}
 	}
+}
+
+
+async function uploadAdvancedtomatoList(routerName, routerAtTomatobyshibby) {
+	await advancedtomatoRef.doc(routerName).set({
+		fullName: routerName,
+		company: routerAtTomatobyshibby.company,
+		model: routerAtTomatobyshibby.model,
+		version: "",
+		notes: "",
+		specs: routerAtTomatobyshibby.specs
+	}).then(() => {
+		advancedtomatoRef.doc("index").update({
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(routerName)
+		})
+	}).then(() => {
+			return true;
+	}).catch((error) => {
+			console.log(error);
+	});
+
+	db.collection("mail").add({
+		to: "freetherouter@gmail.com",
+		message: {
+			subject: "AdvancedTomato has been updated",
+			text: "AdvancedTomato device list has been updated"
+		}
+	}).then(() => console.log('Queued email for delivery!'));
 }
 
 // createAdvancedtomatoList();
