@@ -1,4 +1,4 @@
-//Automatic Check and Update
+// Checks and Updates Automatically
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -19,108 +19,110 @@ exports.createTomatobyshibbyList = async function() {
 	.then(result => {
 		//Checks if there is any change in last uploaded dates
 		
-		$('.fb-d', result.data).each((i, element) => {
+		$('.fb-d', result.data).each(async function (i, element) {
 			if (i > 1) {
 				let year = $(element).text().slice(0, 4);
-				//////////////////// checkForChange(year);////////////////////////
 
+				// checkForChange(year);
 				if (Number(year) > 2019 && loaded === false) {
-
-					////////////await getMainTable();///////////////////////////////
-					await axios.get("https://tomato.groov.pl/?page_id=69")
-						.then(result => {
-							$('tbody', result.data).each((i, element) => { 
-								if (i === 0) {
-									$('tr', $(element)).each((j, element) => {					
-										if (j > 0) {
-											$("td", $(element)).each((k, element) => {
-
-												switch (k) {
-
-													case 0: 
-														//Needs to push an object first to initialize mainTable as an array of objects and avoid undefined errors
-														mainTable.push({ "fullName" : $(element).text().split('/').join('&')});
-														let nameArray = $(element).text().split(" ");
-														mainTable[j-1]["company"] = nameArray[0];
-														mainTable[j-1]["model"] = nameArray[1];
-														if (nameArray[2]) {
-															mainTable[j-1]["version"] = nameArray[2].split('/').join('&');
-														} else {
-															mainTable[j-1]["version"] = '';
-														}
-														break;
-
-													case 4:
-														let specsArray = $(element).text().split("/");
-														mainTable[j-1]["specs"] = specsArray[0] + "MB Flash, " + specsArray[1] + " RAM";
-														break;
-
-													case 5:
-														mainTable[j-1]["firmwareVersion"] = $(element).text();
-														break;
-
-													case 6:
-														if (!$(element).text()) {
-															mainTable[j-1]["notes"] = "";
-														}
-														mainTable[j-1]["notes"] = $(element).text();
-														break;
-												}
-											})							
-										}
-									});
-								}
-				 			})
-						}).then(() => {
-								return mainTable
-						}).catch(error => {
-								console.log(error);
-								return false;
-						});
-					/////////////////////////////////////////////
+					await getMainTable();
 					loaded = true;
-					////////////////////await setMainTable(mainTable);/////////////////
-					const mainListRef = db.collection('tomatobyshibby-main-list');
-					let fullNameIndex = await mainListRef.doc("index").get().then((doc) => {
-						return doc.data().fullNameIndex;
-					});
-					
-					let arrayLength = mainTable.length;
-					for (let i = 0; i < arrayLength; i++) {
-						if (!fullNameIndex.includes(mainTable[i].fullName)) {
-							await mainListRef.doc(mainTable[i].fullName).set({
-								fullName: mainTable[i].fullName,
-								company: mainTable[i].company,
-								model: mainTable[i].model,
-								version: mainTable[i].version,
-								specs: mainTable[i].specs,
-								firmwareVersion: mainTable[i].firmwareVersion,
-								notes: mainTable[i].notes
-							});
-
-							await mainListRef.doc("index").update({
-								fullNameIndex: admin.firestore.FieldValue.arrayUnion(mainTable[i].fullName)
-							});
-						}
-					}
-
-					db.collection("mail").add({
-						to: "freetherouter@gmail.com",
-						message: {
-							subject: "Tomato by Shibby has been updated",
-							text: "Tomato by Shibby device list has been updated"
-						}
-					}).then(() => console.log('Queued email for delivery!'));
-
-					return true;
+					await setMainTable(mainTable);
 				}
-
 			}
 		});
 	}).catch(error => {
 		console.log(error);
 		return false;
 	});
+}
+
+
+function getMainTable() {
+	return axios.get("https://tomato.groov.pl/?page_id=69")
+		.then(result => {
+			$('tbody', result.data).each((i, element) => { 
+				if (i === 0) {
+					$('tr', $(element)).each((j, element) => {					
+						if (j > 0) {
+							$("td", $(element)).each((k, element) => {
+
+								switch (k) {
+
+									case 0: 
+										//Needs to push an object first to initialize mainTable as an array of objects and avoid undefined errors
+										mainTable.push({ "fullName" : $(element).text().split('/').join('&')});
+										let nameArray = $(element).text().split(" ");
+										mainTable[j-1]["company"] = nameArray[0];
+										mainTable[j-1]["model"] = nameArray[1];
+										if (nameArray[2]) {
+											mainTable[j-1]["version"] = nameArray[2].split('/').join('&');
+										} else {
+											mainTable[j-1]["version"] = '';
+										}
+										break;
+
+									case 4:
+										let specsArray = $(element).text().split("/");
+										mainTable[j-1]["specs"] = specsArray[0] + "MB Flash, " + specsArray[1] + " RAM";
+										break;
+
+									case 5:
+										mainTable[j-1]["firmwareVersion"] = $(element).text();
+										break;
+
+									case 6:
+										if (!$(element).text()) {
+											mainTable[j-1]["notes"] = "";
+										}
+										mainTable[j-1]["notes"] = $(element).text();
+										break;
+								}
+							})							
+						}
+					});
+				}
+ 			})
+		}).then(() => {
+				return mainTable
+		}).catch(error => {
+				console.log(error);
+				return false;
+		});
+}
+
+async function setMainTable(devices) {
+	const mainListRef = db.collection('tomatobyshibby-main-list');
+	let fullNameIndex = await mainListRef.doc("index").get().then((doc) => {
+		return doc.data().fullNameIndex;
+	});
+	
+	let arrayLength = devices.length;
+	for (let i = 0; i < arrayLength; i++) {
+		if (!fullNameIndex.includes(devices[i].fullName)) {
+			await mainListRef.doc(devices[i].fullName).set({
+				fullName: devices[i].fullName,
+				company: devices[i].company,
+				model: devices[i].model,
+				version: devices[i].version,
+				specs: devices[i].specs,
+				firmwareVersion: devices[i].firmwareVersion,
+				notes: devices[i].notes
+			});
+
+			await mainListRef.doc("index").update({
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(devices[i].fullName)
+			});
+		}
+	}
+
+	db.collection("mail").add({
+		to: "freetherouter@gmail.com",
+		message: {
+			subject: "Tomato by Shibby has been updated",
+			text: "Tomato by Shibby device list has been updated"
+		}
+	}).then(() => console.log('Queued email for delivery!'));
 }
 
 	//Routers not included in the Main Table
