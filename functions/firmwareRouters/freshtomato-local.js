@@ -6,17 +6,19 @@ const serviceAccount = require("../firebase-adminsdk.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://free-the-router-13e19.firebaseio.com"
-}, "freshtomato");
+});
 const db = admin.firestore();
 
 const freshtomatoRef = db.collection("freshtomato-main-list");
 const deviceArray = [];
 
 async function createFreshtomatoList() {
+	let dbDeviceList = [];
 	
 	axios.get("https://wiki.freshtomato.org/doku.php?id=hardware_compatibility")
 		.then((res) => {
-			$("td", "p + table", res.data).each((i, element) => {
+			// console.log(res.data);
+			$("td", "table", res.data).each((i, element) => {
 
 				//13 is the number of columns
 				switch(i % 13) {
@@ -27,7 +29,7 @@ async function createFreshtomatoList() {
 							nameArray[2] = '';
 						}
 						deviceArray[Math.trunc(i / 13)]["company"] = nameArray[0];
-						deviceArray[Math.trunc(i / 13)]["model"] = nameArray[1] + " " + nameArray[2];
+						deviceArray[Math.trunc(i / 13)]["model"] = (nameArray[1] + " " + nameArray[2]).trim();
 						break;
 					case 1:
 						deviceArray[Math.trunc(i / 13)]["version"] = $(element).text().trim();
@@ -59,93 +61,102 @@ async function createFreshtomatoList() {
 				}
 			});
 		}).then(() => {
-			console.log(deviceArray)
-		// }).then(async function() {
-		// 		deviceLength = deviceArray.length;
+			// console.log(deviceArray);
+				freshtomatoRef.doc("index").get()
+				.then((doc) => {
+					dbDeviceList = doc.data().fullNameIndex
+				});
+		}).then(async function() {
+				deviceLength = deviceArray.length;
 
-		// 		for (let i = 0; i < deviceLength; i++) {
-		// 			freshtomatoRef.doc(deviceArray[i]["fullName"]).set({
-		// 				fullName: deviceArray[i]["fullName"],
-		// 				company: deviceArray[i]["company"],
-		// 				model: deviceArray[i]["model"],
-		// 				version: deviceArray[i]["version"],
-		// 				LAN: deviceArray[i]["LAN"],
-		// 				USB: deviceArray[i]["USB"],
-		// 				WiFi: deviceArray[i]["WiFi"],
-		// 				specs: deviceArray[i]["specs"],
-		// 				firmwareVersion: deviceArray[i]["firmwareVersion"],
-		// 				notes: deviceArray[i]["notes"]
-		// 			}, {merge: true});
+				for (let i = 0; i < deviceLength; i++) {
+					if (!(dbDeviceList.includes(deviceArray[i]["fullName"]))) {
 
-		// 			await freshtomatoRef.doc("index").update({
-		// 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i]["fullName"])
-		// 			}, {merge: true});
-		// 		}
-		// 		freshtomatoRef.doc("index").set({
-		// 				updatedOn: new Date()
-		// 			}, {merge: true});
+						freshtomatoRef.doc(deviceArray[i]["fullName"]).set({
+							fullName: deviceArray[i]["fullName"],
+							company: deviceArray[i]["company"],
+							model: deviceArray[i]["model"],
+							version: deviceArray[i]["version"],
+							LAN: deviceArray[i]["LAN"],
+							USB: deviceArray[i]["USB"],
+							WiFi: deviceArray[i]["WiFi"],
+							specs: deviceArray[i]["specs"],
+							firmwareVersion: deviceArray[i]["firmwareVersion"],
+							notes: deviceArray[i]["notes"]
+						}, {merge: true});
 
+						await freshtomatoRef.doc("index").update({
+							fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i]["fullName"])
+						}, {merge: true});
+
+						await freshtomatoRef.doc("index").set({
+							updatedOn: new Date()
+						}, {merge: true});
+					}
+
+				}
 			// console.log(deviceArray);
 		}).catch(error => console.log(error));
 }
 
-// createFreshtomatoList();
-
-exports.checkFreshTomato = async function() {
-// async function checkFreshTomato() {
+// exports.checkFreshTomato = async function() {
+async function checkFreshTomato() {
 	let isModified = false;
+	let currentYear = '';
+	let currentBuild = '';
 
-	freshtomatoRef.doc("index").get()
+	await freshtomatoRef.doc("index").get()
 	.then(async function(doc) {
-		let currentYear = doc.data().currentYear;
-		let currentBuild = doc.data().currentBuild;		
+		currentYear = doc.data().currentYear;
+		currentBuild = doc.data().currentBuild;
+	});
 
-		axios.get("https://freshtomato.org/downloads/freshtomato-arm/")
-		.then((res) => {
-			$("a", ".fb-n", res.data).each((i, element) => {
-				let year = Number($(element).text());
-				if (Number(year > currentYear)) {
-					freshtomatoRef.doc("index").set({
-						currentYear: year
-					}, {merge: true});
-					currentYear = year;
-				}
-			})
-		}).then(() => {
-			axios.get("https://freshtomato.org/downloads/freshtomato-arm/" + currentYear + "/")
-			.then((res) => {
-				$("a", ".fb-n", res.data).each((i, element) => {
+	await axios.get("https://freshtomato.org/downloads/freshtomato-arm/")
+	.then((res) => {
+		$("a", ".fb-n", res.data).each((i, element) => {
+			let year = Number($(element).text());
+			if (Number(year > currentYear)) {
+				freshtomatoRef.doc("index").set({
+					currentYear: year
+				}, {merge: true});
+				currentYear = year;
+			}
+		})
+	});
 
-					if (Number($(element).text()) > currentBuild) {
+	await	axios.get("https://freshtomato.org/downloads/freshtomato-arm/" + currentYear + "/")
+	.then((res) => {
+		$("a", ".fb-n", res.data).each((i, element) => {
 
-						freshtomatoRef.doc("index").set({
-							currentBuild: Number($(element).text()),
-							updatedOn: new Date()
-						}, {merge: true});
+			if (Number($(element).text()) > currentBuild) {
 
-						isModified = true;
+				freshtomatoRef.doc("index").set({
+					currentBuild: Number($(element).text()),
+					updatedOn: new Date()
+				}, {merge: true});
 
-						db.collection("mail").add({
-							to: "freetherouter@gmail.com",
-							message: {
-								subject: "FreshTomato has been updated",
-								text: "FreshTomato device list has been updated"
-							}
-						}).then(() => console.log('Queued email for delivery!'));
+				isModified = true;
+			}
+		})
+	}).then(async function() {
+			if (isModified) {
+
+				await createFreshtomatoList();
+
+				db.collection("mail").add({
+					to: "freetherouter@gmail.com",
+					message: {
+						subject: "FreshTomato has been updated",
+						text: "FreshTomato device list has been updated"
 					}
-				})
-			}).then(() => {
-					if (isModified) {
-						console.log("New builds are available!");
-					} else {
-						console.log("No new builds are available.");
-					}
-			});	
-		})	
-	})
+				}).then(() => console.log('Queued email for delivery!'));
+
+				console.log("New builds are available!");
+			} else {
+				console.log("No new builds are available.");
+			}
+	});	
 }
-
-// checkFreshTomato();
 
 async function addExtraRouters() {
 	freshtomatoRef.doc("Buffalo WZR-1750DHP").set({
@@ -338,3 +349,5 @@ freshtomatoRef.doc("Belkin F7D7301").set({
 }
 
 // addExtraRouters();
+// createFreshtomatoList();
+checkFreshTomato();

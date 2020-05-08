@@ -14,7 +14,7 @@ const deviceArray = [];
 
 async function createFreshtomatoList() {
 	
-	axios.get("https://wiki.freshtomato.org/doku.php?id=hardware_compatibility")
+	axios.get("https://en.wikipedia.org/wiki/Tomato_(firmware)")
 		.then((res) => {
 			$("td", "p + table", res.data).each((i, element) => {
 
@@ -58,32 +58,30 @@ async function createFreshtomatoList() {
 						break;
 				}
 			});
-		}).then(() => {
-			console.log(deviceArray)
-		// }).then(async function() {
-		// 		deviceLength = deviceArray.length;
+		}).then(async function() {
+				deviceLength = deviceArray.length;
 
-		// 		for (let i = 0; i < deviceLength; i++) {
-		// 			freshtomatoRef.doc(deviceArray[i]["fullName"]).set({
-		// 				fullName: deviceArray[i]["fullName"],
-		// 				company: deviceArray[i]["company"],
-		// 				model: deviceArray[i]["model"],
-		// 				version: deviceArray[i]["version"],
-		// 				LAN: deviceArray[i]["LAN"],
-		// 				USB: deviceArray[i]["USB"],
-		// 				WiFi: deviceArray[i]["WiFi"],
-		// 				specs: deviceArray[i]["specs"],
-		// 				firmwareVersion: deviceArray[i]["firmwareVersion"],
-		// 				notes: deviceArray[i]["notes"]
-		// 			}, {merge: true});
+				for (let i = 0; i < deviceLength; i++) {
+					freshtomatoRef.doc(deviceArray[i]["fullName"]).set({
+						fullName: deviceArray[i]["fullName"],
+						company: deviceArray[i]["company"],
+						model: deviceArray[i]["model"],
+						version: deviceArray[i]["version"],
+						LAN: deviceArray[i]["LAN"],
+						USB: deviceArray[i]["USB"],
+						WiFi: deviceArray[i]["WiFi"],
+						specs: deviceArray[i]["specs"],
+						firmwareVersion: deviceArray[i]["firmwareVersion"],
+						notes: deviceArray[i]["notes"]
+					}, {merge: true});
 
-		// 			await freshtomatoRef.doc("index").update({
-		// 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i]["fullName"])
-		// 			}, {merge: true});
-		// 		}
-		// 		freshtomatoRef.doc("index").set({
-		// 				updatedOn: new Date()
-		// 			}, {merge: true});
+					await freshtomatoRef.doc("index").update({
+						fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i]["fullName"])
+					}, {merge: true});
+				}
+				freshtomatoRef.doc("index").set({
+						updatedOn: new Date()
+					}, {merge: true});
 
 			// console.log(deviceArray);
 		}).catch(error => console.log(error));
