@@ -6,7 +6,7 @@ const serviceAccount = require("../firebase-adminsdk.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://free-the-router-13e19.firebaseio.com"
-}, "freshtomato");
+});
 const db = admin.firestore();
 
 const freshtomatoRef = db.collection("freshtomato-main-list");
@@ -433,5 +433,5 @@ async function uploadExtraRouters() {
 	}
 }
 
-// createExtraRouters();
-// uploadExtraRouters();
+createExtraRouters();
+uploadExtraRouters();

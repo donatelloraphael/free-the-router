@@ -13,6 +13,67 @@ const freshtomatoRef = db.collection("freshtomato-main-list");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 const deviceArray = [];
 
+
+// exports.checkAndUpdateFreshtomato = async function() {
+async function checkAndUpdateFreshtomato() {
+	let isModified = false;
+	let currentYear = '';
+	let currentBuild = '';
+
+	await freshtomatoRef.doc("index").get()
+	.then(async function(doc) {
+		currentYear = doc.data().currentYear;
+		currentBuild = doc.data().currentBuild;
+	});
+
+	await axios.get("https://freshtomato.org/downloads/freshtomato-arm/")
+	.then((res) => {
+		$("a", ".fb-n", res.data).each((i, element) => {
+			let year = Number($(element).text());
+			if (Number(year > currentYear)) {
+				freshtomatoRef.doc("index").set({
+					currentYear: year
+				}, {merge: true});
+				currentYear = year;
+			}
+		})
+	});
+
+	await	axios.get("https://freshtomato.org/downloads/freshtomato-arm/" + currentYear + "/")
+	.then((res) => {
+		$("a", ".fb-n", res.data).each((i, element) => {
+
+			if (Number($(element).text()) > currentBuild) {
+
+				freshtomatoRef.doc("index").set({
+					currentBuild: Number($(element).text()),
+					updatedOn: new Date()
+				}, {merge: true});
+
+				isModified = true;
+			}
+		})
+	}).then(async function() {
+			if (isModified) {
+
+				await createFreshtomatoList();
+
+				db.collection("mail").add({
+					to: "freetherouter@gmail.com",
+					message: {
+						subject: "FreshTomato has been updated",
+						text: "FreshTomato device list has been updated"
+					}
+				}).then(() => console.log('Queued email for delivery!'));
+
+				console.log("New builds are available!");
+			} else {
+				console.log("No new builds are available.");
+			}
+	});	
+}
+
+
 async function createFreshtomatoList() {
 	let dbDeviceList = [];
 	let dbAllRoutersList = [];
@@ -95,10 +156,7 @@ async function createFreshtomatoList() {
 						}, {merge: true});
 
 						await freshtomatoRef.doc("index").update({
-							fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i]["fullName"])
-						}, {merge: true});
-
-						await freshtomatoRef.doc("index").set({
+							fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i]["fullName"]),
 							updatedOn: new Date()
 						}, {merge: true});
 
@@ -142,64 +200,8 @@ async function createFreshtomatoList() {
 		}).catch(error => console.log(error));
 }
 
-// exports.checkFreshTomato = async function() {
-async function checkFreshTomato() {
-	let isModified = false;
-	let currentYear = '';
-	let currentBuild = '';
-
-	await freshtomatoRef.doc("index").get()
-	.then(async function(doc) {
-		currentYear = doc.data().currentYear;
-		currentBuild = doc.data().currentBuild;
-	});
-
-	await axios.get("https://freshtomato.org/downloads/freshtomato-arm/")
-	.then((res) => {
-		$("a", ".fb-n", res.data).each((i, element) => {
-			let year = Number($(element).text());
-			if (Number(year > currentYear)) {
-				freshtomatoRef.doc("index").set({
-					currentYear: year
-				}, {merge: true});
-				currentYear = year;
-			}
-		})
-	});
-
-	await	axios.get("https://freshtomato.org/downloads/freshtomato-arm/" + currentYear + "/")
-	.then((res) => {
-		$("a", ".fb-n", res.data).each((i, element) => {
-
-			if (Number($(element).text()) > currentBuild) {
-
-				freshtomatoRef.doc("index").set({
-					currentBuild: Number($(element).text()),
-					updatedOn: new Date()
-				}, {merge: true});
-
-				isModified = true;
-			}
-		})
-	}).then(async function() {
-			if (isModified) {
-
-				await createFreshtomatoList();
-
-				db.collection("mail").add({
-					to: "freetherouter@gmail.com",
-					message: {
-						subject: "FreshTomato has been updated",
-						text: "FreshTomato device list has been updated"
-					}
-				}).then(() => console.log('Queued email for delivery!'));
-
-				console.log("New builds are available!");
-			} else {
-				console.log("No new builds are available.");
-			}
-	});	
-}
+/////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////Add Extra Routers//////////////////////////////////////////////////////
 
 async function addExtraRouters() {
 	freshtomatoRef.doc("Buffalo WZR-1750DHP").set({
@@ -391,6 +393,5 @@ freshtomatoRef.doc("Belkin F7D7301").set({
 
 }
 
-// addExtraRouters();
-// createFreshtomatoList();
-checkFreshTomato();
+// checkAndUpdateFreshtomato();
+addExtraRouters();
