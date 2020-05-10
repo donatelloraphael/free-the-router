@@ -5,7 +5,7 @@ const express = require('express')
 //////////////////OTHER FUNCTIONS//////////////////////////
 // const {PubSub} = require('@google-cloud/pubsub');
 
-const createTomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
+const tomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
 // const createAdvancedtomatoModule = require("./firmwareRouters/advancedtomato");
 // const checkAsuswrtMerlinModule = require("./firmwareRouters/asuswrt-merlin");
 const checkAndUpdateFreshtomatoModule = require("./firmwareRouters/freshtomato");
@@ -49,10 +49,10 @@ exports.nuxtssr = functions.https.onRequest(app)
 
 ///////////////////////////OTHER FUNCTIONS////////////////////////////////////
 
-exports.createTomatobyshibby = functions.pubsub.schedule('0 14 * * *')
+exports.checkAndUpdateTomatobyshibby = functions.pubsub.schedule('0 14 * * *')
                                       .timeZone('Asia/Kolkata')
                                       .onRun((context) => {
-                                      return createTomatobyshibbyModule.createTomatobyshibbyList();
+                                      return tomatobyshibbyModule.checkAndUpdateTomatobyshibby();
                                     });
 
 // exports.createAdvancedtomato = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {

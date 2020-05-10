@@ -137,7 +137,8 @@ async function createFreshtomatoList() {
 					dbAllRoutersList = doc.data().fullNameIndex;
 				});
 		}).then(async function() {
-				deviceLength = deviceArray.length;
+				let serialNumber = dbAllRoutersList.length;
+				let deviceLength = deviceArray.length;
 
 				for (let i = 0; i < deviceLength; i++) {
 					if (!(dbDeviceList.includes(deviceArray[i]["fullName"]))) {
@@ -167,6 +168,7 @@ async function createFreshtomatoList() {
 
 						if (!(dbAllRoutersList.includes(companyModel))) {
 							allFirmwareRoutersRef.doc(companyModel).set({
+								serialNumber: serialNumber,
 								fullName: companyModel,
 								company: deviceArray[i]["company"],
 								model: deviceArray[i]["model"],
@@ -182,7 +184,9 @@ async function createFreshtomatoList() {
 							allFirmwareRoutersRef.doc("index").update({
 								fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 							}, {merge: true});
-							
+
+							serialNumber++;
+
 						} else {
 							// Only need some fields if router already exists in list
 							allFirmwareRoutersRef.doc(companyModel).set({
@@ -369,6 +373,8 @@ async function uploadExtraRouters() {
 		dbAllRoutersList = doc.data().fullNameIndex;
 	});
 
+	let serialNumber = dbAllRoutersList.length;
+
 	////////////////////////////////////////////////////////////////////
 
 	for (let i = 0; i < extraRouters.length; i++) {
@@ -402,6 +408,7 @@ async function uploadExtraRouters() {
 
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({
+					serialNumber: serialNumber,
 					fullName: companyModel,
 					company: extraRouters[i]["company"],
 					model: extraRouters[i]["model"],
@@ -417,6 +424,8 @@ async function uploadExtraRouters() {
 				allFirmwareRoutersRef.doc("index").update({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
+
+				serialNumber++;
 				
 			} else {
 				// Only need some fields if router already exists in list

@@ -3,8 +3,8 @@
 const axios = require('axios');
 const $ = require('cheerio');
 
-const {PubSub} = require('@google-cloud/pubsub');
-const pubSubClient = new PubSub();
+// const {PubSub} = require('@google-cloud/pubsub');
+// const pubSubClient = new PubSub();
 
 const admin = require('firebase-admin');
 const serviceAccount = require("../firebase-adminsdk.json");
@@ -17,8 +17,8 @@ const db = admin.firestore();
 const tomatobyshibbyRef = db.collection('tomatobyshibby-main-list');
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
-exports.checkAndUpdateTomatobyshibby = async function() {
-// async function checkAndUpdateTomatobyshibby() {
+// exports.checkAndUpdateTomatobyshibby = async function() {
+async function checkAndUpdateTomatobyshibby() {
 
 	let mainTable = [];
 	let loaded = false;
@@ -176,14 +176,13 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 	});
 
 	///////////////////////////// Publishes Pub/Sub topic////////////////////////////////////
+	
+	// const dataBuffer = Buffer.from("update");
 
-	const dataBuffer = Buffer.from("update");
-
-	pubSubClient.topic("tomatobyshibby-finished").publish(dataBuffer);
-  console.log(`tomatobyshibby message published. This will be run every 24 hours at 2PM.`);
-  return true;
-				
-};
+	// pubSubClient.topic("tomatobyshibby-finished").publish(dataBuffer);
+ //  console.log(`tomatobyshibby message published. This will be run every 24 hours at 2PM.`);
+ //  return true;
+}
 
 
 
