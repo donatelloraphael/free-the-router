@@ -33,7 +33,7 @@ async function checkAndUpdateTomatobyshibby() {
 
 				/////////////// checkForChange(year);//////////////////////////
 
-				if (Number(year) > 2019 && loaded === false) {
+				if (Number(year) > 2014 && loaded === false) {
 					
 					loaded = true;	// DON'T change position
 
@@ -203,7 +203,17 @@ function createExtraRouters() {
 		firmwareVersion: "K26",
 		notes: ""
 	});
-
+//////////////////////////////////////////
+	extraRouters.push({
+		fullName: "Belkin F5D8235-4 v2",
+		company: "Belkin",
+		model: "F5D8235-4",
+		version: "v2",
+		specs: "100MB Flash, 200MB RAM",
+		firmwareVersion: "K26",
+		notes: ""
+	});
+////////////////////////////////////////
 	extraRouters.push({
 		fullName: "Belkin F7D3301",
 		company: "Belkin",
@@ -291,7 +301,7 @@ async function uploadExtraRouters() {
 		return doc.data().fullNameIndex;
 	});
 
-	let serialNumber = dbAllRoutersList.length;
+	let serialNumber = dbAllRoutersList.length - 1;
 
 	let arrayLength = extraRouters.length;
 	for (let i = 0; i < arrayLength; i++) {
@@ -321,13 +331,14 @@ async function uploadExtraRouters() {
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
-					tomatobyshibbySupportedVersions: extraRouters[i].version,						
-					specs: extraRouters[i].specs,
+					tomatobyshibbySupport: true,
+					tomatobyshibbySupportedVersions: [extraRouters[i].version],						
+					specs: {[extraRouters[i].version ? extraRouters[i].version : "specs"]: extraRouters[i].specs},
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				allFirmwareRoutersRef.doc("index").update({
+				await allFirmwareRoutersRef.doc("index").update({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
 
@@ -335,10 +346,12 @@ async function uploadExtraRouters() {
 
 			} else {
 				// Only need some fields if router already exists in list
-				allFirmwareRoutersRef.doc(companyModel).set({
-					tomatobyshibbySupportedVersions: extraRouters[i].version,								
+				allFirmwareRoutersRef.doc(companyModel).set({							
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
-					tomatobyshibbyNotes: extraRouters[i].notes
+					tomatobyshibbyNotes: extraRouters[i].notes,
+					tomatobyshibbySupport: true,
+					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion((extraRouters[i].version).toString()),
+					[`${'specs.' + extraRouters[i].version ? extraRouters[i].version : "specs"}`]: extraRouters[i].specs
 				}, {merge: true});
 			}
 		}
@@ -346,6 +359,6 @@ async function uploadExtraRouters() {
 
 }
 
-// createExtraRouters();
-// uploadExtraRouters();
+createExtraRouters();
+uploadExtraRouters();
 // checkAndUpdateTomatobyshibby();
