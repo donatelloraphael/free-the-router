@@ -332,7 +332,7 @@ async function uploadExtraRouters() {
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
 					tomatobyshibbySupport: true,
-					tomatobyshibbySupportedVersions: [extraRouters[i].version],						
+					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),						
 					specs: {[extraRouters[i].version ? extraRouters[i].version : "specs"]: extraRouters[i].specs},
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes
@@ -350,7 +350,7 @@ async function uploadExtraRouters() {
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes,
 					tomatobyshibbySupport: true,
-					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion((extraRouters[i].version).toString()),
+					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),
 					[`${'specs.' + extraRouters[i].version ? extraRouters[i].version : "specs"}`]: extraRouters[i].specs
 				}, {merge: true});
 			}
