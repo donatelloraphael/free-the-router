@@ -23,7 +23,7 @@ async function checkAndUpdateTomatobyshibby() {
 	let mainTable = [];
 	let loaded = false;
 
-	await axios.get("https://tomato.groov.pl/download/")
+	return await axios.get("https://tomato.groov.pl/download/")
 	.then(result => {
 		//Checks if there is any change in last uploaded dates
 		
@@ -104,7 +104,7 @@ async function checkAndUpdateTomatobyshibby() {
 					// console.dir(mainTable, {'maxArrayLength': null});
 
 
-					let serialNumber = dbAllRoutersList.length;
+					// let serialNumber = dbAllRoutersList.length - 1;
 
 					let arrayLength = mainTable.length;
 					for (let i = 0; i < arrayLength; i++) {
@@ -122,21 +122,22 @@ async function checkAndUpdateTomatobyshibby() {
 							tomatobyshibbyRef.doc("index").update({
 								fullNameIndex: admin.firestore.FieldValue.arrayUnion(mainTable[i].fullName),
 								updatedOn: new Date()
-							});
+							}, {merge: true});
 
 							// Add routers to aggragated router list supporting all firmwares/////
 							//////////////////////////////////////////////////////////////////////
 
-							let companyModel = (mainTable[i].company + " " + mainTable[i].model).replace(/\//gi, "&");
+							let companyModel = ((mainTable[i].company + " " + mainTable[i].model).replace(/\//gi, "&")).toUpperCase();
 
 							if (!(dbAllRoutersList.includes(companyModel))) {
 								allFirmwareRoutersRef.doc(companyModel).set({
-									serialNumber: serialNumber,
+									// serialNumber: serialNumber,
 									fullName: companyModel,
 									company: mainTable[i].company,
 									model: mainTable[i].model,
-									tomatobyshibbySupportedVersions: mainTable[i].version,						
-									specs: mainTable[i].specs,
+									tomatobyshibbySupport: true,
+									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),						
+									specs: {[mainTable[i].version ? mainTable[i].version : "specs"]: mainTable[i].specs},
 									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 									tomatobyshibbyNotes: mainTable[i].notes
 								}, {merge: true});
@@ -145,43 +146,50 @@ async function checkAndUpdateTomatobyshibby() {
 									fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 								}, {merge: true});
 
-								serialNumber++;
+								// serialNumber++;
 
 							} else {
-				
 								// Only need some fields if router already exists in list
-				
-								allFirmwareRoutersRef.doc(companyModel).set({
-									tomatobyshibbySupportedVersions: mainTable[i].version,								
+								allFirmwareRoutersRef.doc(companyModel).set({							
 									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
-									tomatobyshibbyNotes: mainTable[i].notes
+									tomatobyshibbyNotes: mainTable[i].notes,
+									tomatobyshibbySupport: true,
+									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),
+									[`${'specs.' + mainTable[i].version ? mainTable[i].version : "specs"}`]: mainTable[i].specs
 								}, {merge: true});
 							}
 						}
 					}
-
-					db.collection("mail").add({
-						to: "freetherouter@gmail.com",
-						message: {
-							subject: "Tomato by Shibby has been updated",
-							text: "Tomato by Shibby device list has been updated"
-						}
-					}).then(() => console.log('Queued email for delivery!'));
 				}
 			}
 		});
+
+		db.collection("mail").add({
+			to: "freetherouter@gmail.com",
+			message: {
+				subject: "Tomato by Shibby has been updated",
+				text: "Tomato by Shibby device list has been updated"
+			}
+		}).then(() => console.log('Queued email for delivery!'));
+
+	// }).then(async function() {
+		///////////////////////////// Publishes Pub/Sub topic////////////////////////////////////
+	
+		// const dataBuffer = Buffer.from("update");
+
+		// await pubSubClient.topic("tomatobyshibby-finished").publish(dataBuffer)
+		// .then(() => {
+	 //  	console.log(`tomatobyshibby message published. This will be run every 24 hours at 2PM.`);
+		// }).catch((error) => {
+		// 	console.log(error);
+		// 	return false;
+		// });
+	  return true;
+
 	}).catch((error) => {
 		console.log(error);
-		return true;
+		return false;
 	});
-
-	///////////////////////////// Publishes Pub/Sub topic////////////////////////////////////
-	
-	// const dataBuffer = Buffer.from("update");
-
-	// pubSubClient.topic("tomatobyshibby-finished").publish(dataBuffer);
- //  console.log(`tomatobyshibby message published. This will be run every 24 hours at 2PM.`);
- //  return true;
 }
 
 
@@ -203,17 +211,7 @@ function createExtraRouters() {
 		firmwareVersion: "K26",
 		notes: ""
 	});
-//////////////////////////////////////////
-	extraRouters.push({
-		fullName: "Belkin F5D8235-4 v2",
-		company: "Belkin",
-		model: "F5D8235-4",
-		version: "v2",
-		specs: "100MB Flash, 200MB RAM",
-		firmwareVersion: "K26",
-		notes: ""
-	});
-////////////////////////////////////////
+
 	extraRouters.push({
 		fullName: "Belkin F7D3301",
 		company: "Belkin",
@@ -301,7 +299,7 @@ async function uploadExtraRouters() {
 		return doc.data().fullNameIndex;
 	});
 
-	let serialNumber = dbAllRoutersList.length - 1;
+	// let serialNumber = dbAllRoutersList.length - 1;
 
 	let arrayLength = extraRouters.length;
 	for (let i = 0; i < arrayLength; i++) {
@@ -317,17 +315,18 @@ async function uploadExtraRouters() {
 			});
 
 			tomatobyshibbyRef.doc("index").update({
-				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
-			});
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName),
+				updatedOn: new Date()
+			}, {merge: true});
 
 			// Add routers to aggragated router list supporting all firmwares/////
 			//////////////////////////////////////////////////////////////////////
 
-			let companyModel = (extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&");
+			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
 
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({
-					serialNumber: serialNumber,
+					// serialNumber: serialNumber,
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
@@ -342,7 +341,7 @@ async function uploadExtraRouters() {
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
 
-				serialNumber++;
+				// serialNumber++;
 
 			} else {
 				// Only need some fields if router already exists in list
