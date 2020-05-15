@@ -3,9 +3,6 @@
 const axios = require('axios');
 const $ = require('cheerio');
 
-// const {PubSub} = require('@google-cloud/pubsub');
-// const pubSubClient = new PubSub();
-
 const admin = require('firebase-admin');
 const serviceAccount = require("../firebase-adminsdk.json");
 admin.initializeApp({
@@ -33,7 +30,7 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 				/////////////// checkForChange(year);//////////////////////////
 
-				if (Number(year) > 2019 && loaded === false) {
+				if (Number(year) > 2014 && loaded === false) {
 					
 					loaded = true;	// DON'T change position
 
@@ -91,22 +88,34 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 					let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
 					.then((doc) => {
-						return doc.data().fullNameIndex;
+						return doc.data().fullNameIndex ? doc.data().fullNameIndex : [];
 					});
 
 					//	Get index of all routers supporting all firmwares
 
 					let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
 					.then((doc) => {
-						return doc.data().fullNameIndex;
+						return doc.data().fullNameIndex ? doc.data().fullNameIndex : [];
 					});
 
 					// console.dir(mainTable, {'maxArrayLength': null});
 
+					let modified = false;
+					let tomatobyshibbyArray = [];
+					let tomatobyshibbyIndex = [];
+					let allRoutersArray = [];
+					let allRoutersIndex = [];
+					let allRoutersModifyArrray = [];
+
+
 					let arrayLength = mainTable.length;
 					for (let i = 0; i < arrayLength; i++) {
 						if (!fullNameIndex.includes(mainTable[i].fullName)) {
-							await tomatobyshibbyRef.doc(mainTable[i].fullName).set({
+
+							modified = true;
+
+							// tomatobyshibbyRef.doc(mainTable[i].fullName).set({
+							tomatobyshibbyArray.push({
 								fullName: mainTable[i].fullName,
 								company: mainTable[i].company,
 								model: mainTable[i].model,
@@ -116,10 +125,8 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 								notes: mainTable[i].notes
 							});
 
-							tomatobyshibbyRef.doc("index").update({
-								fullNameIndex: admin.firestore.FieldValue.arrayUnion(mainTable[i].fullName),
-								updatedOn: new Date()
-							}, {merge: true});
+							// tomatobyshibbyRef.doc("index").set({
+							tomatobyshibbyIndex.push(mainTable[i].fullName);
 
 							// Add routers to aggragated router list supporting all firmwares/////
 							//////////////////////////////////////////////////////////////////////
@@ -127,60 +134,77 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 							let companyModel = ((mainTable[i].company + " " + mainTable[i].model).replace(/\//gi, "&")).toUpperCase();
 
 							if (!(dbAllRoutersList.includes(companyModel))) {
-								allFirmwareRoutersRef.doc(companyModel).set({
+
+								// allFirmwareRoutersRef.doc(companyModel).set({
+								allRoutersArray.push({
 									fullName: companyModel,
 									company: mainTable[i].company,
 									model: mainTable[i].model,
 									tomatobyshibbySupport: true,
 									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),						
 									specs: {[mainTable[i].version ? mainTable[i].version : "specs"]: mainTable[i].specs},
+									USB: {USB: ""},
+									LAN: {LAN: ""},
 									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 									tomatobyshibbyNotes: mainTable[i].notes
-								}, {merge: true});
+								});
 
-								allFirmwareRoutersRef.doc("index").update({
-									fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
-								}, {merge: true});
+								allRoutersIndex.push(companyModel);									
 
 							} else {
 								// Only need some fields if router already exists in list
-								allFirmwareRoutersRef.doc(companyModel).set({							
+
+								// allFirmwareRoutersRef.doc(companyModel).set({							
+								allRoutersModifyArrray.push({
 									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 									tomatobyshibbyNotes: mainTable[i].notes,
 									tomatobyshibbySupport: true,
 									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),
 									[`${'specs.' + mainTable[i].version ? mainTable[i].version : "specs"}`]: mainTable[i].specs
-								}, {merge: true});
+								});
 							}
 						}
 					}
+
+					if (modified) {
+						await Promise.all([
+							tomatobyshibbyArray.map((device, index) => tomatobyshibbyRef.doc(device.fullName).set(device, {merge: true})),
+							tomatobyshibbyRef.doc("index").set({
+								fullNameIndex: admin.firestore.FieldValue.arrayUnion(...tomatobyshibbyIndex)
+							}, {merge: true}),
+
+							allRoutersArray.map((device, index) => allFirmwareRoutersRef.doc(device.fullName).set(device, {merge: true})),
+							allFirmwareRoutersRef.doc("index").set({
+								fullNameIndex: admin.firestore.FieldValue.arrayUnion(...allRoutersIndex)
+							}, {merge: true}),
+
+							allRoutersModifyArrray.map((device, index) => allFirmwareRoutersRef.doc(device.fullName).set(device, {merge: true}))
+						]);
+
+						tomatobyshibbyRef.doc("index").set({
+							updatedOn: new Date()
+						}, {merge: true});
+
+						allFirmwareRoutersRef.doc("index").set({
+							updatedOn: new Date()
+						}, {merge: true});
+					}
+
+					await db.collection("mail").add({
+						to: "freetherouter@gmail.com",
+						message: {
+							subject: "Tomato by Shibby has been updated",
+							text: "Tomato by Shibby device list has been updated"
+						}
+					}).then(() => console.log('Tomato by Shibby: Queued email for delivery!'))
+					.catch(error => console.log(error));
+
 				}
 			}
 		});
 
-		db.collection("mail").add({
-			to: "freetherouter@gmail.com",
-			message: {
-				subject: "Tomato by Shibby has been updated",
-				text: "Tomato by Shibby device list has been updated"
-			}
-		}).then(() => console.log('Queued email for delivery!'));
-
-	// }).then(async function() {
-	// 	///////////////////////////// Publishes Pub/Sub topic////////////////////////////////////
-	
-	// 	const dataBuffer = Buffer.from("update");
-
-	// 	await pubSubClient.topic("tomatobyshibby-finished").publish(dataBuffer)
-	// 	.then(() => {
-	//   	console.log(`tomatobyshibby message published. This will be run every 24 hours at 2PM.`);
-	// 	}).catch((error) => {
-	// 		console.log(error);
-	// 		return false;
-	// 	});
-
-	  return true;
-
+	}).then(() => {
+		return true;
 	}).catch((error) => {
 		console.log(error);
 		return false;
@@ -285,21 +309,19 @@ async function uploadExtraRouters() {
 	let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
 	.then((doc) => {
 		return doc.data().fullNameIndex;
-	});
+	}).catch(error => console.log(error));
 
 	//	Get index of all routers supporting all firmwares
 
 	let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
 	.then((doc) => {
 		return doc.data().fullNameIndex;
-	});
-
-	// let serialNumber = dbAllRoutersList.length - 1;
+	}).catch(error => console.log(error));
 
 	let arrayLength = extraRouters.length;
 	for (let i = 0; i < arrayLength; i++) {
 		if (!fullNameIndex.includes(extraRouters[i].fullName)) {
-			await tomatobyshibbyRef.doc(extraRouters[i].fullName).set({
+			tomatobyshibbyRef.doc(extraRouters[i].fullName).set({
 				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
 				model: extraRouters[i].model,
@@ -309,7 +331,7 @@ async function uploadExtraRouters() {
 				notes: extraRouters[i].notes
 			});
 
-			tomatobyshibbyRef.doc("index").update({
+			tomatobyshibbyRef.doc("index").set({
 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName),
 				updatedOn: new Date()
 			}, {merge: true});
@@ -321,22 +343,22 @@ async function uploadExtraRouters() {
 
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({
-					// serialNumber: serialNumber,
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
 					tomatobyshibbySupport: true,
 					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),						
 					specs: {[extraRouters[i].version ? extraRouters[i].version : "specs"]: extraRouters[i].specs},
+					USB: {USB: ""},
+					LAN: {LAN: ""},
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				await allFirmwareRoutersRef.doc("index").update({
-					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+				allFirmwareRoutersRef.doc("index").set({
+					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel),
+					updatedOn: new Date()
 				}, {merge: true});
-
-				// serialNumber++;
 
 			} else {
 				// Only need some fields if router already exists in list
@@ -347,10 +369,14 @@ async function uploadExtraRouters() {
 					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),
 					[`${'specs.' + extraRouters[i].version ? extraRouters[i].version : "specs"}`]: extraRouters[i].specs
 				}, {merge: true});
+
+				allFirmwareRoutersRef.doc("index").set({
+					updatedOn: new Date()
+				}, {merge: true});
+
 			}
 		}
 	}
-
 }
 
 // createExtraRouters();

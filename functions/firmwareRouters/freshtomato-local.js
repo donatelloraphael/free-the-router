@@ -29,6 +29,9 @@ async function checkAndUpdateFreshtomato() {
 	.then(async function(doc) {
 		currentYear = doc.data().currentYear;
 		currentBuild = doc.data().currentBuild;
+	}).catch(error => {
+		console.log(error);
+		return false;
 	});
 
 	await axios.get("https://freshtomato.org/downloads/freshtomato-arm/")
@@ -42,9 +45,12 @@ async function checkAndUpdateFreshtomato() {
 				currentYear = year;
 			}
 		});
+	}).catch(error => {
+		console.log(error);
+		return false;
 	});
 
-	await	axios.get("https://freshtomato.org/downloads/freshtomato-arm/" + currentYear + "/")
+	return await axios.get("https://freshtomato.org/downloads/freshtomato-arm/" + currentYear + "/")
 	.then((res) => {
 		$("a", ".fb-n", res.data).each((i, element) => {
 
@@ -84,7 +90,7 @@ async function checkAndUpdateFreshtomato() {
 									deviceArray[Math.trunc(i / 13)].model = (nameArray[1] + " " + nameArray[2]).trim();
 									break;
 								case 1:
-									deviceArray[Math.trunc(i / 13)].version = $(element).text().trim();
+									deviceArray[Math.trunc(i / 13)].version = $(element).text().trim().split('/').join('&');
 									break;
 								case 4:
 									deviceArray[Math.trunc(i / 13)].LAN = $(element).text().trim();
@@ -126,7 +132,6 @@ async function checkAndUpdateFreshtomato() {
 								dbAllRoutersList = doc.data().fullNameIndex;
 							});
 					}).then(async function() {
-							let serialNumber = dbAllRoutersList.length;
 							let deviceLength = deviceArray.length;
 
 							for (let i = 0; i < deviceLength; i++) {
@@ -153,44 +158,53 @@ async function checkAndUpdateFreshtomato() {
 									// Add routers to aggragated router list supporting all firmwares/////
 									//////////////////////////////////////////////////////////////////////
 
-									let companyModel = (deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gi, "&");
+									let companyModel = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gi, "&")).toUpperCase();
 
 									if (!(dbAllRoutersList.includes(companyModel))) {
 										allFirmwareRoutersRef.doc(companyModel).set({
-											serialNumber: serialNumber,
 											fullName: companyModel,
 											company: deviceArray[i].company,
 											model: deviceArray[i].model,
-											freshtomatoSupportedVersions: deviceArray[i].version,
-											LAN: deviceArray[i].LAN,
-											USB: deviceArray[i].USB,
+											LAN: {[deviceArray[i].version ? deviceArray[i].version : "LAN"]: deviceArray[i].LAN},											
+											USB: {[deviceArray[i].version ? deviceArray[i].version : "USB"]: deviceArray[i].USB},											
 											WiFi: deviceArray[i].WiFi,
-											specs: deviceArray[i].specs,
+											specs: {[deviceArray[i].version ? deviceArray[i].version : "specs"]: deviceArray[i].specs},
+											freshtomatoSupport: true,
+											freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version),						
 											freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,
 											freshtomatoNotes: deviceArray[i].notes
 										}, {merge: true});
 
 										allFirmwareRoutersRef.doc("index").update({
-											fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+											fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel),
+											updatedOn: new Date()
 										}, {merge: true});
-
-										serialNumber++;
 
 									} else {
 										// Only need some fields if router already exists in list
 										allFirmwareRoutersRef.doc(companyModel).set({
-											freshtomatoSupportedVersions: deviceArray[i].version,
-											LAN: deviceArray[i].LAN,
-											USB: deviceArray[i].USB,
+											freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,	
+											freshtomatoNotes: deviceArray[i].notes,																					
+											freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version),
+											freshtomatoSupport: true,
+											[`${'specs.' + deviceArray[i].version ? deviceArray[i].version : "specs"}`]: deviceArray[i].specs,
+											[`${'LAN.' + deviceArray[i].version ? deviceArray[i].version : "LAN"}`]: deviceArray[i].LAN,											
+											[`${'USB.' + deviceArray[i].version ? deviceArray[i].version : "USB"}`]: deviceArray[i].USB,	
 											WiFi: deviceArray[i].WiFi,
-											freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,
-											freshtomatoNotes: deviceArray[i].notes
 										}, {merge: true});
+
+										allFirmwareRoutersRef.doc("index").set({
+											updatedOn: new Date()
+										}, {merge: true});
+
 									}
 								}
 							}
 						// console.log(deviceArray);
-					}).catch(error => console.log(error));
+					}).catch(error => {
+						console.log(error);
+						return false;
+					});
 
 				//////////////////////////////////////////////////////////////////////
 
@@ -206,14 +220,11 @@ async function checkAndUpdateFreshtomato() {
 			} else {
 				console.log("No new builds are available.");
 			}
-	}).then(() => {
-		///////////////////////////// Publishes Pub/Sub topic////////////////////////////////////
+			return true;
 
-		// const dataBuffer = Buffer.from("update");
-
-		// pubSubClient.topic("freshtomato-finished").publish(dataBuffer);
-	 //  console.log(`freshtomato message published. This will be run every 24 hours at 2PM.`);
-	 //  return true;
+	}).catch(error => {
+		console.log(error);
+		return false;
 	});
 };
 
@@ -389,8 +400,6 @@ async function uploadExtraRouters() {
 		dbAllRoutersList = doc.data().fullNameIndex;
 	});
 
-	let serialNumber = dbAllRoutersList.length;
-
 	////////////////////////////////////////////////////////////////////
 
 	for (let i = 0; i < extraRouters.length; i++) {
@@ -420,39 +429,45 @@ async function uploadExtraRouters() {
 			// Add routers to aggragated router list supporting all firmwares/////
 			//////////////////////////////////////////////////////////////////////
 
-			let companyModel = (extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&");
+			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
 
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({
-					serialNumber: serialNumber,
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
-					freshtomatoSupportedVersions: extraRouters[i].version,
-					LAN: extraRouters[i].LAN,
-					USB: extraRouters[i].USB,
+					LAN: {[extraRouters[i].version ? extraRouters[i].version : "LAN"]: extraRouters[i].LAN},											
+					USB: {[extraRouters[i].version ? extraRouters[i].version : "USB"]: extraRouters[i].USB},											
 					WiFi: extraRouters[i].WiFi,
-					specs: extraRouters[i].specs,
+					specs: {[extraRouters[i].version ? extraRouters[i].version : "specs"]: extraRouters[i].specs},
+					freshtomatoSupport: true,
+					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),						
 					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,
 					freshtomatoNotes: extraRouters[i].notes
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc("index").update({
-					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel),
+					updatedOn: new Date()
 				}, {merge: true});
 
-				serialNumber++;
-				
 			} else {
 				// Only need some fields if router already exists in list
 				allFirmwareRoutersRef.doc(companyModel).set({
-					freshtomatoSupportedVersions: extraRouters[i].version,
-					LAN: extraRouters[i].LAN,
-					USB: extraRouters[i].USB,
+					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,	
+					freshtomatoNotes: extraRouters[i].notes,																					
+					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),
+					freshtomatoSupport: true,
+					[`${'specs.' + extraRouters[i].version ? extraRouters[i].version : "specs"}`]: extraRouters[i].specs,
+					[`${'LAN.' + extraRouters[i].version ? extraRouters[i].version : "LAN"}`]: extraRouters[i].LAN,											
+					[`${'USB.' + extraRouters[i].version ? extraRouters[i].version : "USB"}`]: extraRouters[i].USB,	
 					WiFi: extraRouters[i].WiFi,
-					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,
-					freshtomatoNotes: extraRouters[i].notes
 				}, {merge: true});
+
+				allFirmwareRoutersRef.doc("index").set({
+					updatedOn: new Date()
+				}, {merge: true});
+
 			}
 		}
 	}
