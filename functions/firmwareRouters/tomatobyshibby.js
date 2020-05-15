@@ -30,7 +30,7 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 				/////////////// checkForChange(year);//////////////////////////
 
-				if (Number(year) > 2014 && loaded === false) {
+				if (Number(year) > 2019 && loaded === false) {
 					
 					loaded = true;	// DON'T change position
 
@@ -48,14 +48,14 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 												case 0: 
 													//Needs to push an object first to initialize mainTable as an array of objects and avoid undefined errors
-													mainTable.push({ "fullName" : $(element).text().split('/').join('&')});
+													mainTable.push({ "fullName" : $(element).text().replace(/\//g, '&').replace('(', '').replace(')', '')});
 													let nameArray = $(element).text().split(" ");
 													mainTable[j-1].company = nameArray[0];
 													mainTable[j-1].model = nameArray[1];
 													if (nameArray[2]) {
-														mainTable[j-1].version = nameArray[2].split('/').join('&');
+														mainTable[j-1].version = nameArray[2].split('/').join('&').replace("(", "").replace(")", "");
 													} else {
-														mainTable[j-1].version = '';
+														mainTable[j-1].version = 'default';
 													}
 													break;
 
@@ -88,25 +88,25 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 					let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
 					.then((doc) => {
-						return doc.data().fullNameIndex ? doc.data().fullNameIndex : [];
+						return doc.data().fullNameIndex;
 					});
 
 					//	Get index of all routers supporting all firmwares
 
 					let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
 					.then((doc) => {
-						return doc.data().fullNameIndex ? doc.data().fullNameIndex : [];
+						return doc.data().fullNameIndex;
 					});
 
 					// console.dir(mainTable, {'maxArrayLength': null});
 
 					let modified = false;
-					let tomatobyshibbyArray = [];
-					let tomatobyshibbyIndex = [];
-					let allRoutersArray = [];
-					let allRoutersIndex = [];
-					let allRoutersModifyArrray = [];
+					const batchArray = [];
+					let operationsCounter = 0;
+					let batchIndex = 0;
+					const BATCH_NUM_ITEMS = 499;
 
+					batchArray.push(db.batch());
 
 					let arrayLength = mainTable.length;
 					for (let i = 0; i < arrayLength; i++) {
@@ -114,8 +114,14 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 							modified = true;
 
+							if (operationsCounter >= BATCH_NUM_ITEMS) {
+								batchIndex++;
+								batchArray.push(db.batch());
+								operationsCounter = 0;
+							}
+
 							// tomatobyshibbyRef.doc(mainTable[i].fullName).set({
-							tomatobyshibbyArray.push({
+							batchArray[batchIndex].set(tomatobyshibbyRef.doc(mainTable[i].fullName), {
 								fullName: mainTable[i].fullName,
 								company: mainTable[i].company,
 								model: mainTable[i].model,
@@ -126,7 +132,9 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 							});
 
 							// tomatobyshibbyRef.doc("index").set({
-							tomatobyshibbyIndex.push(mainTable[i].fullName);
+							batchArray[batchIndex].set(tomatobyshibbyRef.doc("index"), {
+								fullNameIndex: admin.firestore.FieldValue.arrayUnion(mainTable[i].fullName)
+							}, {merge: true});
 
 							// Add routers to aggragated router list supporting all firmwares/////
 							//////////////////////////////////////////////////////////////////////
@@ -136,69 +144,68 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 							if (!(dbAllRoutersList.includes(companyModel))) {
 
 								// allFirmwareRoutersRef.doc(companyModel).set({
-								allRoutersArray.push({
+								batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
 									fullName: companyModel,
 									company: mainTable[i].company,
 									model: mainTable[i].model,
 									tomatobyshibbySupport: true,
 									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),						
-									specs: {[mainTable[i].version ? mainTable[i].version : "specs"]: mainTable[i].specs},
-									USB: {USB: ""},
-									LAN: {LAN: ""},
+									specs: {[mainTable[i].version]: mainTable[i].specs},
+									USB: {default: ""},
+									LAN: {default: ""},
 									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 									tomatobyshibbyNotes: mainTable[i].notes
-								});
-
-								allRoutersIndex.push(companyModel);									
+								}, {merge: true});
+	
+								batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+									fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+								}, {merge: true});							
 
 							} else {
 								// Only need some fields if router already exists in list
-
-								// allFirmwareRoutersRef.doc(companyModel).set({							
-								allRoutersModifyArrray.push({
+							
+								batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
 									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 									tomatobyshibbyNotes: mainTable[i].notes,
-									tomatobyshibbySupport: true,
-									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),
-									[`${'specs.' + mainTable[i].version ? mainTable[i].version : "specs"}`]: mainTable[i].specs
-								});
+									tomatobyshibbySupport: true
+								}, {merge: true});
+
+								batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
+									[`specs.${mainTable[i].version}`]: mainTable[i].specs,
+									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version)				
+								}, {merge: true});
 							}
+
+							// Number of operations in each loop = 5
+							operationsCounter += 5;
 						}
 					}
 
 					if (modified) {
-						await Promise.all([
-							tomatobyshibbyArray.map((device, index) => tomatobyshibbyRef.doc(device.fullName).set(device, {merge: true})),
-							tomatobyshibbyRef.doc("index").set({
-								fullNameIndex: admin.firestore.FieldValue.arrayUnion(...tomatobyshibbyIndex)
-							}, {merge: true}),
-
-							allRoutersArray.map((device, index) => allFirmwareRoutersRef.doc(device.fullName).set(device, {merge: true})),
-							allFirmwareRoutersRef.doc("index").set({
-								fullNameIndex: admin.firestore.FieldValue.arrayUnion(...allRoutersIndex)
-							}, {merge: true}),
-
-							allRoutersModifyArrray.map((device, index) => allFirmwareRoutersRef.doc(device.fullName).set(device, {merge: true}))
-						]);
-
-						tomatobyshibbyRef.doc("index").set({
+					
+						batchArray[batchIndex].set(tomatobyshibbyRef.doc("index"), {
 							updatedOn: new Date()
 						}, {merge: true});
 
-						allFirmwareRoutersRef.doc("index").set({
+						batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
 							updatedOn: new Date()
 						}, {merge: true});
+
+						batchArray.forEach((batch) => {
+							batch.commit();
+						});
+
+						await db.collection("mail").add({
+							to: "freetherouter@gmail.com",
+							message: {
+								subject: "Tomato by Shibby has been updated",
+								text: "Tomato by Shibby device list has been updated"
+							}
+						}).then(() => console.log('Tomato by Shibby: Queued email for delivery!'))
+						.catch(error => console.log(error));
+					} else {
+						console.log("No change in Tomato By Shibby device list.");
 					}
-
-					await db.collection("mail").add({
-						to: "freetherouter@gmail.com",
-						message: {
-							subject: "Tomato by Shibby has been updated",
-							text: "Tomato by Shibby device list has been updated"
-						}
-					}).then(() => console.log('Tomato by Shibby: Queued email for delivery!'))
-					.catch(error => console.log(error));
-
 				}
 			}
 		});
@@ -235,7 +242,7 @@ function createExtraRouters() {
 		fullName: "Belkin F7D3301",
 		company: "Belkin",
 		model: "F7D3301",
-		version: "",
+		version: "default",
 		specs: "8MB Flash, 64MB RAM",
 		firmwareVersion: "K26",
 		notes: ""
@@ -246,7 +253,7 @@ function createExtraRouters() {
 		fullName: "Belkin F7D3302",
 		company: "Belkin",
 		model: "F7D3302",
-		version: "",
+		version: "default",
 		specs: "8MB Flash, 64MB RAM",
 		firmwareVersion: "K26",
 		notes: ""
@@ -256,7 +263,7 @@ function createExtraRouters() {
 		fullName: "Belkin F7D4302",
 		company: "Belkin",
 		model: "F7D4302",
-		version: "",
+		version: "default",
 		specs: "8MB Flash, 64MB RAM",
 		firmwareVersion: "K26",
 		notes: ""
@@ -266,7 +273,7 @@ function createExtraRouters() {
 		fullName: "Asus RT-AC56S",
 		company: "Asus",
 		model: "RT-AC56S",
-		version: "",
+		version: "default",
 		specs: "128MB Flash, 128MB RAM",
 		firmwareVersion: "K26ARM",
 		notes: ""
@@ -276,7 +283,7 @@ function createExtraRouters() {
 		fullName: "Buffalo WZR-1750DHP",
 		company: "Buffalo",
 		model: "WZR-1750DHP",
-		version: "",
+		version: "default",
 		specs: "128MB Flash, 512MB RAM",
 		firmwareVersion: "K26ARM",
 		notes: ""
@@ -286,7 +293,7 @@ function createExtraRouters() {
 		fullName: "Tenda W1800R",
 		company: "Tenda",
 		model: "W1800R",
-		version: "",
+		version: "default",
 		specs: "16MB Flash, 256MB RAM",
 		firmwareVersion: "K26RT-AC",
 		notes: ""
@@ -365,10 +372,14 @@ async function uploadExtraRouters() {
 				allFirmwareRoutersRef.doc(companyModel).set({							
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes,
-					tomatobyshibbySupport: true,
-					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),
-					[`${'specs.' + extraRouters[i].version ? extraRouters[i].version : "specs"}`]: extraRouters[i].specs
+					tomatobyshibbySupport: true
 				}, {merge: true});
+
+				allFirmwareRoutersRef.doc(companyModel).update({
+					[`specs.${extraRouters[i].version}`]: extraRouters[i].specs,
+					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version)
+				});			
+
 
 				allFirmwareRoutersRef.doc("index").set({
 					updatedOn: new Date()
