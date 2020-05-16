@@ -88,14 +88,22 @@ async function checkAndUpdateTomatobyshibby() {
 
 					let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
 					.then((doc) => {
-						return doc.data().fullNameIndex;
+						if (doc.data() == undefined) {
+							return [];
+						} else {
+							return doc.data().fullNameIndex;
+						}
 					});
 
 					//	Get index of all routers supporting all firmwares
 
 					let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
 					.then((doc) => {
-						return doc.data().fullNameIndex;
+						if (doc.data() == undefined) {
+							return [];
+						} else {
+							return doc.data().fullNameIndex;
+						}
 					});
 
 					// console.dir(mainTable, {'maxArrayLength': null});
@@ -390,6 +398,6 @@ async function uploadExtraRouters() {
 	}
 }
 
-createExtraRouters();
-uploadExtraRouters();
+// createExtraRouters();
+// uploadExtraRouters();
 // checkAndUpdateTomatobyshibby();
