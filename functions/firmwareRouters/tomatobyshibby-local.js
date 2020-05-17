@@ -116,11 +116,14 @@ async function checkAndUpdateTomatobyshibby() {
 
 					batchArray.push(db.batch());
 
+					let newDevices = [];
+
 					let arrayLength = mainTable.length;
 					for (let i = 0; i < arrayLength; i++) {
 						if (!fullNameIndex.includes(mainTable[i].fullName)) {
 
 							modified = true;
+							newDevices.push(mainTable[i].fullName);
 
 							if (operationsCounter >= BATCH_NUM_ITEMS) {
 								batchIndex++;
@@ -207,7 +210,7 @@ async function checkAndUpdateTomatobyshibby() {
 							to: "freetherouter@gmail.com",
 							message: {
 								subject: "Tomato by Shibby has been updated",
-								text: "Tomato by Shibby device list has been updated"
+								text: `Tomato by Shibby device list has been updated. New Devices: ${newDevices}`
 							}
 						}).then(() => console.log('Tomato by Shibby: Queued email for delivery!'))
 						.catch(error => console.log(error));
@@ -224,7 +227,7 @@ async function checkAndUpdateTomatobyshibby() {
 		console.log(error);
 		return false;
 	});
-};
+}
 
 
 
@@ -323,14 +326,22 @@ async function uploadExtraRouters() {
 
 	let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
 	.then((doc) => {
-		return doc.data().fullNameIndex;
+		if (doc.data()) {
+			return doc.data().fullNameIndex;
+		} else {
+			return [];
+		}
 	}).catch(error => console.log(error));
 
 	//	Get index of all routers supporting all firmwares
 
 	let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
 	.then((doc) => {
-		return doc.data().fullNameIndex;
+		if (doc.data()) {
+			return doc.data().fullNameIndex;			
+		} else {
+			return [];
+		}
 	}).catch(error => console.log(error));
 
 	let arrayLength = extraRouters.length;

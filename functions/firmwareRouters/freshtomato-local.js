@@ -106,6 +106,8 @@ async function checkAndUpdateFreshtomato() {
 			let operationsCounter = 0;
 			let batchIndex = 0;
 
+			let newDevices = [];
+
 			batchArray.push(db.batch());
 			
 			let deviceLength = deviceArray.length;
@@ -114,6 +116,7 @@ async function checkAndUpdateFreshtomato() {
 				if (!(dbDeviceList.includes((deviceArray[i].fullName + " " + deviceArray[i].version).trim()))) {
 
 					isModified = true;
+					newDevices.push((deviceArray[i].fullName + " " + deviceArray[i].version).trim());
 
 					if (operationsCounter >= BATCH_NUM_ITEMS) {
 						batchIndex++;
@@ -154,7 +157,7 @@ async function checkAndUpdateFreshtomato() {
 							WiFi: deviceArray[i].WiFi,
 							specs: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].specs},
 							freshtomatoSupport: true,
-							freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version),						
+							freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),						
 							freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,
 							freshtomatoNotes: deviceArray[i].notes
 						}, {merge: true});
@@ -168,7 +171,7 @@ async function checkAndUpdateFreshtomato() {
 						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
 							freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,	
 							freshtomatoNotes: deviceArray[i].notes,																					
-							freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version),
+							freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
 							freshtomatoSupport: true,	
 							WiFi: deviceArray[i].WiFi,
 						}, {merge: true});
@@ -204,7 +207,7 @@ async function checkAndUpdateFreshtomato() {
 					to: "freetherouter@gmail.com",
 					message: {
 						subject: "FreshTomato has been updated",
-						text: "FreshTomato device list has been updated"
+						text: `FreshTomato device list has been updated. New Devices: ${newDevices}`
 					}
 				}).then(() => console.log('FreshTomato: Queued email for delivery!'))
 				.catch(error => console.log(error));
@@ -221,7 +224,7 @@ async function checkAndUpdateFreshtomato() {
 		console.log(error);
 		return false;
 	});		
-}
+};
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -385,14 +388,18 @@ async function uploadExtraRouters() {
 
 	await freshtomatoRef.doc("index").get()
 	.then((doc) => {
-		dbDeviceList = doc.data().fullNameIndex;
+		if (doc.data()) {
+			dbDeviceList = doc.data().fullNameIndex;
+		}
 	});
 
 	//	Get index of all routers supporting all firmwares
 
 	await allFirmwareRoutersRef.doc("index").get()
 	.then((doc) => {
-		dbAllRoutersList = doc.data().fullNameIndex;
+		if (doc.data()) {
+			dbAllRoutersList = doc.data().fullNameIndex;
+		}
 	});
 
 	////////////////////////////////////////////////////////////////////
@@ -403,8 +410,8 @@ async function uploadExtraRouters() {
 
 		if (!(dbDeviceList.includes(extraRouters[i].fullName))) {
 
-			freshtomatoRef.doc((extraRouters[i].fullName + " " + extraRouters[i].version).trim()).set({
-				fullName: (extraRouters[i].fullName + " " + extraRouters[i].version).trim(),
+			freshtomatoRef.doc(extraRouters[i].fullName).set({
+				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
 				model: extraRouters[i].model,
 				version: extraRouters[i].version,
@@ -417,16 +424,14 @@ async function uploadExtraRouters() {
 			}, {merge: true});
 
 			await freshtomatoRef.doc("index").update({
-				fullNameIndex: admin.firestore.FieldValue.arrayUnion((extraRouters[i].fullName + " " + extraRouters[i].version).trim())
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
 			}, {merge: true});
 
 			// Add routers to aggragated router list supporting all firmwares/////
 			//////////////////////////////////////////////////////////////////////
 
 			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
-			// let routerVersion = deviceArray[i].version ? deviceArray[i].version : "nil";
-
-
+			
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({
 					fullName: companyModel,
@@ -437,7 +442,7 @@ async function uploadExtraRouters() {
 					WiFi: extraRouters[i].WiFi,
 					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
 					freshtomatoSupport: true,
-					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),						
+					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),						
 					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,
 					freshtomatoNotes: extraRouters[i].notes
 				}, {merge: true});
@@ -451,7 +456,7 @@ async function uploadExtraRouters() {
 				allFirmwareRoutersRef.doc(companyModel).set({
 					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,	
 					freshtomatoNotes: extraRouters[i].notes,																					
-					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),
+					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
 					freshtomatoSupport: true,	
 					WiFi: extraRouters[i].WiFi,
 				}, {merge: true});
@@ -476,6 +481,6 @@ async function uploadExtraRouters() {
 
 }
 
-createExtraRouters();
-uploadExtraRouters();
+// createExtraRouters();
+// uploadExtraRouters();
 // checkAndUpdateFreshtomato();
