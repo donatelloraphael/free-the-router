@@ -11,14 +11,14 @@ admin.initializeApp({
 }, "advancedtomato");
 const db = admin.firestore();
 
-const tomatoshibbyRef = db.collection("tomatobyshibby-main-list");
 const advancedtomatoRef = db.collection("advancedtomato-main-list");
-
-let routerList = [];
-let nameIndex = [];
+const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
 exports.checkAdvancedtomato = async function() {
 // async function checkAdvancedtomato() {
+
+	let routerList = [];
+	let nameIndex = [];
 
 	await axios.get("https://advancedtomato.com/downloads")
 	.then((res) => {
@@ -47,6 +47,8 @@ exports.checkAdvancedtomato = async function() {
 	let isModified = false;
 
 	for (let i = 0; i < routerList.length; i++) {
+		// console.log(routerList[i]);
+
 		if (!nameIndex.includes(routerList[i])) {
 			newDevices.push(routerList[i]);
 			isModified = true;
@@ -61,7 +63,7 @@ exports.checkAdvancedtomato = async function() {
 				text: `AdvancedTomato device list has been updated [Manual Update required]. New Devices: ${newDevices}`
 			}
 		}).then(() => console.log('Advanced Tomato: Queued email for delivery!'));
+	} else {
+		console.log("AdvancedTomato device list has not been modified.");
 	}
 };
-
-// checkAdvancedtomato();

@@ -11,14 +11,14 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
-const tomatoshibbyRef = db.collection("tomatobyshibby-main-list");
 const advancedtomatoRef = db.collection("advancedtomato-main-list");
-
-let routerList = [];
-let nameIndex = [];
+const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
 // exports.checkAdvancedtomato = async function() {
 async function checkAdvancedtomato() {
+
+	let routerList = [];
+	let nameIndex = [];
 
 	await axios.get("https://advancedtomato.com/downloads")
 	.then((res) => {
@@ -47,7 +47,7 @@ async function checkAdvancedtomato() {
 	let isModified = false;
 
 	for (let i = 0; i < routerList.length; i++) {
-		console.log(routerList[i]);
+		// console.log(routerList[i]);
 
 		if (!nameIndex.includes(routerList[i])) {
 			newDevices.push(routerList[i]);
@@ -63,6 +63,8 @@ async function checkAdvancedtomato() {
 				text: `AdvancedTomato device list has been updated [Manual Update required]. New Devices: ${newDevices}`
 			}
 		}).then(() => console.log('Advanced Tomato: Queued email for delivery!'));
+	} else {
+		console.log("AdvancedTomato device list has not been modified.");
 	}
 }
 
@@ -183,9 +185,21 @@ async function createExtraRouters() {
 	});
 
 	extraRouters.push({
-		fullName: "D-Link DIR-868L",
+		fullName: "D-LINK DIR-868L",
 		company: "D-Link",
 		model: "DIR-868L",
+		version: "",
+		specs: "128MB Flash, 128MB RAM",
+		LAN: "1 Gbps",
+		USB: true,
+		WiFi: "ac1750",
+		notes: ""
+	});
+
+	extraRouters.push({
+		fullName: "D-LINK DIR868L",
+		company: "D-Link",
+		model: "DIR868L",
 		version: "",
 		specs: "128MB Flash, 128MB RAM",
 		LAN: "1 Gbps",
@@ -399,6 +413,18 @@ async function createExtraRouters() {
 	});
 
 	extraRouters.push({
+		fullName: "Tenda N60",
+		company: "Tenda",
+		model: "N60",
+		version: "",
+		specs: "8MB Flash, 64MB RAM",
+		LAN: "1 Gbps",
+		USB: true,
+		WiFi: "n600",
+		notes: ""
+	});
+
+	extraRouters.push({
 		fullName: "Tenda W1800R",
 		company: "Tenda",
 		model: "W1800R",
@@ -412,7 +438,104 @@ async function createExtraRouters() {
 
 }
 
+async function uploadExtraRouters() {
+
+	let dbDeviceList = [];
+	let dbAllRoutersList = [];
+
+	await advancedtomatoRef.doc("index").get()
+	.then((doc) => {
+		if (doc.data()) {
+			dbDeviceList = doc.data().fullNameIndex;
+		}
+	});
+
+	//	Get index of all routers supporting all firmwares
+
+	await allFirmwareRoutersRef.doc("index").get()
+	.then((doc) => {
+		if (doc.data()) {
+			dbAllRoutersList = doc.data().fullNameIndex;
+		}
+	});
+
+	////////////////////////////////////////////////////////////////////
+
+	for (let i = 0; i < extraRouters.length; i++) {
+
+		////////////Add to Freshtomato routers list////////////////////////		
+
+		if (!(dbDeviceList.includes(extraRouters[i].fullName))) {
+
+			advancedtomatoRef.doc(extraRouters[i].fullName).set({
+				fullName: extraRouters[i].fullName,
+				company: extraRouters[i].company,
+				model: extraRouters[i].model,
+				version: extraRouters[i].version,
+				LAN: extraRouters[i].LAN,
+				USB: extraRouters[i].USB,
+				WiFi: extraRouters[i].WiFi,
+				specs: extraRouters[i].specs,
+				notes: extraRouters[i].notes
+			}, {merge: true});
+
+			advancedtomatoRef.doc("index").update({
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
+			}, {merge: true});
+
+			// Add routers to aggragated router list supporting all firmwares/////
+			//////////////////////////////////////////////////////////////////////
+
+			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
+			
+			if (!(dbAllRoutersList.includes(companyModel))) {
+				allFirmwareRoutersRef.doc(companyModel).set({
+					fullName: companyModel,
+					company: extraRouters[i].company,
+					model: extraRouters[i].model,
+					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},											
+					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].USB},											
+					WiFi: extraRouters[i].WiFi,
+					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
+					advancedtomatoSupport: true,
+					advancedtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
+					advancedtomatoNotes: extraRouters[i].notes
+				}, {merge: true});
+
+				allFirmwareRoutersRef.doc("index").update({
+					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+				}, {merge: true});
+
+			} else {
+				// Only need some fields if router already exists in list
+				allFirmwareRoutersRef.doc(companyModel).set({
+					advancedtomatoNotes: extraRouters[i].notes,																					
+					advancedtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
+					advancedtomatoSupport: true,	
+					WiFi: extraRouters[i].WiFi,
+				}, {merge: true});
+
+				allFirmwareRoutersRef.doc(companyModel).update({
+					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
+					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN,											
+					[`USB.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].USB
+				}, {merge: true});
+
+			}
+		}
+	}
+
+	advancedtomatoRef.doc("index").set({
+		updatedOn: new Date()
+	}, {merge: true});
+
+	allFirmwareRoutersRef.doc("index").set({
+		updatedOn: new Date()
+	}, {merge: true});
+
+}
+
 
 // checkAdvancedtomato();
-createExtraRouters();
-console.log(extraRouters);
+// createExtraRouters();
+// uploadExtraRouters();
