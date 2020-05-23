@@ -12,7 +12,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const gargoyleRef = db.collection("gargoyle-main-list");
-const allFirmwareRoutersRef = db.collection("all-routers-test");
+const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
 // exports.checkGargoyle = async function() {
 async function checkGargoyle() {
@@ -45,695 +45,702 @@ async function checkGargoyle() {
 	});
 }
 
-// checkGargoyle();
 
-async function populateRouterList() {
-	gargoyleRef.doc("Linksys WRT1200AC v1&v2").set({
+let extraRouters = [];
+
+async function createExtraRouters() {
+
+	extraRouters.push({
 		fullName: "Linksys WRT1200AC v1&v2",
 		company: "Linksys",
-		model: "WRT1200AC v1&v2",
+		model: "WRT1200AC",
 		version: "v1&v2",
 		specs: "128MB Flash, 512MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1200"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT1200AC v1&v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT1900AC v1").set({
+	extraRouters.push({
 		fullName: "Linksys WRT1900AC v1",
 		company: "Linksys",
-		model: "WRT1900AC v1",
+		model: "WRT1900AC",
 		version: "v1",
 		specs: "128MB Flash, 256MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1900"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT1900AC v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT1900AC v2").set({
+	extraRouters.push({
 		fullName: "Linksys WRT1900AC v2",
 		company: "Linksys",
-		model: "WRT1900AC v2",
+		model: "WRT1900AC",
 		version: "v2",
 		specs: "128MB Flash, 512MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1900"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT1900AC v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT1900ACS v1&v2").set({
+	extraRouters.push({
 		fullName: "Linksys WRT1900ACS v1&v2",
 		company: "Linksys",
-		model: "WRT1900ACS v1&v2",
+		model: "WRT1900ACS",
 		version: "v1&v2",
 		specs: "128MB Flash, 512MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1900"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT1900ACS v1&v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT3200ACM v1").set({
+	extraRouters.push({
 		fullName: "Linksys WRT3200ACM v1",
 		company: "Linksys",
-		model: "WRT3200ACM v1",
+		model: "WRT3200ACM",
 		version: "v1",
 		specs: "256MB Flash, 512MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac3200"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT3200ACM v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT32X v1").set({
+	extraRouters.push({
 		fullName: "Linksys WRT32X v1",
 		company: "Linksys",
-		model: "WRT32X v1",
+		model: "WRT32X",
 		version: "v1",
 		specs: "256MB Flash, 512MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac3200"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT32X v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Turris Omnia").set({
+	extraRouters.push({
 		fullName: "Turris Omnia",
 		company: "Turris",
 		model: "Omnia",
 		version: "",
 		specs: "8GB Flash, 1-2GB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1750"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Turris Omnia")
-	}, {merge: true});
-
-	gargoyleRef.doc("GL.iNet AR150").set({
+	extraRouters.push({
 		fullName: "GL.iNet AR150",
 		company: "GL.iNet",
 		model: "AR150",
 		version: "",
 		specs: "16MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "100 Mbps",
+		WiFi: "n150"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("GL.iNet AR150")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-Archer-C7 v2").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-Archer-C7 v2",
 		company: "TP-Link",
 		model: "TL-Archer-C7",
 		version: "v2",
 		specs: "16MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1750"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-Archer-C7 v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WDR4300 v1.x").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WDR4300 v1.x",
 		company: "TP-Link",
 		model: "TL-WDR4300",
 		version: "v1.x",
 		specs: "8MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n750"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WDR4300 v1.x")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WDR3600 v1.x").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WDR3600 v1.x",
 		company: "TP-Link",
 		model: "TL-WDR3600",
 		version: "v1.x",
 		specs: "8MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WDR3600 v1.x")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WR1043ND v2&v3").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WR1043ND v2&v3",
 		company: "TP-Link",
 		model: "TL-WR1043ND",
 		version: "v2&v3",
 		specs: "8MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n450"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WR1043ND v2&v3")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WR1043ND v1.x").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WR1043ND v1.x",
 		company: "TP-Link",
 		model: "TL-WR1043ND",
 		version: "v1.x",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "1 Gbps",
+		WiFi: "n450"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WR1043ND v1.x")
-	}, {merge: true});
+	// Info not correct. Router does not exist.
 
-	gargoyleRef.doc("TP-Link TL-WDR3700 v2").set({
-		fullName: "TP-Link TL-WDR3700 v2",
-		company: "TP-Link",
-		model: "TL-WDR3700",
-		version: "v2",
-		specs: "16MB Flash, 16MB RAM",
-		USB: true,
-		notes: "Recommended minimum specs"
-	});
+	// extraRouters.push({
+	// 	fullName: "TP-Link TL-WDR3700 v2",
+	// 	company: "TP-Link",
+	// 	model: "TL-WDR3700",
+	// 	version: "v2",
+	// 	specs: "16MB Flash, 16MB RAM",
+	// 	USB: true,
+	// 	notes: "Recommended minimum specs"
+	// });
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WDR3700 v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WR941ND v2&v3&v4").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WR941ND v2&v3&v4",
 		company: "TP-Link",
 		model: "TL-WR941ND",
 		version: "v2&v3&v4",
 		specs: "4MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "n300"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WR941ND v2&v3&v4")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WR841ND v3-v9").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WR841ND v3-v9",
 		company: "TP-Link",
 		model: "TL-WR841ND",
 		version: "v3-v9",
 		specs: "4MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "n300"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WR841ND v3-v9")
-	}, {merge: true});
-
-	gargoyleRef.doc("TP-Link TL-WR741ND v1-v2.4").set({
+	extraRouters.push({
 		fullName: "TP-Link TL-WR741ND v1-v2.4",
 		company: "TP-Link",
 		model: "TL-WR741ND",
 		version: "v1-v2.4",
 		specs: "4MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "n150"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("TP-Link TL-WR741ND v1-v2.4")
-	}, {merge: true});
-
-	gargoyleRef.doc("Buffalo WZR-600DHP").set({
+	extraRouters.push({
 		fullName: "Buffalo WZR-600DHP",
 		company: "Buffalo",
 		model: "WZR-600DHP",
 		version: "",
 		specs: "32MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Buffalo WZR-600DHP")
-	}, {merge: true});
-
-	gargoyleRef.doc("Buffalo WZR-HP-G300NH").set({
+	extraRouters.push({
 		fullName: "Buffalo WZR-HP-G300NH",
 		company: "Buffalo",
 		model: "WZR-HP-G300NH",
 		version: "",
 		specs: "32MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n300"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Buffalo WZR-HP-G300NH")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDR3700 v1").set({
+	extraRouters.push({
 		fullName: "Netgear WNDR3700 v1",
 		company: "Netgear",
 		model: "WNDR3700",
 		version: "v1",
 		specs: "8MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR3700 v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDR3700 v2").set({
+	extraRouters.push({
 		fullName: "Netgear WNDR3700 v2",
 		company: "Netgear",
 		model: "WNDR3700",
 		version: "v2",
 		specs: "16MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR3700 v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDR3700 v4").set({
+	extraRouters.push({
 		fullName: "Netgear WNDR3700 v4",
 		company: "Netgear",
 		model: "WNDR3700",
 		version: "v4",
 		specs: "128MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR3700 v4")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDR3800").set({
+	extraRouters.push({
 		fullName: "Netgear WNDR3800",
 		company: "Netgear",
 		model: "WNDR3800",
 		version: "",
 		specs: "16MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR3800")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDR4300 v1").set({
+	extraRouters.push({
 		fullName: "Netgear WNDR4300 v1",
 		company: "Netgear",
 		model: "WNDR4300",
 		version: "v1",
 		specs: "128MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n750"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDR4300 v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDRMAC v1").set({
+	extraRouters.push({
 		fullName: "Netgear WNDRMAC v1",
 		company: "Netgear",
 		model: "WNDRMAC",
 		version: "v1",
 		specs: "16MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDRMAC v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netgear WNDRMAC v2").set({
+	extraRouters.push({
 		fullName: "Netgear WNDRMAC v2",
 		company: "Netgear",
 		model: "WNDRMAC",
 		version: "v2",
 		specs: "16MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "n600"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netgear WNDRMAC v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("D-Link DIR-825 B1&B2").set({
+	extraRouters.push({
 		fullName: "D-Link DIR-825 B1&B2",
 		company: "D-Link",
 		model: "DIR-825",
 		version: "B1&B2",
 		specs: "8MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "ac1200"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("D-Link DIR-825 B1&B2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Ubiquiti Routerstation Pro").set({
+	extraRouters.push({
 		fullName: "Ubiquiti Routerstation-Pro",
 		company: "Ubiquiti",
 		model: "Routerstation Pro",
 		version: "",
 		specs: "16MB Flash, 128MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "1 Gbps",
+		WiFi: "nil"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Ubiquiti Routerstation Pro")
-	}, {merge: true});
-
-	gargoyleRef.doc("Ubiquiti Routerstation").set({
+	extraRouters.push({
 		fullName: "Ubiquiti Routerstation",
 		company: "Ubiquiti",
 		model: "Routerstation",
 		version: "",
 		specs: "16MB Flash, 64MB RAM",
 		USB: true,
-		notes: ""
+		notes: "",
+		LAN: "100 Mbps",
+		WiFi: "nil"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Ubiquiti Routerstation")
-	}, {merge: true});
-
-	gargoyleRef.doc("Ubiquiti NanoSt Loco-M2").set({
+	extraRouters.push({
 		fullName: "Ubiquiti NanoSt Loco-M2",
 		company: "Ubiquiti",
 		model: "NanoSt Loco-M2",
 		version: "",
 		specs: "8MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "n150"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Ubiquiti NanoSt Loco-M2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT160NL").set({
+///////////////////////////////////////////
+	extraRouters.push({
 		fullName: "Linksys WRT160NL",
 		company: "Linksys",
 		model: "WRT160NL",
 		version: "",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "n300"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT160NL")
-	}, {merge: true});
-
-	gargoyleRef.doc("Planex MZK-W04NU").set({
+	extraRouters.push({
 		fullName: "Planex MZK-W04NU",
 		company: "Planex",
 		model: "MZK-W04NU",
 		version: "",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "n300"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Planex MZK-W04NU")
-	}, {merge: true});
-
-	gargoyleRef.doc("Asus WL500G Premium v1&v2").set({
+	extraRouters.push({
 		fullName: "Asus WL500G Premium v1&v2",
 		company: "Asus",
 		model: "WL500G Premium",
 		version: "v1&v2",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Asus WL500G Premium v1&v2")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRTSL54GS v1-v3").set({
+	extraRouters.push({
 		fullName: "Linksys WRTSL54GS v1-v3",
 		company: "Linksys",
 		model: "WRTSL54GS",
 		version: "v1-v3",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRTSL54GS v1-v3")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT54G-TM").set({
+	extraRouters.push({
 		fullName: "Linksys WRT54G-TM",
 		company: "Linksys",
 		model: "WRT54G-TM",
 		version: "",
 		specs: "8MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT54G-TM")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT54GS v1-v3").set({
+	extraRouters.push({
 		fullName: "Linksys WRT54GS v1-v3",
 		company: "Linksys",
 		model: "WRT54GS",
 		version: "v1-v3",
 		specs: "8MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT54GS v1-v3")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT54GL v1-v4").set({
+	extraRouters.push({
 		fullName: "Linksys WRT54GL v1-v4",
 		company: "Linksys",
 		model: "WRT54GL",
 		version: "v1-v4",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT54GL v1-v4")
-	}, {merge: true});
-
-	gargoyleRef.doc("Linksys WRT54GS v4").set({
+	extraRouters.push({
 		fullName: "Linksys WRT54GS v4",
 		company: "Linksys",
 		model: "WRT54GS v4",
 		version: "v4",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Linksys WRT54GS v4")
-	}, {merge: true});
-
-	gargoyleRef.doc("Rosewill RNX-GX4").set({
+	extraRouters.push({
 		fullName: "Rosewill RNX-GX4",
 		company: "Rosewill",
 		model: "RNX-GX4",
 		version: "",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Rosewill RNX-GX4")
-	}, {merge: true});
-
-	gargoyleRef.doc("Netcore NW618").set({
+	extraRouters.push({
 		fullName: "Netcore NW618",
 		company: "Netcore",
 		model: "NW618",
 		version: "",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Netcore NW618")
-	}, {merge: true});
-
-	gargoyleRef.doc("Motorola WR850G v1-v3").set({
+	extraRouters.push({
 		fullName: "Motorola WR850G v1-v3",
 		company: "Motorola",
 		model: "WR850G",
 		version: "v1-v3",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Motorola WR850G v1-v3")
-	}, {merge: true});
-
-	gargoyleRef.doc("Motorola WE800G v1").set({
+	extraRouters.push({
 		fullName: "Motorola WE800G v1",
 		company: "Motorola",
 		model: "WE800G",
 		version: "v1",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Motorola WE800G v1")
-	}, {merge: true});
-
-	gargoyleRef.doc("Buffalo WBR2-G54").set({
+	extraRouters.push({
 		fullName: "Buffalo WBR2-G54",
 		company: "Buffalo",
 		model: "WBR2-G54",
 		version: "",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Buffalo WBR2-G54")
-	}, {merge: true});
-
-	gargoyleRef.doc("La Fonera Accton MR3201A").set({
+	extraRouters.push({
 		fullName: "La Fonera Accton MR3201A",
 		company: "La Fonera",
 		model: "Accton MR3201A",
 		version: "",
 		specs: "8MB Flash, 32MB RAM",
 		USB: false,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("La Fonera Accton MR3201A")
-	}, {merge: true});
-
-	gargoyleRef.doc("La Fonera 2 v2202").set({
+	extraRouters.push({
 		fullName: "La Fonera 2 v2202",
 		company: "La Fonera",
 		model: "La Fonera 2",
 		version: "v2202",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
-		notes: "Recommended minimum specs"
+		notes: "Recommended minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("La Fonera 2 v2202")
-	}, {merge: true});
-
-	gargoyleRef.doc("La Fonera v2100-v2200").set({
+	extraRouters.push({
 		fullName: "La Fonera v2100-v2200",
 		company: "La Fonera",
 		model: "La Fonera",
 		version: "v2100-v2200",
 		specs: "8MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("La Fonera v2100-v2200")
-	}, {merge: true});
-
-	gargoyleRef.doc("La Fonera+ v2201").set({
+	extraRouters.push({
 		fullName: "La Fonera+ v2201",
 		company: "La Fonera",
 		model: "La Fonera+",
 		version: "v2201",
 		specs: "8MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("La Fonera+ v2201")
-	}, {merge: true});
-
-	gargoyleRef.doc("D-Link DIR-300 Rev.A").set({
+	extraRouters.push({
 		fullName: "D-Link DIR-300 Rev.A",
 		company: "D-Link",
 		model: "DIR-300",
 		version: "Rev.A",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("D-Link DIR-300 Rev.A")
-	}, {merge: true});
-
-	gargoyleRef.doc("Ubiquiti Nanostation 2").set({
+	extraRouters.push({
 		fullName: "Ubiquiti Nanostation 2",
 		company: "Ubiquiti",
 		model: "Nanostation 2",
 		version: "",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
-		notes: "Bare minimum specs"
+		notes: "Bare minimum specs",
+		LAN: "100 Mbps",
+		WiFi: "g54"
 	});
 
-	await gargoyleRef.doc("index").update({
-		fullNameIndex: admin.firestore.FieldValue.arrayUnion("Ubiquiti Nanostation 2")
+}
+
+
+async function uploadExtraRouters() {
+
+	let dbDeviceList = [];
+	let dbAllRoutersList = [];
+
+	await gargoyleRef.doc("index").get()
+	.then((doc) => {
+		if (doc.data()) {
+			dbDeviceList = doc.data().fullNameIndex;
+		}
+	});
+
+	//	Get index of all routers supporting all firmwares
+
+	await allFirmwareRoutersRef.doc("index").get()
+	.then((doc) => {
+		if (doc.data()) {
+			dbAllRoutersList = doc.data().fullNameIndex;
+		}
+	});
+
+	////////////////////////////////////////////////////////////////////
+
+	for (let i = 0; i < extraRouters.length; i++) {
+
+		////////////Add to Freshtomato routers list////////////////////////		
+
+		if (!(dbDeviceList.includes(extraRouters[i].fullName))) {
+
+			gargoyleRef.doc(extraRouters[i].fullName).set({
+				fullName: extraRouters[i].fullName,
+				company: extraRouters[i].company,
+				model: extraRouters[i].model,
+				version: extraRouters[i].version,
+				LAN: extraRouters[i].LAN,
+				USB: extraRouters[i].USB,
+				WiFi: extraRouters[i].WiFi,
+				specs: extraRouters[i].specs,
+				notes: extraRouters[i].notes
+			}, {merge: true});
+
+			gargoyleRef.doc("index").set({
+				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
+			}, {merge: true});
+
+			// Add routers to aggragated router list supporting all firmwares/////
+			//////////////////////////////////////////////////////////////////////
+
+			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
+			
+			if (!(dbAllRoutersList.includes(companyModel))) {
+				allFirmwareRoutersRef.doc(companyModel).set({
+					fullName: companyModel,
+					company: extraRouters[i].company,
+					model: extraRouters[i].model,
+					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},											
+					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].USB},											
+					WiFi: extraRouters[i].WiFi,
+					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
+					gargoyleSupport: true,
+					gargoyleSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
+					gargoyleNotes: extraRouters[i].notes
+				}, {merge: true});
+
+				allFirmwareRoutersRef.doc("index").set({
+					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+				}, {merge: true});
+
+			} else {
+				// Only need some fields if router already exists in list
+				allFirmwareRoutersRef.doc(companyModel).set({
+					gargoyleNotes: extraRouters[i].notes,																					
+					gargoyleSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
+					gargoyleSupport: true,	
+					WiFi: extraRouters[i].WiFi,
+				}, {merge: true});
+
+				allFirmwareRoutersRef.doc(companyModel).update({
+					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
+					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN,											
+					[`USB.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].USB
+				}, {merge: true});
+
+			}
+		}
+	}
+
+	gargoyleRef.doc("index").set({
+		updatedOn: new Date()
+	}, {merge: true});
+
+	allFirmwareRoutersRef.doc("index").set({
+		updatedOn: new Date()
 	}, {merge: true});
 
 }
 
-// populateRouterList();
+
+
+// checkGargoyle();
+// createExtraRouters();
+// uploadExtraRouters();
