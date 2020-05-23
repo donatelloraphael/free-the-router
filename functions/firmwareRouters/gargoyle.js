@@ -17,16 +17,20 @@ exports.checkGargoyle = async function() {
 // async function checkGargoyleList() {
 	axios.get("https://www.gargoyle-router.com/wiki/doku.php?id=supported_routers_-_tested_routers")
 	.then(async function(res) {
-		let updatedOn = await gargoyleRef.doc("index").get()
+		let modString = await gargoyleRef.doc("index").get()
 										.then((doc) => {
-											return doc.data().updatedOn;
+											if (doc.data()) {
+												return doc.data().modString;
+											} else {
+												return "";
+											}
 										});
 
 
 		$(".doc", res.data).each((i, element) => {
 			let currentUpdationStatus = $(element).text();
 		
-			if (currentUpdationStatus != updatedOn) {
+			if (currentUpdationStatus != modString) {
 				
 				db.collection("mail").add({
 					to: "freetherouter@gmail.com",

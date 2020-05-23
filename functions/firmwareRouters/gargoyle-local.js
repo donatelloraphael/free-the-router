@@ -15,19 +15,23 @@ const gargoyleRef = db.collection("gargoyle-main-list");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
 // exports.checkGargoyle = async function() {
-async function checkGargoyle() {
+async function checkGargoyleList() {
 	axios.get("https://www.gargoyle-router.com/wiki/doku.php?id=supported_routers_-_tested_routers")
 	.then(async function(res) {
-		let updatedOn = await gargoyleRef.doc("index").get()
+		let modString = await gargoyleRef.doc("index").get()
 										.then((doc) => {
-											return doc.data().updatedOn;
+											if (doc.data()) {
+												return doc.data().modString;
+											} else {
+												return "";
+											}
 										});
 
 
 		$(".doc", res.data).each((i, element) => {
 			let currentUpdationStatus = $(element).text();
 		
-			if (currentUpdationStatus != updatedOn) {
+			if (currentUpdationStatus != modString) {
 				
 				db.collection("mail").add({
 					to: "freetherouter@gmail.com",
@@ -737,10 +741,23 @@ async function uploadExtraRouters() {
 		updatedOn: new Date()
 	}, {merge: true});
 
+	setModString();
 }
 
+async function setModString() {
+	let currentUpdationStatus = "";
 
+	await axios.get("https://www.gargoyle-router.com/wiki/doku.php?id=supported_routers_-_tested_routers")
+	.then((res) => {
+		currentUpdationStatus = $(".doc", res.data).text();
+	});
 
+	gargoyleRef.doc("index").set({
+		modString: currentUpdationStatus
+	}, {merge: true});
+}
+
+// setModString();
 // checkGargoyle();
 // createExtraRouters();
 // uploadExtraRouters();
