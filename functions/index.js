@@ -10,7 +10,7 @@ const advancedtomatoModule = require("./firmwareRouters/advancedtomato");
 const asuswrtMerlinModule = require("./firmwareRouters/asuswrt-merlin");
 const freshtomatoModule = require("./firmwareRouters/freshtomato");
 const gargoyleModule = require("./firmwareRouters/gargoyle");
-// const checkDdwrtModule = require("./firmwareRouters/ddwrt");
+const ddwrtModule = require("./firmwareRouters/ddwrt");
 // const checkOpenwrtModule = require("./firmwareRouters/openwrt");
 
 // const pubSubClient = new PubSub();
@@ -71,9 +71,9 @@ exports.checkGargoyle = functions.pubsub.topic("firebase-schedule-checkAndUpdate
                               return gargoyleModule.checkGargoyle();
                           });
 
-// exports.checkDdwrt = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
-//                           return checkDdwrtModule.checkDdwrt();
-//                         });
+exports.checkAndUpdateDdwrt = functions.pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
+                          return ddwrtModule.checkAndUpdateDdwrt();
+                        });
 
 // exports.checkOpenwrt = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
 //                           return checkOpenwrtModule.checkOpenwrt();
