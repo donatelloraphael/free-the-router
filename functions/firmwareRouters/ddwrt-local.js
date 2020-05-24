@@ -345,13 +345,6 @@ async function checkAndUpdateDdwrt() {
 				updatedOn: new Date()
 			}, {merge: true});
 
-			batchArray.forEach(async batch => {
-				await batch.commit().catch(error => {
-					console.log(error);
-					return false;
-				});
-			});
-
 			ddwrtRef.doc("lastModified").set({
 				modString: currentModified
 			}).catch(error => console.log(error));
@@ -363,20 +356,27 @@ async function checkAndUpdateDdwrt() {
 					text: `[DD-WRT]: device list has been updated. New Devices: ${newDevices}`
 				}
 			}).then(() => console.log('[DD-WRT]: Queued email for delivery!'))
-			.catch(error => {
-				console.log(error);
-				return false;
-			});
+			.catch(error => console.log(error));
 
 			console.log("[DD-WRT]: device list has been modified!");
-			return true;
+
+			return batchArray.forEach(async batch => {
+				return await batch.commit()
+				.then(() => {
+					return true;
+				}).catch(error => {
+					console.log(error);
+					return false;
+				});
+			});
+
 		}
 
 	} else {
 		console.log('[DD-WRT]: Device list has not been modified.');
 		return true;
 	}
-}
+};
 
 
 checkAndUpdateDdwrt();
