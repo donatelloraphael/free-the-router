@@ -132,7 +132,7 @@ async function createExtraRouters() {
 		specs: "8MB Flash, 32MB RAM",
 		LAN: "100 Mbps",
 		USB: true,
-		WiFi: "",
+		WiFi: "n150",
 		notes: ""
 	});
 

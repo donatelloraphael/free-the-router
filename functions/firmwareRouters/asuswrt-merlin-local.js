@@ -12,6 +12,57 @@ const db = admin.firestore();
 let merlinRef = db.collection("asuswrt-merlin-main-list");
 let allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
+// exports.checkAsusMerlin = async function() {
+async function checkAsusMerlin() {
+	let fullNameIndex = [];
+	let routerList = [];
+	let indexDocRef = db.collection("asuswrt-merlin-main-list").doc("index");
+
+	await axios.get("https://sourceforge.net/projects/asuswrt-merlin/files/")
+		.then((res) => {
+			$(".name", res.data).each((i, element) => {
+				let innerText = $(element).text();
+				if (innerText != "Documentation" && innerText != "README.TXT") {
+					routerList.push("Asus " + innerText.replace("_", " "));
+				}
+			});
+		});
+
+	await indexDocRef.get()
+	.then((doc) => {
+		if (doc.data()) {
+			fullNameIndex = doc.data().fullNameIndex;
+		}
+	});
+	
+	let newRouters = [];
+	let isModified = false;
+
+	for (let i = 0; i < routerList.length; i++) {
+
+		if (!fullNameIndex.includes(routerList[i])) {
+			newRouters.push(routerList[i]);
+			isModified = true;
+		}
+	}
+	
+	if (isModified) {
+		db.collection("mail").add({
+			to: "freetherouter@gmail.com",
+			message: {
+				subject: "Asuswrt-Merlin list has changed",
+				text: `Asuswrt-Merlin device list has been updated. New devices: ${newRouters}`
+			}
+		}).then(() => {
+			console.log('Queued email for delivery!');
+			console.log('Asuswrt-Merlin list has changed!');
+		});
+
+	}	else {
+		console.log("Asuswrt-Merlin list has not been modified.");
+	}
+}
+
 let extraRouters = [];
 
 function createExtraRouters() {
@@ -296,14 +347,11 @@ async function uploadExtraRouters() {
 				allFirmwareRoutersRef.doc(companyModel).set({	
 					asusMerlinNotes: extraRouters[i].notes,																					
 					asusMerlinSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
-					asusMerlinSupport: true,	
-					WiFi: extraRouters[i].WiFi
+					asusMerlinSupport: true
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
-					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
-					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN,											
-					[`USB.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].USB
+					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs
 				}, {merge: true});
 
 			}
@@ -326,7 +374,8 @@ async function uploadExtraRouters() {
 
 }
 
-createExtraRouters();
-uploadExtraRouters();
+// checkAsusMerlin();
+// createExtraRouters();
+// uploadExtraRouters();
 
 

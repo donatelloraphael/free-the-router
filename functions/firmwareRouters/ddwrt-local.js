@@ -376,7 +376,6 @@ async function checkAndUpdateDdwrt() {
 		console.log('[DD-WRT]: Device list has not been modified.');
 		return true;
 	}
-};
+}
 
-
-checkAndUpdateDdwrt();
+// checkAndUpdateDdwrt();

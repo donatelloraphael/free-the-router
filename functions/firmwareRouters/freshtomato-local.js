@@ -212,9 +212,9 @@ async function checkAndUpdateFreshtomato() {
 				}).then(() => console.log('FreshTomato: Queued email for delivery!'))
 				.catch(error => console.log(error));
 
-				console.log("Fresh Tomato: New builds are available!");
+				console.log("[FreshTomato]: New builds are available!");
 			} else {
-				console.log("No change in FreshTomato device list.");
+				console.log("[FreshTomato]: No change in device list.");
 			}
 		}
 		
@@ -224,7 +224,7 @@ async function checkAndUpdateFreshtomato() {
 		console.log(error);
 		return false;
 	});		
-};
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
