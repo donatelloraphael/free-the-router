@@ -11,12 +11,13 @@ const db = admin.firestore();
 
 let merlinRef = db.collection("asuswrt-merlin-main-list");
 let allFirmwareRoutersRef = db.collection("all-firmware-routers");
+let indicesRef = db.collection("indices");
+
 
 // exports.checkAsusMerlin = async function() {
 async function checkAsusMerlin() {
 	let fullNameIndex = [];
 	let routerList = [];
-	let indexDocRef = db.collection("asuswrt-merlin-main-list").doc("index");
 
 	await axios.get("https://sourceforge.net/projects/asuswrt-merlin/files/")
 		.then((res) => {
@@ -28,7 +29,7 @@ async function checkAsusMerlin() {
 			});
 		});
 
-	await indexDocRef.get()
+	await indicesRef.doc("asuswrt-merlin-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			fullNameIndex = doc.data().fullNameIndex;
@@ -276,7 +277,7 @@ async function uploadExtraRouters() {
 	let dbDeviceList = [];
 	let dbAllRoutersList = [];
 
-	await merlinRef.doc("index").get()
+	await indicesRef.doc("asuswrt-merlin-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbDeviceList = doc.data().fullNameIndex;
@@ -285,7 +286,7 @@ async function uploadExtraRouters() {
 
 	//	Get index of all routers supporting all firmwares
 
-	await allFirmwareRoutersRef.doc("index").get()
+	await indicesRef.doc("all-routers-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbAllRoutersList = doc.data().fullNameIndex;
@@ -315,7 +316,7 @@ async function uploadExtraRouters() {
 				notes: extraRouters[i].notes
 			}, {merge: true});
 
-			await merlinRef.doc("index").set({
+			await indicesRef.doc("asuswrt-merlin-index").set({
 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
 			}, {merge: true});
 
@@ -338,7 +339,7 @@ async function uploadExtraRouters() {
 					asusMerlinNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				allFirmwareRoutersRef.doc("index").update({
+				indicesRef.doc("all-routers-index").update({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
 
@@ -361,11 +362,11 @@ async function uploadExtraRouters() {
 	if (isModified) {
 		console.log('AsusWRT Merlin has been updated!');
 
-		merlinRef.doc("index").set({
+		indicesRef.doc("asuswrt-merlin-index").set({
 			updatedOn: new Date()
 		}, {merge: true});
 
-		allFirmwareRoutersRef.doc("index").set({
+		indicesRef.doc("all-routers-index").set({
 			updatedOn: new Date()
 		}, {merge: true});
 	} else {

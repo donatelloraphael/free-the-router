@@ -13,6 +13,7 @@ const db = admin.firestore();
 
 const freshtomatoRef = db.collection("freshtomato-main-list");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 const deviceArray = [];
 
 
@@ -24,12 +25,10 @@ async function checkAndUpdateFreshtomato() {
 	let dbDeviceList = [];
 	let dbAllRoutersList = [];
 
-	await freshtomatoRef.doc("index").get()
+	await indicesRef.doc("freshtomato-index").get()
 	.then(doc => {
-		if (doc.data() == undefined) {
-			modString = "";
-		} else {
-			modString = doc.data().lastModified;
+		if (doc.data()) {
+			modString = doc.data().modString;
 			dbDeviceList = doc.data().fullNameIndex;
 		}
 	}).catch(error => {
@@ -40,7 +39,7 @@ async function checkAndUpdateFreshtomato() {
 	
 	return axios.get("https://wiki.freshtomato.org/doku.php?id=hardware_compatibility")
 	.then(async res => {
-		modString = $(".docInfo", res.data).text();
+		lastModified = $(".docInfo", res.data).text();
 
 		if (lastModified != modString) {
 
@@ -92,9 +91,9 @@ async function checkAndUpdateFreshtomato() {
 
 			//	Get index of all routers supporting all firmwares
 
-			await allFirmwareRoutersRef.doc("index").get()
+			await indicesRef.doc("all-routers-index").get()
 			.then(doc => {
-				if (doc.data() != undefined) {
+				if (doc.data()) {
 					dbAllRoutersList = doc.data().fullNameIndex;
 				}
 			});
@@ -137,7 +136,7 @@ async function checkAndUpdateFreshtomato() {
 						notes: deviceArray[i].notes
 					}, {merge: true});
 
-					batchArray[batchIndex].set(freshtomatoRef.doc("index"), {
+					batchArray[batchIndex].set(indicesRef.doc("freshtomato-index"), {
 						fullNameIndex: admin.firestore.FieldValue.arrayUnion((deviceArray[i].fullName + " " + deviceArray[i].version).trim())
 					}, {merge: true});
 
@@ -162,7 +161,7 @@ async function checkAndUpdateFreshtomato() {
 							freshtomatoNotes: deviceArray[i].notes
 						}, {merge: true});
 
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+						batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 							fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 						}, {merge: true});
 
@@ -190,12 +189,12 @@ async function checkAndUpdateFreshtomato() {
 
 			if (isModified) {
 					
-				batchArray[batchIndex].set(freshtomatoRef.doc("index"), {
-					lastModified: modString,
+				batchArray[batchIndex].set(indicesRef.doc("freshtomato-index"), {
+					modString: lastModified,
 					updatedOn: new Date()
 				}, {merge: true});
 
-				batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+				batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 					updatedOn: new Date()
 				}, {merge: true});
 
@@ -212,7 +211,7 @@ async function checkAndUpdateFreshtomato() {
 				}).then(() => console.log('FreshTomato: Queued email for delivery!'))
 				.catch(error => console.log(error));
 
-				console.log("[FreshTomato]: New builds are available!");
+				console.log("[Fresh Tomato]: New builds are available!");
 			} else {
 				console.log("[FreshTomato]: No change in device list.");
 			}
@@ -260,7 +259,6 @@ function createExtraRouters() {
 		notes: ""
 	});
 
-
 	extraRouters.push({
 		fullName: "Belkin F7D3301",
 		company: "Belkin",
@@ -273,7 +271,6 @@ function createExtraRouters() {
 		WiFi: "n300",
 		notes: ""
 	});
-
 
 	extraRouters.push({
 		fullName: "Belkin F7D7301",
@@ -386,7 +383,7 @@ async function uploadExtraRouters() {
 	let dbDeviceList = [];
 	let dbAllRoutersList = [];
 
-	await freshtomatoRef.doc("index").get()
+	await indicesRef.doc("freshtomato-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbDeviceList = doc.data().fullNameIndex;
@@ -395,7 +392,7 @@ async function uploadExtraRouters() {
 
 	//	Get index of all routers supporting all firmwares
 
-	await allFirmwareRoutersRef.doc("index").get()
+	await indicesRef.doc("all-routers-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbAllRoutersList = doc.data().fullNameIndex;
@@ -423,7 +420,7 @@ async function uploadExtraRouters() {
 				notes: extraRouters[i].notes
 			}, {merge: true});
 
-			await freshtomatoRef.doc("index").update({
+			await indicesRef.doc("freshtomato-index").set({
 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
 			}, {merge: true});
 
@@ -447,7 +444,7 @@ async function uploadExtraRouters() {
 					freshtomatoNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				allFirmwareRoutersRef.doc("index").update({
+				indicesRef.doc("all-routers-index").set({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
 
@@ -471,11 +468,11 @@ async function uploadExtraRouters() {
 		}
 	}
 
-	freshtomatoRef.doc("index").set({
+	indicesRef.doc("freshtomato-index").set({
 		updatedOn: new Date()
 	}, {merge: true});
 
-	allFirmwareRoutersRef.doc("index").set({
+	indicesRef.doc("all-routers-index").set({
 		updatedOn: new Date()
 	}, {merge: true});
 

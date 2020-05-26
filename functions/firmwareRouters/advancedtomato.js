@@ -11,8 +11,7 @@ admin.initializeApp({
 }, "advancedtomato");
 const db = admin.firestore();
 
-const advancedtomatoRef = db.collection("advancedtomato-main-list");
-const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 
 exports.checkAdvancedtomato = async function() {
 // async function checkAdvancedtomato() {
@@ -33,7 +32,7 @@ exports.checkAdvancedtomato = async function() {
 		return false;
 	});
 	
-	await advancedtomatoRef.doc("index").get()
+	await indicesRef.doc("advancedtomato-index").get()
 	.then(doc => {
 		if (doc.data()) {
 			nameIndex = doc.data().fullNameIndex;										

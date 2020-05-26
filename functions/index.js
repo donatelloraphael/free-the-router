@@ -3,7 +3,6 @@ const { Nuxt } = require('nuxt');
 const express = require('express');
 
 //////////////////OTHER FUNCTIONS//////////////////////////
-// const {PubSub} = require('@google-cloud/pubsub');
 
 const tomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
 const advancedtomatoModule = require("./firmwareRouters/advancedtomato");
@@ -11,9 +10,7 @@ const asuswrtMerlinModule = require("./firmwareRouters/asuswrt-merlin");
 const freshtomatoModule = require("./firmwareRouters/freshtomato");
 const gargoyleModule = require("./firmwareRouters/gargoyle");
 const ddwrtModule = require("./firmwareRouters/ddwrt");
-// const checkOpenwrtModule = require("./firmwareRouters/openwrt");
-
-// const pubSubClient = new PubSub();
+const openwrtModule = require("./firmwareRouters/openwrt");
 
 //////////////////SERVER SIDE RENDER////////////////////////
 
@@ -75,6 +72,6 @@ exports.checkAndUpdateDdwrt = functions.pubsub.topic("firebase-schedule-checkAnd
                           return ddwrtModule.checkAndUpdateDdwrt();
                         });
 
-// exports.checkOpenwrt = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
-//                           return checkOpenwrtModule.checkOpenwrt();
-//                         });
+exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
+                          return openwrtModule.checkAndUpdateOpenwrt();
+                        });

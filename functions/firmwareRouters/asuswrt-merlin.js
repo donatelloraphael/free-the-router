@@ -15,7 +15,7 @@ exports.checkAsusMerlin = async function() {
 // async function checkAsusMerlin() {
 	let fullNameIndex = [];
 	let routerList = [];
-	let indexDocRef = db.collection("asuswrt-merlin-main-list").doc("index");
+	let indicesRef = db.collection("indices");
 
 	await axios.get("https://sourceforge.net/projects/asuswrt-merlin/files/")
 		.then((res) => {
@@ -27,7 +27,7 @@ exports.checkAsusMerlin = async function() {
 			});
 		});
 
-	await indexDocRef.get()
+	await indicesRef.doc("asuswrt-merlin-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			fullNameIndex = doc.data().fullNameIndex;

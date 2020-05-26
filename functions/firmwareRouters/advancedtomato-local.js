@@ -13,6 +13,7 @@ const db = admin.firestore();
 
 const advancedtomatoRef = db.collection("advancedtomato-main-list");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 
 // exports.checkAdvancedtomato = async function() {
 async function checkAdvancedtomato() {
@@ -33,7 +34,7 @@ async function checkAdvancedtomato() {
 		return false;
 	});
 	
-	await advancedtomatoRef.doc("index").get()
+	await indicesRef.doc("advancedtomato-index").get()
 	.then(doc => {
 		if (doc.data()) {
 			nameIndex = doc.data().fullNameIndex;										
@@ -443,7 +444,7 @@ async function uploadExtraRouters() {
 	let dbDeviceList = [];
 	let dbAllRoutersList = [];
 
-	await advancedtomatoRef.doc("index").get()
+	await indicesRef.doc("advancedtomato-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbDeviceList = doc.data().fullNameIndex;
@@ -452,7 +453,7 @@ async function uploadExtraRouters() {
 
 	//	Get index of all routers supporting all firmwares
 
-	await allFirmwareRoutersRef.doc("index").get()
+	await indicesRef.doc("all-routers-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbAllRoutersList = doc.data().fullNameIndex;
@@ -479,7 +480,7 @@ async function uploadExtraRouters() {
 				notes: extraRouters[i].notes
 			}, {merge: true});
 
-			advancedtomatoRef.doc("index").update({
+			indicesRef.doc("advancedtomato-index").set({
 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
 			}, {merge: true});
 
@@ -502,7 +503,7 @@ async function uploadExtraRouters() {
 					advancedtomatoNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				allFirmwareRoutersRef.doc("index").update({
+				indicesRef.doc("all-routers-index").update({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
 
@@ -525,11 +526,11 @@ async function uploadExtraRouters() {
 		}
 	}
 
-	advancedtomatoRef.doc("index").set({
+	indicesRef.doc("advancedtomato-index").set({
 		updatedOn: new Date()
 	}, {merge: true});
 
-	allFirmwareRoutersRef.doc("index").set({
+	indicesRef.doc("all-routers-index").set({
 		updatedOn: new Date()
 	}, {merge: true});
 
