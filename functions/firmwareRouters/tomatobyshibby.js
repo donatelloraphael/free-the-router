@@ -13,6 +13,7 @@ const db = admin.firestore();
 
 const tomatobyshibbyRef = db.collection('tomatobyshibby-main-list');
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 
 exports.checkAndUpdateTomatobyshibby = async function() {
 // async function checkAndUpdateTomatobyshibby() {
@@ -89,24 +90,23 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 					//////////////////////////////////////////////////////////////////////////
 					// console.log(mainTable);
 					///////////await setMainTable(mainTable);/////////////////////////////////
+					
+					let fullNameIndex = [];
+					let dbAllRoutersList = [];
 
-					let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
+					await indicesRef.doc("tomatobyshibby-index").get()
 					.then((doc) => {
-						if (doc.data() == undefined) {
-							return [];
-						} else {
-							return doc.data().fullNameIndex;
+						if (doc.data()) {
+							fullNameIndex = doc.data().fullNameIndex;
 						}
 					});
 
 					//	Get index of all routers supporting all firmwares
 
-					let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
+					await indicesRef.doc("all-routers-index").get()
 					.then((doc) => {
-						if (doc.data() == undefined) {
-							return [];
-						} else {
-							return doc.data().fullNameIndex;
+						if (doc.data()) {
+							dbAllRoutersList = doc.data().fullNameIndex;
 						}
 					});
 
@@ -148,7 +148,7 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 							});
 
 							// tomatobyshibbyRef.doc("index").set({
-							batchArray[batchIndex].set(tomatobyshibbyRef.doc("index"), {
+							batchArray[batchIndex].set(indicesRef.doc("tomatobyshibby-index"), {
 								fullNameIndex: admin.firestore.FieldValue.arrayUnion(mainTable[i].fullName)
 							}, {merge: true});
 
@@ -174,7 +174,7 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 									tomatobyshibbyNotes: mainTable[i].notes
 								}, {merge: true});
 	
-								batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+								batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 									fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 								}, {merge: true});							
 
@@ -201,11 +201,11 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 					if (isModified) {
 					
-						batchArray[batchIndex].set(tomatobyshibbyRef.doc("index"), {
+						batchArray[batchIndex].set(indicesRef.doc("tomatobyshibby-index"), {
 							updatedOn: new Date()
 						}, {merge: true});
 
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+						batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 							updatedOn: new Date()
 						}, {merge: true});
 
@@ -219,10 +219,12 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 								subject: "Tomato by Shibby has been updated",
 								text: `Tomato by Shibby device list has been updated. New Devices: ${newDevices}`
 							}
-						}).then(() => console.log('Tomato by Shibby: Queued email for delivery!'))
+						}).then(() => console.log('[Tomato by Shibby]: Queued email for delivery!'))
 						.catch(error => console.log(error));
+
+						console.log('[Tomato by Shibby]: New builds are available!');
 					} else {
-						console.log("No change in Tomato By Shibby device list.");
+						console.log("[Tomato by Shibby]: No change in device list.");
 					}
 				}
 			}

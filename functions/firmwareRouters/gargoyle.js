@@ -12,20 +12,22 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const gargoyleRef = db.collection("gargoyle-main-list");
+const indicesRef = db.collection("indices");
 
 exports.checkGargoyle = async function() {
 // async function checkGargoyleList() {
+
+	let modString = "";
+
 	axios.get("https://www.gargoyle-router.com/wiki/doku.php?id=supported_routers_-_tested_routers")
 	.then(async function(res) {
-		let modString = await gargoyleRef.doc("index").get()
-										.then((doc) => {
-											if (doc.data()) {
-												return doc.data().modString;
-											} else {
-												return "";
-											}
-										});
-
+		
+		await indicesRef.doc("gargoyle-index").get()
+		.then((doc) => {
+			if (doc.data()) {
+				modString = doc.data().modString;									
+			}
+		});
 
 		$(".doc", res.data).each((i, element) => {
 			let currentUpdationStatus = $(element).text();
@@ -40,9 +42,9 @@ exports.checkGargoyle = async function() {
 					}
 				}).then(() => console.log('Gargoyle: Queued email for delivery!'));
 				
-				console.log("Gargoyle: Router list has been modified!");
+				console.log("[Gargoyle]: Router list has been modified!");
 			} else {
-				console.log("Gargoyle: No modification to supported devices list.");
+				console.log("[Gargoyle]: No modification to supported devices list.");
 			}
 		});	
 	});

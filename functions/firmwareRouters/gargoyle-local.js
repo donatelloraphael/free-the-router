@@ -13,20 +13,22 @@ const db = admin.firestore();
 
 const gargoyleRef = db.collection("gargoyle-main-list");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 
 // exports.checkGargoyle = async function() {
 async function checkGargoyleList() {
+
+	let modString = "";
+
 	axios.get("https://www.gargoyle-router.com/wiki/doku.php?id=supported_routers_-_tested_routers")
 	.then(async function(res) {
-		let modString = await gargoyleRef.doc("index").get()
-										.then((doc) => {
-											if (doc.data()) {
-												return doc.data().modString;
-											} else {
-												return "";
-											}
-										});
-
+		
+		await indicesRef.doc("gargoyle-index").get()
+		.then((doc) => {
+			if (doc.data()) {
+				modString = doc.data().modString;									
+			}
+		});
 
 		$(".doc", res.data).each((i, element) => {
 			let currentUpdationStatus = $(element).text();
@@ -41,9 +43,9 @@ async function checkGargoyleList() {
 					}
 				}).then(() => console.log('Gargoyle: Queued email for delivery!'));
 				
-				console.log("Gargoyle: Router list has been modified!");
+				console.log("[Gargoyle]: Router list has been modified!");
 			} else {
-				console.log("Gargoyle: No modification to supported devices list.");
+				console.log("[Gargoyle]: No modification to supported devices list.");
 			}
 		});	
 	});
@@ -651,7 +653,7 @@ async function uploadExtraRouters() {
 	let dbDeviceList = [];
 	let dbAllRoutersList = [];
 
-	await gargoyleRef.doc("index").get()
+	await indicesRef.doc("gargoyle-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbDeviceList = doc.data().fullNameIndex;
@@ -660,7 +662,7 @@ async function uploadExtraRouters() {
 
 	//	Get index of all routers supporting all firmwares
 
-	await allFirmwareRoutersRef.doc("index").get()
+	await indicesRef.doc("all-routers-index").get()
 	.then((doc) => {
 		if (doc.data()) {
 			dbAllRoutersList = doc.data().fullNameIndex;
@@ -687,7 +689,7 @@ async function uploadExtraRouters() {
 				notes: extraRouters[i].notes
 			}, {merge: true});
 
-			gargoyleRef.doc("index").set({
+			indicesRef.doc("gargoyle-index").set({
 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName)
 			}, {merge: true});
 
@@ -710,7 +712,7 @@ async function uploadExtraRouters() {
 					gargoyleNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				allFirmwareRoutersRef.doc("index").set({
+				indicesRef.doc("all-routers-index").set({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 				}, {merge: true});
 
@@ -733,11 +735,11 @@ async function uploadExtraRouters() {
 		}
 	}
 
-	gargoyleRef.doc("index").set({
+	indicesRef.doc("gargoyle-index").set({
 		updatedOn: new Date()
 	}, {merge: true});
 
-	allFirmwareRoutersRef.doc("index").set({
+	indicesRef.doc("all-routers-index").set({
 		updatedOn: new Date()
 	}, {merge: true});
 
@@ -752,7 +754,7 @@ async function setModString() {
 		currentUpdationStatus = $(".doc", res.data).text();
 	});
 
-	gargoyleRef.doc("index").set({
+	indicesRef.doc("gargoyle-index").set({
 		modString: currentUpdationStatus
 	}, {merge: true});
 }

@@ -13,6 +13,7 @@ const db = admin.firestore();
 
 const tomatobyshibbyRef = db.collection('tomatobyshibby-main-list');
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 
 // exports.checkAndUpdateTomatobyshibby = async function() {
 async function checkAndUpdateTomatobyshibby() {
@@ -89,24 +90,23 @@ async function checkAndUpdateTomatobyshibby() {
 					//////////////////////////////////////////////////////////////////////////
 					// console.log(mainTable);
 					///////////await setMainTable(mainTable);/////////////////////////////////
+					
+					let fullNameIndex = [];
+					let dbAllRoutersList = [];
 
-					let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
+					await indicesRef.doc("tomatobyshibby-index").get()
 					.then((doc) => {
-						if (doc.data() == undefined) {
-							return [];
-						} else {
-							return doc.data().fullNameIndex;
+						if (doc.data()) {
+							fullNameIndex = doc.data().fullNameIndex;
 						}
 					});
 
 					//	Get index of all routers supporting all firmwares
 
-					let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
+					await indicesRef.doc("all-routers-index").get()
 					.then((doc) => {
-						if (doc.data() == undefined) {
-							return [];
-						} else {
-							return doc.data().fullNameIndex;
+						if (doc.data()) {
+							dbAllRoutersList = doc.data().fullNameIndex;
 						}
 					});
 
@@ -148,7 +148,7 @@ async function checkAndUpdateTomatobyshibby() {
 							});
 
 							// tomatobyshibbyRef.doc("index").set({
-							batchArray[batchIndex].set(tomatobyshibbyRef.doc("index"), {
+							batchArray[batchIndex].set(indicesRef.doc("tomatobyshibby-index"), {
 								fullNameIndex: admin.firestore.FieldValue.arrayUnion(mainTable[i].fullName)
 							}, {merge: true});
 
@@ -174,7 +174,7 @@ async function checkAndUpdateTomatobyshibby() {
 									tomatobyshibbyNotes: mainTable[i].notes
 								}, {merge: true});
 	
-								batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+								batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 									fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 								}, {merge: true});							
 
@@ -201,11 +201,11 @@ async function checkAndUpdateTomatobyshibby() {
 
 					if (isModified) {
 					
-						batchArray[batchIndex].set(tomatobyshibbyRef.doc("index"), {
+						batchArray[batchIndex].set(indicesRef.doc("tomatobyshibby-index"), {
 							updatedOn: new Date()
 						}, {merge: true});
 
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+						batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 							updatedOn: new Date()
 						}, {merge: true});
 
@@ -219,10 +219,12 @@ async function checkAndUpdateTomatobyshibby() {
 								subject: "Tomato by Shibby has been updated",
 								text: `Tomato by Shibby device list has been updated. New Devices: ${newDevices}`
 							}
-						}).then(() => console.log('Tomato by Shibby: Queued email for delivery!'))
+						}).then(() => console.log('[Tomato by Shibby]: Queued email for delivery!'))
 						.catch(error => console.log(error));
+
+						console.log('[Tomato by Shibby]: New builds are available!');
 					} else {
-						console.log("No change in Tomato By Shibby device list.");
+						console.log("[Tomato by Shibby]: No change in device list.");
 					}
 				}
 			}
@@ -339,29 +341,32 @@ function createExtraRouters() {
 
 async function uploadExtraRouters() {
 
-	let fullNameIndex = await tomatobyshibbyRef.doc("index").get()
+	let fullNameIndex = [];
+	let dbAllRoutersList = [];
+	let isModified = false;
+
+	await indicesRef.doc("tomatobyshibby-index").get()
 	.then((doc) => {
 		if (doc.data()) {
-			return doc.data().fullNameIndex;
-		} else {
-			return [];
+			fullNameIndex = doc.data().fullNameIndex;
 		}
 	}).catch(error => console.log(error));
 
 	//	Get index of all routers supporting all firmwares
 
-	let dbAllRoutersList = await allFirmwareRoutersRef.doc("index").get()
+	await allFirmwareRoutersRef.doc("all-routers-index").get()
 	.then((doc) => {
 		if (doc.data()) {
-			return doc.data().fullNameIndex;			
-		} else {
-			return [];
+			dbAllRoutersList = doc.data().fullNameIndex;			
 		}
 	}).catch(error => console.log(error));
 
 	let arrayLength = extraRouters.length;
 	for (let i = 0; i < arrayLength; i++) {
 		if (!fullNameIndex.includes(extraRouters[i].fullName)) {
+
+			isModified = true;
+
 			tomatobyshibbyRef.doc(extraRouters[i].fullName).set({
 				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
@@ -373,7 +378,7 @@ async function uploadExtraRouters() {
 				notes: extraRouters[i].notes
 			});
 
-			tomatobyshibbyRef.doc("index").set({
+			indicesRef.doc("tomatobyshibby-index").set({
 				fullNameIndex: admin.firestore.FieldValue.arrayUnion(extraRouters[i].fullName),
 				updatedOn: new Date()
 			}, {merge: true});
@@ -392,13 +397,13 @@ async function uploadExtraRouters() {
 					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),						
 					specs: {[extraRouters[i].version ? extraRouters[i].version : "specs"]: extraRouters[i].specs},
 					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: ""},
-					LAN: {[mainTable[i].version ? mainTable[i].version : "default"]: mainTable[i].LAN},
+					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},
 					WiFi: "",
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes
 				}, {merge: true});
 
-				allFirmwareRoutersRef.doc("index").set({
+				indicesRef.doc("all-routers-index").set({
 					fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel),
 					updatedOn: new Date()
 				}, {merge: true});
@@ -416,15 +421,17 @@ async function uploadExtraRouters() {
 					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
 					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN
 				});			
-
-
-				allFirmwareRoutersRef.doc("index").set({
-					updatedOn: new Date()
-				}, {merge: true});
-
 			}
 		}
 	}
+
+	if (isModified) {
+		
+		indicesRef.doc("all-routers-index").set({
+			updatedOn: new Date()
+		}, {merge: true});
+	}
+
 }
 
 // createExtraRouters();
