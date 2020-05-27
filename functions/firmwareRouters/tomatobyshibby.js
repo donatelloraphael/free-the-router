@@ -31,7 +31,7 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 				/////////////// checkForChange(year);//////////////////////////
 
-				if (Number(year) > 2014 && loaded === false) {
+				if (Number(year) > 2019 && loaded === false) {
 					
 					loaded = true;	// DON'T change position
 

@@ -13,30 +13,30 @@ const db = admin.firestore();
 
 const ddwrtRef = db.collection("ddwrt-main-list");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+const indicesRef = db.collection("indices");
 
 // exports.checkAndUpdateDdwrt = async function() {
 async function checkAndUpdateDdwrt() {
 
-	let lastModified = "";
+	let modString = "";
 	let currentModified = "";
 	let isModified = false;
 	let deviceArray = [];
-	let html = "";
+	let dbDeviceList = [];
 
-	await ddwrtRef.doc("lastModified").get()
+	await indicesRef.doc("ddwrt-index").get()
 	.then((doc) => {
 		if (doc.data()) {
-			lastModified = doc.data().modString;
+			modString = doc.data().modString;
+			dbDeviceList = doc.data().fullNameIndex;
 		}
 	}).catch(error => console.log(error));
 
-	await axios.get("https://wiki.dd-wrt.com/wiki/index.php/Supported_Devices")
-	.then((res) => {	
+	return await axios.get("https://wiki.dd-wrt.com/wiki/index.php/Supported_Devices")
+	.then(async res => {	
 		currentModified = $("#f-lastmod", res.data).text().trim();
-		html = res.data;
-	}).catch(error => console.log(error));
 
-	if (lastModified !== currentModified) {
+		if (modString !== currentModified) {
 
 		isModified = true;
 		
@@ -44,7 +44,7 @@ async function checkAndUpdateDdwrt() {
 
 		let brandList = [];
 		
-		$("h3, h4", html).each((i, element) => {
+		$("h3, h4", res.data).each((i, element) => {
 			if (i > 3) {
 				let brand = $(element).text().split("]")[1].trim();
 
@@ -87,7 +87,7 @@ async function checkAndUpdateDdwrt() {
 
 		//////////////// Append Properties to device ////////////////////////
 
-		$("table", html).each((i, element) => {
+		$("table", res.data).each((i, element) => {
 			if (i > 0) {
 				let PoE = false;
 
@@ -214,6 +214,7 @@ async function checkAndUpdateDdwrt() {
 			}
 			
 		});
+
 		// console.dir(deviceArray, {'maxArrayLength': null});
 
 		////////////////////////Adding routers to the database////////////////
@@ -228,20 +229,9 @@ async function checkAndUpdateDdwrt() {
 
 		batchArray.push(db.batch());
 
-		let index = [];
 		let dbAllRoutersList = [];
 
-		await ddwrtRef.doc("index").get()
-		.then(doc => {
-			if (doc.data()) {
-				index = doc.data().fullNameIndex;
-			}
-		}).catch(error => {
-			console.log(error);
-			return false;
-		});
-
-		await allFirmwareRoutersRef.doc("index").get()
+		await indicesRef.doc("all-routers-index").get()
 		.then(doc => {
 			if (doc.data()) {
 				dbAllRoutersList = doc.data().fullNameIndex;
@@ -253,7 +243,7 @@ async function checkAndUpdateDdwrt() {
 
 		let length = deviceArray.length;
 		for (let i = 0; i < length; i++) {
-			if (!(index.includes(deviceArray[i].fullName))) {
+			if (!(dbDeviceList.includes(deviceArray[i].fullName))) {
 				if (deviceArray[i].ddwrtSupport) {
 
 					newDevices.push(deviceArray[i].fullName);
@@ -277,7 +267,7 @@ async function checkAndUpdateDdwrt() {
 						LAN: deviceArray[i].LAN
 					});
 
-					batchArray[batchIndex].set(ddwrtRef.doc("index"), {
+					batchArray[batchIndex].set(indicesRef.doc("ddwrt-index"), {
 						fullNameIndex: admin.firestore.FieldValue.arrayUnion(deviceArray[i].fullName)
 					}, {merge: true});
 
@@ -301,7 +291,7 @@ async function checkAndUpdateDdwrt() {
 							ddwrtNotes: deviceArray[i].notes
 						}, {merge: true});
 
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+						batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 							fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 						}, {merge: true});
 
@@ -337,17 +327,17 @@ async function checkAndUpdateDdwrt() {
 
 		if (isModified) {
 
-			batchArray[batchIndex].set(ddwrtRef.doc("index"), {
+			batchArray[batchIndex].set(indicesRef.doc("ddwrt-index"), {
 				updatedOn: new Date()
 			}, {merge: true});
 
-			batchArray[batchIndex].set(allFirmwareRoutersRef.doc("index"), {
+			batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
 				updatedOn: new Date()
 			}, {merge: true});
 
-			ddwrtRef.doc("lastModified").set({
+			batchArray[batchIndex].set(indicesRef.doc("ddwrt-index"), {
 				modString: currentModified
-			}).catch(error => console.log(error));
+			}, {merge: true});
 
 			db.collection("mail").add({
 				to: "freetherouter@gmail.com",
@@ -370,12 +360,16 @@ async function checkAndUpdateDdwrt() {
 				});
 			});
 
+		} else {
+			console.log('[DD-WRT]: Device list has not been modified.');
+			return true;
 		}
-
-	} else {
-		console.log('[DD-WRT]: Device list has not been modified.');
+	
+	}}).then(() => {
 		return true;
-	}
+	}).catch(error => console.log(error));
+
 }
+
 
 // checkAndUpdateDdwrt();
