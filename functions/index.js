@@ -72,6 +72,6 @@ exports.checkAndUpdateDdwrt = functions.pubsub.topic("firebase-schedule-checkAnd
                           return ddwrtModule.checkAndUpdateDdwrt();
                         });
 
-exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-createTomatobyshibby-us-central1").onPublish((message) => {
+exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
                           return openwrtModule.checkAndUpdateOpenwrt();
                         });
