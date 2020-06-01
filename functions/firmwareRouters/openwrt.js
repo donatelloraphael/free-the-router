@@ -143,7 +143,7 @@ exports.checkAndUpdateOpenwrt = async function() {
 
 					let companyModel = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(|\)/gmi, "").toUpperCase();
 					// Without extra model info in brackets
-					let companyModel2 = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(.*\)/gmi, "").toUpperCase();
+					let companyModel2 = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(.*\)/gmi, "").trim().toUpperCase();
 
 					if (!(dbAllRoutersList.includes(companyModel))) {
 						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
