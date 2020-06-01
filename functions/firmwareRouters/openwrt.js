@@ -42,7 +42,7 @@ exports.checkAndUpdateOpenwrt = async function() {
 
 					device.deviceType = $(".device_type", $(element).html()).text();
 					device.model = $(".model", $(element).html()).text().replace(/\//gmi, "&");
-					device.version = $(".version", $(element).html()).text().replace(/\//gmi, "&");
+					device.version = $(".version", $(element).html()).text().replace(/\//gmi, "&").replace(/\*/gmi, "+");
 					device.supportedCurrentRelease = $(".supported_current_rel", $(element).html()).text();
 					device.specs = $(".flash_mb", $(element).html()).text() + "MB Flash, " + $(".ram_mb", $(element).html()).text() + "MB RAM";
 					device.LAN = /\d/gmi.test($(".ethernet_gbit_ports", $(element).html()).text()) ? "1 Gbps" : "100 Mbps";
@@ -141,8 +141,9 @@ exports.checkAndUpdateOpenwrt = async function() {
 					///// Add routers to aggragated router list supporting all firmwares/////
 					/////////////////////////////////////////////////////////////////////////
 
-					let companyModel = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gi, "&")).toUpperCase();
-					// let routerVersion = deviceArray[i].version ? deviceArray[i].version : "nil";
+					let companyModel = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(|\)/gmi, "").toUpperCase();
+					// Without extra model info in brackets
+					let companyModel2 = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(.*\)/gmi, "").toUpperCase();
 
 					if (!(dbAllRoutersList.includes(companyModel))) {
 						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
@@ -191,6 +192,55 @@ exports.checkAndUpdateOpenwrt = async function() {
 
 					// Number of operations in each loop = 5
 					operationsCounter += 5;
+
+					if (companyModel != companyModel2) {
+						if (!(dbAllRoutersList.includes(companyModel2))) {
+							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel2), {
+								fullName: companyModel2,
+								company: deviceArray[i].company,
+								model: deviceArray[i].model,
+								LAN: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].LAN},											
+								USB: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].USB},											
+								WiFi: "",
+								SATA: deviceArray[i].SATA,
+								modem: deviceArray[i].modem,
+								deviceType: deviceArray[i].deviceType,
+								specs: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].specs},
+								openwrtSupport: true,
+								openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),						
+								openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
+								openwrtNotes: deviceArray[i].notes,
+								openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
+								openwrtTechData: deviceArray[i].techData
+							}, {merge: true});
+
+							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
+								fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel2)
+							}, {merge: true});
+
+						} else {
+							// Only need some fields if router already exists in list
+							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel2), {	
+								openwrtNotes: deviceArray[i].notes,																					
+								openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
+								openwrtSupport: true,
+								SATA: deviceArray[i].SATA,
+								modem: deviceArray[i].modem,
+								deviceType: deviceArray[i].deviceType,
+								openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
+								openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
+								openwrtTechData: deviceArray[i].techData
+							}, {merge: true});
+
+							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel2), {
+								[`specs.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].specs,
+								[`LAN.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].LAN,											
+								[`USB.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].USB
+							}, {merge: true});
+						}
+
+						operationsCounter += 3;
+					}
 				}
 			}
 
