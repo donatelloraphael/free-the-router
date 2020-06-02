@@ -12,11 +12,12 @@ const db = admin.firestore();
 const indicesRef = db.collection("indices");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
+let fullNameIndex = [];
+let allDevices = [];
 
-async function getDevices() {
+async function getPages() {
 
 	const amazonRouters = "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=";
-	let fullNameIndex = [];
 
 	await indicesRef.doc("all-routers-index").get()
 	.then(doc => {
@@ -27,45 +28,36 @@ async function getDevices() {
 
 	// console.dir(fullNameIndex, {maxArrayLength: null});
 
+	for (let page = 1;; page++) {	// TODO: remove page < 2
 
-	let deviceArray = [];
-	let numberOfDevices = 0;
-
-
-	// for (let page = 1;;page++) {
-
-		let isPageContains = false;
-
-		// console.log("PAGE: ", page);
-
-		await axios.get(amazonRouters + 30)
-		.then(res => {
-
-			// $(".s-result-item", res.data).each((i, element) => {
-			// 	console.log($(element).html());
-			// });
+		let doc = await axios.get(amazonRouters + page);
 				
-			if ($("span", ".s-result-item", res.data).attr("class") == "celwidget slot=MAIN template=TOP_BANNER_MESSAGE widgetId=messaging-messages-no-results") {
-				console.log("No more items.");
-			} else {
-				console.log('has items');
-			}
+		if ($("span", ".s-result-item", doc.data).attr("class") == "celwidget slot=MAIN template=TOP_BANNER_MESSAGE widgetId=messaging-messages-no-results") {
+			console.log("__________No more items.___________");
+			break;
+		} else {
+			console.log(`PAGE: ${page} has items`);
+			getDevices(doc.data);
+		}
+	}
 
-			console.log("YES");
-
-			// 	// console.log($(element).html());
-			// 	numberOfDevices++;
-			// 	console.log("SERIAL NO: ", numberOfDevices);
-			// 	isPageContains = true;
-			// });
-		});
-
-		// if (!isPageContains) {
-		// 	console.log('__________End of Pages.____________');
-		// 	break;
-		// }
-	// }
+	console.dir(allDevices, {maxArrayLength: null});
 
 }
 
-getDevices();
+function getDevices(html) {
+
+	$(".s-result-item", html).each((i, element) => {
+		let device = {};
+
+		if ($(element).attr("data-asin")) {
+			device.asin = $(element).attr("data-asin");
+			device.name = $("h2", $(element).html()).text().trim();
+			device.link = "https://www.amazon.in/dp/" + device.asin;
+			
+			allDevices.push(device);
+		}
+	});
+}
+
+getPages();
