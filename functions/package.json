@@ -12,16 +12,16 @@
     "node": "10"
   },
   "dependencies": {
-    "@babel/runtime": "^7.9.6",
-    "@babel/runtime-corejs3": "^7.9.6",
-    "@google-cloud/pubsub": "^1.7.3",
+    "@babel/runtime": "^7.10.2",
+    "@babel/runtime-corejs3": "^7.10.2",
+    "@google-cloud/pubsub": "^2.0.0",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "cross-env": "^7.0.2",
     "express": "^4.16.4",
-    "firebase": "^7.14.3",
+    "firebase": "^7.14.6",
     "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.6.1",
+    "firebase-functions": "^3.6.2",
     "jquery": "^3.5.1",
     "nuxt": "^2.12.2",
     "regenerator-runtime": "^0.13.5"
