@@ -28,7 +28,7 @@ async function getPages() {
 
 	// console.dir(fullNameIndex, {maxArrayLength: null});
 
-	for (let page = 1;; page++) {	// TODO: remove page < 2
+	for (let page = 1;; page++) {	// TODO: remove condition page < number
 
 		let doc = await axios.get(amazonRouters + page);
 				
@@ -37,15 +37,17 @@ async function getPages() {
 			break;
 		} else {
 			console.log(`PAGE: ${page} has items`);
-			getDevices(doc.data);
+			getDevices(doc.data, page);
+			// console.log(doc.data);
 		}
 	}
 
 	console.dir(allDevices, {maxArrayLength: null});
+	console.log('\nNUMBER OF DEVICES: ', allDevices.length);
 
 }
 
-function getDevices(html) {
+function getDevices(html, page) {
 
 	$(".s-result-item", html).each((i, element) => {
 		let device = {};
@@ -54,8 +56,22 @@ function getDevices(html) {
 			device.asin = $(element).attr("data-asin");
 			device.name = $("h2", $(element).html()).text().trim();
 			device.link = "https://www.amazon.in/dp/" + device.asin;
-			
-			allDevices.push(device);
+
+			if (page == 1) {
+				$(".a-color-price", $(element).html()).each((j, prices) => {
+					if (j == 0) {
+						device.price = parseInt($(prices).text().trim().split(" ")[0].trim().split(",").join(""));
+						return;
+					}
+				});
+
+			} else {
+				device.price = parseInt($(".a-price-whole", $(element).html()).text().split(",").join(""));
+			}
+
+			if (device.price) {
+				allDevices.push(device);
+			}
 		}
 	});
 }
