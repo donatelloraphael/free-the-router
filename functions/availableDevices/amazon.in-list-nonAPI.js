@@ -15,18 +15,10 @@ const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 let fullNameIndex = [];
 let allDevices = [];
 
+
 async function getPages() {
 
 	const amazonRouters = "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=";
-
-	await indicesRef.doc("all-routers-index").get()
-	.then(doc => {
-		if (doc.data()) {
-			fullNameIndex = doc.data().fullNameIndex;
-		}
-	});
-
-	// console.dir(fullNameIndex, {maxArrayLength: null});
 
 	for (let page = 1;; page++) {	// TODO: remove condition page < number
 
@@ -44,8 +36,8 @@ async function getPages() {
 
 	console.dir(allDevices, {maxArrayLength: null});
 	console.log('\nNUMBER OF DEVICES: ', allDevices.length);
-
 }
+
 
 function getDevices(html, page) {
 
@@ -56,6 +48,7 @@ function getDevices(html, page) {
 			device.asin = $(element).attr("data-asin");
 			device.name = $("h2", $(element).html()).text().trim();
 			device.link = "https://www.amazon.in/dp/" + device.asin;
+			device.thumbnail = $("img", $(element).html()).attr("src").replace(/(160)|(320)/gm, "480"); // Thumbnail size 480
 
 			if (page == 1) {
 				$(".a-color-price", $(element).html()).each((j, prices) => {
@@ -74,6 +67,24 @@ function getDevices(html, page) {
 			}
 		}
 	});
+}
+
+
+async function filterDevices() {
+
+	await indicesRef.doc("all-routers-index").get()
+	.then(doc => {
+		if (doc.data()) {
+			fullNameIndex = doc.data().fullNameIndex;
+		}
+	});
+
+	// console.dir(fullNameIndex, {maxArrayLength: null});
+
+	let arrLength = allDevices.length;
+	for (let i = 0; i < arrLength; i++) {
+		
+	}
 }
 
 getPages();
