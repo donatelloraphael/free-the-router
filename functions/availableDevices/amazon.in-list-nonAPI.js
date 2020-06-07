@@ -23,7 +23,7 @@ async function getPages() {
 	for (let page = 1;; page++) {	// TODO: remove condition page < number
 
 		let doc = await axios.get(amazonRouters + page);
-				
+
 		if ($("span", ".s-result-item", doc.data).attr("class") == "celwidget slot=MAIN template=TOP_BANNER_MESSAGE widgetId=messaging-messages-no-results") {
 			console.log("__________No more items.___________");
 			break;

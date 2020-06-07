@@ -1,6 +1,6 @@
-TP-LINK TL-WA5210G - Split on "-" and white space
+// TP-LINK TL-WA5210G - Split on "-" and white space
 
-SMC SMC7908ISP-A - if a section has only 1 or 2 characters, match case
+// SMC SMC7908ISP-A - if a section has only 1 or 2 characters, match case
 
 ELECOM WRC-1750GHBK2-I&C - if encountered "&", take characters after "&" till 														end of line or another "&" and replace the characters before the first "&" 														till encounter a number	or "-"
 
@@ -16,9 +16,9 @@ CUBITECH CUBIEBOARD (CUBIEBOARD1) - --------
 
 BUFFALO WZR-1750DHP(D) - when one or two letter is in brackets, remove brackets only and take 																	non-removed
 
-MIKROTIK ROUTERBOARD RB2XX - "XX" matches with any alpha-numeric
+// MIKROTIK ROUTERBOARD RB2XX - "XX" matches with any alpha-numeric
 
-CISCO WRT54GX - "X" at the end matches any letter
+// CISCO WRT54GX - "X" at the end matches any letter
 
 ENGENIUS EOC-5610 & M5000 - "&" and white space around it. Take word after "&" and replace the 																		previous.
 														if brackets "(*&*)", remove brackets first
@@ -30,4 +30,17 @@ T&W ZXV10 H618B&H118B - Don't remove first "&"
 
 BELKIN F7D3302 F7D7302 &QUOT;SHARE&QUOT; - Belkin. remove "&QUOT;" and apply F7D7302 and "SHARE"
 
-ASUS RT-AC66U_B1 - Replace "_" with space
+// ASUS RT-AC66U_B1 - Replace "_" with space
+
+RASPBERRY PI FOUNDATION RASPBERRY PI ZERO - Remove Raspberry Pi Foundation
+
+
+Double Brand Name
+-----------------
+PC ENGINES
+PACIFIC NETWORKS
+OPEN-MESH, TP-LINK?
+CRISIS INNOVATION LAB
+ALPHA NETWORKS
+ALPHA NETWORK
+ABICOM INTERNATIONAL
