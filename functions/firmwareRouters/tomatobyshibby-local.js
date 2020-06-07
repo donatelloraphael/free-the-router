@@ -116,7 +116,7 @@ async function checkAndUpdateTomatobyshibby() {
 					const batchArray = [];
 					let operationsCounter = 0;
 					let batchIndex = 0;
-					const BATCH_NUM_ITEMS = 499;
+					const BATCH_NUM_ITEMS = 450;
 
 					batchArray.push(db.batch());
 
@@ -155,47 +155,65 @@ async function checkAndUpdateTomatobyshibby() {
 							// Add routers to aggragated router list supporting all firmwares/////
 							//////////////////////////////////////////////////////////////////////
 
-							let companyModel = ((mainTable[i].company + " " + mainTable[i].model).replace(/\//gi, "&")).toUpperCase();
-
-							if (!(dbAllRoutersList.includes(companyModel))) {
-
-								// allFirmwareRoutersRef.doc(companyModel).set({
-								batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
-									fullName: companyModel,
-									company: mainTable[i].company,
-									model: mainTable[i].model,
-									tomatobyshibbySupport: true,
-									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),						
-									specs: {[mainTable[i].version ? mainTable[i].version : "default"]: mainTable[i].specs},
-									LAN: {[mainTable[i].version ? mainTable[i].version : "default"]: mainTable[i].LAN},											
-									USB: {[mainTable[i].version ? mainTable[i].version : "default"]: ""},
-									WiFi: "",
-									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
-									tomatobyshibbyNotes: mainTable[i].notes
-								}, {merge: true});
-	
-								batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
-									fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
-								}, {merge: true});							
-
-							} else {
-								// Only need some fields if router already exists in list
+							let altModels = mainTable[i].model.split("/");
+							let baseModel = altModels[0];
+							let companyModel = "";
 							
-								batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
-									tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
-									tomatobyshibbyNotes: mainTable[i].notes,
-									tomatobyshibbySupport: true,
-									tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version)
-								}, {merge: true});
+							for (let j = 0; j < altModels.length; j++) {
+								if (j > 0) {
+									if (isNaN(altModels[j])) {
+										companyModel = mainTable[i].company + " " + baseModel.replace(/[a-zA-Z]+\ *$/gmi, altModels[j]);
+									} else {
+										companyModel = mainTable[i].company + " " + baseModel.replace(/\d+\ *$/gmi, altModels[j]);
+									}
+								} else {
+									companyModel = mainTable[i].company + " " + baseModel;
+								}
 
-								batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
-									[`specs.${mainTable[i].version ? mainTable[i].version : "default"}`]: mainTable[i].specs,
-									[`LAN.${mainTable[i].version ? mainTable[i].version : "default"}`]: mainTable[i].LAN
-								}, {merge: true});
+								companyModel = companyModel.replace("_", " ").toUpperCase();
+
+								console.log(companyModel);
+
+								if (!(dbAllRoutersList.includes(companyModel))) {
+
+									// allFirmwareRoutersRef.doc(companyModel).set({
+									batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
+										fullName: companyModel,
+										company: mainTable[i].company,
+										model: mainTable[i].model,
+										tomatobyshibbySupport: true,
+										tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),						
+										specs: {[mainTable[i].version ? mainTable[i].version : "default"]: mainTable[i].specs},
+										LAN: {[mainTable[i].version ? mainTable[i].version : "default"]: mainTable[i].LAN},											
+										USB: {[mainTable[i].version ? mainTable[i].version : "default"]: ""},
+										WiFi: "",
+										tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
+										tomatobyshibbyNotes: mainTable[i].notes
+									}, {merge: true});
+		
+									batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
+										fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+									}, {merge: true});							
+
+								} else {
+									// Only need some fields if router already exists in list
+								
+									batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
+										tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
+										tomatobyshibbyNotes: mainTable[i].notes,
+										tomatobyshibbySupport: true,
+										tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version)
+									}, {merge: true});
+
+									batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
+										[`specs.${mainTable[i].version ? mainTable[i].version : "default"}`]: mainTable[i].specs,
+										[`LAN.${mainTable[i].version ? mainTable[i].version : "default"}`]: mainTable[i].LAN
+									}, {merge: true});
+								}
+
+								// Number of operations in each loop = 5
+								operationsCounter += 5;
 							}
-
-							// Number of operations in each loop = 5
-							operationsCounter += 5;
 						}
 					}
 
