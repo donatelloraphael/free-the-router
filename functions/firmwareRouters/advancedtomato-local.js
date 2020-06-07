@@ -116,8 +116,20 @@ async function createExtraRouters() {
 	extraRouters.push({
 		fullName: "Asus RT-AC68U",
 		company: "Asus",
-		model: "RT-AC68U&R",
-		version: "U&R",
+		model: "RT-AC68U",
+		version: "",
+		specs: "128Flash, 256MB RAM",
+		LAN: "1 Gbps",
+		USB: true,
+		WiFi: "ac1900",
+		notes: ""
+	});
+
+	extraRouters.push({
+		fullName: "Asus RT-AC68R",
+		company: "Asus",
+		model: "RT-AC68R",
+		version: "",
 		specs: "128Flash, 256MB RAM",
 		LAN: "1 Gbps",
 		USB: true,
