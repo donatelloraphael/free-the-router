@@ -20,6 +20,7 @@ async function checkAndUpdateTomatobyshibby() {
 
 	let mainTable = [];
 	let loaded = false;
+	let isModified = false;
 
 	return await axios.get("https://tomato.groov.pl/download/")
 	.then(result => {
@@ -112,7 +113,6 @@ async function checkAndUpdateTomatobyshibby() {
 
 					// console.dir(mainTable, {'maxArrayLength': null});
 
-					let isModified = false;
 					const batchArray = [];
 					let operationsCounter = 0;
 					let batchIndex = 0;
@@ -247,6 +247,9 @@ async function checkAndUpdateTomatobyshibby() {
 		});
 
 	}).then(() => {
+		if (!isModified) {
+			console.log('[Tomato by Shibby]: No new devices.');
+		}
 		return true;
 	}).catch((error) => {
 		console.log(error);
