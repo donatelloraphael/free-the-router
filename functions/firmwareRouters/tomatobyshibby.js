@@ -172,8 +172,6 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 
 								companyModel = companyModel.replace("_", " ").toUpperCase();
 
-								console.log(companyModel);
-
 								if (!(dbAllRoutersList.includes(companyModel))) {
 
 									// allFirmwareRoutersRef.doc(companyModel).set({
