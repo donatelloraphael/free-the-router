@@ -79,7 +79,7 @@ exports.checkAndUpdateOpenwrt = async function() {
 		//////////////////////////////////////////////////////////////////////
 		
 		const batchArray = [];
-		const BATCH_NUM_ITEMS = 400;
+		const BATCH_NUM_ITEMS = 450;
 		let operationsCounter = 0;
 		let batchIndex = 0;
 		let newDevices = [];
@@ -141,62 +141,36 @@ exports.checkAndUpdateOpenwrt = async function() {
 					///// Add routers to aggragated router list supporting all firmwares/////
 					/////////////////////////////////////////////////////////////////////////
 
-					let companyModel = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(|\)/gmi, "").toUpperCase();
-					// Without extra model info in brackets
-					let companyModel2 = ((deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&")).replace(/\(.*\)/gmi, "").trim().toUpperCase();
+					let altModels = deviceArray[i].model.split("&");
+					let baseModel = altModels[0];
+					let companyModel = "";
+					let companyModel2 = "";
 
-					if (!(dbAllRoutersList.includes(companyModel))) {
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
-							fullName: companyModel,
-							company: deviceArray[i].company,
-							model: deviceArray[i].model,
-							LAN: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].LAN},											
-							USB: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].USB},											
-							WiFi: "",
-							SATA: deviceArray[i].SATA,
-							modem: deviceArray[i].modem,
-							deviceType: deviceArray[i].deviceType,
-							specs: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].specs},
-							openwrtSupport: true,
-							openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),						
-							openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
-							openwrtNotes: deviceArray[i].notes,
-							openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
-							openwrtTechData: deviceArray[i].techData
-						}, {merge: true});
+					for (let j = 0; j < altModels.length; j++) {
+						if (deviceArray[i].company.toUpperCase() == "RASPBERRY PI FOUNDATION") {
+							companyModel = deviceArray[i].model;
+						
+						} else	if (j > 0) {
 
-						batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
-							fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
-						}, {merge: true});
+							if (/\w{3,}/gm.test(altModels[j])) {
+								companyModel = deviceArray[i].company + " " + altModels[j].replace(/-/gm, " ").trim();
+							} else {
+								companyModel = deviceArray[i].company + " " + baseModel.replace(/[a-zA-Z]+ *$/gmi, altModels[j]).replace(/-/gm, " ");
+							}
+						} else {
+							companyModel = deviceArray[i].company + " " + baseModel.replace(/-/gm, " ");
+						}
 
-					} else {
-						// Only need some fields if router already exists in list
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {	
-							openwrtNotes: deviceArray[i].notes,																					
-							openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
-							openwrtSupport: true,
-							SATA: deviceArray[i].SATA,
-							modem: deviceArray[i].modem,
-							deviceType: deviceArray[i].deviceType,
-							openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
-							openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
-							openwrtTechData: deviceArray[i].techData
-						}, {merge: true});
+						// Without extra model info in brackets
+						companyModel2 = companyModel.replace(/\(.*\)/gmi, "").replace(/\(|\)/gmi, "").trim().toUpperCase();
 
-						batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
-							[`specs.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].specs,
-							[`LAN.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].LAN,											
-							[`USB.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].USB
-						}, {merge: true});
-					}
+						companyModel = companyModel.replace(/\(|\)/gmi, "").trim().toUpperCase();
 
-					// Number of operations in each loop = 5
-					operationsCounter += 5;
+						// console.log(companyModel);
 
-					if (companyModel != companyModel2) {
-						if (!(dbAllRoutersList.includes(companyModel2))) {
-							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel2), {
-								fullName: companyModel2,
+						if (!(dbAllRoutersList.includes(companyModel))) {
+							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
+								fullName: companyModel,
 								company: deviceArray[i].company,
 								model: deviceArray[i].model,
 								LAN: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].LAN},											
@@ -215,12 +189,12 @@ exports.checkAndUpdateOpenwrt = async function() {
 							}, {merge: true});
 
 							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
-								fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel2)
+								fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
 							}, {merge: true});
 
 						} else {
 							// Only need some fields if router already exists in list
-							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel2), {	
+							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {	
 								openwrtNotes: deviceArray[i].notes,																					
 								openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
 								openwrtSupport: true,
@@ -232,14 +206,68 @@ exports.checkAndUpdateOpenwrt = async function() {
 								openwrtTechData: deviceArray[i].techData
 							}, {merge: true});
 
-							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel2), {
+							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
 								[`specs.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].specs,
 								[`LAN.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].LAN,											
 								[`USB.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].USB
 							}, {merge: true});
 						}
 
-						operationsCounter += 3;
+						// Number of operations in each loop = 5
+						operationsCounter += 5;
+
+						if (companyModel != companyModel2) {
+							if (companyModel2.trim() != "SFR") {
+								// console.log('-------------------------: ', companyModel2);
+
+								if (!(dbAllRoutersList.includes(companyModel2))) {
+									batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel2), {
+										fullName: companyModel2,
+										company: deviceArray[i].company,
+										model: deviceArray[i].model,
+										LAN: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].LAN},											
+										USB: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].USB},											
+										WiFi: "",
+										SATA: deviceArray[i].SATA,
+										modem: deviceArray[i].modem,
+										deviceType: deviceArray[i].deviceType,
+										specs: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].specs},
+										openwrtSupport: true,
+										openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),						
+										openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
+										openwrtNotes: deviceArray[i].notes,
+										openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
+										openwrtTechData: deviceArray[i].techData
+									}, {merge: true});
+
+									batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
+										fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel2)
+									}, {merge: true});
+
+								} else {
+									// Only need some fields if router already exists in list
+									batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel2), {	
+										openwrtNotes: deviceArray[i].notes,																					
+										openwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
+										openwrtSupport: true,
+										SATA: deviceArray[i].SATA,
+										modem: deviceArray[i].modem,
+										deviceType: deviceArray[i].deviceType,
+										openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
+										openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
+										openwrtTechData: deviceArray[i].techData
+									}, {merge: true});
+
+									batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel2), {
+										[`specs.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].specs,
+										[`LAN.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].LAN,											
+										[`USB.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].USB
+									}, {merge: true});
+								}
+
+								operationsCounter += 3;
+							}
+						}
 					}
 				}
 			}
@@ -286,12 +314,9 @@ exports.checkAndUpdateOpenwrt = async function() {
 			console.log("[OpenWrt]: Device list has not been modified.");
 		}
 
-
-
 	}).then(() => {
 		return true;
 	}).catch(error => console.log(error));
-
 	
 };
 

@@ -499,7 +499,7 @@ async function uploadExtraRouters() {
 			// Add routers to aggragated router list supporting all firmwares/////
 			//////////////////////////////////////////////////////////////////////
 
-			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
+			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model.replace(/-/gm, " ")).replace(/\//gmi, " ")).trim().toUpperCase();
 			
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({

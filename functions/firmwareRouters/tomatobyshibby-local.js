@@ -162,15 +162,15 @@ async function checkAndUpdateTomatobyshibby() {
 							for (let j = 0; j < altModels.length; j++) {
 								if (j > 0) {
 									if (isNaN(altModels[j])) {
-										companyModel = mainTable[i].company + " " + baseModel.replace(/[a-zA-Z]+\ *$/gmi, altModels[j]);
+										companyModel = mainTable[i].company + " " + baseModel.replace(/[a-zA-Z]+\ *$/gmi, altModels[j]).replace(/-/gm, " ");
 									} else {
-										companyModel = mainTable[i].company + " " + baseModel.replace(/\d+\ *$/gmi, altModels[j]);
+										companyModel = mainTable[i].company + " " + baseModel.replace(/\d+\ *$/gmi, altModels[j]).replace(/-/gm, " ");
 									}
 								} else {
-									companyModel = mainTable[i].company + " " + baseModel;
+									companyModel = mainTable[i].company + " " + baseModel.replace(/-/gm, " ");
 								}
 
-								companyModel = companyModel.replace("_", " ").toUpperCase();
+								companyModel = companyModel.replace(/\/|_/gm, " ").trim().toUpperCase();
 
 								if (!(dbAllRoutersList.includes(companyModel))) {
 
@@ -405,7 +405,7 @@ async function uploadExtraRouters() {
 			// Add routers to aggragated router list supporting all firmwares/////
 			//////////////////////////////////////////////////////////////////////
 
-			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model).replace(/\//gi, "&")).toUpperCase();
+			let companyModel = ((extraRouters[i].company + " " + extraRouters[i].model.replace(/-/gm, " ")).replace(/\//gmi, " ")).trim().toUpperCase();
 
 			if (!(dbAllRoutersList.includes(companyModel))) {
 				allFirmwareRoutersRef.doc(companyModel).set({

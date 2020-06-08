@@ -285,14 +285,14 @@ async function checkAndUpdateDdwrt() {
 					
 					for (let j = 0; j < altModels.length; j++) {
 						if (deviceArray[i].company.toUpperCase() == "NEWMEDIA") {	//Adds it three times. Doesn't matter
-							companyModel = deviceArray[i].company + " " + baseModel.replace("/", "&");
+							companyModel = deviceArray[i].company + " " + baseModel.replace(/-/gm, " ");
 						} else if (j > 0) {
-							companyModel = deviceArray[i].company + " " + altModels[j];
+							companyModel = deviceArray[i].company + " " + altModels[j].replace(/-/gm, " ");
 						} else {
-							companyModel = deviceArray[i].company + " " + baseModel;
+							companyModel = deviceArray[i].company + " " + baseModel.replace(/-/gm, " ");
 						}
 
-						companyModel = companyModel.replace(/\//gmi, "&").toUpperCase();
+						companyModel = companyModel.replace(/\//gmi, " ").trim().toUpperCase();
 						
 						if (!(dbAllRoutersList.includes(companyModel))) {
 							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
@@ -392,4 +392,4 @@ async function checkAndUpdateDdwrt() {
 }
 
 
-checkAndUpdateDdwrt();
+// checkAndUpdateDdwrt();
