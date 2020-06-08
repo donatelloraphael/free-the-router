@@ -94,6 +94,7 @@ functions/.nuxt/
 functions/node_modules/
 public/assets/
 .firebase/
+./.firebase
 firebase-adminsdk.json
 functions/firmwareRouters/test/
 functions/availableDevices/test/
