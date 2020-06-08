@@ -359,7 +359,7 @@
 
 	}
 
-	.navbar-list a.active {
+	.navbar-list a.nuxt-link-active {
 		color: #deff00 !important;
 		border-bottom: 4px solid #deff00;
 	}
