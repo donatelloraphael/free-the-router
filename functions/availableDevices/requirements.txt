@@ -7,7 +7,7 @@ ELECOM WRC-1750GHBK2-I&C - if encountered "&", take characters after "&" till 		
 
 REDWAVE RW2458N & AEROMAX 5 - if redwave and "&", take both models
 
-UBIQUITI EDGESWITCH 8XP (ES-8XP) - if ubiquiti take "ubnt" also
+// UBIQUITI EDGESWITCH 8XP (ES-8XP) - if ubiquiti take "ubnt" also
 
  
 HOOTOO HT-TM04 (TRIPMATE ELITE) - take what's in brackets with company name

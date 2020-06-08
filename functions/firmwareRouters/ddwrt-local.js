@@ -273,52 +273,72 @@ async function checkAndUpdateDdwrt() {
 
 					///// Add routers to aggragated router list supporting all firmwares/////
 					/////////////////////////////////////////////////////////////////////////
+					let altModels = deviceArray[i].model.split("/");
+					let baseModel = altModels[0];
+					let companyModel = "";
 
-					let companyModel = (deviceArray[i].company + " " + deviceArray[i].model).replace(/\//gmi, "&").toUpperCase();
+					if (deviceArray[i].company.toUpperCase() == "BELKIN") {
+						altModels = deviceArray[i].model.replace(/\&quot\;/gmi, "").split(" ");
+						baseModel = altModels[0];
+					}
 
-					if (!(dbAllRoutersList.includes(companyModel))) {
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
-							fullName: companyModel,
-							company: deviceArray[i].company,
-							model: deviceArray[i].model,
-							LAN: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].LAN},											
-							USB: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].USB},											
-							WiFi: deviceArray[i].WiFi,
-							specs: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].specs},
-							ddwrtSupport: true,
-							ddwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
-							ddwrtActivationNeeded: deviceArray[i].needsActivation,
-							ddwrtNotes: deviceArray[i].notes
-						}, {merge: true});
+					
+					for (let j = 0; j < altModels.length; j++) {
+						if (deviceArray[i].company.toUpperCase() == "NEWMEDIA") {	//Adds it three times. Doesn't matter
+							companyModel = deviceArray[i].company + " " + baseModel.replace("/", "&");
+						} else if (j > 0) {
+							companyModel = deviceArray[i].company + " " + altModels[j];
+						} else {
+							companyModel = deviceArray[i].company + " " + baseModel;
+						}
 
-						batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
-							fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
-						}, {merge: true});
-
-					} else {
-						// Only need some fields if router already exists in list
-						batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
-							ddwrtNotes: deviceArray[i].notes,
-							ddwrtActivationNeeded: deviceArray[i].needsActivation,																		
-							ddwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
-							ddwrtSupport: true,	
-						}, {merge: true});
-
-						if (deviceArray[i].WiFi) {
+						companyModel = companyModel.replace(/\//gmi, "&").toUpperCase();
+						
+						if (!(dbAllRoutersList.includes(companyModel))) {
 							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
-								WiFi: deviceArray[i].WiFi
+								fullName: companyModel,
+								company: deviceArray[i].company,
+								model: deviceArray[i].model,
+								LAN: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].LAN},											
+								USB: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].USB},											
+								WiFi: deviceArray[i].WiFi,
+								specs: {[deviceArray[i].version ? deviceArray[i].version : "default"]: deviceArray[i].specs},
+								ddwrtSupport: true,
+								ddwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
+								ddwrtActivationNeeded: deviceArray[i].needsActivation,
+								ddwrtNotes: deviceArray[i].notes
+							}, {merge: true});
+
+							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
+								fullNameIndex: admin.firestore.FieldValue.arrayUnion(companyModel)
+							}, {merge: true});
+
+						} else {
+							// Only need some fields if router already exists in list
+							batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
+								ddwrtNotes: deviceArray[i].notes,
+								ddwrtActivationNeeded: deviceArray[i].needsActivation,																		
+								ddwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
+								ddwrtSupport: true,	
+							}, {merge: true});
+
+							if (deviceArray[i].WiFi) {
+								batchArray[batchIndex].set(allFirmwareRoutersRef.doc(companyModel), {
+									WiFi: deviceArray[i].WiFi
+								}, {merge: true});
+							}
+
+							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
+								[`LAN.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].LAN,
+								[`specs.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].specs,										
+								[`USB.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].USB
 							}, {merge: true});
 						}
 
-						batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
-							[`LAN.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].LAN,
-							[`specs.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].specs,										
-							[`USB.${deviceArray[i].version ? deviceArray[i].version : "default"}`]: deviceArray[i].USB
-						}, {merge: true});
-					}
+						// Number of operations in each loop = 6
+						operationsCounter += 6;
 
-					// Number of operations in each loop = 6
-					operationsCounter += 6;
+					}					
 				}
 			}
 		}
@@ -372,4 +392,4 @@ async function checkAndUpdateDdwrt() {
 }
 
 
-// checkAndUpdateDdwrt();
+checkAndUpdateDdwrt();

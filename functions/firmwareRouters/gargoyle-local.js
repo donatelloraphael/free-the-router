@@ -759,7 +759,7 @@ async function setModString() {
 	}, {merge: true});
 }
 
-// setModString();
 // checkGargoyle();
 // createExtraRouters();
 // uploadExtraRouters();
+// setModString();
