@@ -14,13 +14,14 @@ const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 
 let fullNameIndex = [];
 let allDevices = [];
+let availableDevices = [];
 
 
 async function getPages() {
 
 	const amazonRouters = "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=";
 
-	for (let page = 1;; page++) {	// TODO: remove condition page < number
+	for (let page = 1;; page++) {	// TODO: remove condition 'page < number' in production
 
 		let doc = await axios.get(amazonRouters + page);
 
@@ -34,8 +35,13 @@ async function getPages() {
 		}
 	}
 
-	console.dir(allDevices, {maxArrayLength: null});
+	await filterDevices();
+
+	// console.dir(allDevices, {maxArrayLength: null});
 	console.log('\nNUMBER OF DEVICES: ', allDevices.length);
+	console.dir(availableDevices, {maxArrayLength: null});
+	console.log("\nNUMBER OF SUPPORTED DEVICES: ", availableDevices.length);
+
 }
 
 
@@ -81,9 +87,24 @@ async function filterDevices() {
 
 	// console.dir(fullNameIndex, {maxArrayLength: null});
 
-	let arrLength = allDevices.length;
-	for (let i = 0; i < arrLength; i++) {
-		
+	let allLength = allDevices.length;
+	let indexLength = fullNameIndex.length;
+
+	for (let i = 0; i < allLength; i++) {
+		for (let j = 0; j < indexLength; j++) {
+			let splitName = fullNameIndex[j].split(" ");
+			let numTestsPassed = 0;
+
+			for (let k = 0; k < splitName.length; k++) {
+				let regex = new RegExp(splitName[k], 'gmi');
+				if (regex.test(allDevices[i].name)) {
+					numTestsPassed++;
+					if (numTestsPassed == splitName.length) {
+						availableDevices.push(allDevices[i]);
+					}
+				}
+			}
+		}
 	}
 }
 
