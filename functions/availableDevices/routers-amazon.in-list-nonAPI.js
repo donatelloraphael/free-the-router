@@ -17,12 +17,6 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-let amazonLinks = { "Routers": "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=",
-										"Modems": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375431031&qid=1591803566&page=",
-										"Wireless Access Points": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375440031&qid=1591803666&page=",
-										"Repeaters & Extenders": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375438031&qid=1591803568&page="
-									};
-
 // axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4086.0 Safari/537.36';
 let axiosInstance = axios.create({
   headers: {
@@ -33,25 +27,21 @@ let axiosInstance = axios.create({
 });
 
 
-async function main() {
+async function main() {	
+	const deviceType = "Routers";
 
-	let deviceTypes = Object.keys(amazonLinks);
+	for (let page = 1; page < 2; page++) {	// TODO: remove condition 'page < number' in production
 
-	for (let i = 0; i < deviceTypes.length; i++) {
+		let amazonLink = `https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&&page=${page}&qid=1590958154`; 
 
-		let link = amazonLinks[deviceTypes[i]];
+		let html = await getPage(amazonLink, page, deviceType);
 
-		for (let page = 1;; page++) {	// TODO: remove condition 'page < number' in production
-
-			let html = await getPage(link + page, page, deviceTypes[i]);
-
-			if (html) {
-				await getDevices(html, page, deviceTypes[i]);
-			} else {
-				break;
-			}
-
+		if (html) {
+			await getDevices(html, page, deviceType);
+		} else {
+			break;
 		}
+
 	}
 
 	await filterDevices();
@@ -200,10 +190,8 @@ async function addExtraInfo() {
 					if (device.openwrtSupport) {
 						supportedDevices[i].supportedFirmwares.push("openwrt");
 					}
-					if (device.deviceType) {
-						supportedDevices[i].deviceType = device.deviceType;
-						// console.log(supportedDevices[i]);
-					}
+
+					supportedDevices[i] = {...supportedDevices[i], ...device};
 
 				} else {
 					console.log(`ERROR! No device with the id ${supportedDevices[i].id} found!`);
@@ -222,6 +210,11 @@ async function addToDatabase() {
 	const BATCH_NUM_ITEMS = 450;
 	let operationsCounter = 0;
 	let batchIndex = 0;
+
+	let serialNumber = 0;
+	let newDevices	= [];
+	let fullNameIndex = [];
+
 	
 	batchArray.push(db.batch());
 
@@ -234,11 +227,34 @@ async function addToDatabase() {
 			operationsCounter = 0;
 		}
 
-		batchArray[batchIndex].set(amazonRef, {
-			supportedDevices: admin.firestore.FieldValue.arrayUnion(supportedDevices[i])
+		batchArray[batchIndex].set(amazonRef.collection("routers").doc(supportedDevices[i].id), 
+			supportedDevices[i]
+		);
+
+		batchArray[batchIndex].set(indicesRef.doc("amazon-india-index"), {
+			fullNameIndex: admin.firestore.FieldValue.arrayUnion(supportedDevices[i].id)
 		}, {merge: true});
 
-		operationsCounter++;
+		operationsCounter += 2;
+
+		//////////////////// Delete outdated devices//////////////////////
+
+		newDevices.push(supportedDevices[i].id);
+	}
+
+	await indicesRef.doc("amazon-india-index").get()
+	.then(doc => {
+		if (doc.data()) {
+			fullNameIndex = doc.data().fullNameIndex;
+		}
+	});
+
+	let indexLength = fullNameIndex.length;
+	for (let i = 0; i < indexLength; i++) {
+		if (!newDevices.includes(fullNameIndex[i])) {
+			batchArray[batchIndex].delete(amazonRef.collection("routers").doc(fullNameIndex[i]));
+			operationsCounter++;
+		}
 	}
 
 	batchArray.forEach((batch) => {
