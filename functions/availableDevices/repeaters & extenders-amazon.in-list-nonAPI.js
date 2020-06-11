@@ -17,7 +17,7 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "routers";
+const deviceType = "repeaters & extenders";
 const amazonLinks = { "routers": "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=",
 											"modems": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375431031&qid=1591803566&page=",
 											"wireless access points": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375440031&qid=1591803666&page=",
