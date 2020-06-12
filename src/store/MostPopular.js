@@ -8,18 +8,18 @@ const MostPopularModule = {
 	state() {
 		return {
 			mostPopular: []
-		}
+		};
 	},
 
 	mutations: {
 		setMostPopular(state, mostPopularArray) {
-			state.mostPopular = mostPopularArray
+			state.mostPopular = mostPopularArray;
 		}
 	},
 
 	actions: {
 		populateMostPopular(vuexContext) {
-			const mostPopularArray = [];
+			let mostPopularArray = [];
 	    var topPicksMostPopularExpirationTime;
 	    const currentTime = new Date().getTime();
 	    // console.log('current: ', currentTime);
@@ -38,11 +38,16 @@ const MostPopularModule = {
 					.then(querySnapshot => {
 						querySnapshot.forEach(doc => {
 							mostPopularArray.push(doc.data());
-						})
-					}).then(() => mostPopularArray);
+						});
+					}).then(() => vuexContext.commit("setMostPopular", mostPopularArray))
+					.then(() => {
+						return mostPopularArray;
+					}).catch(error => console.log(error));
 			} else {
-				// console.log(localStorage.mostPopularArray);
-				return JSON.parse(localStorage.mostPopularArray);
+				mostPopularArray = JSON.parse(localStorage.mostPopularArray);
+				vuexContext.commit("setMostPopular", mostPopularArray);
+				// console.log(vuexContext.state.mostPopular);
+				return mostPopularArray;
 			}
 		}
 	}

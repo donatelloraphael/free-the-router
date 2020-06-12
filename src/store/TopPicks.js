@@ -9,11 +9,14 @@ const TopPicksModule = {
 		return {
 			topPicks: {},
 			selectedFirmware: "openwrt"
-		}
+		};
 	},
 	mutations: {
 		setTopPicks(state, { selectedFirmware, routers }) {
 			state.topPicks[selectedFirmware] = routers;
+		},
+		setAllTopPicks(state, topPicks) {
+			state.topPicks = topPicks;
 		}
 	},
 	actions: {
@@ -45,7 +48,7 @@ const TopPicksModule = {
 					}
 					topPicks.forEach(router => {
 						routers.push(router.data());
-					})
+					});
 				})
 				.then(() => vuexContext.commit("setTopPicks", { selectedFirmware, routers }))
 				.then(() => vuexContext.getters.getTopPicks);
@@ -75,8 +78,11 @@ const TopPicksModule = {
 				return topPicksArray;
 
 			} else {
-				// console.log('client: ', JSON.parse(localStorage.topPicksArray));
-				return JSON.parse(localStorage.topPicksArray);
+				topPicksArray = JSON.parse(localStorage.topPicksArray);
+
+				vuexContext.commit("setAllTopPicks", topPicksArray);
+				// console.log(vuexContext.state.topPicks);
+				return topPicksArray;
 			}
 		}
 
