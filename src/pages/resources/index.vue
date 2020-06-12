@@ -215,6 +215,10 @@
 		text-align: left;
 	}
 
+	.faq p {
+		line-height: 1.8;
+	}
+
 	.faq p.question {
 		font-size: 1.2rem;
 	}

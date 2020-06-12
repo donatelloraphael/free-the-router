@@ -54,7 +54,7 @@
 	    	
 	    	<ul class="navbar-list navbar-nav mr-auto">
 	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
-	        <!-- <li class="nav-item"><nuxt-link to="/shop">Shop</nuxt-link></li> -->
+	        <li class="nav-item"><nuxt-link to="/shop">Shop</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/firmware">Firmware</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/supported-devices">Supported Devices</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/resources">Resources</nuxt-link></li>
@@ -349,6 +349,7 @@
 	}
 
 	.navbar-list a {
+		font-weight: bold;
 		color: white;
 		font-size: 1.1rem;
 		padding: 0 2rem;
