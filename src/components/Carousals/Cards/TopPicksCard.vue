@@ -1,6 +1,6 @@
 <template>
 	<div class="top-container">
-		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }" @click="logSelected()">
+		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }">
 			<div class="contents">
 				<p class="name">{{ topPicks[selected][0].nameDescription }}</p>
 				<p class="short-name">{{ topPicks[selected][0].company }}  {{ topPicks[selected][0].name }}</p>
@@ -47,11 +47,7 @@ export default {
 			alt2Url: this.topPicks[this.selected][2].imageUrl
 		}
 	},
-	methods: {
-		logSelected() {
-			console.log(this.topPicks);
-		}
-	},
+	
 	watch: {
 	 	selected() {
 		 	this.mainUrl = this.topPicks[this.selected][0].imageUrl;

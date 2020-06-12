@@ -25,7 +25,7 @@
 		      <ul class="nav-list pre-header navbar-nav mr-auto">
 		      	
 		      	<li class="nav-item dropdown">
-        			<select class="dropdown-menu" @click="setFlagUrl(); setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+        			<select class="dropdown-menu" @click="setCountry($event.target.value); setFlagUrl()" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
 								<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
       					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
 								<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
@@ -108,6 +108,7 @@
 			}
 		},
 
+
 		mounted() {
 			if (this.$store.getters.getFirstLoad) {
 				let countryExpirationTime;
@@ -132,6 +133,8 @@
 
 		beforeUpdate() {
 
+			this.flagUrl = this.$store.getters.getFlagUrl;
+			
 			////////////////////Hide header when scrolling down and show it scrolling up/////////////////////////////
 
 			let didScroll;
