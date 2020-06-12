@@ -108,6 +108,17 @@
 			}
 		},
 
+		created() {
+
+			//////////////////// Set Flag URL on country change from Side Nav ///////////////
+			let vm = this;
+
+			this.$store.watch(
+				function(state) {
+					vm.flagUrl = vm.$store.getters.getFlagUrl;
+				}
+			);
+		},
 
 		mounted() {
 			if (this.$store.getters.getFirstLoad) {
@@ -133,8 +144,6 @@
 
 		beforeUpdate() {
 
-			this.flagUrl = this.$store.getters.getFlagUrl;
-			
 			////////////////////Hide header when scrolling down and show it scrolling up/////////////////////////////
 
 			let didScroll;
