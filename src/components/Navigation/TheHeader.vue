@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<section class="header navigation-bar-scroll">
+		<section id="header" class="header navigation-bar-scroll">
 	    <div class="pre-header">
 	    	<nuxt-link to="/">
 	    		<div class="logo"></div>
@@ -111,11 +111,11 @@
 		created() {
 
 			//////////////////// Set Flag URL on country change from Side Nav ///////////////
-			let vm = this;
+			let vm1 = this;
 
 			this.$store.watch(
 				function(state) {
-					vm.flagUrl = vm.$store.getters.getFlagUrl;
+					vm1.flagUrl = vm1.$store.getters.getFlagUrl;
 				}
 			);
 		},
@@ -139,54 +139,57 @@
 			}
 
 			this.flagUrl = this.$store.getters.getFlagUrl;
-			
-		},
 
-		beforeUpdate() {
 
-			////////////////////Hide header when scrolling down and show it scrolling up/////////////////////////////
+			////// Hide header when scrolling down and show it scrolling up /////////
+			/////////////////////////////////////////////////////////////////////////
 
-			let didScroll;
+			window.onload = function() {
 
-			// on scroll, let the interval function know the user has scrolled
-			$(window).scroll(function(event){
-			  didScroll = true;
-			});
+				let didScroll;
 
-			// run hasScrolled() and reset didScroll status
-			setInterval(function() {
-			  if (didScroll) {
-			    hasScrolled();
-			    didScroll = false;
-			  }
-			}, 250);
+				// on scroll, let the interval function know the user has scrolled
+				window.addEventListener("scroll", (function(event){
+				  didScroll = true;
+				}));
 
-			let vm = this._data;
-			// console.log(vm);
+				// run hasScrolled() and reset didScroll status
+				setInterval(function() {
+				  if (didScroll) {
+				    hasScrolled();
+				    console.log("hasScrolled");
+				    didScroll = false;
+				  }
+				}, 250);
 
-			function hasScrolled() {
-				var delta = 5;
-				var navbarHeight =$('.header').outerHeight();
-				var scrollPosition = $(window).scrollTop();
+				let vm = this;
+				// console.log(vm);
+				var navbarHeight =document.getElementById('header').offsetHeight;
 
-				if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
-  				return;
-  			}
+				function hasScrolled() {
+					var delta = 5;
+					var scrollPosition = $(window).scrollTop();
+					console.log(scrollPosition);
 
-  			// If current position > last position AND scrolled past navbar...
-				if (scrollPosition > vm.lastScrollTop && scrollPosition > navbarHeight) {  
-					// Scroll Down
-  				$('.header').removeClass('header-down').addClass('header-up');
-  			} else {  
-  				// Scroll Up
-  				// If did not scroll past the document (possible on mac)...  
-  					if(scrollPosition + $(window).height() < $(document).height()) { 
-    					$('.header').removeClass('header-up').addClass('header-down');
-  					}
+					if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
+	  				return;
+	  			}
+
+	  			// If current position > last position AND scrolled past navbar...
+					if (scrollPosition > vm.lastScrollTop && scrollPosition > navbarHeight) {  
+						// Scroll Down
+	  				$('.header').removeClass('header-down').addClass('header-up');
+	  			} else {  
+	  				// Scroll Up
+	  				// If did not scroll past the document (possible on mac)...  
+	  					if(scrollPosition + $(window).height() < $(document).height()) { 
+	    					$('.header').removeClass('header-up').addClass('header-down');
+	  					}
+					}
+
+					vm.lastScrollTop = scrollPosition;
 				}
-
-				vm.lastScrollTop = scrollPosition;
-			}
+			};			
 		}
 	};
 
