@@ -14,8 +14,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Courier+Prime|Open+Sans|Montserrat&display=swap" }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
       { src: "font-awesome.js" }

@@ -294,7 +294,7 @@
   }
 
   p {
-  	font-family: "Montserrat", "Open Sans", sans-serif;
+  	font-family: "Montserrat", sans-serif;
   	font-size: 1rem;
   	line-height: 2;
   	text-align: left;
@@ -303,7 +303,7 @@
 
   .devices {
   	background-color: #2e3192;
-  	font-family: "Montserrat", "Open Sans", sans-serif;
+  	font-family: "Montserrat", sans-serif;
   	font-size: 1.8rem;
   	color: white;
   	padding: 20px 10px;

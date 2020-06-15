@@ -74,7 +74,6 @@
 
 <script>
 	import TheSideNav from "@/components/Navigation/TheSideNav";
-	import $ from "jquery";
 
 	export default {
 		name: "TheHeader",
@@ -84,7 +83,7 @@
 				isActive: false,
 				lastScrollTop: 0,
 				flagUrl: ''
-			}
+			};
 		},
 
 		components: {
@@ -157,19 +156,17 @@
 				setInterval(function() {
 				  if (didScroll) {
 				    hasScrolled();
-				    console.log("hasScrolled");
 				    didScroll = false;
 				  }
 				}, 250);
 
 				let vm = this;
-				// console.log(vm);
-				var navbarHeight =document.getElementById('header').offsetHeight;
+				let header = document.getElementById('header');
+				var navbarHeight = header.offsetHeight;
 
 				function hasScrolled() {
 					var delta = 5;
-					var scrollPosition = $(window).scrollTop();
-					console.log(scrollPosition);
+					var scrollPosition = window.scrollY;
 
 					if (Math.abs(vm.lastScrollTop  - scrollPosition) <= delta) {
 	  				return;
@@ -178,12 +175,16 @@
 	  			// If current position > last position AND scrolled past navbar...
 					if (scrollPosition > vm.lastScrollTop && scrollPosition > navbarHeight) {  
 						// Scroll Down
-	  				$('.header').removeClass('header-down').addClass('header-up');
+	  				header.classList.remove('header-down');
+	  				header.classList.add('header-up');
 	  			} else {  
 	  				// Scroll Up
 	  				// If did not scroll past the document (possible on mac)...  
-	  					if(scrollPosition + $(window).height() < $(document).height()) { 
-	    					$('.header').removeClass('header-up').addClass('header-down');
+	  					let windowHeight = window.innerHeight;
+	  					let docHeight = document.body.clientHeight;
+	  					if(scrollPosition + windowHeight < docHeight) { 
+	    					header.classList.remove('header-up');
+	    					header.classList.add('header-down');
 	  					}
 					}
 

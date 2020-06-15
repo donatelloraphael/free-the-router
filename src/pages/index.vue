@@ -244,7 +244,7 @@ export default {
   }
 
   .price-card h2 {
-    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-family: "Montserrat", sans-serif;
     margin: auto;
 
   }
@@ -256,7 +256,7 @@ export default {
   }
 
   .cf-info p {
-    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-family: "Montserrat", sans-serif;
     line-height: 2;
     text-align: left;
     margin: 0 0 30px 0;

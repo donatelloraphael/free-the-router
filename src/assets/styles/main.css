@@ -30,3 +30,15 @@
     width: 100%;
     margin: 100px 0
   }
+
+  @font-face {
+    font-family: 'Courier Prime';
+    font-weight: 400;
+    src: url('/fonts/CourierPrime-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  }

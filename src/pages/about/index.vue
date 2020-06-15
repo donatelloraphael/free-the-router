@@ -258,7 +258,7 @@
  	ul {
  		text-align: left;
  		padding-left: 50px;
- 		font-family: "Montserrat", "Open Sans", sans-serif;
+ 		font-family: "Montserrat", sans-serif;
  		line-height: 2;
  	}
 	
