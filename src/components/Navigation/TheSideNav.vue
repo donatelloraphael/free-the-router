@@ -137,11 +137,11 @@
 
   @keyframes backdrop-show {
     from{opacity: 0}
-    to{opacity: 100%}
+    to{opacity: 100}
   }
 
   @keyframes backdrop-fade {
-    from{opacity: 100%}
+    from{opacity: 100}
     to{opacity: 0}
   }
 

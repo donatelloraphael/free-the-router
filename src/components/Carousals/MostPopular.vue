@@ -67,7 +67,7 @@
 		data() {
 			return {
 				cardPosition: 0
-			}
+			};
 		},
 		methods: {
 			getCardCount() {
@@ -92,7 +92,7 @@
 					}
 				} else {
 					if (this.cardPosition <= 1) {
-						return
+						return;
 					}
 				}
 				this.cardPosition -= cardCount;

@@ -129,7 +129,7 @@ export default {
 
   methods: {
     scrollTo: function (hashtag) {
-      setTimeout(() => { location.href = hashtag }, TIMEOUT)
+      setTimeout(() => { location.href = hashtag; }, TIMEOUT);
     }
   },
   
