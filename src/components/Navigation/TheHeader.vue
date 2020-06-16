@@ -319,7 +319,7 @@
 	}
 
 	#searchError {
-		font-size: 0.7rem;
+		font-size: 0.8rem;
 		color: red;
 		position: absolute;
 		bottom: -1rem;
@@ -476,6 +476,7 @@
 	@media (max-width: 860px) {
 		#searchError {
 			bottom: -1.5rem;
+			font-size: 0.7rem;
 		}
 	}
 
