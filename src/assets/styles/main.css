@@ -42,3 +42,7 @@
     font-weight: 400;
     src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
   }
+
+  :focus {
+    outline: none;
+  }

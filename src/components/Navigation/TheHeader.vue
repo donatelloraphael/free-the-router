@@ -6,10 +6,13 @@
 	    		<div class="logo"></div>
 	    	</nuxt-link>
 
-				<form  class="search" action="">
-					<input class="search-box" type="text" placeholder="Search here">
-					<button type="submit">Search</i></button>
+				<form  class="search">
+					<input class="search-box" :class="{ disabled: searchValidation }" type="text" v-model="searchTerm" placeholder="Search here">
+					<button type="submit" @click.stop.prevent="search()" :disabled="searchValidation">Search</button>
+					<span id="searchError" v-if="searchValidation">Search can only contain letters, digits, spaces, and "-".</span>
 				</form>
+					
+
 
 				<div class="hidden">
 					<select class="dropdown-menu" @click="setFlagUrl(); setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
@@ -82,12 +85,19 @@
 			return {
 				isActive: false,
 				lastScrollTop: 0,
-				flagUrl: ''
+				flagUrl: "",
+				searchTerm: ""
 			};
 		},
 
 		components: {
 			appSidenav: TheSideNav
+		},
+
+		computed: {
+			searchValidation() {
+				return /[^\w-\s]|_/gmi.test(this.searchTerm);
+			}
 		},
 
 		methods: {
@@ -103,7 +113,22 @@
 				setTimeout(() => {
 					this.flagUrl = this.$store.getters.getFlagUrl;
 				}, 10);
+			},
+			search() {
+				let args = "";
+				let argsArray = this.searchTerm.toLowerCase().split(/(\s)/gm).map(el => el.trim());
+
+				for (let i = 0; i < argsArray.length; i++) {
+					if (argsArray[i]) {
+						if (i == 0) {
+							args += argsArray[i];
+						} else {
+							args += "-" + argsArray[i];
+						}
+					} 
+				}
 				
+				this.$router.push({ path: "/shop", query: {search: args} });
 			}
 		},
 
@@ -263,6 +288,7 @@
 	.search {
 		display: flex;
 		justify-items: center;
+		position: relative;
 	}
 
 	input.search-box {
@@ -285,6 +311,18 @@
 		border: 1px solid grey;
 		font-family: "Courier Prime", monospace;
 		border-radius: 0 5px 5px 0;
+		cursor: pointer;
+	}
+
+	.disabled {
+		border: 2px solid red !important;
+	}
+
+	#searchError {
+		font-size: 0.7rem;
+		color: red;
+		position: absolute;
+		bottom: -1rem;
 	}
 
 	.hidden {
@@ -435,6 +473,11 @@
 	
 
 	/*************************************MEDIA QUERIES***************************************/
+	@media (max-width: 860px) {
+		#searchError {
+			bottom: -1.5rem;
+		}
+	}
 
 	/*Header Toggle*/
 	@media (max-width: 768px) {

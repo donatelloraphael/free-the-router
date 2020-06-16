@@ -94,20 +94,14 @@ module.exports = {
     linkActiveClass: 'active',
     scrollBehavior: (to, from, savedPosition) => {
       if (savedPosition) {
-        return savedPosition
+        return savedPosition;
       } else {
-        return { x: 0, y: 0 }
+        return { x: 0, y: 0 };
       }
-    }
-  },
-  transition: {
-    name: 'fade',
-    mode: 'out-in'
+    },
+    middleware: 'detectCountry'
   },
   serverMiddleware: [
     // bodyParser.urlencoded({extended: true})
-  ],
-  router: {
-    middleware: 'detectCountry'
-  }
-}
+  ]
+};
