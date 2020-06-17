@@ -127,7 +127,7 @@
 						}
 					} 
 				}
-				
+				this.searchTerm = "";
 				this.$router.push({ path: "/shop", query: {search: args} });
 			}
 		},
@@ -414,7 +414,7 @@
 
 	}
 
-	.navbar-list a.nuxt-link-active {
+	.navbar-list a.nuxt-link-active, .navbar-list a.active {
 		color: #deff00 !important;
 		border-bottom: 4px solid #deff00;
 	}
