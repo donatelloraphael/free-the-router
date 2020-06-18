@@ -123,9 +123,11 @@ exports.checkAndUpdateDdwrt = async function() {
 									break;
 								case 4:
 									RAM = $(element).text().trim();
+									device.RAM = parseInt(RAM);
 									break;
 								case 5:
 									device.specs = $(element).text().trim() + "MB Flash, " + RAM + "MB RAM";
+									device.Flash = parseInt($(element).text().trim());
 									break;
 								case 13:
 									if (!PoE) {
@@ -264,7 +266,9 @@ exports.checkAndUpdateDdwrt = async function() {
 						USB: deviceArray[i].USB,
 						notes: deviceArray[i].notes,
 						needsActivation: deviceArray[i].needsActivation,
-						LAN: deviceArray[i].LAN
+						LAN: deviceArray[i].LAN,
+						Flash: deviceArray[i].Flash,
+						RAM: deviceArray[i].RAM
 					});
 
 					batchArray[batchIndex].set(indicesRef.doc("ddwrt-index"), {
@@ -306,7 +310,9 @@ exports.checkAndUpdateDdwrt = async function() {
 								ddwrtSupport: true,
 								ddwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
 								ddwrtActivationNeeded: deviceArray[i].needsActivation,
-								ddwrtNotes: deviceArray[i].notes
+								ddwrtNotes: deviceArray[i].notes,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -319,7 +325,9 @@ exports.checkAndUpdateDdwrt = async function() {
 								ddwrtNotes: deviceArray[i].notes,
 								ddwrtActivationNeeded: deviceArray[i].needsActivation,																		
 								ddwrtSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
-								ddwrtSupport: true,	
+								ddwrtSupport: true,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							if (deviceArray[i].WiFi) {

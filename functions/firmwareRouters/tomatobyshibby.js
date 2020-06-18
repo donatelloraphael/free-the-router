@@ -64,6 +64,8 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 												case 4:
 													let specsArray = $(element).text().split("/");
 													mainTable[j-1].specs = specsArray[0] + "MB Flash, " + specsArray[1] + " RAM";
+													mainTable[j-1].Flash = parseInt(specsArray[0]);
+													mainTable[j-1].RAM = parseInt(specsArray[1]);
 													break;
 
 												case 3:
@@ -144,7 +146,9 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 								specs: mainTable[i].specs,
 								LAN: mainTable[i].LAN,
 								firmwareVersion: mainTable[i].firmwareVersion,
-								notes: mainTable[i].notes
+								notes: mainTable[i].notes,
+								Flash: mainTable[i].Flash,
+								RAM: mainTable[i].RAM
 							});
 
 							// tomatobyshibbyRef.doc("index").set({
@@ -186,7 +190,9 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 										USB: {[mainTable[i].version ? mainTable[i].version : "default"]: ""},
 										WiFi: "",
 										tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
-										tomatobyshibbyNotes: mainTable[i].notes
+										tomatobyshibbyNotes: mainTable[i].notes,
+										Flash: mainTable[i].Flash,
+										RAM: mainTable[i].RAM
 									}, {merge: true});
 		
 									batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -200,7 +206,9 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 										tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 										tomatobyshibbyNotes: mainTable[i].notes,
 										tomatobyshibbySupport: true,
-										tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version)
+										tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),
+										Flash: mainTable[i].Flash,
+										RAM: mainTable[i].RAM
 									}, {merge: true});
 
 									batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {

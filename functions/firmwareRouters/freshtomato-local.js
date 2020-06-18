@@ -76,9 +76,11 @@ async function checkAndUpdateFreshtomato() {
 						break;
 					case 8: 
 						deviceArray[Math.trunc(i / 13)].specs = $(element).text().trim() + " Flash, ";
+						deviceArray[Math.trunc(i / 13)].Flash = parseInt($(element).text().trim());
 						break;
 					case 10:
 						deviceArray[Math.trunc(i / 13)].specs += ($(element).text().trim() + " RAM");
+						deviceArray[Math.trunc(i / 13)].RAM = parseInt($(element).text().trim());
 						break;
 					case 11:
 						deviceArray[Math.trunc(i / 13)].firmwareVersion = $(element).text().trim();
@@ -133,7 +135,9 @@ async function checkAndUpdateFreshtomato() {
 						WiFi: deviceArray[i].WiFi,
 						specs: deviceArray[i].specs,
 						firmwareVersion: deviceArray[i].firmwareVersion,
-						notes: deviceArray[i].notes
+						notes: deviceArray[i].notes,
+						Flash: deviceArray[i].Flash,
+						RAM: deviceArray[i].RAM
 					}, {merge: true});
 
 					batchArray[batchIndex].set(indicesRef.doc("freshtomato-index"), {
@@ -172,7 +176,9 @@ async function checkAndUpdateFreshtomato() {
 								freshtomatoSupport: true,
 								freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),						
 								freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,
-								freshtomatoNotes: deviceArray[i].notes
+								freshtomatoNotes: deviceArray[i].notes,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -186,7 +192,9 @@ async function checkAndUpdateFreshtomato() {
 								freshtomatoNotes: deviceArray[i].notes,																					
 								freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
 								freshtomatoSupport: true,	
-								WiFi: deviceArray[i].WiFi
+								WiFi: deviceArray[i].WiFi,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
@@ -261,7 +269,9 @@ function createExtraRouters() {
 		USB: true,
 		WiFi: "AC1750",
 		version: "",
-		notes: ""
+		notes: "",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -274,7 +284,9 @@ function createExtraRouters() {
 		LAN: "1 Gbps",
 		USB: true,
 		WiFi: "n300",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -287,7 +299,9 @@ function createExtraRouters() {
 		LAN: "1 Gbps",
 		USB: true,
 		WiFi: "n300",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -300,7 +314,9 @@ function createExtraRouters() {
 		LAN: "1 Gbps",
 		USB: true,
 		WiFi: "n300",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -313,7 +329,9 @@ function createExtraRouters() {
 		LAN: "100 Mbps",
 		USB: true,
 		WiFi: "n300",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -326,7 +344,9 @@ function createExtraRouters() {
 		LAN: "100 Mbps",
 		USB: true,
 		WiFi: "n300",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 
 
@@ -340,7 +360,9 @@ function createExtraRouters() {
 		LAN: "100 Mbps",
 		USB: true,
 		WiFi: "n600",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -353,7 +375,9 @@ function createExtraRouters() {
 		LAN: "100 Mbps",
 		USB: true,
 		WiFi: "n600",
-		notes: ""
+		notes: "",
+		Flash: 16,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -366,7 +390,9 @@ function createExtraRouters() {
 		LAN: "1 Gbps",
 		USB: true,
 		WiFi: "ac750",
-		notes: ""
+		notes: "",
+		Flash: 16,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -379,7 +405,9 @@ function createExtraRouters() {
 		LAN: "100 Mbps",
 		USB: true,
 		WiFi: "n600",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -392,7 +420,9 @@ function createExtraRouters() {
 		LAN: "1 Gbps",
 		USB: true,
 		WiFi: "n600",
-		notes: ""
+		notes: "",
+		Flash: 8,
+		RAM: 64
 	});
 }
 
@@ -435,7 +465,9 @@ async function uploadExtraRouters() {
 				WiFi: extraRouters[i].WiFi,
 				specs: extraRouters[i].specs,
 				firmwareVersion: extraRouters[i].firmwareVersion,
-				notes: extraRouters[i].notes
+				notes: extraRouters[i].notes,
+				Flash: extraRouters[i].Flash,
+				RAM: extraRouters[i].RAM
 			}, {merge: true});
 
 			await indicesRef.doc("freshtomato-index").set({
@@ -459,7 +491,9 @@ async function uploadExtraRouters() {
 					freshtomatoSupport: true,
 					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),						
 					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,
-					freshtomatoNotes: extraRouters[i].notes
+					freshtomatoNotes: extraRouters[i].notes,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				indicesRef.doc("all-routers-index").set({
@@ -474,6 +508,8 @@ async function uploadExtraRouters() {
 					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
 					freshtomatoSupport: true,	
 					WiFi: extraRouters[i].WiFi,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({

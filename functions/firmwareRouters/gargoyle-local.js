@@ -65,7 +65,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1200"
+		WiFi: "ac1200",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -77,7 +79,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1900"
+		WiFi: "ac1900",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -89,7 +93,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1900"
+		WiFi: "ac1900",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -101,7 +107,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1900"
+		WiFi: "ac1900",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -113,7 +121,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac3200"
+		WiFi: "ac3200",
+		Flash: 256,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -125,7 +135,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac3200"
+		WiFi: "ac3200",
+		Flash: 256,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -137,7 +149,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1750"
+		WiFi: "ac1750",
+		Flash: 8192,
+		RAM: 1024
 	});
 
 	extraRouters.push({
@@ -149,7 +163,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "100 Mbps",
-		WiFi: "n150"
+		WiFi: "n150",
+		Flash: 16,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -161,7 +177,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1750"
+		WiFi: "ac1750",
+		Flash: 16,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -173,7 +191,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n750"
+		WiFi: "n750",
+		Flash: 8,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -185,7 +205,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 8,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -197,7 +219,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n450"
+		WiFi: "n450",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -209,7 +233,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "Recommended minimum specs",
 		LAN: "1 Gbps",
-		WiFi: "n450"
+		WiFi: "n450",
+		Flash: 8,
+		RAM: 32
 	});
 
 	// Info not correct. Router does not exist.
@@ -233,7 +259,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "n300"
+		WiFi: "n300",
+		Flash: 4,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -245,7 +273,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "n300"
+		WiFi: "n300",
+		Flash: 4,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -257,7 +287,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "n150"
+		WiFi: "n150",
+		Flash: 4,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -269,7 +301,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 32,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -281,7 +315,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n300"
+		WiFi: "n300",
+		Flash: 32,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -293,7 +329,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -305,7 +343,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 16,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -317,7 +357,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 128,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -329,7 +371,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 128,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -341,7 +385,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n750"
+		WiFi: "n750",
+		Flash: 128,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -353,7 +399,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 16,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -365,7 +413,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "n600"
+		WiFi: "n600",
+		Flash: 16,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -377,7 +427,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "ac1200"
+		WiFi: "ac1200",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -389,7 +441,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "1 Gbps",
-		WiFi: "nil"
+		WiFi: "nil",
+		Flash: 16,
+		RAM: 128
 	});
 
 	extraRouters.push({
@@ -401,7 +455,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "",
 		LAN: "100 Mbps",
-		WiFi: "nil"
+		WiFi: "nil",
+		Flash: 16,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -413,7 +469,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "n150"
+		WiFi: "n150",
+		Flash: 8,
+		RAM: 32
 	});
 
 ///////////////////////////////////////////
@@ -426,7 +484,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "n300"
+		WiFi: "n300",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -438,7 +498,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "n300"
+		WiFi: "n300",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -450,7 +512,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -462,7 +526,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -474,7 +540,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -486,7 +554,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -498,7 +568,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -510,7 +582,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -522,7 +596,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -534,7 +610,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -546,7 +624,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -558,7 +638,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -570,7 +652,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -582,7 +666,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -594,7 +680,9 @@ async function createExtraRouters() {
 		USB: true,
 		notes: "Recommended minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -606,7 +694,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -618,7 +708,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 8,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -630,7 +722,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 	extraRouters.push({
@@ -642,7 +736,9 @@ async function createExtraRouters() {
 		USB: false,
 		notes: "Bare minimum specs",
 		LAN: "100 Mbps",
-		WiFi: "g54"
+		WiFi: "g54",
+		Flash: 4,
+		RAM: 16
 	});
 
 }
@@ -686,7 +782,9 @@ async function uploadExtraRouters() {
 				USB: extraRouters[i].USB,
 				WiFi: extraRouters[i].WiFi,
 				specs: extraRouters[i].specs,
-				notes: extraRouters[i].notes
+				notes: extraRouters[i].notes,
+				Flash: extraRouters[i].Flash,
+				RAM: extraRouters[i].RAM
 			}, {merge: true});
 
 			indicesRef.doc("gargoyle-index").set({
@@ -709,7 +807,9 @@ async function uploadExtraRouters() {
 					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
 					gargoyleSupport: true,
 					gargoyleSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
-					gargoyleNotes: extraRouters[i].notes
+					gargoyleNotes: extraRouters[i].notes,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				indicesRef.doc("all-routers-index").set({
@@ -723,6 +823,8 @@ async function uploadExtraRouters() {
 					gargoyleSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
 					gargoyleSupport: true,	
 					WiFi: extraRouters[i].WiFi,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
@@ -760,6 +862,6 @@ async function setModString() {
 }
 
 // checkGargoyle();
-// createExtraRouters();
-// uploadExtraRouters();
-// setModString();
+createExtraRouters();
+uploadExtraRouters();
+setModString();

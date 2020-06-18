@@ -64,6 +64,8 @@ async function checkAndUpdateTomatobyshibby() {
 												case 4:
 													let specsArray = $(element).text().split("/");
 													mainTable[j-1].specs = specsArray[0] + "MB Flash, " + specsArray[1] + " RAM";
+													mainTable[j-1].Flash = parseInt(specsArray[0]);
+													mainTable[j-1].RAM = parseInt(specsArray[1]);
 													break;
 
 												case 3:
@@ -144,7 +146,9 @@ async function checkAndUpdateTomatobyshibby() {
 								specs: mainTable[i].specs,
 								LAN: mainTable[i].LAN,
 								firmwareVersion: mainTable[i].firmwareVersion,
-								notes: mainTable[i].notes
+								notes: mainTable[i].notes,
+								Flash: mainTable[i].Flash,
+								RAM: mainTable[i].RAM
 							});
 
 							// tomatobyshibbyRef.doc("index").set({
@@ -186,7 +190,9 @@ async function checkAndUpdateTomatobyshibby() {
 										USB: {[mainTable[i].version ? mainTable[i].version : "default"]: ""},
 										WiFi: "",
 										tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
-										tomatobyshibbyNotes: mainTable[i].notes
+										tomatobyshibbyNotes: mainTable[i].notes,
+										Flash: mainTable[i].Flash,
+										RAM: mainTable[i].RAM
 									}, {merge: true});
 		
 									batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -200,7 +206,9 @@ async function checkAndUpdateTomatobyshibby() {
 										tomatobyshibbyFirmwareVersion: mainTable[i].firmwareVersion,
 										tomatobyshibbyNotes: mainTable[i].notes,
 										tomatobyshibbySupport: true,
-										tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version)
+										tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(mainTable[i].version),
+										Flash: mainTable[i].Flash,
+										RAM: mainTable[i].RAM
 									}, {merge: true});
 
 									batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
@@ -275,7 +283,9 @@ function createExtraRouters() {
 		specs: "8MB Flash, 32MB RAM",
 		firmwareVersion: "K26",
 		notes: "",
-		LAN: "1 Gbps"
+		LAN: "1 Gbps",
+		Flash: 8,
+		RAM: 32
 	});
 
 	extraRouters.push({
@@ -286,7 +296,9 @@ function createExtraRouters() {
 		specs: "8MB Flash, 64MB RAM",
 		firmwareVersion: "K26",
 		notes: "",
-		LAN: "1 Gbps"
+		LAN: "1 Gbps",
+		Flash: 8,
+		RAM: 64
 	});
 		
 
@@ -298,7 +310,9 @@ function createExtraRouters() {
 		specs: "8MB Flash, 64MB RAM",
 		firmwareVersion: "K26",
 		notes: "",
-		LAN: "1 Gbps"
+		LAN: "1 Gbps",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -309,7 +323,9 @@ function createExtraRouters() {
 		specs: "8MB Flash, 64MB RAM",
 		firmwareVersion: "K26",
 		notes: "",
-		LAN: "100 Mbps"
+		LAN: "100 Mbps",
+		Flash: 8,
+		RAM: 64
 	});
 
 	extraRouters.push({
@@ -320,7 +336,9 @@ function createExtraRouters() {
 		specs: "128MB Flash, 128MB RAM",
 		firmwareVersion: "K26ARM",
 		notes: "",
-		LAN: "1 Gbps"
+		LAN: "1 Gbps",
+		Flash: 128,
+		RAM: 128
 	});
 		
 	extraRouters.push({
@@ -331,7 +349,9 @@ function createExtraRouters() {
 		specs: "128MB Flash, 512MB RAM",
 		firmwareVersion: "K26ARM",
 		notes: "",
-		LAN: "1 Gbps"
+		LAN: "1 Gbps",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -342,7 +362,9 @@ function createExtraRouters() {
 		specs: "16MB Flash, 256MB RAM",
 		firmwareVersion: "K26RT-AC",
 		notes: "",
-		LAN: "1 Gbps"
+		LAN: "1 Gbps",
+		Flash: 16,
+		RAM: 256
 	});
 		
 	extraRouters.push({
@@ -353,7 +375,9 @@ function createExtraRouters() {
 		specs: "8MB Flash, 32MB RAM",
 		firmwareVersion: "K26RT-N",
 		notes: "",
-		LAN: "100 Mbps"
+		LAN: "100 Mbps",
+		Flash: 8,
+		RAM: 32
 	});
 
 }
@@ -394,7 +418,9 @@ async function uploadExtraRouters() {
 				specs: extraRouters[i].specs,
 				LAN: extraRouters[i].LAN,
 				firmwareVersion: extraRouters[i].firmwareVersion,
-				notes: extraRouters[i].notes
+				notes: extraRouters[i].notes,
+				Flash: extraRouters[i].Flash,
+				RAM: extraRouters[i].RAM
 			});
 
 			indicesRef.doc("tomatobyshibby-index").set({
@@ -419,7 +445,9 @@ async function uploadExtraRouters() {
 					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},
 					WiFi: "",
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
-					tomatobyshibbyNotes: extraRouters[i].notes
+					tomatobyshibbyNotes: extraRouters[i].notes,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				indicesRef.doc("all-routers-index").set({
@@ -433,7 +461,9 @@ async function uploadExtraRouters() {
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes,
 					tomatobyshibbySupport: true,
-					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version)
+					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({

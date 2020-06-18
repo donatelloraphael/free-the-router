@@ -19,7 +19,7 @@ async function createOldIndex() {
 			let index = doc.data().fullNameIndex;
 
 			await amazonRef.collection("indices").doc("old-index").set({
-				fullNameindex: index
+				fullNameIndex: index
 			}).then(() => console.log("old-index created"))
 			.catch(error => console.log(error));
 		}

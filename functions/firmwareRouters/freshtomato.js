@@ -76,9 +76,11 @@ exports.checkAndUpdateFreshtomato = async function() {
 						break;
 					case 8: 
 						deviceArray[Math.trunc(i / 13)].specs = $(element).text().trim() + " Flash, ";
+						deviceArray[Math.trunc(i / 13)].Flash = parseInt($(element).text().trim());
 						break;
 					case 10:
 						deviceArray[Math.trunc(i / 13)].specs += ($(element).text().trim() + " RAM");
+						deviceArray[Math.trunc(i / 13)].RAM = parseInt($(element).text().trim());
 						break;
 					case 11:
 						deviceArray[Math.trunc(i / 13)].firmwareVersion = $(element).text().trim();
@@ -133,7 +135,9 @@ exports.checkAndUpdateFreshtomato = async function() {
 						WiFi: deviceArray[i].WiFi,
 						specs: deviceArray[i].specs,
 						firmwareVersion: deviceArray[i].firmwareVersion,
-						notes: deviceArray[i].notes
+						notes: deviceArray[i].notes,
+						Flash: deviceArray[i].Flash,
+						RAM: deviceArray[i].RAM
 					}, {merge: true});
 
 					batchArray[batchIndex].set(indicesRef.doc("freshtomato-index"), {
@@ -172,7 +176,9 @@ exports.checkAndUpdateFreshtomato = async function() {
 								freshtomatoSupport: true,
 								freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),						
 								freshtomatoFirmwareVersion: deviceArray[i].firmwareVersion,
-								freshtomatoNotes: deviceArray[i].notes
+								freshtomatoNotes: deviceArray[i].notes,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -186,7 +192,9 @@ exports.checkAndUpdateFreshtomato = async function() {
 								freshtomatoNotes: deviceArray[i].notes,																					
 								freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(deviceArray[i].version ? deviceArray[i].version : "default"),
 								freshtomatoSupport: true,	
-								WiFi: deviceArray[i].WiFi
+								WiFi: deviceArray[i].WiFi,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {

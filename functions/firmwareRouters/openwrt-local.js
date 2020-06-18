@@ -45,6 +45,8 @@ async function checkAndUpdateOpenwrt() {
 					device.version = $(".version", $(element).html()).text().replace(/\//gmi, "&").replace(/\*/gmi, "+");
 					device.supportedCurrentRelease = $(".supported_current_rel", $(element).html()).text();
 					device.specs = $(".flash_mb", $(element).html()).text() + "MB Flash, " + $(".ram_mb", $(element).html()).text() + "MB RAM";
+					device.Flash = parseInt($(".flash_mb", $(element).html()).text());
+					device.RAM = parseInt($(".ram_mb", $(element).html()).text());
 					device.LAN = /\d/gmi.test($(".ethernet_gbit_ports", $(element).html()).text()) ? "1 Gbps" : "100 Mbps";
 					device.modem = $(".modem", $(element).html()).text() === "-" ? false : $(".modem", $(element).html()).text();
 					device.USB = $(".usb_ports", $(element).html()).text() === "-" ? false : $(".usb_ports", $(element).html()).text();
@@ -130,7 +132,9 @@ async function checkAndUpdateOpenwrt() {
 						SATA: deviceArray[i].SATA,
 						unsupportedFunctions: deviceArray[i].unsupportedFunctions,
 						techData: deviceArray[i].techData,
-						notes: deviceArray[i].notes
+						notes: deviceArray[i].notes,
+						Flash: deviceArray[i].Flash,
+						RAM: deviceArray[i].RAM
 					});
 
 					batchArray[batchIndex].set(indicesRef.doc("openwrt-index"), {
@@ -185,7 +189,9 @@ async function checkAndUpdateOpenwrt() {
 								openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
 								openwrtNotes: deviceArray[i].notes,
 								openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
-								openwrtTechData: deviceArray[i].techData
+								openwrtTechData: deviceArray[i].techData,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -203,7 +209,9 @@ async function checkAndUpdateOpenwrt() {
 								deviceType: deviceArray[i].deviceType,
 								openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
 								openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
-								openwrtTechData: deviceArray[i].techData
+								openwrtTechData: deviceArray[i].techData,
+								Flash: deviceArray[i].Flash,
+								RAM: deviceArray[i].RAM
 							}, {merge: true});
 
 							batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel), {
@@ -237,7 +245,9 @@ async function checkAndUpdateOpenwrt() {
 										openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
 										openwrtNotes: deviceArray[i].notes,
 										openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
-										openwrtTechData: deviceArray[i].techData
+										openwrtTechData: deviceArray[i].techData,
+										Flash: deviceArray[i].Flash,
+										RAM: deviceArray[i].RAM
 									}, {merge: true});
 
 									batchArray[batchIndex].set(indicesRef.doc("all-routers-index"), {
@@ -255,7 +265,9 @@ async function checkAndUpdateOpenwrt() {
 										deviceType: deviceArray[i].deviceType,
 										openwrtSupportedCurrentRelease: deviceArray[i].supportedCurrentRelease,
 										openwrtUnsupportedFunctions: deviceArray[i].unsupportedFunctions,
-										openwrtTechData: deviceArray[i].techData
+										openwrtTechData: deviceArray[i].techData,
+										Flash: deviceArray[i].Flash,
+										RAM: deviceArray[i].RAM
 									}, {merge: true});
 
 									batchArray[batchIndex].update(allFirmwareRoutersRef.doc(companyModel2), {
@@ -319,6 +331,5 @@ async function checkAndUpdateOpenwrt() {
 	}).catch(error => console.log(error));
 	
 }
-
 
 // checkAndUpdateOpenwrt();

@@ -76,7 +76,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "16MB Flash, 256MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 16,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -88,7 +90,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "256MB Flash, 512MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 256,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -100,7 +104,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "256MB Flash, 512MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 256,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -112,7 +118,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "256MB Flash, 1GB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 256,
+		RAM: 1024
 	});
 
 	extraRouters.push({
@@ -124,7 +132,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "same firmware as the RT-AC68U. U, R and W variants are all supported"
+		notes: "same firmware as the RT-AC68U. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -136,7 +146,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "256MB Flash, 512MB RAM",
-		notes: "same firmware as the RT-AC68U. U, R and W variants are all supported"
+		notes: "same firmware as the RT-AC68U. U, R and W variants are all supported",
+		Flash: 256,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -148,7 +160,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "starting with version 382.1. U, R and W variants are all supported"
+		notes: "starting with version 382.1. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -160,7 +174,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "32MB Flash, 256MB RAM",
-		notes: "supported only by older versions of firmware. U, R and W variants are all supported"
+		notes: "supported only by older versions of firmware. U, R and W variants are all supported",
+		Flash: 32,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -172,7 +188,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "same firmware as RT-AC68U. U, R and W variants are all supported"
+		notes: "same firmware as RT-AC68U. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -184,7 +202,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "same firmware as RT-AC68U. U, R and W variants are all supported"
+		notes: "same firmware as RT-AC68U. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -196,7 +216,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 512MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -208,7 +230,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -220,7 +244,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 512MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -232,7 +258,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 512MB RAM",
-		notes: "U, R and W variants are all supported"
+		notes: "U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 512
 	});
 
 	extraRouters.push({
@@ -244,7 +272,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "Including revisions C1 and E1. U, R and W variants are all supported"
+		notes: "Including revisions C1 and E1. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -256,7 +286,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "Only supported by older versions of firmware. U, R and W variants are all supported"
+		notes: "Only supported by older versions of firmware. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 
 	extraRouters.push({
@@ -268,7 +300,9 @@ function createExtraRouters() {
 		USB: "",
 		WiFi: "",
 		specs: "128MB Flash, 256MB RAM",
-		notes: "Only supported by older versions of firmware. U, R and W variants are all supported"
+		notes: "Only supported by older versions of firmware. U, R and W variants are all supported",
+		Flash: 128,
+		RAM: 256
 	});
 }
 
@@ -313,7 +347,9 @@ async function uploadExtraRouters() {
 				USB: extraRouters[i].USB ? extraRouters[i].USB : "",
 				WiFi: extraRouters[i].WiFi ? extraRouters[i].WiFi: "",
 				specs: extraRouters[i].specs,
-				notes: extraRouters[i].notes
+				notes: extraRouters[i].notes,
+				Flash: extraRouters[i].Flash,
+				RAM: extraRouters[i].RAM
 			}, {merge: true});
 
 			await indicesRef.doc("asuswrt-merlin-index").set({
@@ -336,7 +372,9 @@ async function uploadExtraRouters() {
 					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
 					asusMerlinSupport: true,
 					asusMerlinSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
-					asusMerlinNotes: extraRouters[i].notes
+					asusMerlinNotes: extraRouters[i].notes,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				indicesRef.doc("all-routers-index").update({
@@ -348,7 +386,9 @@ async function uploadExtraRouters() {
 				allFirmwareRoutersRef.doc(companyModel).set({	
 					asusMerlinNotes: extraRouters[i].notes,																					
 					asusMerlinSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
-					asusMerlinSupport: true
+					asusMerlinSupport: true,
+					Flash: extraRouters[i].Flash,
+					RAM: extraRouters[i].RAM
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
@@ -376,7 +416,7 @@ async function uploadExtraRouters() {
 }
 
 // checkAsusMerlin();
-createExtraRouters();
-uploadExtraRouters();
+// createExtraRouters();
+// uploadExtraRouters();
 
 

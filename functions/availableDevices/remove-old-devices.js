@@ -32,6 +32,7 @@ async function clearOldDevices() {
 	for (let i = 0; i < oldIndex.length; i++) {
 		if (!newIndex.includes(oldIndex[i])) {
 			await amazonRef.collection("all-devices").doc(oldIndex[i]).delete()
+			.then(() => console.log('Deleted: ', oldIndex[i]))
 			.catch(error => console.log(error));
 		}
 	}
