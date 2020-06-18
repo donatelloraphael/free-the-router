@@ -147,12 +147,21 @@ async function filterDevices() {
 			let numTestsPassed = 0;
 
 			for (let k = 0; k < splitName.length; k++) {
-				let regex = new RegExp(splitName[k], 'gmi');
+				// Replacing "X" with matching characters or numbers
+				if (k == splitName.length - 1) {
+					splitName[k] = splitName[k].replace(/x+$/gi, "");
+				}
+
+				// let regex = new RegExp("(\\s|-|^)" + splitName[k] + "(\\s|x|-|$)", "gmi"); //Don't remove extra backslash before \s
+				let regex = new RegExp(splitName[k], "gmi");
+
 				if (regex.test(allDevices[i].name)) {
 					numTestsPassed++;
 					if (numTestsPassed == splitName.length) {
 						allDevices[i].id = fullNameIndex[j];
-						supportedDevices.push(allDevices[i]);
+						if (!supportedDevices.includes(allDevices[i])) {
+							supportedDevices.push(allDevices[i]);
+						}
 					}
 				}
 			}
@@ -235,10 +244,13 @@ async function addToDatabase() {
 			operationsCounter = 0;
 		}
 
-		supportedDevices[i].serialNumber = serialNumber;
-		serialNumber++;
+		supportedDevices[i].serialNumber = serialNumber++;
 
 		batchArray[batchIndex].set(amazonRef.collection(deviceType).doc(supportedDevices[i].id), 
+			supportedDevices[i]
+		);
+
+		batchArray[batchIndex].set(amazonRef.collection("all-devices").doc(supportedDevices[i].id), 
 			supportedDevices[i]
 		);
 
@@ -264,6 +276,14 @@ async function addToDatabase() {
 		fullNameIndex: newIndex
 	});
 
+	for (let i = 0; i < newIndex.length; i++) {
+		batchArray[batchIndex].set(amazonRef.collection("indices").doc("amazon-all-devices-index"), {
+			fullNameIndex: admin.firestore.FieldValue.arrayUnion(newIndex[i])
+		}, {merge: true});
+
+		operationsCounter++;
+	}
+	
 	let indexLength = fullNameIndex.length;
 	for (let i = 0; i < indexLength; i++) {
 		if (!newDevices.includes(fullNameIndex[i])) {
@@ -277,7 +297,7 @@ async function addToDatabase() {
 		updatedOn: new Date().toLocaleTimeString()
 	}, {merge: true});
 
-	operationsCounter++;
+	operationsCounter += 2;
 
 	batchArray.forEach((batch) => {
 		batch.commit();
