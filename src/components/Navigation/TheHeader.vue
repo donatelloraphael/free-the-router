@@ -53,8 +53,11 @@
    		</div>
     
 	    <nav class="navbar">
-	    	<span class="menu__toggler" @click="toggleActive()" :class="{ active: isActive }" :is-active="isActive"><span></span></span>
 	    	
+    		<span class="menu__toggler" @click="toggleActive()" :class="{ active: isActive }" :is-active="isActive"><span></span></span> <!-- Don't delete extra span -->
+
+    		<span id="filter-menu-toggler" @click="toggleFilterMenuActive()" :class="{ active: isShopPage }">Filter</span>
+    	
 	    	<ul class="navbar-list navbar-nav mr-auto">
 	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
 	        <li class="nav-item"><nuxt-link to="/shop">Shop</nuxt-link></li>
@@ -70,6 +73,7 @@
   	</section>
   	
   	<app-sidenav @close="isActive = false" :is-active="isActive"></app-sidenav>
+  	<app-filter-menu @close="isFilterMenuActive = false" :is-active="isFilterMenuActive"></app-filter-menu>
 
   
   </div>
@@ -77,6 +81,7 @@
 
 <script>
 	import TheSideNav from "@/components/Navigation/TheSideNav";
+	import TheFilterMenu from "@/components/Navigation/TheFilterMenu";
 
 	export default {
 		name: "TheHeader",
@@ -84,6 +89,7 @@
 		data() {
 			return {
 				isActive: false,
+				isFilterMenuActive: false,
 				lastScrollTop: 0,
 				flagUrl: "",
 				searchTerm: ""
@@ -91,18 +97,25 @@
 		},
 
 		components: {
-			appSidenav: TheSideNav
+			appSidenav: TheSideNav,
+			appFilterMenu: TheFilterMenu
 		},
 
 		computed: {
 			searchValidation() {
 				return /[^\w-\s]|_/gmi.test(this.searchTerm);
+			},
+			isShopPage() {
+				return "/shop" == this.$route.path;
 			}
 		},
 
 		methods: {
 			toggleActive() {
 				this.isActive = !this.isActive;
+			},
+			toggleFilterMenuActive() {
+				this.isFilterMenuActive = !this.isFilterMenuActive;
 			},
 			setCountry(country) {
 				this.$store.dispatch("setCountry", country);
@@ -145,6 +158,7 @@
 		},
 
 		mounted() {
+
 			if (this.$store.getters.getFirstLoad) {
 				let countryExpirationTime;
 				let storedCountry;
@@ -228,7 +242,7 @@
     width: 100%;
     height: auto;
     position: fixed;
-    z-index: 15;
+    z-index: 50;
     background-color: white;
     transition: top 0.2s ease-out;
     display: grid;
@@ -425,6 +439,7 @@
 	}
 
 	/**********************************Side Menu Toggler**************************************/
+
 	.menu__toggler {
 	  position: absolute;
 	  top: 10px;
@@ -470,7 +485,28 @@
 	          transform: rotate(225deg);
 	}
 
-	
+	/************************************FILTER MENU TOGGLER*******************************/
+
+	#filter-menu-toggler {
+		color: white;
+		position: absolute;
+		display: none;
+		font-weight: bold;
+		right: 2rem;
+		padding: 10px 20px;
+		cursor: pointer;
+		background-color: #4146c1;
+		box-shadow: 0px 2px 5px rgba(0, 0, 0, 1);
+	}
+
+	#filter-menu-toggler:hover {
+		color: yellow;
+	}
+
+	#filter-menu-toggler.active {
+		display: block;
+	}
+
 
 	/*************************************MEDIA QUERIES***************************************/
 	@media (max-width: 860px) {
@@ -496,10 +532,15 @@
 
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 769px) {
 		.menu__toggler	{
 			display: none;
 		}
+
+		#filter-menu-toggler.active {
+			display: none;
+		}
+
 		.search input {
 			max-width: 10rem;
 		}

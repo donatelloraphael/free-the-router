@@ -1,10 +1,10 @@
 <template>
   <div>
 
-    <div class="sidenav-backdrop" @click="dropdownDelayedToggle(); closeSideMenuStateChanges() " :class="{ closing: closingState, closed: setClosingState() }">
+    <div class="sidenav-backdrop" @click="closeSideMenuStateChanges() " :class="{ closing: closingState, closed: setClosingState() }">
     </div>
     
-    <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
+    <div class="menu" :class="{ active: isActive, closing: closingState, shopPage: isShopPage, closed: setClosingState() }">
       <nuxt-link to="/"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
       <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link>
       <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link>
@@ -15,31 +15,25 @@
       <nuxt-link to="/resources"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
       <nuxt-link to="/about"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
 
-      <div class="nav-country-dropdown">
-  
-        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value);" aria-labelledby="navbarDropdown">
-          <option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
-          <option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
-          <option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
-          <option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
-        </select>
-
-      </div>
-
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "TheSideNav",
+    name: "TheFilterMenu",
     data() {
       return {
-        closedState: true,
+        closedState: false,
         closingState: false,
       }
     },
     props: ["isActive"],
+    computed: {
+      isShopPage() {
+        return "/shop" == this.$route.path;
+      }
+    },
     methods: {
       closeSideMenu() {
         this.$emit("close");       
@@ -59,21 +53,11 @@
       setClosingState() {
         return !this.isActive && !this.closingState;
       },
-      ///////////Delayed toggle to keep country dropdown in screen through closing action///////////////
-      dropdownDelayedToggle() {
-        setTimeout(() => {
-          this.dropdownState = false;
-        }, 500);
-      },        
       closeSideMenuStateChanges() {
         this.closingState = true; 
         this.closeSideMenu(); 
         this.toggleClosingState(); 
         this.toggleClosedState();
-      },
-      setCountry(country) {
-        this.$store.dispatch("setCountry", country);
-        // console.log("this: ", this.$store.getters.getCountry);
       }
     }
   };
@@ -82,32 +66,28 @@
 <style scoped>
   .menu {
     position: fixed;
-    z-index: 998;
-    display: flex;
-    left: -50vw;
-    width: 50vw;
+    z-index: 40;
+    display: none;
+    left: 0;
+    min-width: auto;
     height: 100vh;
-    min-width: 180px;
-    padding: 30px;
+    padding: 10rem 1rem 2rem 1rem;
     flex-direction: column;
     background-color: #2e3192;
     overflow-y: auto;
-    animation-name: nav-slide;
     animation-duration: .5s;
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 1);
   }
 
-  .menu.active {
-    left: 0;
-    
+  .menu.shopPage.active {
+    display: flex;
+    animation-name: nav-slide;
   }
 
   .menu.closing {
     animation-name: nav-slide-out;
     animation-duration: .5s;
-  }
-
-  .menu.closed {
-    display: none;
+    display: flex;
   }
 
   @keyframes nav-slide {
@@ -167,28 +147,19 @@
     text-decoration: none;
   }
 
-  .menu a.nuxt-link-exact-active span {
-    color: red;
+  /******************MEDIA QUERYS*********************/
+  @media (max-width: 768px) {
+
+    .menu.closed {
+      display: none;
+    }
   }
 
-  /*************************************Country dropdown************************************/
-  
-  .dropdown-menu-sidebar {
-    display: flex;
-    position: relative;
-    left: 8px;
-    top: 18px;
-    color: black;
-    flex-direction: column;
-    padding: 5px 12px;
-    border-radius: 10px;
+  @media (min-width: 769px) {
 
-  }
-
-  .dropdown-menu-sidebar a {
-    color: white;
-    border-radius: 5px;
-    font-family: "Courier Prime", monospace;
+    .menu.shopPage {
+      display: flex;
+    }
   }
 
 </style>

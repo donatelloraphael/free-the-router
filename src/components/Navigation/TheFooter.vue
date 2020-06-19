@@ -67,7 +67,7 @@
 		height: auto;
 		background-color: #2e3192;
 		position: relative;
-		z-index: 6;
+		z-index: 50;
     bottom: 0;
     left: 0;
     right: 0;

@@ -2,7 +2,7 @@
 	<div class="container">
 
 		<div class="sidebar">
-			
+	
 		</div>
 
 		<div class="main-grid">
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+
 	
 </script>
 
@@ -38,7 +39,7 @@
 		/*background-color: red;*/
 	}
 
-	.sidebar {
+	/*.sidebar {
 		width: 15%;
 		height: 100%;
 		position: absolute;
@@ -46,7 +47,7 @@
 		left: 0;
 		background-color: #2e3192;
     box-shadow: 0px 0 10px rgba(0, 0, 0, 1);
-	}
+	}*/
 
 	.main-grid {
 		width: 85%;
