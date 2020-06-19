@@ -207,6 +207,8 @@ async function addExtraInfo() {
 						supportedDevices[i].supportedFirmwares.push("openwrt");
 					}
 
+					supportedDevices[i].brand = device.company.toUpperCase();
+
 					supportedDevices[i] = {...supportedDevices[i], ...device};
 
 				} else {
