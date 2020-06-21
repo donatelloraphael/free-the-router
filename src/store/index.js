@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import TopPicksModule from '@/store/TopPicks';
 import MostPopularModule from '@/store/MostPopular';
+import DeviceListModule from '@/store/DeviceList';
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ const createStore = () => {
 
 		modules: {
 			TopPicksModule,
-			MostPopularModule
+			MostPopularModule,
+			DeviceListModule
 		},
 
 		state: () => ({

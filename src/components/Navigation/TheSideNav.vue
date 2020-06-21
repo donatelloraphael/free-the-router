@@ -88,12 +88,13 @@
     width: 50vw;
     height: 100vh;
     min-width: 180px;
-    padding: 30px;
+    padding: 10rem 30px;
     flex-direction: column;
     background-color: #2e3192;
     overflow-y: auto;
     animation-name: nav-slide;
     animation-duration: .5s;
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 1);
   }
 
   .menu.active {
@@ -124,7 +125,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 20;
+    z-index: 200;
     position: fixed;
     animation-name: backdrop-show;
     animation-duration: .5s;
@@ -168,7 +169,8 @@
   }
 
   .menu a.nuxt-link-exact-active span {
-    color: red;
+    color: #deff00;
+    background-color: #4146c1;
   }
 
   /*************************************Country dropdown************************************/

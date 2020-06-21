@@ -66,10 +66,10 @@
 <style scoped>
   .menu {
     position: fixed;
-    z-index: 40;
+    z-index: 1400;
     display: none;
     left: 0;
-    min-width: auto;
+    min-width: 16rem;
     height: 100vh;
     padding: 10rem 1rem 2rem 1rem;
     flex-direction: column;
@@ -104,7 +104,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 20;
+    z-index: 200;
     position: fixed;
     animation-name: backdrop-show;
     animation-duration: .5s;
@@ -159,6 +159,7 @@
 
     .menu.shopPage {
       display: flex;
+      z-index: 40;
     }
   }
 

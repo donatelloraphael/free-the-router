@@ -1,10 +1,6 @@
 <template>
 	<div class="container">
 
-		<div class="sidebar">
-	
-		</div>
-
 		<div class="main-grid">
 			<div class="heading">
 
@@ -27,6 +23,33 @@
 
 <script>
 
+export default {
+	data() {
+		return {
+		};
+	},
+
+	computed: {
+		query() {
+			return this.$route.query;
+		}
+	},
+
+	async asyncData(context) {
+
+	 const deviceList = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
+
+		return {
+			deviceList: deviceList
+		}
+	},
+
+	mounted() {
+		// console.log(this.query);
+		console.log("Mounted: ", this.deviceList);
+	}
+};
+
 	
 </script>
 
@@ -35,26 +58,12 @@
 	.container {
 		width: 100%;
 	  min-height: 100vh;
-	  float: right;
-		/*background-color: red;*/
 	}
 
-	/*.sidebar {
-		width: 15%;
-		height: 100%;
-		position: absolute;
-		z-index: 5;
-		left: 0;
-		background-color: #2e3192;
-    box-shadow: 0px 0 10px rgba(0, 0, 0, 1);
-	}*/
-
 	.main-grid {
-		width: 85%;
+		width: 100%;
 		height: 100%;
-		position: relative;
-		right: 0;
-		float: right;
+		padding-left: 16rem;
 		background-color: pink;
 	}
 
@@ -86,5 +95,11 @@
 		height: 1200px;
 		width: 400px;
 		color: yellow;
+	}
+
+	@media (max-width: 768px) {
+		.main-grid {
+			padding-left: 0;
+		}
 	}
 </style>
