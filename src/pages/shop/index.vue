@@ -24,6 +24,8 @@
 <script>
 
 export default {
+	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash'],
+
 	data() {
 		return {
 		};
@@ -32,12 +34,22 @@ export default {
 	computed: {
 		query() {
 			return this.$route.query;
+		},
+
+		category() {
+			switch (this.query.category) {
+				case "routers": return "Routers"; break;
+				case "modems": return "Modems"; break;
+				case "repeaters-extenders": return "Repeaters & Extenders"; break;
+				case "wireless-access-points": return "Wireless Access Points"; break;
+				default: return "Routers"; break;
+			}
 		}
 	},
 
 	async asyncData(context) {
 
-	 const deviceList = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
+	  const deviceList = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 
 		return {
 			deviceList: deviceList
@@ -47,6 +59,7 @@ export default {
 	mounted() {
 		// console.log(this.query);
 		console.log("Mounted: ", this.deviceList);
+		console.log('category: ', this.category);
 	}
 };
 

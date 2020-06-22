@@ -1,6 +1,17 @@
 const functions = require('firebase-functions');
 const { Nuxt } = require('nuxt');
 const express = require('express');
+////////////////// Firebase ///////////////////////////////
+
+const admin = require('firebase-admin');
+const serviceAccount = require("./firebase-adminsdk.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://free-the-router-13e19.firebaseio.com"
+});
+
+const db = admin.firestore();
 
 //////////////////OTHER FUNCTIONS//////////////////////////
 
@@ -11,6 +22,10 @@ const freshtomatoModule = require("./firmwareRouters/freshtomato");
 const gargoyleModule = require("./firmwareRouters/gargoyle");
 const ddwrtModule = require("./firmwareRouters/ddwrt");
 const openwrtModule = require("./firmwareRouters/openwrt");
+
+////////////////// Add Serial Number ///////////////////////
+
+const indiaAmazonModule = require("./serialNumber/indiaAmazon");
 
 //////////////////SERVER SIDE RENDER////////////////////////
 
@@ -75,3 +90,16 @@ exports.checkAndUpdateDdwrt = functions.pubsub.topic("firebase-schedule-checkAnd
 exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
                           return openwrtModule.checkAndUpdateOpenwrt();
                         });
+
+
+
+/************************* Add Serial Numbers **************************/
+/***********************************************************************/
+
+// India
+
+exports.indiaAmazonSerial = functions.firestore.document("india/amazon.in/{categories}/{devices}")
+                            .onCreate(() => {
+                              console.log("INDEX: ", categories);
+                              return indiaAmazonModule.indiaAmazonSerial(categories);
+                            });

@@ -24,14 +24,14 @@ const DeviceListModule = {
 			if (query.q) {
 
 			} else {
-				return db.collection("india").doc("amazon.in").collection("routers").orderBy("serialNumber").limit(18).get()
+				return db.collection("india").doc("amazon.in").collection("routers").orderBy("serialNumber").startAfter(17).limit(18).get()
 				.then(docs => {
 					docs.forEach(doc => {
 						devices.push(doc.data());
 					});
 				}).then(() => {
 					return devices;
-				});
+				}).catch(error => console.log(error));
 			}
 		}
 	}
