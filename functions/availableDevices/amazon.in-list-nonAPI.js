@@ -2,11 +2,15 @@ const axios = require('axios');
 const $ = require('cheerio');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-});
+
+if (!admin.apps.length) {
+	const serviceAccount = require("../firebase-adminsdk.json");
+	admin.initializeApp({
+  	credential: admin.credential.cert(serviceAccount),
+  	databaseURL: "https://free-the-router-13e19.firebaseio.com"
+	});
+}
+
 const db = admin.firestore();
 
 const indicesRef = db.collection("indices");

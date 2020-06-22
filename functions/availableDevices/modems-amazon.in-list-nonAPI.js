@@ -2,16 +2,21 @@ const axios = require('axios');
 const $ = require('cheerio');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-});
+
+if (!admin.apps.length) {
+	const serviceAccount = require("../firebase-adminsdk.json");
+	admin.initializeApp({
+  	credential: admin.credential.cert(serviceAccount),
+  	databaseURL: "https://free-the-router-13e19.firebaseio.com"
+	});
+}
+
 const db = admin.firestore();
 
 const indicesRef = db.collection("indices");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 const amazonRef = db.collection("india").doc("amazon.in");
+const indiaIndices = db.collection("india").doc("metaData").collection("indices");
 
 let fullNameIndex = [];
 let allDevices = [];
@@ -29,7 +34,7 @@ const amazonLinks = { "routers": "https://www.amazon.in/s?i=computers&rh=n%3A976
 let axiosInstance = axios.create({
   headers: {
     get: {        // can be common or any other method
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/82.0.4085.2 Safari/537.36'
+      'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/83.0.4103.100 Safari/537.36'
     }
   }
 });
@@ -226,16 +231,21 @@ async function addToDatabase() {
 
 	const batchArray = [];
 	const BATCH_NUM_ITEMS = 450;
-	let operationsCounter = 0;
+	let operationsCounter = 1; // Need to count the device list delete operation.
 	let batchIndex = 0;
 
-	let serialNumber = 0;
 	let newDevices	= [];
 	let fullNameIndex = [];
 	let newIndex = [];
 
 	
 	batchArray.push(db.batch());
+
+	/*********************** Delete the old Device List *********************/
+	
+	// batchArray[batchIndex].delete(amazonRef.collection(deviceType));
+
+	/************************************************************************/
 
 	let arrLength = supportedDevices.length;
 	for (let i = 0; i < arrLength; i++) {
@@ -245,8 +255,6 @@ async function addToDatabase() {
 			batchArray.push(db.batch());
 			operationsCounter = 0;
 		}
-
-		supportedDevices[i].serialNumber = serialNumber++;
 
 		batchArray[batchIndex].set(amazonRef.collection(deviceType).doc(supportedDevices[i].id), 
 			supportedDevices[i]
@@ -267,19 +275,19 @@ async function addToDatabase() {
 
 
 
-	await amazonRef.collection("indices").doc(`amazon-${deviceType}-index`).get()
+	await indiaIndices.doc(`amazon-${deviceType}-index`).get()
 	.then(doc => {
 		if (doc.data()) {
 			fullNameIndex = doc.data().fullNameIndex;
 		}
 	});
 
-	batchArray[batchIndex].set(amazonRef.collection("indices").doc(`amazon-${deviceType}-index`), {
+	batchArray[batchIndex].set(indiaIndices.doc(`amazon-${deviceType}-index`), {
 		fullNameIndex: newIndex
 	});
 
 	for (let i = 0; i < newIndex.length; i++) {
-		batchArray[batchIndex].set(amazonRef.collection("indices").doc("amazon-all-devices-index"), {
+		batchArray[batchIndex].set(indiaIndices.doc("amazon-all-devices-index"), {
 			fullNameIndex: admin.firestore.FieldValue.arrayUnion(newIndex[i])
 		}, {merge: true});
 

@@ -2,27 +2,32 @@ const axios = require('axios');
 const $ = require('cheerio');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-});
+
+if (!admin.apps.length) {
+	const serviceAccount = require("../firebase-adminsdk.json");
+	admin.initializeApp({
+  	credential: admin.credential.cert(serviceAccount),
+  	databaseURL: "https://free-the-router-13e19.firebaseio.com"
+	});
+}
+
 const db = admin.firestore();
 
 const amazonRef = db.collection("india").doc("amazon.in");
+const indiaIndices = db.collection("india").doc("metaData").collection("indices");
 
 async function clearOldDevices() {
 
 	let newIndex = [], oldIndex = [];
 
-	await amazonRef.collection("indices").doc("amazon-all-devices-index").get()
+	await indiaIndices.doc("amazon-all-devices-index").get()
 	.then(doc => {
 		if (doc.data()) {
 			newIndex = doc.data().fullNameIndex;
 		}
 	});
 
-	await amazonRef.collection("indices").doc("old-index").get()
+	await indiaIndices.doc("old-index").get()
 	.then(doc => {
 		if (doc.data()) {
 			oldIndex = doc.data().fullNameIndex;

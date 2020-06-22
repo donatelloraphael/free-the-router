@@ -2,16 +2,21 @@ const axios = require('axios');
 const $ = require('cheerio');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-});
+
+if (!admin.apps.length) {
+	const serviceAccount = require("../firebase-adminsdk.json");
+	admin.initializeApp({
+  	credential: admin.credential.cert(serviceAccount),
+  	databaseURL: "https://free-the-router-13e19.firebaseio.com"
+	});
+}
+
 const db = admin.firestore();
 
 const indicesRef = db.collection("indices");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 const amazonRef = db.collection("india").doc("amazon.in");
+const indiaIndices = db.collection("india").doc("metaData").collection("indices");
 
 let fullNameIndex = [];
 let allDevices = [];
@@ -229,7 +234,6 @@ async function addToDatabase() {
 	let operationsCounter = 0;
 	let batchIndex = 0;
 
-	let serialNumber = 0;
 	let newDevices	= [];
 	let fullNameIndex = [];
 	let newIndex = [];
@@ -245,8 +249,6 @@ async function addToDatabase() {
 			batchArray.push(db.batch());
 			operationsCounter = 0;
 		}
-
-		supportedDevices[i].serialNumber = serialNumber++;
 
 		batchArray[batchIndex].set(amazonRef.collection(deviceType).doc(supportedDevices[i].id), 
 			supportedDevices[i]
@@ -267,19 +269,19 @@ async function addToDatabase() {
 
 
 
-	await amazonRef.collection("indices").doc(`amazon-${deviceType}-index`).get()
+	await indiaIndices.doc(`amazon-${deviceType}-index`).get()
 	.then(doc => {
 		if (doc.data()) {
 			fullNameIndex = doc.data().fullNameIndex;
 		}
 	});
 
-	batchArray[batchIndex].set(amazonRef.collection("indices").doc(`amazon-${deviceType}-index`), {
+	batchArray[batchIndex].set(indiaIndices.doc(`amazon-${deviceType}-index`), {
 		fullNameIndex: newIndex
 	});
 
 	for (let i = 0; i < newIndex.length; i++) {
-		batchArray[batchIndex].set(amazonRef.collection("indices").doc("amazon-all-devices-index"), {
+		batchArray[batchIndex].set(indiaIndices.doc("amazon-all-devices-index"), {
 			fullNameIndex: admin.firestore.FieldValue.arrayUnion(newIndex[i])
 		}, {merge: true});
 
