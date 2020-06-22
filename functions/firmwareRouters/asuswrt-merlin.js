@@ -1,21 +1,29 @@
-//Check only. Manual Update needed
+//Check Only. Manual Update Needed.
 
 const axios = require('axios');
 const $ = require('cheerio');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-}, "merlin");
+
+if (!admin.apps.length) {
+	const serviceAccount = require("../firebase-adminsdk.json");
+
+	admin.initializeApp({
+	  credential: admin.credential.cert(serviceAccount),
+	  databaseURL: "https://free-the-router-13e19.firebaseio.com"
+	});
+}
+
 const db = admin.firestore();
+
+let merlinRef = db.collection("asuswrt-merlin-main-list");
+let allFirmwareRoutersRef = db.collection("all-firmware-routers");
+let indicesRef = db.collection("indices");
 
 exports.checkAsusMerlin = async function() {
 // async function checkAsusMerlin() {
 	let fullNameIndex = [];
 	let routerList = [];
-	let indicesRef = db.collection("indices");
 
 	await axios.get("https://sourceforge.net/projects/asuswrt-merlin/files/")
 		.then((res) => {

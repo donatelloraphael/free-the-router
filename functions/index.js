@@ -1,18 +1,6 @@
 const functions = require('firebase-functions');
 const { Nuxt } = require('nuxt');
 const express = require('express');
-////////////////// Firebase ///////////////////////////////
-
-const admin = require('firebase-admin');
-const serviceAccount = require("./firebase-adminsdk.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-});
-
-const db = admin.firestore();
-
 //////////////////OTHER FUNCTIONS//////////////////////////
 
 const tomatobyshibbyModule = require("./firmwareRouters/tomatobyshibby");
@@ -99,7 +87,6 @@ exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkA
 // India
 
 exports.indiaAmazonSerial = functions.firestore.document("india/amazon.in/{categories}/{devices}")
-                            .onCreate(() => {
-                              console.log("INDEX: ", categories);
-                              return indiaAmazonModule.indiaAmazonSerial(categories);
+                            .onCreate(() => {      
+                              return indiaAmazonModule.indiaAmazonSerial();
                             });

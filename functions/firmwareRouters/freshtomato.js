@@ -4,11 +4,16 @@ const axios = require('axios');
 const $ = require('cheerio');
 
 const admin = require('firebase-admin');
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://free-the-router-13e19.firebaseio.com"
-}, "freshtomato");
+
+if (!admin.apps.length) {
+	const serviceAccount = require("../firebase-adminsdk.json");
+
+	admin.initializeApp({
+	  credential: admin.credential.cert(serviceAccount),
+	  databaseURL: "https://free-the-router-13e19.firebaseio.com"
+	});
+}
+
 const db = admin.firestore();
 
 const freshtomatoRef = db.collection("freshtomato-main-list");
@@ -16,9 +21,8 @@ const allFirmwareRoutersRef = db.collection("all-firmware-routers");
 const indicesRef = db.collection("indices");
 const deviceArray = [];
 
-
 exports.checkAndUpdateFreshtomato = async function() {
-// async function checkAndUpdateFreshtomato() {
+// async function checkAndUpdateFreshtomato() {	
 	let isModified = false;
 	let lastModified = '';
 	let modString = '';
