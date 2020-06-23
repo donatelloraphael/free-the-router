@@ -15,6 +15,7 @@ const db = admin.firestore();
 
 const amazonRef = db.collection("india").doc("amazon.in");
 const indiaIndices = db.collection("india").doc("metaData").collection("indices");
+const metaRef = db.collection("india").doc("metaData").collection("meta");
 
 async function createOldIndex() {
 
@@ -36,4 +37,16 @@ async function createOldIndex() {
 
 }
 
+async function clearSerialCount() {
+
+	await metaRef.doc("all-devices").delete();
+	await metaRef.doc("routers").delete();
+	await metaRef.doc("modems").delete();
+	await metaRef.doc("wireless access points").delete();
+	await metaRef.doc("repeaters & extenders").delete();
+
+	console.log('Serial Counters cleared.');
+}
+
 createOldIndex();
+clearSerialCount();

@@ -49,45 +49,41 @@ let axiosInstance = axios.create({
 
 async function main() {	
 
-	for (let page = 1;; page++) {	// TODO: remove condition 'page < number' in production
+	let page = 1;
+	
+	function delayedLoop() {
+		return setTimeout(async function() {
+			let amazonLink = amazonLinks[deviceType] + page;
 
-		let amazonLink = amazonLinks[deviceType] + page; 
+			let html = await getPage(amazonLink, page, deviceType);
 
-		let html = await getPage(amazonLink, page, deviceType);
+			if (html == "error") {
+				return false;
+			}
 
-		if (html == "error") {
-			return;
-		}
+			if (html) {
+				await getDevices(html, page, deviceType);
+				page++;
+				delayedLoop();
+			} else {
 
-		if (html) {
-			await getDevices(html, page, deviceType);
-		} else {
-			break;
-		}
-		await setTimeout(() => {}, 10000);
+				await filterDevices();
+				await addExtraInfo();
+				await addToDatabase();
 
+				// console.dir(allDevices, {maxArrayLength: null});
+				console.log('\nNUMBER OF DEVICES: ', allDevices.length);
+				// console.dir(supportedDevices, {maxArrayLength: null});
+				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
+
+				return true;
+			}
+		}, 5000);
 	}
 
-	await filterDevices();
-	await addExtraInfo();
-	await addToDatabase();
-
-	// // console.dir(allDevices, {maxArrayLength: null});
-	console.log('\nNUMBER OF DEVICES: ', allDevices.length);
-	// console.dir(supportedDevices, {maxArrayLength: null});
-	console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
+	return await delayedLoop();
 
 }
-
-	/////////////////////////// Old Version: Set page end /////////////////////////////////
-
-		// if ($("span", ".s-result-item", html).attr("class") == "celwidget slot=MAIN template=TOP_BANNER_MESSAGE widgetId=messaging-messages-no-results") {
-		// 	console.log("__________No more items.___________");
-		// 	break;
-		// } else {
-		// 	console.log(`PAGE: ${page} has items`);
-		// 	getDevices(html, page);
-		// }
 
 async function getPage(link, page, deviceType) {
 

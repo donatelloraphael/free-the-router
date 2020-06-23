@@ -33,8 +33,15 @@ const amazonLinks = { "routers": "https://www.amazon.in/s?i=computers&rh=n%3A976
 // axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4086.0 Safari/537.36';
 let axiosInstance = axios.create({
   headers: {
-    get: {        // can be common or any other method
-      'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Chrome/83.0.4103.100 Safari/537.36'
+    common: {        // can be common or any other method
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4171.0 Safari/537.36',
+      'Accept-Language': 'en-gb,en-US',
+      'Referer': 'http://www.google.co.in/',
+      'Accept-Encoding': 'br, gzip, deflate',
+      // 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+      'Pragma': 'no-cache',
+      'Upgrade-Insecure-Requests': '1',
+      'Cache-Control': 'max-age=0'
     }
   }
 });
@@ -42,40 +49,41 @@ let axiosInstance = axios.create({
 
 async function main() {	
 
-	for (let page = 1;; page++) {	// TODO: remove condition 'page < number' in production
+	let page = 1;
+	
+	function delayedLoop() {
+		return setTimeout(async function() {
+			let amazonLink = amazonLinks[deviceType] + page;
 
-		let amazonLink = amazonLinks[deviceType] + page; 
+			let html = await getPage(amazonLink, page, deviceType);
 
-		let html = await getPage(amazonLink, page, deviceType);
+			if (html == "error") {
+				return false;
+			}
 
-		if (html) {
-			await getDevices(html, page, deviceType);
-		} else {
-			break;
-		}
+			if (html) {
+				await getDevices(html, page, deviceType);
+				page++;
+				delayedLoop();
+			} else {
 
+				await filterDevices();
+				await addExtraInfo();
+				await addToDatabase();
+
+				// console.dir(allDevices, {maxArrayLength: null});
+				console.log('\nNUMBER OF DEVICES: ', allDevices.length);
+				// console.dir(supportedDevices, {maxArrayLength: null});
+				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
+
+				return true;
+			}
+		}, 5000);
 	}
 
-	await filterDevices();
-	await addExtraInfo();
-	await addToDatabase();
-
-	// // console.dir(allDevices, {maxArrayLength: null});
-	console.log('\nNUMBER OF DEVICES: ', allDevices.length);
-	// console.dir(supportedDevices, {maxArrayLength: null});
-	console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
+	return await delayedLoop();
 
 }
-
-	/////////////////////////// Old Version: Set page end /////////////////////////////////
-
-		// if ($("span", ".s-result-item", html).attr("class") == "celwidget slot=MAIN template=TOP_BANNER_MESSAGE widgetId=messaging-messages-no-results") {
-		// 	console.log("__________No more items.___________");
-		// 	break;
-		// } else {
-		// 	console.log(`PAGE: ${page} has items`);
-		// 	getDevices(html, page);
-		// }
 
 async function getPage(link, page, deviceType) {
 
@@ -96,7 +104,10 @@ async function getPage(link, page, deviceType) {
 			return res.data;
 		}
 
-	}).catch(error => console.log(error));
+	}).catch(error => {
+		console.log(error);
+		return "error";
+	});
 }
 
 

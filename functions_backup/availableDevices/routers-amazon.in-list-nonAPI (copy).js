@@ -22,7 +22,7 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "repeaters & extenders";
+const deviceType = "routers";
 const amazonLinks = { "routers": "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=",
 											"modems": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375431031&qid=1591803566&page=",
 											"wireless access points": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375440031&qid=1591803666&page=",
@@ -49,41 +49,45 @@ let axiosInstance = axios.create({
 
 async function main() {	
 
-	let page = 1;
-	
-	function delayedLoop() {
-		return setTimeout(async function() {
-			let amazonLink = amazonLinks[deviceType] + page;
+	for (let page = 1;; page++) {	// TODO: remove condition 'page < number' in production
 
-			let html = await getPage(amazonLink, page, deviceType);
+		let amazonLink = amazonLinks[deviceType] + page; 
 
-			if (html == "error") {
-				return false;
-			}
+		let html = await getPage(amazonLink, page, deviceType);
 
-			if (html) {
-				await getDevices(html, page, deviceType);
-				page++;
-				delayedLoop();
-			} else {
+		if (html == "error") {
+			return;
+		}
 
-				await filterDevices();
-				await addExtraInfo();
-				await addToDatabase();
+		if (html) {
+			await getDevices(html, page, deviceType);
+		} else {
+			break;
+		}
+		await setTimeout(() => {}, 10000);
 
-				// console.dir(allDevices, {maxArrayLength: null});
-				console.log('\nNUMBER OF DEVICES: ', allDevices.length);
-				// console.dir(supportedDevices, {maxArrayLength: null});
-				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
-
-				return true;
-			}
-		}, 5000);
 	}
 
-	return await delayedLoop();
+	await filterDevices();
+	await addExtraInfo();
+	await addToDatabase();
+
+	// // console.dir(allDevices, {maxArrayLength: null});
+	console.log('\nNUMBER OF DEVICES: ', allDevices.length);
+	// console.dir(supportedDevices, {maxArrayLength: null});
+	console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
 
 }
+
+	/////////////////////////// Old Version: Set page end /////////////////////////////////
+
+		// if ($("span", ".s-result-item", html).attr("class") == "celwidget slot=MAIN template=TOP_BANNER_MESSAGE widgetId=messaging-messages-no-results") {
+		// 	console.log("__________No more items.___________");
+		// 	break;
+		// } else {
+		// 	console.log(`PAGE: ${page} has items`);
+		// 	getDevices(html, page);
+		// }
 
 async function getPage(link, page, deviceType) {
 

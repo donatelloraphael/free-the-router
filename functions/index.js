@@ -86,7 +86,17 @@ exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkA
 
 // India
 
-exports.indiaAmazonSerial = functions.firestore.document("india/amazon.in/{category}/{devices}")
+exports.indiaAmazonSerialOnCreate = functions.firestore.document("india/amazon.in/{category}/{devices}")
                             .onCreate((data, context) => {      
                               return indiaAmazonModule.indiaAmazonSerial(data, context);
+                            });
+
+exports.indiaAmazonSerialOnUpdate = functions.firestore.document("india/amazon.in/{category}/{devices}")
+                            .onUpdate((change, context) => {
+                              const currentData = change.after.data();
+
+                              if (currentData.serialUpdated) {
+                                return null;
+                              }
+                              return indiaAmazonModule.indiaAmazonSerial(change, context);
                             });

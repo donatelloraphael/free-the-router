@@ -16,6 +16,7 @@ exports.indiaAmazonSerial = async function(data, context) {
 	return db.runTransaction(async transaction => {
 
 		let category = context.params.category;
+		let device = context.params.devices;
 		let number = 0;
 
 		const metaRef = db.doc("india/metaData/meta/" + category);
@@ -33,10 +34,11 @@ exports.indiaAmazonSerial = async function(data, context) {
 			count: number
 		}, {merge: true});
 
-		const deviceRef = data.ref;
+		const deviceRef = db.doc(`india/amazon.in/${category}/${device}`);
 
 		transaction.set(deviceRef, {
-			serialNumber: number
+			serialNumber: number,
+			serialUpdated: true
 		}, {merge: true});
 
 	});
