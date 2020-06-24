@@ -86,7 +86,7 @@
     display: flex;
     left: -50vw;
     width: 50vw;
-    height: 100vh;
+    height: 100%;
     min-width: 180px;
     padding: 10rem 30px;
     flex-direction: column;

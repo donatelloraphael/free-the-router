@@ -7,6 +7,17 @@
 	    	</nuxt-link>
 
 				<form  class="search">
+					
+					<span class="searchDropdown dropdown">
+      			<select class="dropdown-menu" @click="searchCategory=$event.target.value" aria-haspopup="true" aria-expanded="false" aria-labelledby="searchDropdown">
+							<option class="dropdown-item" value="all-devices">All</option>
+    					<option class="dropdown-item" value="routers">Routers</option>
+							<option class="dropdown-item" value="wireless-access-points">Wireless Access Points</option>
+							<option class="dropdown-item" value="repeaters-extenders">Repeaters & Extenders</option>
+							<option class="dropdown-item" value="modems">Modems</option>
+						</select>
+					</span>
+
 					<input class="search-box" :class="{ disabled: searchValidation }" type="text" v-model="searchTerm" placeholder="Search here">
 					<button type="submit" @click.stop.prevent="search()" :disabled="searchValidation">Search</button>
 					<span id="searchError" v-if="searchValidation">Search can only contain letters, digits, spaces, and "-".</span>
@@ -92,7 +103,8 @@
 				isFilterMenuActive: false,
 				lastScrollTop: 0,
 				flagUrl: "",
-				searchTerm: ""
+				searchTerm: "",
+				searchCategory: "all-devices"
 			};
 		},
 
@@ -141,7 +153,7 @@
 					} 
 				}
 				this.searchTerm = "";
-				this.$router.push({ path: "/shop", query: {search: args} });
+				this.$router.push({ path: "/shop", query: {q: true, search: args, category: this.searchCategory} });
 			}
 		},
 
@@ -307,12 +319,11 @@
 
 	input.search-box {
 		height: 2rem;
-		width: 30vw;
+		width: 20vw;
 		font-size: 0.9rem;
 		padding: 0 0 0 10px;
 		border: 1px solid grey;
 		border-right: none;
-		border-radius: 5px 0 0 5px;
 	}
 
 	input.search-box:focus {
@@ -337,6 +348,15 @@
 		color: red;
 		position: absolute;
 		bottom: -1rem;
+	}
+
+	.searchDropdown {
+		border: 1px solid grey;
+		display: flex;
+		align-items: center;
+		border-radius: 5px 0 0 5px;
+		border-right: none;
+		width: 4rem;
 	}
 
 	.hidden {
@@ -509,7 +529,7 @@
 
 
 	/*************************************MEDIA QUERIES***************************************/
-	@media (max-width: 860px) {
+	@media (max-width: 922px) {
 		#searchError {
 			bottom: -1.5rem;
 			font-size: 0.7rem;

@@ -28,9 +28,12 @@ const DeviceListModule = {
 			let devices = [];
 
 			if (query.q) {
+				if (query.search) {
+					vuexContext.dispatch("searchDevices", query);
+				}
 
 			} else {
-				
+
 				return db.collection("india").doc("amazon.in").collection("routers").orderBy("serialNumber").limit(18).get()
 				.then(docs => {
 					docs.forEach(doc => {
@@ -43,6 +46,12 @@ const DeviceListModule = {
 				
 			}
 		},
+
+		async searchDevices(vuexContext, query) {
+			let dbAllDevicesIndex = [];
+
+			await db.collection("india").doc("metaData").collection("indices");
+		}
 	}
 };
 

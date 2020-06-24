@@ -70,7 +70,7 @@
     display: none;
     left: 0;
     min-width: 16rem;
-    height: 100vh;
+    height: 100%;
     padding: 10rem 1rem 2rem 1rem;
     flex-direction: column;
     background-color: #2e3192;
@@ -91,13 +91,13 @@
   }
 
   @keyframes nav-slide {
-    from{left: -50vw;}
+    from{left: -16rem;}
     to{left: 0;}
   }
 
   @keyframes nav-slide-out {
     from{left: 0;}
-    to{left: -50vw;}
+    to{left: -16rem;}
   }
 
   .sidenav-backdrop {
