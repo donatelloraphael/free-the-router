@@ -129,14 +129,14 @@
 			},
 			search() {
 				let args = "";
-				let argsArray = this.searchTerm.toLowerCase().split(/(\s)/gm).map(el => el.trim());
+				let argsArray = this.searchTerm.toUpperCase().split(/(\s)/gm).map(el => el.trim());
 
 				for (let i = 0; i < argsArray.length; i++) {
 					if (argsArray[i]) {
 						if (i == 0) {
 							args += argsArray[i];
 						} else {
-							args += "-" + argsArray[i];
+							args += "_" + argsArray[i];
 						}
 					} 
 				}

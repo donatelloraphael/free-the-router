@@ -49,8 +49,10 @@ export default {
 
 	async asyncData(context) {
 
-	  const deviceList = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
-
+		await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
+		
+		let deviceList = context.store.getters["DeviceListModule/getDeviceList"];
+			
 		return {
 			deviceList: deviceList
 		}
