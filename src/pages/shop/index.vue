@@ -24,7 +24,7 @@
 <script>
 
 export default {
-	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash'],
+	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price'],
 
 	data() {
 		return {
@@ -49,15 +49,7 @@ export default {
 
 	async asyncData(context) {
 	
-		let deviceList = [];
-
-		await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
-		
-		if (context.query.search) {
-			deviceList = context.store.getters["DeviceListModule/getSearchResult"];
-		} else {
-			deviceList = context.store.getters["DeviceListModule/getDeviceList"];
-		}
+		let deviceList = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 					
 		return {
 			deviceList: deviceList

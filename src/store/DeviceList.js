@@ -38,7 +38,7 @@ const DeviceListModule = {
 	},
 
 	actions: {
-		populateDeviceList(vuexContext, query) {
+		async populateDeviceList(vuexContext, query) {
 			let devices = [];
 			let category = "";
 
@@ -52,8 +52,33 @@ const DeviceListModule = {
 			}
 
 			if (query.q) {
+				// If the query is a search
 				if (query.search) {
-					return vuexContext.dispatch("searchDevices", {query, category});
+					let dbSearchResult = await vuexContext.dispatch("searchDevices", {query, category});
+
+					// Sorting resulting array according to price
+					if (query.sort == "lth") {
+						dbSearchResult.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+					} else if (query.sort == "htl") {
+						dbSearchResult.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+					}
+
+					//Filtering by brand
+					if (query.brands) {
+						if (Array.isArray(query.brands)) {							
+							dbSearchResult = dbSearchResult.filter(device => {
+								for (let i = 0; i < query.brands.length; i++) {
+									if (device.brand == query.brands[i].toUpperCase()) {
+										return true;
+									}
+								}
+							});
+						} else {
+							dbSearchResult = dbSearchResult.filter(device => device.brand == query.brands.toUpperCase());
+						}
+					}
+
+					return dbSearchResult;
 				}
 
 			} else {
@@ -107,7 +132,7 @@ const DeviceListModule = {
 				let resultLength = matchDevicesIndex.length;
 
 				if (process.client) {
-					console.log("client");
+					// console.log("client");
 					try {
 						for (let i = 0; i < resultLength; i++) {
 							db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
@@ -121,7 +146,7 @@ const DeviceListModule = {
 						console.log(error);
 					}
 				} else {
-					console.log('server');
+					// console.log('server');
 					try {
 						for (let i = 0; i < resultLength; i++) {
 							await db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
