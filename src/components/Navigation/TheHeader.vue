@@ -331,7 +331,7 @@
 	}
 
 	.search button {
-		background-color: white;
+		background-color: #e2e2e2;
 		padding: 0 5px;
 		border: 1px solid grey;
 		font-family: "Courier Prime", monospace;

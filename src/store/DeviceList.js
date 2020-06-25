@@ -7,29 +7,53 @@ const DeviceListModule = {
 
 	state() {
 		return {
-			deviceList: []
+			deviceList: [],
+			searchResult: [],
+			oldSearch: ""
 		};
 	},
 
 	getters: {
 		getDeviceList(state) {
 			return state.deviceList;
+		},
+		getSearchResult(state) {
+			return state.searchResult;
 		}
 	},
 
 	mutations: {
 		setDeviceList(state, devices) {
 			state.deviceList = devices;
+		},
+		setSearchResult(state, device) {
+			state.searchResult.push(device);
+		},
+		clearSearchResult(state) {
+			state.searchResult = [];
+		},
+		setOldSearch(state, term) {
+			state.oldSearch = term;
 		}
 	},
 
 	actions: {
 		populateDeviceList(vuexContext, query) {
 			let devices = [];
+			let category = "";
+
+			switch (query.category) {
+				case "all-devices": category = "all-devices"; break;
+				case "routers": category = "routers"; break;
+				case "modems": category = "modems"; break;
+				case "repeaters-extenders": category = "repeaters & extenders"; break;
+				case "wireless-access-points": category = "wireless access points"; break;
+				default: category = "all-devices"; break;
+			}
 
 			if (query.q) {
 				if (query.search) {
-					vuexContext.dispatch("searchDevices", query);
+					return vuexContext.dispatch("searchDevices", {query, category});
 				}
 
 			} else {
@@ -47,10 +71,77 @@ const DeviceListModule = {
 			}
 		},
 
-		async searchDevices(vuexContext, query) {
-			let dbAllDevicesIndex = [];
+		async searchDevices(vuexContext, {query, category}) {
+			if (vuexContext.state.oldSearch != query.search) {
 
-			await db.collection("india").doc("metaData").collection("indices");
+				vuexContext.commit("clearSearchResult");
+
+				let dbAllDevicesIndex = [];
+				let matchDevicesIndex = [];
+
+				await db.doc(`india/metaData/indices/amazon-${category}-index`).get()
+				.then(doc => {
+					if (doc.data()) {
+						dbAllDevicesIndex = doc.data().fullNameIndex;
+					}
+				});
+
+				let searchArray = query.search.split(/_|-/gmi);
+
+				let indexLength = dbAllDevicesIndex.length;
+				for (let i = 0; i < indexLength; i++) {
+					let matchCount = 0;
+					for (let j = 0; j < searchArray.length; j++) {
+						let regex = new RegExp(searchArray[j], "gmi");
+							// console.log("device: ", dbAllDevicesIndex[i]);
+							// console.log(regex);
+						if (regex.test(dbAllDevicesIndex[i])) {
+							matchCount++;
+						}
+						if (matchCount == searchArray.length) {
+							matchDevicesIndex.push(dbAllDevicesIndex[i]);
+						}
+					}
+				}
+
+				let resultLength = matchDevicesIndex.length;
+
+				if (process.client) {
+					console.log("client");
+					try {
+						for (let i = 0; i < resultLength; i++) {
+							db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
+							.then (doc => {
+								if (doc.data()) {
+									vuexContext.commit("setSearchResult", doc.data());
+								}
+							});
+						}
+					} catch (error) {
+						console.log(error);
+					}
+				} else {
+					console.log('server');
+					try {
+						for (let i = 0; i < resultLength; i++) {
+							await db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
+							.then (doc => {
+								if (doc.data()) {
+									vuexContext.commit("setSearchResult", doc.data());
+								}
+							});
+						}
+					} catch (error) {
+						console.log(error);
+					}
+				}
+				
+
+				vuexContext.commit("setOldSearch", query.search);
+			}
+			return vuexContext.getters.getSearchResult;
+
+			
 		}
 	}
 };

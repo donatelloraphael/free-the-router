@@ -35,7 +35,6 @@ export default {
 		query() {
 			return this.$route.query;
 		},
-
 		category() {
 			switch (this.query.category) {
 				case "routers": return "Routers"; break;
@@ -47,21 +46,27 @@ export default {
 		}
 	},
 
+
 	async asyncData(context) {
+	
+		let deviceList = [];
 
 		await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 		
-		let deviceList = context.store.getters["DeviceListModule/getDeviceList"];
-			
+		if (context.query.search) {
+			deviceList = context.store.getters["DeviceListModule/getSearchResult"];
+		} else {
+			deviceList = context.store.getters["DeviceListModule/getDeviceList"];
+		}
+					
 		return {
 			deviceList: deviceList
 		}
 	},
 
 	mounted() {
-		// console.log(this.query);
 		console.log("Mounted: ", this.deviceList);
-		console.log('category: ', this.category);
+		console.log('category: ', this.query.category);
 	}
 };
 
