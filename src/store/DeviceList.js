@@ -51,34 +51,13 @@ const DeviceListModule = {
 				default: category = "all-devices"; break;
 			}
 
+			// If there are query strings
 			if (query.q) {
 				// If the query is a search
 				if (query.search) {
 					let dbSearchResult = await vuexContext.dispatch("searchDevices", {query, category});
 
-					// Sorting resulting array according to price
-					if (query.sort == "lth") {
-						dbSearchResult.sort((a, b) => parseInt(a.price) - parseInt(b.price));
-					} else if (query.sort == "htl") {
-						dbSearchResult.sort((a, b) => parseInt(b.price) - parseInt(a.price));
-					}
-
-					//Filtering by brand
-					if (query.brands) {
-						if (Array.isArray(query.brands)) {							
-							dbSearchResult = dbSearchResult.filter(device => {
-								for (let i = 0; i < query.brands.length; i++) {
-									if (device.brand == query.brands[i].toUpperCase()) {
-										return true;
-									}
-								}
-							});
-						} else {
-							dbSearchResult = dbSearchResult.filter(device => device.brand == query.brands.toUpperCase());
-						}
-					}
-
-					return dbSearchResult;
+					return vuexContext.dispatch("filterSearchResults", {dbSearchResult, query});
 				}
 
 			} else {
@@ -164,9 +143,117 @@ const DeviceListModule = {
 
 				vuexContext.commit("setOldSearch", query.search);
 			}
-			return vuexContext.getters.getSearchResult;
+			return vuexContext.getters.getSearchResult;			
+		},
 
-			
+		filterSearchResults(vuexContext, {dbSearchResult, query}) {
+
+			// Sorting resulting array according to price
+			if (query.sort == "lth") {	// Low to High
+				dbSearchResult.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+			} else if (query.sort == "htl") {	// High to Low
+				dbSearchResult.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+			}
+
+			// Filtering by brand
+			if (query.brands) {
+				if (Array.isArray(query.brands)) {							
+					dbSearchResult = dbSearchResult.filter(device => {
+						for (let i = 0; i < query.brands.length; i++) {
+							if (device.brand == query.brands[i].toUpperCase()) {
+								return true;
+							}
+						}
+					});
+				} else {
+					dbSearchResult = dbSearchResult.filter(device => device.brand == query.brands.toUpperCase());
+				}
+			}
+
+			// Filtering by RAM
+			if (query.ram) {
+				switch(query.ram) {
+					case '0-64': dbSearchResult = dbSearchResult.filter(device => device.RAM <= 64);
+												break;
+					case '64-128': dbSearchResult = dbSearchResult.filter(device => (device.RAM >= 64 && device.RAM <= 128));
+												break;
+					case '128-256': dbSearchResult = dbSearchResult.filter(device => (device.RAM >= 128 && device.RAM <=256));
+												break;
+					case '256': dbSearchResult = dbSearchResult.filter(device => device.RAM >= 256);
+												break;
+				}
+			}
+
+			// Filtering by Flash Memory
+			if (query.flash) {
+				switch(query.flash) {
+					case '0-8': dbSearchResult = dbSearchResult.filter(device => device.Flash <= 8);
+												break;
+					case '8-32': dbSearchResult = dbSearchResult.filter(device => (device.Flash >= 8 && device.Flash <= 32));
+												break;
+					case '32-128': dbSearchResult = dbSearchResult.filter(device => (device.Flash >= 32 && device.Flash <= 128));
+												break;
+					case '128': dbSearchResult = dbSearchResult.filter(device => device.Flash >= 128);
+												break;
+				}
+			}
+
+			// Filtering by price
+			if (query.price) {
+				switch (query.price) {
+					case '0-1500': dbSearchResult = dbSearchResult.filter(device => device.price <= 1500);
+												break;
+					case '1500-3000': dbSearchResult = dbSearchResult.filter(device => (device.price >= 1500 && device.price <= 3000));
+												break;
+					case '3000-6000': dbSearchResult = dbSearchResult.filter(device => (device.price >= 3000 && device.price <= 6000));
+												break;
+					case '6000-10000': dbSearchResult = dbSearchResult.filter(device => (device.price >= 1500 && device.price <= 3000));
+												break;
+					case '10000': dbSearchResult = dbSearchResult.filter(device => device.price >= 10000);
+												break;
+					default: let minPrice, maxPrice;
+									 let priceArray = query.price.split("-");
+									 minPrice = parseInt(priceArray[0]);
+									 if (priceArray[1]) {
+									 	 maxPrice = parseInt(priceArray[1]);
+									 } else {
+									 	 maxPrice = 100000;
+									 }
+									 dbSearchResult = dbSearchResult.filter(device => (device.price >= minPrice && device.price <= maxPrice));
+									 break;
+				}
+			}
+
+			// Filtering by firmware
+			if (query.firmware) {
+				if (Array.isArray(query.firmware)) {
+					dbSearchResult = dbSearchResult.filter(device => {
+						for (let i = 0; i < query.firmware.length; i++) {
+							if (device.supportedFirmwares.includes(query.firmware[i])) {
+								return true;
+							}
+						}
+					});
+				} else {
+					dbSearchResult = dbSearchResult.filter(device => device.supportedFirmwares.includes(query.firmware));
+				}
+			}
+
+			// Split search result array into chunks for pagination
+			const NUMBER_OF_DEVICES = 18;
+			let page = 1;
+			let numPages = Math.ceil(dbSearchResult.length / NUMBER_OF_DEVICES);
+
+			if (query.page) {
+				page = parseInt(query.page);
+			}
+			dbSearchResult = dbSearchResult.slice(page * NUMBER_OF_DEVICES - NUMBER_OF_DEVICES, page * NUMBER_OF_DEVICES);
+
+			if (!dbSearchResult.length) {
+				dbSearchResult = null;
+			}
+
+			return [dbSearchResult, numPages];
 		}
 	}
 };

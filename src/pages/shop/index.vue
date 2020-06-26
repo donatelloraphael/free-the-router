@@ -24,7 +24,7 @@
 <script>
 
 export default {
-	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price'],
+	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price', 'firmware'],
 
 	data() {
 		return {
@@ -49,15 +49,17 @@ export default {
 
 	async asyncData(context) {
 	
-		let deviceList = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
+		let [deviceList, numPages] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 					
 		return {
-			deviceList: deviceList
+			deviceList: deviceList,
+			numPages: numPages
 		}
 	},
 
 	mounted() {
 		console.log("Mounted: ", this.deviceList);
+		console.log('Pages: ', this.numPages);
 		console.log('category: ', this.query.category);
 	}
 };
