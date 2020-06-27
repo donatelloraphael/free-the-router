@@ -9,7 +9,8 @@ const DeviceListModule = {
 		return {
 			deviceList: [],
 			searchResult: [],
-			oldSearch: ""
+			oldSearch: "",
+			oldCategory: ""
 		};
 	},
 
@@ -34,6 +35,9 @@ const DeviceListModule = {
 		},
 		setOldSearch(state, term) {
 			state.oldSearch = term;
+		},
+		setOldCategory(state, category) {
+			state.oldCategory = category;
 		}
 	},
 
@@ -48,29 +52,62 @@ const DeviceListModule = {
 				case "modems": category = "modems"; break;
 				case "repeaters-extenders": category = "repeaters & extenders"; break;
 				case "wireless-access-points": category = "wireless access points"; break;
-				default: category = "all-devices"; break;
+				default: category = "routers"; break;
 			}
 
 			// If there are query strings
 			if (query.q) {
 				// If the query is a search
 				if (query.search) {
-					let dbSearchResult = await vuexContext.dispatch("searchDevices", {query, category});
+					let devices = await vuexContext.dispatch("searchDevices", {query, category});
 
-					return vuexContext.dispatch("filterSearchResults", {dbSearchResult, query});
+					return vuexContext.dispatch("filterResults", {devices, query});
+
+				} else {
+
+					if (category != vuexContext.state.oldCategory) {
+
+						return db.collection("india").doc("amazon.in").collection(category).orderBy("serialNumber").get()
+						.then(docs => {
+							docs.forEach(doc => {
+								devices.push(doc.data());
+							});
+						}).then(() => {
+							vuexContext.commit("setDeviceList", devices);
+							vuexContext.commit("setOldCategory", category);
+
+							return vuexContext.dispatch("filterResults", {devices, query});
+
+						}).catch(error => console.log(error));
+
+					} else {
+						devices = vuexContext.getters.getDeviceList;
+
+						return vuexContext.dispatch("filterResults", {devices, query});
+					}
 				}
 
 			} else {
 
-				return db.collection("india").doc("amazon.in").collection("routers").orderBy("serialNumber").limit(18).get()
-				.then(docs => {
-					docs.forEach(doc => {
-						devices.push(doc.data());
-					});
-				}).then(() => {
-					vuexContext.commit("setDeviceList", devices);
-					return devices;
-				}).catch(error => console.log(error));
+				if (vuexContext.state.oldCategory != "routers") {
+
+					return db.collection("india").doc("amazon.in").collection("routers").orderBy("serialNumber").get()
+					.then(docs => {
+						docs.forEach(doc => {
+							devices.push(doc.data());
+						});
+					}).then(() => {
+						vuexContext.commit("setDeviceList", devices);
+						vuexContext.commit("setOldCategory", "routers");
+
+						return vuexContext.dispatch("splitForPagination", {devices, query});
+					}).catch(error => console.log(error));
+
+				} else {
+
+					devices = vuexContext.getters.getDeviceList;
+					return vuexContext.dispatch("splitForPagination", {devices, query});
+				}
 				
 			}
 		},
@@ -139,26 +176,28 @@ const DeviceListModule = {
 						console.log(error);
 					}
 				}
-				
 
 				vuexContext.commit("setOldSearch", query.search);
 			}
+
+			// Return new search result if different search terms.
+			// Return old search results if no change in search terms.
 			return vuexContext.getters.getSearchResult;			
 		},
 
-		filterSearchResults(vuexContext, {dbSearchResult, query}) {
-
+		filterResults(vuexContext, {devices, query}) {
+			
 			// Sorting resulting array according to price
 			if (query.sort == "lth") {	// Low to High
-				dbSearchResult.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+				devices.sort((a, b) => parseInt(a.price) - parseInt(b.price));
 			} else if (query.sort == "htl") {	// High to Low
-				dbSearchResult.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+				devices.sort((a, b) => parseInt(b.price) - parseInt(a.price));
 			}
 
 			// Filtering by brand
 			if (query.brands) {
 				if (Array.isArray(query.brands)) {							
-					dbSearchResult = dbSearchResult.filter(device => {
+					devices = devices.filter(device => {
 						for (let i = 0; i < query.brands.length; i++) {
 							if (device.brand == query.brands[i].toUpperCase()) {
 								return true;
@@ -166,20 +205,20 @@ const DeviceListModule = {
 						}
 					});
 				} else {
-					dbSearchResult = dbSearchResult.filter(device => device.brand == query.brands.toUpperCase());
+					devices = devices.filter(device => device.brand == query.brands.toUpperCase());
 				}
 			}
 
 			// Filtering by RAM
 			if (query.ram) {
 				switch(query.ram) {
-					case '0-64': dbSearchResult = dbSearchResult.filter(device => device.RAM <= 64);
+					case '0-64': devices = devices.filter(device => device.RAM <= 64);
 												break;
-					case '64-128': dbSearchResult = dbSearchResult.filter(device => (device.RAM >= 64 && device.RAM <= 128));
+					case '64-128': devices = devices.filter(device => (device.RAM >= 64 && device.RAM <= 128));
 												break;
-					case '128-256': dbSearchResult = dbSearchResult.filter(device => (device.RAM >= 128 && device.RAM <=256));
+					case '128-256': devices = devices.filter(device => (device.RAM >= 128 && device.RAM <=256));
 												break;
-					case '256': dbSearchResult = dbSearchResult.filter(device => device.RAM >= 256);
+					case '256': devices = devices.filter(device => device.RAM >= 256);
 												break;
 				}
 			}
@@ -187,13 +226,13 @@ const DeviceListModule = {
 			// Filtering by Flash Memory
 			if (query.flash) {
 				switch(query.flash) {
-					case '0-8': dbSearchResult = dbSearchResult.filter(device => device.Flash <= 8);
+					case '0-8': devices = devices.filter(device => device.Flash <= 8);
 												break;
-					case '8-32': dbSearchResult = dbSearchResult.filter(device => (device.Flash >= 8 && device.Flash <= 32));
+					case '8-32': devices = devices.filter(device => (device.Flash >= 8 && device.Flash <= 32));
 												break;
-					case '32-128': dbSearchResult = dbSearchResult.filter(device => (device.Flash >= 32 && device.Flash <= 128));
+					case '32-128': devices = devices.filter(device => (device.Flash >= 32 && device.Flash <= 128));
 												break;
-					case '128': dbSearchResult = dbSearchResult.filter(device => device.Flash >= 128);
+					case '128': devices = devices.filter(device => device.Flash >= 128);
 												break;
 				}
 			}
@@ -201,15 +240,15 @@ const DeviceListModule = {
 			// Filtering by price
 			if (query.price) {
 				switch (query.price) {
-					case '0-1500': dbSearchResult = dbSearchResult.filter(device => device.price <= 1500);
+					case '0-1500': devices = devices.filter(device => device.price <= 1500);
 												break;
-					case '1500-3000': dbSearchResult = dbSearchResult.filter(device => (device.price >= 1500 && device.price <= 3000));
+					case '1500-3000': devices = devices.filter(device => (device.price >= 1500 && device.price <= 3000));
 												break;
-					case '3000-6000': dbSearchResult = dbSearchResult.filter(device => (device.price >= 3000 && device.price <= 6000));
+					case '3000-6000': devices = devices.filter(device => (device.price >= 3000 && device.price <= 6000));
 												break;
-					case '6000-10000': dbSearchResult = dbSearchResult.filter(device => (device.price >= 1500 && device.price <= 3000));
+					case '6000-10000': devices = devices.filter(device => (device.price >= 1500 && device.price <= 3000));
 												break;
-					case '10000': dbSearchResult = dbSearchResult.filter(device => device.price >= 10000);
+					case '10000': devices = devices.filter(device => device.price >= 10000);
 												break;
 					default: let minPrice, maxPrice;
 									 let priceArray = query.price.split("-");
@@ -219,7 +258,7 @@ const DeviceListModule = {
 									 } else {
 									 	 maxPrice = 100000;
 									 }
-									 dbSearchResult = dbSearchResult.filter(device => (device.price >= minPrice && device.price <= maxPrice));
+									 devices = devices.filter(device => (device.price >= minPrice && device.price <= maxPrice));
 									 break;
 				}
 			}
@@ -227,7 +266,7 @@ const DeviceListModule = {
 			// Filtering by firmware
 			if (query.firmware) {
 				if (Array.isArray(query.firmware)) {
-					dbSearchResult = dbSearchResult.filter(device => {
+					devices = devices.filter(device => {
 						for (let i = 0; i < query.firmware.length; i++) {
 							if (device.supportedFirmwares.includes(query.firmware[i])) {
 								return true;
@@ -235,25 +274,29 @@ const DeviceListModule = {
 						}
 					});
 				} else {
-					dbSearchResult = dbSearchResult.filter(device => device.supportedFirmwares.includes(query.firmware));
+					devices = devices.filter(device => device.supportedFirmwares.includes(query.firmware));
 				}
 			}
+			return vuexContext.dispatch("splitForPagination", {devices, query});
+		},
 
-			// Split search result array into chunks for pagination
+		// Split search result array into chunks for pagination
+		splitForPagination(vuexContext, {devices, query}) {
+
 			const NUMBER_OF_DEVICES = 18;
 			let page = 1;
-			let numPages = Math.ceil(dbSearchResult.length / NUMBER_OF_DEVICES);
+			let numPages = Math.ceil(devices.length / NUMBER_OF_DEVICES);
 
 			if (query.page) {
 				page = parseInt(query.page);
 			}
-			dbSearchResult = dbSearchResult.slice(page * NUMBER_OF_DEVICES - NUMBER_OF_DEVICES, page * NUMBER_OF_DEVICES);
+			devices = devices.slice(page * NUMBER_OF_DEVICES - NUMBER_OF_DEVICES, page * NUMBER_OF_DEVICES);
 
-			if (!dbSearchResult.length) {
-				dbSearchResult = null;
+			if (!devices.length) {
+				devices = null;
 			}
 
-			return [dbSearchResult, numPages];
+			return [devices, numPages];
 		}
 	}
 };

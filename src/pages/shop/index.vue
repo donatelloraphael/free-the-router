@@ -60,7 +60,7 @@ export default {
 	mounted() {
 		console.log("Mounted: ", this.deviceList);
 		console.log('Pages: ', this.numPages);
-		console.log('category: ', this.query.category);
+		console.log('category: ', this.category);
 	}
 };
 
