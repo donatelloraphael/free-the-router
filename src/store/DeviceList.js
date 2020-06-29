@@ -10,7 +10,8 @@ const DeviceListModule = {
 			deviceList: [],
 			searchResult: [],
 			oldSearch: "",
-			oldCategory: ""
+			oldCategory: "",
+			amazonUpdated: ""
 		};
 	},
 
@@ -20,6 +21,9 @@ const DeviceListModule = {
 		},
 		getSearchResult(state) {
 			return state.searchResult;
+		},
+		getLastUpdated(state) {
+			return state.lastUpdated;
 		}
 	},
 
@@ -38,6 +42,9 @@ const DeviceListModule = {
 		},
 		setOldCategory(state, category) {
 			state.oldCategory = category;
+		},
+		setAmazonUpdated(state, time) {
+			state.lastUpdated = time;
 		}
 	},
 
@@ -285,7 +292,8 @@ const DeviceListModule = {
 
 			const NUMBER_OF_DEVICES = 18;
 			let page = 1;
-			let numPages = Math.ceil(devices.length / NUMBER_OF_DEVICES);
+			const numPages = Math.ceil(devices.length / NUMBER_OF_DEVICES);
+			const numDevices = devices.length;
 
 			if (query.page) {
 				page = parseInt(query.page);
@@ -296,7 +304,18 @@ const DeviceListModule = {
 				devices = null;
 			}
 
-			return [devices, numPages];
+			return [devices, numPages, numDevices];
+		},
+
+		setAmazonUpdateTime(vuexContext) {
+			return db.collection("india").doc("amazon.in").get()
+			.then(doc => {
+				if (doc.data()) {
+					vuexContext.commit("setAmazonUpdated", doc.data().updatedOn);
+					console.log(doc.data().updatedOn);
+					return doc.data().updatedOn;
+				}
+			});
 		}
 	}
 };

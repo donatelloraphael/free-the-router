@@ -41,7 +41,16 @@ export default {
 				case "modems": return "Modems"; break;
 				case "repeaters-extenders": return "Repeaters & Extenders"; break;
 				case "wireless-access-points": return "Wireless Access Points"; break;
+				case "all-devices": return "All Devices"; break;
 				default: return "Routers"; break;
+			}
+		},
+		deviceRange() {
+			if (parseInt(this.query.page)) {
+				let start = parseInt(this.query.page) * 18 - 17;
+				return `${start}-${start + this.deviceList.length - 1}`;
+			} else {
+				return "1-" + this.deviceList.length;
 			}
 		}
 	},
@@ -49,11 +58,14 @@ export default {
 
 	async asyncData(context) {
 	
-		let [deviceList, numPages] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
+		let amazonUpdated = await context.store.dispatch("DeviceListModule/setAmazonUpdateTime");
+		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 					
 		return {
-			deviceList: deviceList,
-			numPages: numPages
+			deviceList,
+			numPages,
+			numDevices,
+			amazonUpdated
 		}
 	},
 
@@ -61,6 +73,9 @@ export default {
 		console.log("Mounted: ", this.deviceList);
 		console.log('Pages: ', this.numPages);
 		console.log('category: ', this.category);
+		console.log('numDevices: ', this.numDevices);
+		console.log('Updated: ', this.amazonUpdated);
+		console.log('Range: ', this.deviceRange);
 	}
 };
 
