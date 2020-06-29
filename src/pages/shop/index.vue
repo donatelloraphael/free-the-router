@@ -3,11 +3,11 @@
 
 		<div class="main-grid">
 			<div class="heading">
-
+				<h3>{{deviceRange}} of {{numDevices}} results for <span class="category">{{category}}</span></h3>
 			</div>
 		
 			<div class="product-grid">
-				<div class="item">
+				<div class="item" v-for="device in deviceList">
 				</div>
 			</div>
 
@@ -36,6 +36,10 @@ export default {
 			return this.$route.query;
 		},
 		category() {
+			if (this.query.search) {
+				return `"${this.query.search}"`;
+			}
+
 			switch (this.query.category) {
 				case "routers": return "Routers"; break;
 				case "modems": return "Modems"; break;
@@ -93,21 +97,26 @@ export default {
 		width: 100%;
 		height: 100%;
 		padding-left: 16rem;
-		background-color: pink;
+		/*background-color: pink;*/
 	}
 
 	.product-grid {
 		min-height: 100%;
 		width: 100%;
 		position: relative;
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		padding: 2%;
 		top: 8rem;
 		background-color: cyan;
+		/*margin-bottom: 8rem;*/
 	}
 
 	.heading {
 		position: relative;
 		top: 8rem;
-		background-color: blue;
+		/*background-color: blue;*/
 		height: 5rem;
 		width: 100%;
 	}
@@ -118,12 +127,48 @@ export default {
 		background-color: green;
 		height: 10vh;
 		width: 100%;
+		margin-top: 5rem;
 	}
 
+	/* Page Information Header*/
+	
+	.heading {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	h3 {
+		font-size: 1.2rem;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.category {
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+
+	/*Product Grid*/
+
 	.item {
-		height: 1200px;
-		width: 400px;
-		color: yellow;
+		min-height: 320px;
+		max-width: 480px;
+		height: 20%;
+		width: 20%;
+		min-width: 320px;
+		max-width: 480px;
+		background-color: yellow;
+		margin: 0 1rem 5% 1rem;
+	}
+
+
+	/*MEDIA QUERYS*/
+
+	@media (max-width: 1072px) {
+		.product-grid {
+			padding: 2% 0;
+		}
 	}
 
 	@media (max-width: 768px) {
