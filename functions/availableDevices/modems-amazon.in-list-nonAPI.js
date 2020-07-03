@@ -38,7 +38,6 @@ let axiosInstance = axios.create({
       'Accept-Language': 'en-gb,en-US',
       'Referer': 'http://www.google.co.in/',
       'Accept-Encoding': 'br, gzip, deflate',
-      // 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
       'Pragma': 'no-cache',
       'Upgrade-Insecure-Requests': '1',
       'Cache-Control': 'max-age=0'
@@ -275,9 +274,14 @@ async function addToDatabase() {
 			supportedDevices[i]
 		);
 
+		// device details
+		batchArray[batchIndex].set(amazonRef.collection("device-details").doc(supportedDevices[i].id.replace(/\ /gm, "-")),
+			supportedDevices[i]
+		);
+
 		newIndex.push(supportedDevices[i].id);
 		
-		operationsCounter += 2;
+		operationsCounter += 3;
 
 		//////////////////// Delete outdated devices//////////////////////
 

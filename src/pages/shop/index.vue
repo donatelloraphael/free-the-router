@@ -8,6 +8,7 @@
 		
 			<div class="product-grid">
 				<div class="item" v-for="device in deviceList">
+					<app-shop-card :device="device"></app-shop-card>
 				</div>
 			</div>
 
@@ -22,9 +23,14 @@
 </template>
 
 <script>
+import ShopCard from  "../../components/Carousals/Cards/ShopCard";
 
 export default {
 	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price', 'firmware'],
+
+	components: {
+		appShopCard: ShopCard
+	},
 
 	data() {
 		return {

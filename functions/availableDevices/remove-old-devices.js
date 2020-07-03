@@ -39,6 +39,12 @@ async function clearOldDevices() {
 			await amazonRef.collection("all-devices").doc(oldIndex[i]).delete()
 			.then(() => console.log('Deleted: ', oldIndex[i]))
 			.catch(error => console.log(error));
+
+			await amazonRef.collection("device-details").doc(oldIndex[i].replace(/\ /gm, "-")).update({
+				price: "Not Available"
+			})
+			.then(() => console.log('Price cleared: ', oldIndex[i]))
+			.catch(error => console.log(error));
 		}
 	}
 

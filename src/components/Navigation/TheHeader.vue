@@ -327,7 +327,7 @@
 	}
 
 	input.search-box:focus {
-		border: 2px solid green;
+		border: 2px solid #65c9ed;
 	}
 
 	.search button {

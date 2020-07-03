@@ -88,11 +88,20 @@ exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkA
 
 exports.indiaAmazonSerialOnCreate = functions.firestore.document("india/amazon.in/{category}/{devices}")
                             .onCreate((data, context) => {      
+                              if (context.params.category == "device-details") {
+                                return;
+                              }
+
                               return indiaAmazonModule.indiaAmazonSerial(data, context);
                             });
 
 exports.indiaAmazonSerialOnUpdate = functions.firestore.document("india/amazon.in/{category}/{devices}")
                             .onUpdate((change, context) => {
+
+                              if (context.params.category == "device-details") {
+                                return;
+                              }
+                              
                               const currentData = change.after.data();
 
                               if (currentData.serialUpdated) {
