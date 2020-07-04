@@ -63,11 +63,11 @@
 		background-color: #2e3192;
 		text-decoration: none;
 		color: white;
-		font-family: "Montserrat", "Open Sans", sans-serif;
+		font-family: "Montserrat", sans-serif;
 	}
 
 	h3 {
-		font-family: "Montserrat", "Open Sans", sans-serif;
+		font-family: "Montserrat", sans-serif;
 		font-size: 1rem;
 		font-weight: normal;
 		padding: 5px 0;

@@ -8,12 +8,12 @@
 		
 			<div class="product-grid">
 				<div class="item" v-for="device in deviceList">
-					<app-shop-card :device="device"></app-shop-card>
+					<app-shop-card :device="device" :updatedTime="amazonUpdated"></app-shop-card>
 				</div>
 			</div>
 
 			<div class="pagination">
-
+				<app-pagination :currentPage="currentPage" :numPages="numPages"></app-pagination>
 			</div>
 
 		</div>
@@ -24,17 +24,14 @@
 
 <script>
 import ShopCard from  "../../components/Carousals/Cards/ShopCard";
+import Pagination from "../../components/Navigation/ThePagination";
 
 export default {
 	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price', 'firmware'],
 
 	components: {
-		appShopCard: ShopCard
-	},
-
-	data() {
-		return {
-		};
+		appShopCard: ShopCard,
+		appPagination: Pagination
 	},
 
 	computed: {
@@ -47,12 +44,12 @@ export default {
 			}
 
 			switch (this.query.category) {
-				case "routers": return "Routers"; break;
-				case "modems": return "Modems"; break;
-				case "repeaters-extenders": return "Repeaters & Extenders"; break;
-				case "wireless-access-points": return "Wireless Access Points"; break;
-				case "all-devices": return "All Devices"; break;
-				default: return "Routers"; break;
+				case "routers": return "Routers";
+				case "modems": return "Modems";
+				case "repeaters-extenders": return "Repeaters & Extenders";
+				case "wireless-access-points": return "Wireless Access Points";
+				case "all-devices": return "All Devices";
+				default: return "Routers";
 			}
 		},
 		deviceRange() {
@@ -62,6 +59,9 @@ export default {
 			} else {
 				return "1-" + this.deviceList.length;
 			}
+		},
+		currentPage() {
+			return this.$route.query.page ? parseInt(this.$route.query.page) : 1;
 		}
 	},
 
@@ -76,7 +76,7 @@ export default {
 			numPages,
 			numDevices,
 			amazonUpdated
-		}
+		};
 	},
 
 	mounted() {
@@ -86,6 +86,7 @@ export default {
 		console.log('numDevices: ', this.numDevices);
 		console.log('Updated: ', this.amazonUpdated);
 		console.log('Range: ', this.deviceRange);
+		console.log("Current Page: ", this.currentPage);
 	}
 };
 
@@ -101,7 +102,7 @@ export default {
 
 	.main-grid {
 		width: 100%;
-		height: 100%;
+		height: auto;
 		padding-left: 16rem;
 		/*background-color: pink;*/
 	}
@@ -115,7 +116,6 @@ export default {
 		flex-wrap: wrap;
 		padding: 2%;
 		top: 8rem;
-		background-color: cyan;
 		/*margin-bottom: 8rem;*/
 	}
 
@@ -130,8 +130,7 @@ export default {
 	.pagination {
 		position: relative;
 		bottom: 0;
-		background-color: green;
-		height: 10vh;
+		height: 10rem;
 		width: 100%;
 		margin-top: 5rem;
 	}
@@ -158,13 +157,12 @@ export default {
 	/*Product Grid*/
 
 	.item {
-		min-height: 320px;
+		min-height: 25rem;
 		max-width: 480px;
 		height: 20%;
 		width: 20%;
 		min-width: 320px;
 		max-width: 480px;
-		background-color: yellow;
 		margin: 0 1rem 5% 1rem;
 	}
 
@@ -181,5 +179,7 @@ export default {
 		.main-grid {
 			padding-left: 0;
 		}
+
+
 	}
 </style>
