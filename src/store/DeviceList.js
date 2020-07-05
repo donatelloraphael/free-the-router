@@ -10,7 +10,7 @@ const DeviceListModule = {
 			deviceList: [],
 			searchResult: [],
 			oldSearch: "",
-			oldCategory: ""
+			oldCategory: "",
 		};
 	},
 

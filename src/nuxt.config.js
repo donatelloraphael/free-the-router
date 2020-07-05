@@ -17,7 +17,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: "font-awesome.js" }
+      { src: "/font-awesome.js" }
     ]
   },
   /*
