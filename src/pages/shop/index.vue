@@ -42,15 +42,19 @@ export default {
 			if (this.query.search) {
 				return `"${this.query.search}"`;
 			}
-
-			switch (this.query.category) {
-				case "routers": return "Routers";
-				case "modems": return "Modems";
-				case "repeaters-extenders": return "Repeaters & Extenders";
-				case "wireless-access-points": return "Wireless Access Points";
-				case "all-devices": return "All Devices";
-				default: return "Routers";
+			if (Object.keys(this.query).length > 0) {
+				switch (this.query.category) {
+					case "routers": return "Routers";
+					case "modems": return "Modems";
+					case "repeaters-extenders": return "Repeaters & Extenders";
+					case "wireless-access-points": return "Wireless Access Points";
+					case "all-devices": return "All Devices";
+					default: return "Routers";
+				}
+			} else {
+				return "Routers";
 			}
+			
 		},
 		deviceRange() {
 			if (parseInt(this.query.page)) {

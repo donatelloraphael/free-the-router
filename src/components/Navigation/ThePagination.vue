@@ -17,7 +17,7 @@
 			</div>
 			<button class="buttons numbered" v-if="currentPage + 2 < numPages">...</button>
 
-			<button class="buttons numbered" @click="changePage(numPages)" v-if="currentPage + 1 < numPages">{{ numPages }}</button>
+			<button class="buttons numbered" @click="changePage(numPages)" v-if="currentPage + 1 < numPages && numPages > 3">{{ numPages }}</button>
 
 			<button class="buttons next" @click="changePage(currentPage + 1)" :disabled="currentPage >= numPages">Next</button>
 		</div>
@@ -45,12 +45,6 @@ export default {
 		changePage(page) {
 			this.$router.push({ path: 'shop', query: {...this.querys, page: `${page}` }});
 		}
-	},
-
-	mounted() {
-		console.log('PAGE curr: ', this.currentPage);
-		console.log('PAGE num: ', this.numPages);
-		console.log("QUERYS: ", this.querys);
 	}
 };
 </script>

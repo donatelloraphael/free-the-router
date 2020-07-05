@@ -153,7 +153,7 @@
 					} 
 				}
 				this.searchTerm = "";
-				this.$router.push({ path: "/shop", query: {q: true, search: args, category: this.searchCategory} });
+				this.$router.push({ path: "/shop", query: { search: args, category: this.searchCategory} });
 			}
 		},
 
