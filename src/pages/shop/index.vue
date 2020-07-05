@@ -75,9 +75,9 @@ export default {
 		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 					
 		return {
-			deviceList,
-			numPages,
-			numDevices
+			deviceList: deviceList ? deviceList : [],
+			numPages: numPages ? numPages : 1,
+			numDevices: numDevices ? numDevices: 0
 		};
 	},
 

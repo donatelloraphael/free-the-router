@@ -5,11 +5,14 @@
     </div>
     
     <div class="menu" :class="{ active: isActive, closing: closingState, shopPage: isShopPage, closed: setClosingState() }">
-      <nuxt-link to="/"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
-      <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link>
-      <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link>
-      <nuxt-link to="/shop"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
-      <nuxt-link to="/firmware"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
+      <h3>Category</h3>
+      <nuxt-link :to="{ path: 'shop', query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges()">All Devices</span></nuxt-link>
+      <nuxt-link :to="{ path: 'shop', query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges()">Routers</span></nuxt-link>
+      <nuxt-link :to="{ path: 'shop', query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges()">Wireless Access Points</span></nuxt-link>
+      <nuxt-link :to="{ path: 'shop', query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges()">Repeaters & Extenders</span></nuxt-link>
+      <nuxt-link :to="{ path: 'shop', query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges()">Modems</span></nuxt-link>
+
+      <h3>By Firmware</h3>
       <nuxt-link to="/wishlist"><span @click="closeSideMenuStateChanges()">Wishlist</span></nuxt-link>
       <nuxt-link to="/supported-devices"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
       <nuxt-link to="/resources"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
@@ -32,6 +35,9 @@
     computed: {
       isShopPage() {
         return "/shop" == this.$route.path;
+      },
+      category() {
+        return this.$route.query.category;
       }
     },
     methods: {
@@ -54,11 +60,18 @@
         return !this.isActive && !this.closingState;
       },
       closeSideMenuStateChanges() {
-        this.closingState = true; 
-        this.closeSideMenu(); 
-        this.toggleClosingState(); 
-        this.toggleClosedState();
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          console.log("MATCHES");
+          this.closingState = true; 
+          this.closeSideMenu(); 
+          this.toggleClosingState(); 
+          this.toggleClosedState();
+        }
       }
+    },
+
+    mounted() {
+      console.log(this.category);
     }
   };
 </script>
@@ -71,7 +84,7 @@
     left: 0;
     min-width: 16rem;
     height: 100%;
-    padding: 10rem 1rem 2rem 1rem;
+    padding: 8rem 1rem 2rem 1rem;
     flex-direction: column;
     background-color: #2e3192;
     overflow-y: auto;
@@ -129,14 +142,19 @@
     display: none;
   }
     
-  .menu span{
-    font-size: 1.2rem;
-    font-family: "Courier Prime", monospace;
+  .menu span {
+    font-size: .9rem;
+    font-family: "Montserrat", sans-serif;
     color: white;
     display: block;
-    padding: 10px;
+    padding: 5px 10px;
     border-radius: 5px;
     cursor: ponter;
+  }
+
+  .menu span.active {
+    background-color: #4146c1;
+    color: #deff00;
   }
 
   .menu span:hover{
@@ -145,6 +163,12 @@
 
   .menu a{
     text-decoration: none;
+  }
+
+  .menu h3 {
+    font-size: 1.4rem;
+    color: white;
+    padding: 10px;
   }
 
   /******************MEDIA QUERYS*********************/
