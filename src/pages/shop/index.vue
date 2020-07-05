@@ -8,7 +8,7 @@
 		
 			<div class="product-grid">
 				<div class="item" v-for="device in deviceList">
-					<app-shop-card :device="device" :updatedTime="amazonUpdated"></app-shop-card>
+					<app-shop-card :device="device"></app-shop-card>
 				</div>
 			</div>
 
@@ -67,15 +67,13 @@ export default {
 
 
 	async asyncData(context) {
-	
-		let amazonUpdated = await context.store.dispatch("DeviceListModule/setAmazonUpdateTime");
+
 		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 					
 		return {
 			deviceList,
 			numPages,
-			numDevices,
-			amazonUpdated
+			numDevices
 		};
 	},
 
@@ -84,7 +82,6 @@ export default {
 		console.log('Pages: ', this.numPages);
 		console.log('category: ', this.category);
 		console.log('numDevices: ', this.numDevices);
-		console.log('Updated: ', this.amazonUpdated);
 		console.log('Range: ', this.deviceRange);
 		console.log("Current Page: ", this.currentPage);
 	}

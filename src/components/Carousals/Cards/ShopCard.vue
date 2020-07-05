@@ -1,14 +1,14 @@
 <template>
 	<div class="card">
-		<nuxt-link :to="{ path: `devices/${deviceName}` }">
+		<nuxt-link :to="{ path: `devices/${deviceName}`, params: { device: device } }">
 
 			<div class="image" :style="{ 'background-image': 'url(' + device.thumbnail + ')' }"></div>
 				
 			<div class="description">
 				<h3 class="name">{{ device.name }}</h3>
 				<p>{{ device.Flash }}MB Flash, {{ device.RAM }}MB RAM</p>
-				<p>Price: <span>Rs: {{ device.price }}*</span></p>
-				<p class="price-disclaimer">*As of {{ updatedTime }}</p>
+				<p>Price: <span>Rs: {{ device.price.toLocaleString() }}*</span></p>
+				<p class="price-disclaimer">*As of {{ device.updatedOn }}</p>
 
 				<div class="firmwares">
 
@@ -40,7 +40,7 @@
 
 export default {
 	name: "ShopCard",
-	props: ["device", "updatedTime"],
+	props: ["device"],
 
 	computed: {
 		deviceName() {
@@ -91,17 +91,18 @@ export default {
 
 	p {
 		font-size: 0.8rem;
-		line-height: 1.2rem;
+		margin-bottom: .5rem;
 	}
 
 	span {
 		font-size: 1rem;
-		color: green;
+		color: rgb(176, 37, 2);
 		font-weight: bold;
 	}
 
 	.price-disclaimer {
 		color: black;
+		font-size: 0.7rem;
 	}
 
 	.firmwares {

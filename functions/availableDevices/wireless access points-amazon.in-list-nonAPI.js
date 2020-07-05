@@ -38,6 +38,8 @@ let axiosInstance = axios.create({
       'Accept-Language': 'en-gb,en-US',
       'Referer': 'http://www.google.co.in/',
       'Accept-Encoding': 'br, gzip, deflate',
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/x-www-form-urlencoded',
       'Pragma': 'no-cache',
       'Upgrade-Insecure-Requests': '1',
       'Cache-Control': 'max-age=0'
@@ -223,6 +225,7 @@ async function addExtraInfo() {
 					}
 
 					supportedDevices[i].brand = device.company.toUpperCase();
+					supportedDevices[i].updatedOn = new Date().toLocaleTimeString();
 
 					supportedDevices[i] = {...supportedDevices[i], ...device};
 
@@ -318,11 +321,7 @@ async function addToDatabase() {
 		}
 	}
 
-	batchArray[batchIndex].set(amazonRef, {
-		updatedOn: new Date().toLocaleTimeString()
-	}, {merge: true});
-
-	operationsCounter += 2;
+	operationsCounter++;
 
 	batchArray.forEach((batch) => {
 		batch.commit();

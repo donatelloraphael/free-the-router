@@ -10,8 +10,7 @@ const DeviceListModule = {
 			deviceList: [],
 			searchResult: [],
 			oldSearch: "",
-			oldCategory: "",
-			amazonUpdated: ""
+			oldCategory: ""
 		};
 	},
 
@@ -21,9 +20,6 @@ const DeviceListModule = {
 		},
 		getSearchResult(state) {
 			return state.searchResult;
-		},
-		getLastUpdated(state) {
-			return state.lastUpdated;
 		}
 	},
 
@@ -42,9 +38,6 @@ const DeviceListModule = {
 		},
 		setOldCategory(state, category) {
 			state.oldCategory = category;
-		},
-		setAmazonUpdated(state, time) {
-			state.lastUpdated = time;
 		}
 	},
 
@@ -305,17 +298,6 @@ const DeviceListModule = {
 			}
 
 			return [devices, numPages, numDevices];
-		},
-
-		setAmazonUpdateTime(vuexContext) {
-			return db.collection("india").doc("amazon.in").get()
-			.then(doc => {
-				if (doc.data()) {
-					vuexContext.commit("setAmazonUpdated", doc.data().updatedOn);
-					console.log(doc.data().updatedOn);
-					return doc.data().updatedOn;
-				}
-			});
 		}
 	}
 };
