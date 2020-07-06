@@ -81,7 +81,7 @@ const DeviceListModule = {
 						}).catch(error => console.log(error));
 
 					} else {
-						devices = vuexContext.getters.getDeviceList;
+						devices = [...vuexContext.getters.getDeviceList];
 
 						return vuexContext.dispatch("filterResults", {devices, query});
 					}
@@ -105,7 +105,7 @@ const DeviceListModule = {
 
 				} else {
 
-					devices = vuexContext.getters.getDeviceList;
+					devices = [...vuexContext.getters.getDeviceList];
 					return vuexContext.dispatch("splitForPagination", {devices, query});
 				}
 				
