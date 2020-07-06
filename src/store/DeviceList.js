@@ -27,8 +27,8 @@ const DeviceListModule = {
 		setDeviceList(state, devices) {
 			state.deviceList = devices;
 		},
-		setSearchResult(state, device) {
-			state.searchResult.push(device);
+		setSearchResult(state, result) {
+			state.searchResult = result;
 		},
 		clearSearchResult(state) {
 			state.searchResult = [];
@@ -106,6 +106,7 @@ const DeviceListModule = {
 				} else {
 
 					devices = [...vuexContext.getters.getDeviceList];
+
 					return vuexContext.dispatch("splitForPagination", {devices, query});
 				}
 				
@@ -113,6 +114,10 @@ const DeviceListModule = {
 		},
 
 		async searchDevices(vuexContext, {query, category}) {
+			console.log('OLD SEARCH: ', vuexContext.state.oldSearch);
+			console.log('SEARCH: ', query.search);
+			console.log("Category: ", category);
+
 			if (vuexContext.state.oldSearch != query.search) {
 
 				vuexContext.commit("clearSearchResult");
@@ -145,43 +150,41 @@ const DeviceListModule = {
 					}
 				}
 
-				let resultLength = matchDevicesIndex.length;
+				const resultLength = matchDevicesIndex.length;
+				const searchResult = [];
+				const promises = [];
 
-				if (process.client) {
-					// console.log("client");
-					try {
-						for (let i = 0; i < resultLength; i++) {
-							db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
-							.then (doc => {
-								if (doc.data()) {
-									vuexContext.commit("setSearchResult", doc.data());
-								}
-							});
-						}
-					} catch (error) {
-						console.log(error);
+				try {
+					for (let i = 0; i < resultLength; i++) {
+						let promise = db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
+						.then(doc => {
+							if (doc.data()) {
+								// searchResult.push(doc.data());
+								return doc.data();
+							}
+						});
+
+						promises.push(promise);
 					}
-				} else {
-					// console.log('server');
-					try {
-						for (let i = 0; i < resultLength; i++) {
-							await db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
-							.then (doc => {
-								if (doc.data()) {
-									vuexContext.commit("setSearchResult", doc.data());
-								}
-							});
-						}
-					} catch (error) {
-						console.log(error);
-					}
+				} catch (error) {
+					console.log(error);
 				}
+
+				await Promise.all(promises).then((results) => {
+					results.forEach(doc => {
+						searchResult.push(doc);
+					});
+				}).then(() => {
+					vuexContext.commit("setSearchResult", searchResult);
+					console.log(searchResult);
+				});
 
 				vuexContext.commit("setOldSearch", query.search);
 			}
 
 			// Return new search result if different search terms.
 			// Return old search results if no change in search terms.
+
 			return vuexContext.getters.getSearchResult;			
 		},
 
@@ -277,6 +280,7 @@ const DeviceListModule = {
 					devices = devices.filter(device => device.supportedFirmwares.includes(query.firmware));
 				}
 			}
+
 			return vuexContext.dispatch("splitForPagination", {devices, query});
 		},
 
@@ -291,6 +295,7 @@ const DeviceListModule = {
 			if (query.page) {
 				page = parseInt(query.page);
 			}
+
 			devices = devices.slice(page * NUMBER_OF_DEVICES - NUMBER_OF_DEVICES, page * NUMBER_OF_DEVICES);
 
 			if (!devices.length) {
