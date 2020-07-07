@@ -59,7 +59,7 @@ const DeviceListModule = {
 			if (Object.keys(query).length > 0) {
 				// If the query is a search
 				if (query.search) {
-					let devices = await vuexContext.dispatch("searchDevices", {query, category});
+					let devices = [...(await vuexContext.dispatch("searchDevices", {query, category}))];
 
 					return vuexContext.dispatch("filterResults", {devices, query});
 
