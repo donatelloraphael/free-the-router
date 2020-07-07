@@ -77,6 +77,21 @@
         return this.$route.query.category || "routers";
       }
     },
+    watch: {
+      checkedFirmwares: function (val) {
+        let query = this.$route.query;
+
+        console.log(query);
+        delete query.firmware;
+        delete query.reset;
+        console.log(query);
+        if (val.length > 0) {
+          this.$router.push({ path: "shop", query: { ...query, firmware: val } });
+        } else {
+          this.$router.push({ path: "shop", query: { ...query, reset: "true" } });
+        }
+      }
+    },
     methods: {
       closeSideMenu() {
         this.$emit("close");       

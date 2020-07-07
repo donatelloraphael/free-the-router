@@ -27,7 +27,7 @@ import ShopCard from  "../../components/Carousals/Cards/ShopCard";
 import Pagination from "../../components/Navigation/ThePagination";
 
 export default {
-	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price', 'firmware'],
+	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price', 'firmware', 'reset'],
 
 	components: {
 		appShopCard: ShopCard,
