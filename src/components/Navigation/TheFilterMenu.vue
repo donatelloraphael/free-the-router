@@ -59,6 +59,9 @@
 </template>
 
 <script>
+
+  import  FilterModule from "../../store/Filter";
+
   export default {
     name: "TheFilterMenu",
     data() {
@@ -66,7 +69,7 @@
         closedState: false,
         closingState: false,
         checkedFirmwares: []
-      }
+      };
     },
     props: ["isActive"],
     computed: {
@@ -78,16 +81,16 @@
       }
     },
     watch: {
-      checkedFirmwares: function (val) {
+      checkedFirmwares(val) {
         let query = this.$route.query;
 
-        console.log(query);
         delete query.firmware;
         delete query.reset;
-        console.log(query);
+      
         if (val.length > 0) {
           this.$router.push({ path: "shop", query: { ...query, firmware: val } });
         } else {
+          // Adds "reset" to query to force it to refresh 
           this.$router.push({ path: "shop", query: { ...query, reset: "true" } });
         }
       }
@@ -142,8 +145,13 @@
       }
     },
 
-    mounted() {
-      console.log(this.category);
+    created() {
+      // clear checkedFirmwares if navigating back to shop page
+      this.$store.watch(state => {
+        return this.$store.getters["FilterModule/getCheckedFirmwaresToggle"];
+      }, () => {
+        this.checkedFirmwares = [];
+      });
     }
   };
 </script>
@@ -226,7 +234,9 @@
 
   .menu span.active {
     background-color: #4146c1;
+    font-weight: bold;
     color: #deff00;
+    border-left: 5px solid #deff00;
   }
 
   .menu span:hover{

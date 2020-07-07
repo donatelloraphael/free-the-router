@@ -82,6 +82,8 @@ export default {
 	},
 
 	mounted() {
+		this.$store.dispatch("FilterModule/setCheckedFirmwaresToggle");
+		
 		console.log("Mounted: ", this.deviceList);
 		console.log('Pages: ', this.numPages);
 		console.log('category: ', this.category);
