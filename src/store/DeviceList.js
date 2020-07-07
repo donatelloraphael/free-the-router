@@ -190,13 +190,6 @@ const DeviceListModule = {
 		},
 
 		filterResults(vuexContext, {devices, query}) {
-			
-			// Sorting resulting array according to price
-			if (query.sort == "lth") {	// Low to High
-				devices.sort((a, b) => parseInt(a.price) - parseInt(b.price));
-			} else if (query.sort == "htl") {	// High to Low
-				devices.sort((a, b) => parseInt(b.price) - parseInt(a.price));
-			}
 
 			// Filtering by brand
 			if (query.brands) {
@@ -280,6 +273,13 @@ const DeviceListModule = {
 				} else {
 					devices = devices.filter(device => device.supportedFirmwares.includes(query.firmware));
 				}
+			}
+
+			// Sorting resulting array according to price
+			if (query.sort == "lth") {	// Low to High
+				devices.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+			} else if (query.sort == "htl") {	// High to Low
+				devices.sort((a, b) => parseInt(b.price) - parseInt(a.price));
 			}
 
 			return vuexContext.dispatch("splitForPagination", {devices, query});
