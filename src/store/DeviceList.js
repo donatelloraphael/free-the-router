@@ -118,7 +118,7 @@ const DeviceListModule = {
 			console.log('SEARCH: ', query.search);
 			console.log("Category: ", category);
 
-			if (vuexContext.state.oldSearch != query.search) {
+			if (vuexContext.state.oldSearch != query.search || vuexContext.state.oldCategory != category) {
 
 				vuexContext.commit("clearSearchResult");
 
@@ -180,6 +180,7 @@ const DeviceListModule = {
 				});
 
 				vuexContext.commit("setOldSearch", query.search);
+				vuexContext.commit("setOldCategory", category);
 			}
 
 			// Return new search result if different search terms.
