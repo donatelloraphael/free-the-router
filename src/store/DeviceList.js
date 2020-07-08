@@ -11,6 +11,7 @@ const DeviceListModule = {
 			searchResult: [],
 			oldSearch: "",
 			oldCategory: "",
+			filtersToggle: false
 		};
 	},
 
@@ -20,6 +21,9 @@ const DeviceListModule = {
 		},
 		getSearchResult(state) {
 			return state.searchResult;
+		},
+		getFiltersToggle(state) {
+			return state.filtersToggle;
 		}
 	},
 
@@ -38,6 +42,9 @@ const DeviceListModule = {
 		},
 		setOldCategory(state, category) {
 			state.oldCategory = category;
+		},
+		setFiltersToggle(state) {
+			state.filtersToggle = !state.filtersToggle;
 		}
 	},
 
@@ -243,19 +250,20 @@ const DeviceListModule = {
 												break;
 					case '3000-6000': devices = devices.filter(device => (device.price >= 3000 && device.price <= 6000));
 												break;
-					case '6000-10000': devices = devices.filter(device => (device.price >= 1500 && device.price <= 3000));
+					case '6000-10000': devices = devices.filter(device => (device.price >= 6000 && device.price <= 10000));
 												break;
 					case '10000': devices = devices.filter(device => device.price >= 10000);
 												break;
-					default: let minPrice, maxPrice;
+					default: let minPrice = 0, maxPrice = 100000;
 									 let priceArray = query.price.split("-");
 									 minPrice = parseInt(priceArray[0]);
 									 if (priceArray[1]) {
 									 	 maxPrice = parseInt(priceArray[1]);
-									 } else {
-									 	 maxPrice = 100000;
+									 }								 
+
+									 if (!isNaN(maxPrice) && maxPrice >= minPrice) {
+									   devices = devices.filter(device => (device.price >= minPrice && device.price <= maxPrice));
 									 }
-									 devices = devices.filter(device => (device.price >= minPrice && device.price <= maxPrice));
 									 break;
 				}
 			}
@@ -304,6 +312,10 @@ const DeviceListModule = {
 			}
 
 			return [devices, numPages, numDevices];
+		},
+
+		setFiltersToggle(vuexContext) {
+			vuexContext.commit("setFiltersToggle");
 		}
 	}
 };

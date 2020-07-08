@@ -82,7 +82,7 @@ export default {
 	},
 
 	mounted() {
-		this.$store.dispatch("FilterModule/setCheckedFirmwaresToggle");
+		this.$store.dispatch("DeviceListModule/setFiltersToggle");
 		
 		console.log("Mounted: ", this.deviceList);
 		console.log('Pages: ', this.numPages);

@@ -16,7 +16,7 @@
 
       <!-- SORT BY PRICE -->
       <h3>Sort By</h3>
-      <select @click="navigateSort($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="sort by dropdown">
+      <select v-model="selectedSort" @click="navigateSort(selectedSort)" aria-haspopup="true" aria-expanded="false" aria-labelledby="sort by dropdown">
         <option value="default">Default</option>
         <option value="lth">Price: Low to High</option>
         <option value="htl">Price: High to Low</option>
@@ -26,33 +26,45 @@
       <h3>By Firmware</h3>
       <div class="firmware">
         <input type="checkbox" id="openwrt" value="openwrt" v-model="checkedFirmwares">
-        <label for="openwrt">OpenWrt</label>
+        <label for="openwrt" :class="{ active: checkedFirmwares.includes('openwrt') }">OpenWrt</label>
       </div>
       <div class="firmware">
         <input type="checkbox" id="ddwrt" value="ddwrt" v-model="checkedFirmwares">
-        <label for="ddwrt">DD-WRT</label>
+        <label for="ddwrt" :class="{ active: checkedFirmwares.includes('ddwrt') }">DD-WRT</label>
       </div>            
       <div class="firmware">
         <input type="checkbox" id="freshtomato" value="freshtomato" v-model="checkedFirmwares">
-        <label for="freshtomato">FreshTomato</label>
+        <label for="freshtomato" :class="{ active: checkedFirmwares.includes('freshtomato') }">FreshTomato</label>
       </div>
       <div class="firmware">
         <input type="checkbox" id="asusmerlin" value="asusmerlin" v-model="checkedFirmwares">
-        <label for="asusmerlin">Asuswrt-Merlin</label>
+        <label for="asusmerlin" :class="{ active: checkedFirmwares.includes('asusmerlin') }">Asuswrt-Merlin</label>
       </div>
       <div class="firmware">
         <input type="checkbox" id="gargoyle" value="gargoyle" v-model="checkedFirmwares">
-        <label for="gargoyle">Gargoyle</label>
+        <label for="gargoyle" :class="{ active: checkedFirmwares.includes('gargoyle') }">Gargoyle</label>
       </div>
       <div class="firmware">
         <input type="checkbox" id="advancedtomato" value="advancedtomato" v-model="checkedFirmwares">
-        <label for="advancedtomato">AdvancedTomato</label>
+        <label for="advancedtomato" :class="{ active: checkedFirmwares.includes('advancedtomato') }">AdvancedTomato</label>
       </div>
       <div class="firmware">
         <input type="checkbox" id="tomatobyshibby" value="tomatobyshibby" v-model="checkedFirmwares">
-        <label for="tomatobyshibby">Tomato by Shibby</label>
+        <label for="tomatobyshibby" :class="{ active: checkedFirmwares.includes('tomatobyshibby') }">Tomato by Shibby</label>
       </div>
       
+      <!-- FILTER BY PRICE -->
+      <h3>By Price</h3>
+      <div class="filter-price" @click="navigatePrice('0-1500')" :class="{ active: query.price == '0-1500' }">Under Rs. 1500</div>
+      <div class="filter-price" @click="navigatePrice('1500-3000')" :class="{ active: query.price == '1500-3000' }">Rs. 1500 - Rs. 3000</div>
+      <div class="filter-price" @click="navigatePrice('3000-6000')":class="{ active: query.price == '3000-6000' }">Rs. 3000 - Rs. 6000</div>
+      <div class="filter-price" @click="navigatePrice('6000-10000')":class="{ active: query.price == '6000-10000' }">Rs. 6000 - Rs. 10000</div>
+      <div class="filter-price" @click="navigatePrice('10000')":class="{ active: query.price == '10000' }">Over Rs. 10000</div>
+      <div class="filter-price">
+        <input v-model.lazy.trim="minPrice" type="number" placeholder="Rs. Min">
+        <input v-model.lazy.trim="maxPrice" type="number" placeholder="Rs. Max">
+        <input type="submit" class="button" value="Go" @click="navigatePrice()">
+      </div>
 
     </div>
   </div>
@@ -60,15 +72,17 @@
 
 <script>
 
-  import  FilterModule from "../../store/Filter";
-
   export default {
     name: "TheFilterMenu",
     data() {
       return {
         closedState: false,
         closingState: false,
-        checkedFirmwares: []
+        selectedSort: "default",
+        checkedFirmwares: [],
+        minPrice: "",
+        maxPrice: "",
+        reset: false
       };
     },
     props: ["isActive"],
@@ -78,6 +92,9 @@
       },
       category() {
         return this.$route.query.category || "routers";
+      },
+      query() {
+        return this.$route.query;
       }
     },
     watch: {
@@ -91,7 +108,8 @@
           this.$router.push({ path: "shop", query: { ...query, firmware: val } });
         } else {
           // Adds "reset" to query to force it to refresh 
-          this.$router.push({ path: "shop", query: { ...query, reset: "true" } });
+          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+          this.reset = !this.reset;
         }
       }
     },
@@ -131,26 +149,53 @@
       navigateSort(sort) {
         let query = this.$route.query;
 
+        delete query.sort;
+
         if (sort == "default") {
-          delete query.sort;
           query = {...query, sort: "default"};
           this.$router.push({ path: "shop", query: query });
 
         } else {
-          delete query.sort;
           query = {...query, sort: sort};
 
           this.$router.push({ path: "shop", query: query });
         }
+      },
+      navigatePrice(priceRange) {
+        let query = this.query;
+
+        delete query.price;
+
+        if (priceRange) {
+          query = {...query, price: priceRange};
+          this.$router.push({ path: "shop", query: query });
+        } else {
+          if ((this.minPrice == "0" && this.maxPrice == "0")||(this.minPrice == "" && this.maxPrice == "")) {
+            this.$router.push({ path: "shop", query: { ...query, reset: this.reset }});
+            this.reset = !this.reset;
+
+          } else {
+            if (this.maxPrice < this.minPrice) {
+              this.maxPrice = "100000";
+            }
+            query = {...query, price: `${this.minPrice}-${this.maxPrice}`};
+            this.$router.push({ path: "shop", query: query });
+          }
+        }
+
+        
       }
     },
 
     created() {
-      // clear checkedFirmwares if navigating back to shop page
+      // clear filters if navigating back to shop page
       this.$store.watch(state => {
-        return this.$store.getters["FilterModule/getCheckedFirmwaresToggle"];
+        return this.$store.getters["DeviceListModule/getFiltersToggle"];
       }, () => {
         this.checkedFirmwares = [];
+        this.selectedSort = "default";
+        this.minPrice = "";
+        this.maxPrice = "";
       });
     }
   };
@@ -256,7 +301,9 @@
   
   /*************************FILTERS*******************/
 
-  .firmware {
+  /******************Firmwares***************/
+
+  .firmware, .filter-price {
     padding: 5px 10px;
     color: white;
     font-family: "Montserrat", sans-serif;
@@ -265,7 +312,19 @@
 
   .firmware label {
     margin-left: 5px;
+    cursor: pointer;
   }
+
+  .firmware label:hover {
+    color: #deff00;
+  }
+
+  .firmware label.active {
+    color: #deff00;
+    font-weight: bold;
+  }
+
+  /****************Sort By*****************/
 
   .menu select {
     margin-left: 10px;
@@ -277,6 +336,45 @@
   .menu select option {
     margin-bottom: 10px;
     padding: 5px;
+  }
+
+  /******************Filter by price*****************/
+
+  .filter-price {
+    padding-right: 0;
+  }
+
+  .filter-price:hover {
+    color: #deff00;
+    cursor: pointer;
+  }
+
+  .filter-price.active {
+    color: #deff00;
+    font-weight: bold;
+  }
+
+  .filter-price input {
+    display: inline-block;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    border: 2px solid rgba(50,50,50,0.2);
+  }
+
+  .filter-price input:focus {
+    border: 2px solid orange;
+  }
+
+  .filter-price input.button {
+    width: 2rem;
+    background-color: #e2e2e2;
+    border: 1px solid grey;
+    cursor: pointer;
+  }
+
+  .filter-price input.button:hover {
+    background-color: #bababa;
   }
 
 
