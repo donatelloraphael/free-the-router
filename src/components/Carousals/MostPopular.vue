@@ -140,7 +140,9 @@
 
 			let	threshold = 50,
       		posX1 = 0,
-      		posX2 = 0;
+      		posX2 = 0,
+      		posY1 = 0,
+      		posY2 = 0;
 
   		// Touch events
 		  cards.forEach(card => {
@@ -154,12 +156,14 @@
 		    e.preventDefault();
 		    
 		    posX1 = e.touches[0].clientX;
+		    posY1 = e.touches[0].clientY;
 		  }
 
 		  function dragAction (e) {
 		    e = e || window.event;
 		    
 	      posX2 = posX1 - e.touches[0].clientX;
+	      posY2 = posY1 - e.touches[0].clientY;
 		  }
 
 		  function dragEnd (e) {
@@ -169,6 +173,12 @@
 		    	vm.rightScroll(vm.getCardCount());
 		    } else if (posX2 < -threshold) {
 		    	vm.leftScroll(vm.getCardCount());
+		    }
+
+		    if (posY2 > threshold) {
+		    	window.scrollBy(0, posY2);
+		    } else if (posY2 < -threshold) {
+		    	window.scrollBy(0, posY2);
 		    }
 		  }
 		}
@@ -203,7 +213,7 @@
 	}
 
 	.cards {
-		border: 1px solid grey;
+		border-right: 2px solid #e2e2e2;
 		height: 100%;
 		width: 25%;
 	}

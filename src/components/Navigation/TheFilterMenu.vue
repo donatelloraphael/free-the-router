@@ -66,6 +66,9 @@
         <input type="submit" class="button" value="Go" @click="navigatePrice()">
       </div>
 
+      <!-- BY RAM -->
+      <h3>By RAM</h3>
+
     </div>
   </div>
 </template>

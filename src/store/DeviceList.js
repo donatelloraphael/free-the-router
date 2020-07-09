@@ -213,31 +213,65 @@ const DeviceListModule = {
 				}
 			}
 
-			// Filtering by RAM
-			if (query.ram) {
-				switch(query.ram) {
-					case '0-64': devices = devices.filter(device => device.RAM <= 64);
-												break;
-					case '64-128': devices = devices.filter(device => (device.RAM >= 64 && device.RAM <= 128));
-												break;
-					case '128-256': devices = devices.filter(device => (device.RAM >= 128 && device.RAM <=256));
-												break;
-					case '256': devices = devices.filter(device => device.RAM >= 256);
-												break;
+			// Filtering by FLASH
+			if (query.flash) {
+				if (Array.isArray(query.flash)) {
+					devices = devices.filter(device => {
+
+						for (let i = 0; i < query.flash.length; i++) {
+
+							let flashArray = query.flash[i].match(/\d+/gm);
+							let maxFlash, minFlash = parseInt(flashArray[0]) || 0;
+							if (parseInt(flashArray[1]) > minFlash) {
+								maxFlash = parseInt(flashArray[1]);
+							} else {
+								maxFlash = "100000";
+							}
+							if (device.Flash >= minFlash && device.Flash <= maxFlash) {
+								return true;
+							}
+						}
+					});			
+				} else {
+					let flashArray = query.flash.match(/\d+/gm);
+					let maxFlash, minFlash = parseInt(flashArray[0]) || 0;
+					if (parseInt(flashArray[1]) > minFlash) {
+						maxFlash = parseInt(flashArray[1]);
+					} else {
+						maxFlash = 100000;
+					}
+					devices = devices.filter(device => device.Flash >= minFlash && device.Flash <= maxFlash);
 				}
 			}
 
-			// Filtering by Flash Memory
-			if (query.flash) {
-				switch(query.flash) {
-					case '0-8': devices = devices.filter(device => device.Flash <= 8);
-												break;
-					case '8-32': devices = devices.filter(device => (device.Flash >= 8 && device.Flash <= 32));
-												break;
-					case '32-128': devices = devices.filter(device => (device.Flash >= 32 && device.Flash <= 128));
-												break;
-					case '128': devices = devices.filter(device => device.Flash >= 128);
-												break;
+			// Filtering by RAM
+			if (query.ram) {
+				if (Array.isArray(query.ram)) {
+					devices = devices.filter(device => {
+
+						for (let i = 0; i < query.ram.length; i++) {
+
+							let ramArray = query.ram[i].match(/\d+/gm);
+							let maxRam, minRam = parseInt(ramArray[0]) || 0;
+							if (parseInt(ramArray[1]) > minRam) {
+								maxRam = parseInt(ramArray[1]);
+							} else {
+								maxRam = "100000";
+							}
+							if (device.RAM >= minRam && device.RAM <= maxRam) {
+								return true;
+							}
+						}
+					});			
+				} else {
+					let ramArray = query.ram.match(/\d+/gm);
+					let maxRam, minRam = parseInt(ramArray[0]) || 0;
+					if (parseInt(ramArray[1]) > minRam) {
+						maxRam = parseInt(ramArray[1]);
+					} else {
+						maxRam = 100000;
+					}
+					devices = devices.filter(device => device.RAM >= minRam && device.RAM <= maxRam);
 				}
 			}
 

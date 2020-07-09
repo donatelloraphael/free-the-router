@@ -79,7 +79,7 @@
 
 	span {
 		font-size: 1rem;
-		color: yellow;
+		color: #deff00;
 	}
 
 	.firmwares {
