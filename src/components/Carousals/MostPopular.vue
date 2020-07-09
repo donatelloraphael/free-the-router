@@ -152,11 +152,13 @@
 		  });
 
 		  function dragStart (e) {
-		    e = e || window.event;
-		    e.preventDefault();
-		    
-		    posX1 = e.touches[0].clientX;
-		    posY1 = e.touches[0].clientY;
+		  	if (e.cancelable) {
+		  		e = e || window.event;
+			    e.preventDefault();
+			    
+			    posX1 = e.touches[0].clientX;
+			    posY1 = e.touches[0].clientY;
+		  	}
 		  }
 
 		  function dragAction (e) {
@@ -164,6 +166,13 @@
 		    
 	      posX2 = posX1 - e.touches[0].clientX;
 	      posY2 = posY1 - e.touches[0].clientY;
+
+      	window.scrollBy({
+	    		top: posY2, 
+	    		left: 0,
+	    		behavior: "smooth"
+	    	});
+	      
 		  }
 
 		  function dragEnd (e) {
@@ -173,12 +182,6 @@
 		    	vm.rightScroll(vm.getCardCount());
 		    } else if (posX2 < -threshold) {
 		    	vm.leftScroll(vm.getCardCount());
-		    }
-
-		    if (posY2 > threshold) {
-		    	window.scrollBy(0, posY2);
-		    } else if (posY2 < -threshold) {
-		    	window.scrollBy(0, posY2);
 		    }
 		  }
 		}
