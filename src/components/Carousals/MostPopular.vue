@@ -167,11 +167,7 @@
 	      posX2 = posX1 - e.touches[0].clientX;
 	      posY2 = posY1 - e.touches[0].clientY;
 
-      	window.scrollBy({
-	    		top: posY2, 
-	    		left: 0,
-	    		behavior: "smooth"
-	    	});
+      	
 	      
 		  }
 
@@ -183,6 +179,12 @@
 		    } else if (posX2 < -threshold) {
 		    	vm.leftScroll(vm.getCardCount());
 		    }
+
+		    window.scrollBy({
+	    		top: posY2, 
+	    		left: 0,
+	    		behavior: "smooth"
+	    	});
 		  }
 		}
 		
