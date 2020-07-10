@@ -165,26 +165,31 @@
 		    e = e || window.event;
 		    
 	      posX2 = posX1 - e.touches[0].clientX;
-	      posY2 = posY1 - e.touches[0].clientY;
-
-      	
-	      
+	      posY2 = posY1 - e.touches[0].clientY;	      
 		  }
 
 		  function dragEnd (e) {
-		    // console.log("posFinal: ", posX2);
-		    // console.log('posInitial: ', posX1);
+		 
 		    if (posX2 > threshold) {
 		    	vm.rightScroll(vm.getCardCount());
 		    } else if (posX2 < -threshold) {
 		    	vm.leftScroll(vm.getCardCount());
 		    }
 
-		    window.scrollBy({
-	    		top: posY2, 
-	    		left: 0,
-	    		behavior: "smooth"
-	    	});
+		    if (posY2 > threshold) {
+		    	window.scrollBy({
+		    		top: posY2 * 1.5, 
+		    		left: 0,
+		    		behavior: "smooth"
+		    	});
+		    } else if (posY2 < -threshold) {
+		    	window.scrollBy({
+		    		top: posY2 * 1.5,
+		    		left: 0,
+		    		behavior: "smooth"
+		    	});
+		    }
+		   
 		  }
 		}
 		

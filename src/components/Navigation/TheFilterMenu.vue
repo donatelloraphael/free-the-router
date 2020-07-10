@@ -68,6 +68,76 @@
 
       <!-- BY RAM -->
       <h3>By RAM</h3>
+      <div class="specs">
+        <input type="checkbox" id="0-63" value="0-63" v-model="checkedRam">
+        <label for="0-63" :class= "{ active: checkedRam.includes('0-63') }">Upto 63 MB</label>
+      </div>
+      <div class="specs">
+        <input type="checkbox" id="64-127" value="64-127" v-model="checkedRam">
+        <label for="64-127" :class= "{ active: checkedRam.includes('64-127') }">64 MB to 127 MB</label>
+      </div>
+      <div class="specs">
+        <input type="checkbox" id="128-255" value="128-255" v-model="checkedRam">
+        <label for="128-255" :class= "{ active: checkedRam.includes('128-255') }">128 MB to 255 MB</label>
+      </div>
+      <div class="specs">
+        <input type="checkbox" id="256" value="256" v-model="checkedRam">
+        <label for="256" :class= "{ active: checkedRam.includes('256') }">Above 256 MB</label>
+      </div>
+
+      <!-- BY FLASH -->
+      <h3>By Flash Memory</h3>
+      <div class="specs">
+        <input type="checkbox" id="0-7" value="0-7" v-model="checkedFlash">
+        <label for="0-7" :class= "{ active: checkedFlash.includes('0-7') }">Upto 7 MB</label>
+      </div>
+      <div class="specs">
+        <input type="checkbox" id="8-31" value="8-31" v-model="checkedFlash">
+        <label for="8-31" :class= "{ active: checkedFlash.includes('8-31') }">8 MB to 31 MB</label>
+      </div>
+      <div class="specs">
+        <input type="checkbox" id="32-127" value="32-127" v-model="checkedFlash">
+        <label for="32-127" :class= "{ active: checkedFlash.includes('32-127') }">32 MB to 127 MB</label>
+      </div>
+      <div class="specs">
+        <input type="checkbox" id="128" value="128" v-model="checkedFlash">
+        <label for="128" :class= "{ active: checkedFlash.includes('128') }">Above 128 MB</label>
+      </div>
+
+      <!-- BY BRAND -->
+      <h3>By Brand</h3>
+      <div class="brand">
+        <input type="checkbox" id="tp-link" value="tp-link" v-model="checkedBrands">
+        <label for="tp-link" :class= "{ active: checkedBrands.includes('tp-link') }">TP-Link</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="d-link" value="d-link" v-model="checkedBrands">
+        <label for="d-link" :class= "{ active: checkedBrands.includes('d-link') }">D-Link</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="ubiquiti" value="ubiquiti" v-model="checkedBrands">
+        <label for="ubiquiti" :class= "{ active: checkedBrands.includes('ubiquiti') }">Ubiquiti</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="belkin" value="belkin" v-model="checkedBrands">
+        <label for="belkin" :class= "{ active: checkedBrands.includes('belkin') }">Belkin</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="netgear" value="netgear" v-model="checkedBrands">
+        <label for="netgear" :class= "{ active: checkedBrands.includes('netgear') }">Netgear</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="linksys" value="linksys" v-model="checkedBrands">
+        <label for="linksys" :class= "{ active: checkedBrands.includes('linksys') }">Linksys</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="asus" value="asus" v-model="checkedBrands">
+        <label for="asus" :class= "{ active: checkedBrands.includes('asus') }">Asus</label>
+      </div>
+      <div class="brand">
+        <input type="checkbox" id="tenda" value="tenda" v-model="checkedBrands">
+        <label for="tenda" :class= "{ active: checkedBrands.includes('tenda') }">Tenda</label>
+      </div>
 
     </div>
   </div>
@@ -83,9 +153,13 @@
         closingState: false,
         selectedSort: "default",
         checkedFirmwares: [],
+        checkedRam: [],
+        checkedFlash: [],
+        checkedBrands: [],
         minPrice: "",
         maxPrice: "",
-        reset: false
+        reset: false, 
+        firstLoad: true
       };
     },
     props: ["isActive"],
@@ -102,15 +176,66 @@
     },
     watch: {
       checkedFirmwares(val) {
-        let query = this.$route.query;
+        let query = this.query;
 
-        delete query.firmware;
+        if (!this.firstLoad) {
+          delete query.firmware;
+        }
         delete query.reset;
-      
+
+        
         if (val.length > 0) {
           this.$router.push({ path: "shop", query: { ...query, firmware: val } });
         } else {
           // Adds "reset" to query to force it to refresh 
+          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+          this.reset = !this.reset;
+        }
+      },
+      checkedRam(val) {
+        let query = this.query;
+
+        if (!this.firstLoad) {
+          delete query.ram;
+        }
+        delete query.reset;
+
+        
+        if (val.length > 0) {
+          this.$router.push({ path: "shop", query: { ...query, ram: val } });
+        } else {
+          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+          this.reset = !this.reset;
+        }
+      },
+      checkedFlash(val) {
+        let query = this.query;
+
+        if (!this.firstLoad) {
+          delete query.flash;
+        }
+        delete query.reset;
+        console.log("VAL", val);
+
+        if (val.length > 0) {
+          this.$router.push({ path: "shop", query: { ...query, flash: val } });
+        } else {
+          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+          this.reset = !this.reset;
+        }
+      },
+      checkedBrands(val) {
+        console.log(val);
+        let query = this.query;
+
+        if (!this.firstLoad) {
+          delete query.brand;
+        }
+        delete query.reset;
+
+        if (val.length > 0) {
+          this.$router.push({ path: "shop", query: { ...query, brand: val } });
+        } else {
           this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
           this.reset = !this.reset;
         }
@@ -124,7 +249,7 @@
         const vm = this;
         setTimeout(() => {
           vm.closingState = false;
-        }, 500);
+        }, 1000);
       },
       toggleClosedState() {
         const vm = this;
@@ -167,6 +292,14 @@
       navigatePrice(priceRange) {
         let query = this.query;
 
+        if (priceRange == query.price) {
+          console.log("DELE");
+          delete query.price;
+          this.$router.push({ path: "shop", query: { ...query, reset: this.reset }});
+          this.reset = !this.reset;
+          return;
+        }
+
         delete query.price;
 
         if (priceRange) {
@@ -195,10 +328,32 @@
       this.$store.watch(state => {
         return this.$store.getters["DeviceListModule/getFiltersToggle"];
       }, () => {
-        this.checkedFirmwares = [];
-        this.selectedSort = "default";
-        this.minPrice = "";
-        this.maxPrice = "";
+        if (!this.firstLoad) {
+          this.checkedFirmwares = [];
+          this.selectedSort = "default";
+          this.minPrice = "";
+          this.maxPrice = "";
+          this.checkedRam = [];
+          this.checkedFlash = [];
+          this.checkedBrands = [];
+        } else {
+          console.log("FIRST LOAD");
+          this.checkedFirmwares = this.query.firmware ? this.query.firmware : [];
+          this.checkedRam = this.query.ram ? this.query.ram : [];
+          if (this.checkedBrands) {
+            this.checkedBrands = Array.isArray(this.query.brand) ? [...this.query.brand] : this.query.brand;
+          } else {
+            this.checkedBrands = [];
+          }
+          this.checkedFlash = this.query.flash ? this.query.flash : [];
+          this.selectedSort = this.query.sort ? this.query.sort : "default";
+          this.minPrice = this.query.price ? this.query.price.match(/\d+/g)[0] : "";
+          this.maxPrice = this.query.price ? this.query.price.match(/\d+/g)[1] : "";
+
+          setTimeout(() => {
+            this.firstLoad = false;
+          }, 500);
+        }
       });
     }
   };
@@ -207,6 +362,7 @@
 <style scoped>
   .menu {
     position: fixed;
+    /*position: absolute;*/
     z-index: 1400;
     display: none;
     left: 0;
@@ -306,23 +462,23 @@
 
   /******************Firmwares***************/
 
-  .firmware, .filter-price {
+  .firmware, .filter-price, .specs, .brand {
     padding: 5px 10px;
     color: white;
     font-family: "Montserrat", sans-serif;
     font-size: 0.9rem;
   }
 
-  .firmware label {
+  .firmware label, .specs label, .brand label {
     margin-left: 5px;
     cursor: pointer;
   }
 
-  .firmware label:hover {
+  .firmware label:hover, .specs label:hover, .brand label:hover {
     color: #deff00;
   }
 
-  .firmware label.active {
+  .firmware label.active , .specs label.active, .brand label.active  {
     color: #deff00;
     font-weight: bold;
   }

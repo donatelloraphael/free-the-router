@@ -27,7 +27,7 @@ import ShopCard from  "../../components/Carousals/Cards/ShopCard";
 import Pagination from "../../components/Navigation/ThePagination";
 
 export default {
-	watchQuery: ['brands', 'category', 'page', 'q', 'search', 'ram', 'flash', 'sort', 'price', 'firmware', 'reset'],
+	watchQuery: ['brand', 'category', 'page', 'search', 'ram', 'flash', 'sort', 'price', 'firmware', 'reset'],
 
 	components: {
 		appShopCard: ShopCard,
@@ -54,7 +54,6 @@ export default {
 			} else {
 				return "Routers";
 			}
-			
 		},
 		deviceRange() {
 			if (parseInt(this.query.page)) {
@@ -66,6 +65,9 @@ export default {
 		},
 		currentPage() {
 			return this.$route.query.page ? parseInt(this.$route.query.page) : 1;
+		},
+		numFilters() {
+			return this.query.length;
 		}
 	},
 
@@ -75,9 +77,9 @@ export default {
 		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 					
 		return {
-			deviceList: deviceList || [],
-			numPages: numPages || 1,
-			numDevices: numDevices || 0
+			deviceList: deviceList ? deviceList : [],
+			numPages: numPages ? numPages : 1,
+			numDevices: numDevices ? numDevices : 0
 		};
 	},
 

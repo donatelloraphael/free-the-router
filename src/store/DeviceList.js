@@ -198,21 +198,6 @@ const DeviceListModule = {
 
 		filterResults(vuexContext, {devices, query}) {
 
-			// Filtering by brand
-			if (query.brands) {
-				if (Array.isArray(query.brands)) {							
-					devices = devices.filter(device => {
-						for (let i = 0; i < query.brands.length; i++) {
-							if (device.brand == query.brands[i].toUpperCase()) {
-								return true;
-							}
-						}
-					});
-				} else {
-					devices = devices.filter(device => device.brand == query.brands.toUpperCase());
-				}
-			}
-
 			// Filtering by FLASH
 			if (query.flash) {
 				if (Array.isArray(query.flash)) {
@@ -221,7 +206,7 @@ const DeviceListModule = {
 						for (let i = 0; i < query.flash.length; i++) {
 
 							let flashArray = query.flash[i].match(/\d+/gm);
-							let maxFlash, minFlash = parseInt(flashArray[0]) || 0;
+							let maxFlash, minFlash = parseInt(flashArray[0]) ? parseInt(flashArray[0]) : 0;
 							if (parseInt(flashArray[1]) > minFlash) {
 								maxFlash = parseInt(flashArray[1]);
 							} else {
@@ -314,6 +299,21 @@ const DeviceListModule = {
 					});
 				} else {
 					devices = devices.filter(device => device.supportedFirmwares.includes(query.firmware));
+				}
+			}
+
+			// Filtering by brand
+			if (query.brand) {
+				if (Array.isArray(query.brand)) {							
+					devices = devices.filter(device => {
+						for (let i = 0; i < query.brand.length; i++) {
+							if (device.brand == query.brand[i].toUpperCase()) {
+								return true;
+							}
+						}
+					});
+				} else {
+					devices = devices.filter(device => device.brand == query.brand.toUpperCase());
 				}
 			}
 
