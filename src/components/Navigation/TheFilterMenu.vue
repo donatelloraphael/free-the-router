@@ -375,7 +375,9 @@
           this.minPrice = this.query.price ? (this.query.price.match(/\d+/g)[0] ? this.query.price.match(/\d+/g)[0] : "") : "";
           this.maxPrice = this.query.price ? (this.query.price.match(/\d+/g)[1] ? this.query.price.match(/\d+/g)[1] : ""): "";
 
-          this.firstLoad = false;
+          setTimeout(() => {
+            this.firstLoad = false;
+          }, 500);
           
         } else { 
           this.checkedFirmwares = [];
