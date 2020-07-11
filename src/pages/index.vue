@@ -190,6 +190,9 @@ export default {
     width: 50px;
     padding: 8rem 0 0 0;
     height: 100%;
+    -webkit-box-shadow: 2px 0px 5px 0px rgba(120,120,120,1);
+    -moz-box-shadow: 2px 0px 5px 0px rgba(120,120,120,1);
+    box-shadow: 2px 0px 5px 0px rgba(120,120,120,1);
   }
 
  .bg-right {
@@ -198,7 +201,9 @@ export default {
     width: 50px;
     height: 100%;
     padding: 8rem 0 0 0;
-    
+    -webkit-box-shadow: -2px 0px 5px 0px rgba(120,120,120,1);
+    -moz-box-shadow: -2px 0px 5px 0px rgba(120,120,120,1);
+    box-shadow: -2px 0px 5px 0px rgba(120,120,120,1);
   }
 
   .body {
@@ -297,11 +302,14 @@ export default {
  }
 
  /*******************************MEDIA QUERYS****************************/
-  @media (max-width: 769px) {
+  @media (max-width: 1200px) {
     .bg-left, .bg-right {
       display: none;
     }
+  }
 
+  @media (max-width: 789px) {
+    
     .price-container {
       width: 90%;
       padding: 0;
@@ -312,7 +320,7 @@ export default {
     }
 
     .price-card h2 {
-      font-size: 1.2rem;
+      font-size: .8rem;
     }
 
     .cf-info {

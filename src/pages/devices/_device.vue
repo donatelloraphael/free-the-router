@@ -1,14 +1,16 @@
 <template>
 	<div class="container">
-		<div class="container-padded">
-			<div class="breadcrumb">
-				<span class="category">{{ localCategory }}</span>
-			</div>
-		{{ device.name }}
+		<div class="bg-left"></div>
+		
+		<div class="body">
+
+      
 
 		</div>
+
+		<div class="bg-right"></div>
+		
 	</div>
-	
 </template>
 
 <script>
@@ -56,16 +58,53 @@ export default {
 
 <style scoped>
 
-.container {
-	min-height: 100vh;
-	width: 100%;
-	background-color: yellow;
-}
+	.container {
+		margin: 0 auto;
+		width: 100%;
+	  min-height: 100vh;
+	  text-align: center;
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	}
 
-.container-padded {
-	width: 100%;
-	height: 100%;
-	padding-top: 8rem;
-}
+	.body {
+		padding-top: 10rem;
+		height: 100%;
+		width: 100%;
+	}
+
+	.bg-left {
+    background-color: #2e3192;
+    padding: 8rem 0 0 0;
+    min-height: 100vh;
+    width: 185px;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		-moz-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+	}
+
+	.bg-right {
+    background-color: #2e3192;
+    min-height: 100vh;
+    width: 185px;
+    padding: 8rem 0 0 0;
+    float: right;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		-moz-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+	}
 	
+	/***************MEDIA QUERIES*******************/
+	@media (max-width: 1200px) {
+		.bg-left, .bg-right {
+			width: 50px;
+		}
+	}
+
+	@media (max-width: 789px) {
+		.bg-left, .bg-right {
+			display: none;
+		}
+	}
 </style>

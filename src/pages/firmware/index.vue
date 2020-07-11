@@ -228,6 +228,9 @@
     width: 150px;
     padding: 8rem 0 0 0;
     height: 100%;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		-moz-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
 	}
 
 	.bg-right {
@@ -237,6 +240,9 @@
     height: 100%;
     padding: 8rem 0 0 0;
     float: right;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		-moz-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+		box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
   }
 
   .body {
