@@ -1,7 +1,9 @@
 <template>
 	<div class="container">
-		<div class="device">
-			
+		<div class="container-padded">
+			<div class="breadcrumb">
+				<span class="category">{{ localCategory }}</span>
+			</div>
 		{{ device.name }}
 
 		</div>
@@ -14,6 +16,12 @@
 import { db } from '~/plugins/firebase.js';
 
 export default {
+
+	data() {
+		return {
+			localCategory: "All Devices"
+		};
+	},
 
 	async asyncData(context) {
 		let device = {};
@@ -31,6 +39,10 @@ export default {
 	},
 
 	mounted() {
+		this.localCategory = localStorage.getItem("localCategory");
+		localStorage.removeItem("localCategory");
+		console.log(this.localCategory);
+
 		console.log(this.device);
 	}
 };
@@ -42,10 +54,13 @@ export default {
 .container {
 	min-height: 100vh;
 	width: 100%;
+	background-color: yellow;
 }
 
-.device {
-	margin-top: 15rem;
+.container-padded {
+	width: 100%;
+	height: 100%;
+	padding-top: 8rem;
 }
 	
 </style>

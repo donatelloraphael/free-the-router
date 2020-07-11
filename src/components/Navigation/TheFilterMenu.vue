@@ -168,7 +168,7 @@
         return "/shop" == this.$route.path;
       },
       category() {
-        return this.$route.query.category || "routers";
+        return this.$route.query.category ? this.$route.query.category : "routers";
       },
       query() {
         return this.$route.query;

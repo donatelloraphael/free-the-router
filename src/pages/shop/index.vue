@@ -9,8 +9,8 @@
 			</div>
 		
 			<div class="product-grid">
-				<div class="item" v-for="device in deviceList">
-					<app-shop-card :device="device"></app-shop-card>
+				<div class="item" v-for="device in deviceList" @click="setLocalCategory()">
+					<app-shop-card :device="device" :key="device.id"></app-shop-card>
 				</div>
 			</div>
 
@@ -63,6 +63,20 @@ export default {
 				return "Routers";
 			}
 		},
+		breadCrumbCategory() {
+			if (Object.keys(this.query).length > 0) {
+				switch (this.query.category) {
+					case "routers": return "Routers";
+					case "modems": return "Modems";
+					case "repeaters-extenders": return "Repeaters & Extenders";
+					case "wireless-access-points": return "Wireless Access Points";
+					case "all-devices": return "All Devices";
+					default: return "All Devices";
+				}
+			} else {
+				return "All Devices";
+			}
+		},
 		deviceRange() {
 			if (parseInt(this.query.page)) {
 				let start = parseInt(this.query.page) * 18 - 17;
@@ -76,11 +90,17 @@ export default {
 		}
 	},
 
+	methods: {
+		setLocalCategory() {
+			localStorage.setItem("localCategory", this.breadCrumbCategory);
+		}
+	},
+
 	async asyncData(context) {
 
 		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 
-		let query = context.query;
+		let query = {...context.query};
 
 		delete query.category;
 		delete query.search;
@@ -104,6 +124,8 @@ export default {
 		console.log('numDevices: ', this.numDevices);
 		console.log('Range: ', this.deviceRange);
 		console.log("Current Page: ", this.currentPage);
+
+		console.log("BREAd", this.breadCrumbCategory);
 	}
 };
 
