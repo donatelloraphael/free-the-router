@@ -39,8 +39,13 @@ export default {
 	},
 
 	mounted() {
-		this.localCategory = localStorage.getItem("localCategory");
-		localStorage.removeItem("localCategory");
+
+		// if (localStorage.getItem("localCategory")) {
+			console.log("XX", localStorage.getItem("localCategory"));
+			this.localCategory = localStorage.getItem("localCategory");
+			localStorage.removeItem("localCategory");
+		// }
+		
 		console.log(this.localCategory);
 
 		console.log(this.device);

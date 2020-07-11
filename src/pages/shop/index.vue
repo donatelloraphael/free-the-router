@@ -68,7 +68,7 @@ export default {
 					default: return "All Devices";
 				}
 			} else {
-				return "All Devices";
+				return "Routers";
 			}
 		},
 		deviceRange() {
@@ -83,7 +83,7 @@ export default {
 			return this.$route.query.page ? parseInt(this.$route.query.page) : 1;
 		},
 		numFilters() {
-			let query = this.query;
+			let query = {...this.query};
 
 			delete query.category;
 			delete query.search;
