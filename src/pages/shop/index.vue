@@ -36,12 +36,6 @@ export default {
 		appPagination: Pagination
 	},
 
-	data() {
-		return {
-			numFilters: 0
-		};
-	},
-
 	computed: {
 		query() {
 			return this.$route.query;
@@ -87,6 +81,16 @@ export default {
 		},
 		currentPage() {
 			return this.$route.query.page ? parseInt(this.$route.query.page) : 1;
+		},
+		numFilters() {
+			let query = this.query;
+
+			delete query.category;
+			delete query.search;
+			delete query.sort;
+			delete query.reset;
+
+			return Object.keys(query).length;
 		}
 	},
 
@@ -100,18 +104,10 @@ export default {
 
 		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
 
-		let query = {...context.query};
-
-		delete query.category;
-		delete query.search;
-		delete query.sort;
-		delete query.reset;
-
 		return {
 			deviceList: deviceList ? deviceList : [],
 			numPages: numPages ? numPages : 1,
-			numDevices: numDevices ? numDevices : 0,
-			numFilters: Object.keys(query).length
+			numDevices: numDevices ? numDevices : 0
 		};
 	},
 
@@ -124,8 +120,6 @@ export default {
 		console.log('numDevices: ', this.numDevices);
 		console.log('Range: ', this.deviceRange);
 		console.log("Current Page: ", this.currentPage);
-
-		console.log("BREAd", this.breadCrumbCategory);
 	}
 };
 
