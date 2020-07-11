@@ -4,6 +4,8 @@
 		<div class="main-grid">
 			<div class="heading">
 				<h3>{{deviceRange}} of {{numDevices}} results for <span class="category">{{category}}</span></h3>
+				<span class="filter-info" v-if="numFilters">{{numFilters}} filters applied</span>
+
 			</div>
 		
 			<div class="product-grid">
@@ -32,6 +34,12 @@ export default {
 	components: {
 		appShopCard: ShopCard,
 		appPagination: Pagination
+	},
+
+	data() {
+		return {
+			numFilters: 0
+		};
 	},
 
 	computed: {
@@ -65,26 +73,30 @@ export default {
 		},
 		currentPage() {
 			return this.$route.query.page ? parseInt(this.$route.query.page) : 1;
-		},
-		numFilters() {
-			return this.query.length;
 		}
 	},
-
 
 	async asyncData(context) {
 
 		let [deviceList, numPages, numDevices] = await context.store.dispatch("DeviceListModule/populateDeviceList", context.query);
-					
+
+		let query = context.query;
+
+		delete query.category;
+		delete query.search;
+		delete query.sort;
+		delete query.reset;
+
 		return {
 			deviceList: deviceList ? deviceList : [],
 			numPages: numPages ? numPages : 1,
-			numDevices: numDevices ? numDevices : 0
+			numDevices: numDevices ? numDevices : 0,
+			numFilters: Object.keys(query).length
 		};
 	},
 
 	mounted() {
-		this.$store.dispatch("DeviceListModule/setFiltersToggle");
+		this.$store.dispatch("DeviceListModule/setFiltersToggle");				
 		
 		console.log("Mounted: ", this.deviceList);
 		console.log('Pages: ', this.numPages);
@@ -131,6 +143,17 @@ export default {
 		height: 5rem;
 		width: 100%;
 	}
+	
+	.filter-info {
+		background-color: #2e3192;
+		padding: 5px 10px;
+		margin-left: 10px;
+		color: white;
+		font-family: "Montserrat", sans-serif;
+		font-size: 0.9rem;
+		border-radius: 10px;
+	}
+
 
 	.pagination {
 		position: relative;

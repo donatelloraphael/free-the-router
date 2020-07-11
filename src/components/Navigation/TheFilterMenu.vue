@@ -178,67 +178,95 @@
       checkedFirmwares(val) {
         let query = this.query;
 
-        if (!this.firstLoad) {
-          delete query.firmware;
-        }
-        delete query.reset;
-
-        
-        if (val.length > 0) {
-          this.$router.push({ path: "shop", query: { ...query, firmware: val } });
+        if (this.firstLoad) {
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, firmware: val } });
+            return;
+          } else {
+            return
+          }
         } else {
-          // Adds "reset" to query to force it to refresh 
-          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
-          this.reset = !this.reset;
+
+          delete query.firmware;
+          delete query.reset;
+          
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, firmware: val } });
+          } else {
+            // Adds "reset" to query to force it to refresh 
+            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.reset = !this.reset;
+          }
+
         }
+        
       },
       checkedRam(val) {
         let query = this.query;
 
-        if (!this.firstLoad) {
-          delete query.ram;
-        }
-        delete query.reset;
-
-        
-        if (val.length > 0) {
-          this.$router.push({ path: "shop", query: { ...query, ram: val } });
+        if (this.firstLoad) {
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, ram: val } });
+            return;
+          } else {
+            return;
+          }
         } else {
-          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
-          this.reset = !this.reset;
-        }
+          delete query.ram; 
+          delete query.reset;
+
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, ram: val } });
+          } else {
+            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.reset = !this.reset;
+          }
+        }     
       },
       checkedFlash(val) {
         let query = this.query;
 
-        if (!this.firstLoad) {
-          delete query.flash;
-        }
-        delete query.reset;
-        console.log("VAL", val);
-
-        if (val.length > 0) {
-          this.$router.push({ path: "shop", query: { ...query, flash: val } });
+        if (this.firstLoad) {
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, flash: val } });
+            return;
+          } else {
+            return;
+          }
         } else {
-          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
-          this.reset = !this.reset;
+          delete query.flash;
+          delete query.reset;
+
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, flash: val } });
+          } else {
+            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.reset = !this.reset;
+          }
         }
+        
       },
       checkedBrands(val) {
-        console.log(val);
         let query = this.query;
 
-        if (!this.firstLoad) {
-          delete query.brand;
-        }
-        delete query.reset;
-
-        if (val.length > 0) {
-          this.$router.push({ path: "shop", query: { ...query, brand: val } });
+        if (this.firstLoad) {
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, brand: val } });
+            return;
+          } else {
+            return;
+          }
         } else {
-          this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
-          this.reset = !this.reset;
-        }
+          delete query.brand;
+          delete query.reset;
+
+          if (val.length > 0) {
+            this.$router.push({ path: "shop", query: { ...query, brand: val } });
+          } else {
+            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.reset = !this.reset;
+          }
+        }  
       }
     },
     methods: {
@@ -292,8 +320,7 @@
       navigatePrice(priceRange) {
         let query = this.query;
 
-        if (priceRange == query.price) {
-          console.log("DELE");
+        if (priceRange && priceRange == query.price) {
           delete query.price;
           this.$router.push({ path: "shop", query: { ...query, reset: this.reset }});
           this.reset = !this.reset;
@@ -317,9 +344,7 @@
             query = {...query, price: `${this.minPrice}-${this.maxPrice}`};
             this.$router.push({ path: "shop", query: query });
           }
-        }
-
-        
+        }        
       }
     },
 
@@ -328,7 +353,31 @@
       this.$store.watch(state => {
         return this.$store.getters["DeviceListModule/getFiltersToggle"];
       }, () => {
-        if (!this.firstLoad) {
+        if (this.firstLoad) {
+          
+          if (this.query.brand) {
+            this.checkedBrands = Array.isArray(this.query.brand) ? [...this.query.brand] : [this.query.brand];
+          }
+
+          if (this.query.firmware) {
+            this.checkedFirmwares = Array.isArray(this.query.firmware) ? [...this.query.firmware] : [this.query.firmware];
+          }
+
+          if (this.query.ram) {
+            this.checkedRam = Array.isArray(this.query.ram) ? [...this.query.ram] : [this.query.ram];
+          }
+
+          if (this.query.flash) {
+            this.checkedFlash = Array.isArray(this.query.flash) ? [...this.query.flash] : [this.query.flash];
+          }
+
+          this.selectedSort = this.query.sort ? this.query.sort : "default";
+          this.minPrice = this.query.price ? (this.query.price.match(/\d+/g)[0] ? this.query.price.match(/\d+/g)[0] : "") : "";
+          this.maxPrice = this.query.price ? (this.query.price.match(/\d+/g)[1] ? this.query.price.match(/\d+/g)[1] : ""): "";
+
+          this.firstLoad = false;
+          
+        } else { 
           this.checkedFirmwares = [];
           this.selectedSort = "default";
           this.minPrice = "";
@@ -336,23 +385,6 @@
           this.checkedRam = [];
           this.checkedFlash = [];
           this.checkedBrands = [];
-        } else {
-          console.log("FIRST LOAD");
-          this.checkedFirmwares = this.query.firmware ? this.query.firmware : [];
-          this.checkedRam = this.query.ram ? this.query.ram : [];
-          if (this.checkedBrands) {
-            this.checkedBrands = Array.isArray(this.query.brand) ? [...this.query.brand] : this.query.brand;
-          } else {
-            this.checkedBrands = [];
-          }
-          this.checkedFlash = this.query.flash ? this.query.flash : [];
-          this.selectedSort = this.query.sort ? this.query.sort : "default";
-          this.minPrice = this.query.price ? this.query.price.match(/\d+/g)[0] : "";
-          this.maxPrice = this.query.price ? this.query.price.match(/\d+/g)[1] : "";
-
-          setTimeout(() => {
-            this.firstLoad = false;
-          }, 500);
         }
       });
     }
