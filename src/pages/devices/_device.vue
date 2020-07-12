@@ -3,6 +3,9 @@
 		<div class="bg-left"></div>
 		
 		<div class="body">
+			<div class="header">
+				<app-breadcrumb :category="localCategory" :brand="device.brand" :name="device.fullName" :queryCategory="queryCategory"></app-breadcrumb>
+			</div>
 
       
 
@@ -16,12 +19,17 @@
 <script>
 
 import { db } from '~/plugins/firebase.js';
+import Breadcrumb from '~/components/Navigation/Breadcrumb';
 
 export default {
+	components: {
+		appBreadcrumb: Breadcrumb
+	},
 
 	data() {
 		return {
-			localCategory: "All Devices"
+			localCategory: "All Devices",
+			queryCategory: "all-devices"
 		};
 	},
 
@@ -42,13 +50,16 @@ export default {
 
 	mounted() {
 
-		// if (localStorage.getItem("localCategory")) {
-			console.log("XX", localStorage.getItem("localCategory"));
+		if (localStorage.getItem("localCategory")) {
 			this.localCategory = localStorage.getItem("localCategory");
+			this.queryCategory = localStorage.getItem("queryCategory");
+
 			localStorage.removeItem("localCategory");
-		// }
+			localStorage.removeItem("queryCategory");
+		}
 		
 		console.log(this.localCategory);
+		console.log(this.queryCategory);
 
 		console.log(this.device);
 	}
@@ -62,16 +73,15 @@ export default {
 		margin: 0 auto;
 		width: 100%;
 	  min-height: 100vh;
-	  text-align: center;
 	  display: flex;
 	  justify-content: space-between;
-	  align-items: center;
 	}
 
 	.body {
 		padding-top: 10rem;
 		height: 100%;
 		width: 100%;
+		display: block;
 	}
 
 	.bg-left {
@@ -93,6 +103,11 @@ export default {
     -webkit-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
 		-moz-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
 		box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
+	}
+
+	.category {
+		padding: 5px 10px;
+		border-radius: ;
 	}
 	
 	/***************MEDIA QUERIES*******************/

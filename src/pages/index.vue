@@ -302,14 +302,13 @@ export default {
  }
 
  /*******************************MEDIA QUERYS****************************/
-  @media (max-width: 1200px) {
+
+  @media (max-width: 789px) {
+
     .bg-left, .bg-right {
       display: none;
     }
-  }
 
-  @media (max-width: 789px) {
-    
     .price-container {
       width: 90%;
       padding: 0;

@@ -97,6 +97,7 @@ export default {
 	methods: {
 		setLocalCategory() {
 			localStorage.setItem("localCategory", this.breadCrumbCategory);
+			localStorage.setItem("queryCategory", this.query.category);
 		}
 	},
 
