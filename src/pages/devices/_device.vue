@@ -4,7 +4,14 @@
 		
 		<div class="body">
 			<div class="header">
-				<app-breadcrumb :category="localCategory" :brand="device.brand" :name="device.fullName" :queryCategory="queryCategory"></app-breadcrumb>
+				<app-breadcrumb :category="localCategory" :brand="device.company" :name="device.company + ' ' + device.model" :queryCategory="queryCategory"></app-breadcrumb>
+				<h1 class="title">{{ device.name }}</h1>
+			</div>
+
+			<div class="content">
+				<div class="images">
+					<img class="main-img" :src="device.thumbnail" alt="device main image">
+				</div>
 			</div>
 
       
@@ -105,9 +112,18 @@ export default {
 		box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
 	}
 
-	.category {
-		padding: 5px 10px;
-		border-radius: ;
+	h1 {
+		font-size: 1.5rem;
+		margin: 30px auto;
+		text-align: center;
+		width: 80%;
+	}
+
+	/*******************CONTENT****************/
+	.images img.main-img {
+		width: 480px;
+		height: auto;
+		margin: 0 30px;
 	}
 	
 	/***************MEDIA QUERIES*******************/
@@ -117,9 +133,25 @@ export default {
 		}
 	}
 
+	@media (max-width: 1000px) {
+		.images {
+			text-align: center;
+			
+		}
+		.images img.main-img {
+			width: 60%;
+			margin: 20px auto;
+		}
+	}
+
 	@media (max-width: 789px) {
 		.bg-left, .bg-right {
 			display: none;
 		}
+
+		.images img.main-img {
+			width: 80%;
+		}
+
 	}
 </style>

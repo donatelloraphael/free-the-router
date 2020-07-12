@@ -277,7 +277,7 @@
         const vm = this;
         setTimeout(() => {
           vm.closingState = false;
-        }, 1000);
+        }, 500);
       },
       toggleClosedState() {
         const vm = this;

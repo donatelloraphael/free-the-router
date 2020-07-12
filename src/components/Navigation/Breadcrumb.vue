@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="breadcrumb-container">
 		<nav> <!--To provide navigation links-->
 			<ol class="breadcrumb " itemscope itemtype="http://schema.org/BreadcrumbList">
 				
@@ -41,13 +41,30 @@
 	export default {
 		name: "Breadcrumb",
 
-		props: ["category", "brand", "name", "queryCategory"]
+		props: ["category", "brand", "name", "queryCategory"],
+
+		computed: {
+			// brandTitleCase() {
+			// 	let brand = this.brand.toLowerCase().split(" ");
+	  //     for(var i = 0; i< brand.length; i++){
+	  //        brand[i] = brand[i][0].toUpperCase() + brand[i].slice(1);
+	  //     }
+	  //     return brand.join(" ");
+			// },
+			// nameTitleCase() {
+			// 	let name = this.name.toLowerCase().split(" ");
+	  //     for(var i = 0; i< name.length; i++){
+	  //        name[i] = name[i][0].toUpperCase() + name[i].slice(1);
+	  //     }
+	  //     return name.join(" ");
+			// }
+		}
 	};
 
 </script>
 
 <style scoped>
-	
+
 .breadcrumb {
   list-style-type: none;
   padding: 0;
@@ -118,6 +135,17 @@ li:first-child:hover {
 }
 li:first-child::before, li:first-child::after {
   left: 5px;
+}
+
+@media (max-width: 789px) {
+	.breadcrumb {
+		margin: 0 0 0 8px;
+		font-size: 0.8rem;
+	}
+
+	li {
+		margin-right: 3px;
+	}
 }
 
 
