@@ -41,24 +41,7 @@
 	export default {
 		name: "Breadcrumb",
 
-		props: ["category", "brand", "name", "queryCategory"],
-
-		computed: {
-			// brandTitleCase() {
-			// 	let brand = this.brand.toLowerCase().split(" ");
-	  //     for(var i = 0; i< brand.length; i++){
-	  //        brand[i] = brand[i][0].toUpperCase() + brand[i].slice(1);
-	  //     }
-	  //     return brand.join(" ");
-			// },
-			// nameTitleCase() {
-			// 	let name = this.name.toLowerCase().split(" ");
-	  //     for(var i = 0; i< name.length; i++){
-	  //        name[i] = name[i][0].toUpperCase() + name[i].slice(1);
-	  //     }
-	  //     return name.join(" ");
-			// }
-		}
+		props: ["category", "brand", "name", "queryCategory"]
 	};
 
 </script>
@@ -72,6 +55,7 @@
   font-family: "Montserrat", sans-serif;
   line-height: 2;
   font-size: 0.9rem;
+  margin-bottom: 50px;
 }
 
 li {
