@@ -18,6 +18,8 @@
 
 					<p><span class="label">RAM: <strong>{{device.RAM}} MB</strong></span><span class="label">Flash: <strong>{{device.Flash}} MB</strong></span></p>
 
+					<p><span class="type">Device Type: <strong>{{deviceType}}</strong></span></p>
+
 					<p class="firmwares">
 						<span class="label">Supported Firmwares: </span>
 						<span class="firmware" v-if="device.openwrtSupport">OpenWrt</span>
@@ -29,11 +31,40 @@
 						<span class="firmware" v-if="device.tomatobyshibbySupport">Tomato by Shibby</span>
 					</p>
 
-					<hr/>
+					<hr class="divider">
 
 					<p><span class="label">Price: </span>Rs. <span class="price">{{device.price.toLocaleString()}}*</span><span id="at">  @ </span> <a href="#" class="seller"><img src="~/assets/images/amazon/amazon-in.png" alt="Amazon logo"></a><span class="price-info">*As of {{device.updatedOn}}</span></p>
 
 					<a class="button" href="#"><button class="goto">GO TO AMAZON.IN</button></a>
+				</div>
+
+				<div class="specs">
+					<hr class="dotted-divider">
+					<h3>Specifications</h3>
+					<table role="table">
+						<thead role="rowgroup">
+							<tr role="row">
+								<th role="columnheader">Version</th>
+								<th role="columnheader">RAM</th>
+								<th role="columnheader">Flash</th>
+								<th role="columnheader">LAN</th>
+								<th role="columnheader">WiFi</th>
+								<th role="columnheader">USB</th>
+								<th role="columnheader">SATA</th>
+							</tr>
+						</thead>
+						<tbody role="rowgroup">
+							<tr role="row" v-for="(version, index) in device.specs">
+								<td role="cell">{{ index }}</td>
+								<td role="cell">{{ convertRAM(version) }} MB</td>
+								<td role="cell">{{ convertFlash(version) }} MB</td>
+								<td role="cell">{{ convertLAN(device.LAN[index]) }}</td>
+								<td role="cell">{{ device.WiFi }}</td>
+								<td role="cell">{{ convertUSB(device.USB[index]) }}</td>
+								<td role="cell">{{ device.SATA ? "Yes" : "No" }}</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 
@@ -61,6 +92,54 @@ export default {
 			localCategory: "All Devices",
 			queryCategory: "all-devices"
 		};
+	},
+
+	computed: {
+		deviceType() {
+			return this.device.deviceType ? this.device.deviceType : "Router";
+		},
+		RAM() {
+
+		}
+	},
+
+	methods: {
+		convertRAM(version) {
+			if (!version) {
+				return "-";
+			} else if (typeof version === 'object') {
+				return version[0].match(/\d+/gm)? (version[0].match(/\d+/gm)[1] ? version[0].match(/\d+/gm)[1] : "-") : '-';
+			} else {
+				return version.match(/\d+/gm) ? (version.match(/\d+/gm)[1] ? version.match(/\d+/gm)[1] : '-') : "-";
+			}
+		},
+		convertFlash(version) {
+			if (!version) {
+				return "-";
+			} else if (typeof version === 'object') {
+				return version[0].match(/\d+/gm)? (version[0].match(/\d+/gm)[0] ? version[0].match(/\d+/gm)[0] : "-") : '-';
+			} else {
+				return version.match(/\d+/gm) ? (version.match(/\d+/gm)[0] ? version.match(/\d+/gm)[0] : '-') : "-";
+			}
+		},
+		convertLAN(version) {
+			if (!version) {
+				return "-";
+			} else if (typeof version === 'object') {
+				return version[0];
+			} else {
+				return version;
+			}
+		},
+		convertUSB(version) {
+			if (!version) {
+				return "-";
+			} else if (typeof version === 'object') {
+				return version[0] ? "Yes" : "No";
+			} else {
+				return version ? "Yes" : "No";
+			}
+		}
 	},
 
 	async asyncData(context) {
@@ -158,7 +237,8 @@ export default {
 	}
 
 	.images img.main-img {
-		width: 100%;
+		max-width: 100%;
+		max-height: 480px;
 	}
 
 	.details {
@@ -184,9 +264,9 @@ export default {
 		margin-right: 30px;
 	}
 
-	hr {
+	hr.divider {
 		width: 100%;
-		border-top: 1px solid brown;
+		border-top: 1px solid black;
 	}
 
 	.price {
@@ -250,12 +330,56 @@ export default {
 	.firmware {
 		padding: 5px 10px;
 		margin: 2px 3px;
-		/*background-color: #2e3192;*/
-		background-color: brown;
+		background-color: #42b983;
+		/*background-color: brown;*/
 		border-radius: 10px;
 		color: white;
 		position: relative;
 		top: -8px;
+	}
+
+	/*******************SPECS************************/
+
+	hr.dotted-divider {
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	.specs {
+		width: 90%;
+		height: auto;
+		margin: 30px auto;
+		text-align: center;
+	}
+
+	h3 {
+		margin: 30px;
+		font-size: 1.4rem;
+	}
+
+	table {
+	  border: 2px solid #42b983;
+	  border-radius: 3px;
+	  background-color: #fff;
+	  font-family: "Montserrat", sans-serif;
+	  margin: auto;
+	  overflow: scroll;
+	}
+
+	th {
+		/*background-color: brown;*/
+	  background-color: #42b983;
+	  /*background-color: #2e3192;*/
+	  color: rgba(255,255,255,0.66);
+	}
+
+	td {
+	  background-color: #f9f9f9;
+	}
+
+	th, td {
+	  min-width: 120px;
+	  padding: 10px 20px;
 	}
 	
 	/***************MEDIA QUERIES*******************/
