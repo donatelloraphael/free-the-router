@@ -123,21 +123,17 @@ export default {
 			}
 		},
 		convertLAN(version) {
-			if (!version) {
-				return "-";
-			} else if (typeof version === 'object') {
+			if (typeof version === 'object') {
 				return version[0];
 			} else {
 				return version;
 			}
 		},
 		convertUSB(version) {
-			if (!version) {
-				return "-";
-			} else if (typeof version === 'object') {
-				return version[0] ? "Yes" : "No";
+			if (typeof version === 'object') {
+				return version[0] ? "Yes" : "-";
 			} else {
-				return version ? "Yes" : "No";
+				return version ? "Yes" : "-";
 			}
 		}
 	},
@@ -363,7 +359,6 @@ export default {
 	  background-color: #fff;
 	  font-family: "Montserrat", sans-serif;
 	  margin: auto;
-	  overflow: scroll;
 	}
 
 	th {
@@ -371,6 +366,8 @@ export default {
 	  background-color: #42b983;
 	  /*background-color: #2e3192;*/
 	  color: rgba(255,255,255,0.66);
+	  color: white; 
+	  font-weight: bold; 
 	}
 
 	td {
@@ -378,10 +375,15 @@ export default {
 	}
 
 	th, td {
-	  min-width: 120px;
+	  min-width: 80px;
+	  width: 120px;
 	  padding: 10px 20px;
 	}
-	
+
+	tr:nth-of-type(odd) td { 
+	  background: #eee; 
+	}
+
 	/***************MEDIA QUERIES*******************/
 	@media (max-width: 1200px) {
 		.bg-left, .bg-right {
@@ -417,6 +419,10 @@ export default {
 			clear: left;
 			margin-top: 10px;
 		}
+
+		.specs {
+			width: 98%;
+		}
 	}
 
 	@media (max-width: 789px) {
@@ -450,6 +456,64 @@ export default {
 			text-align: center;
 			margin: 0 auto;
 		}
-
 	}
+
+	@media (max-width: 650px) {
+		/****************TABLE******************/
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr { 
+			display: block;
+			border: none;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+		td { 
+			/* Behave  like a "row" */
+			border: none;
+			position: relative;
+			padding: 5px auto 5px 50%;
+			margin: 2px;
+			min-height: 2.5rem;
+			width: auto;
+			color: black;
+			border-radius: 30px;
+		}
+
+		td:before { 
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 10px;
+			left: 6px;
+			width: 45%;
+			padding-right: 10px; 
+			white-space: nowrap;
+			font-weight: bold;
+		}
+
+		tr:nth-of-type(odd) td { 
+			background-color: #eee;
+		}
+
+		tr:nth-of-type(even) td { 
+			background-color: #ccc;
+		}
+
+		/* Label the data */
+		td:nth-of-type(1):before { content: "Version"; }
+		td:nth-of-type(2):before { content: "RAM"; }
+		td:nth-of-type(3):before { content: "Flash"; }
+		td:nth-of-type(4):before { content: "LAN"; }
+		td:nth-of-type(5):before { content: "WiFi"; }
+		td:nth-of-type(6):before { content: "USB"; }
+		td:nth-of-type(7):before { content: "SATA"; }
+	}
+
 </style>
