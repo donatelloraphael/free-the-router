@@ -6,11 +6,11 @@
     
     <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
       <nuxt-link to="/"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
-      <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link>
-      <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link>
+      <!-- <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link> -->
+      <!-- <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link> -->
       <nuxt-link to="/shop" :class="{activeAlt: path == '/shop'}"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
       <nuxt-link to="/firmware"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
-      <nuxt-link to="/wishlist"><span @click="closeSideMenuStateChanges()">Wishlist</span></nuxt-link>
+      <!-- <nuxt-link to="/wishlist"><span @click="closeSideMenuStateChanges()">Wishlist</span></nuxt-link> -->
       <nuxt-link to="/supported-devices"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
       <nuxt-link to="/resources"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
       <nuxt-link to="/about"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
@@ -93,7 +93,7 @@
     z-index: 998;
     display: flex;
     left: -50vw;
-    width: 50vw;
+    width: auto;
     height: 100%;
     min-width: 180px;
     padding: 10rem 30px;
@@ -163,6 +163,7 @@
     color: white;
     display: block;
     padding: 10px;
+    margin-bottom: 20px;
     border-radius: 5px;
     cursor: ponter;
   }
