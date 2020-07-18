@@ -48,12 +48,12 @@
 							<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
 						</li>
 		      	
-	      		<span class="divider to-hide">|</span>
+	      		<!-- <span class="divider to-hide">|</span>
 		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
 		        <span class="divider to-hide">|</span>
 		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/register">Register</nuxt-link></li>
 		        <span class="divider to-hide">|</span>
-		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/wishlist">Wishlist</nuxt-link></li>
+		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/wishlist">Wishlist</nuxt-link></li> -->
 		        <!-- <span class="divider">|</span>
 		        <li class="nav-item"><nuxt-link class="nav-link" to="/account">Account</nuxt-link></b-nav-item></li> -->
 		      </ul>

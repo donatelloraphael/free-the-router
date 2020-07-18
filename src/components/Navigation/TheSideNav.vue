@@ -8,7 +8,7 @@
       <nuxt-link to="/"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
       <nuxt-link to="/signin"><span @click="closeSideMenuStateChanges()">Sign In</span></nuxt-link>
       <nuxt-link to="/register"><span @click="closeSideMenuStateChanges()">Register</span></nuxt-link>
-      <nuxt-link to="/shop"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
+      <nuxt-link to="/shop" :class="{activeAlt: path == '/shop'}"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
       <nuxt-link to="/firmware"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
       <nuxt-link to="/wishlist"><span @click="closeSideMenuStateChanges()">Wishlist</span></nuxt-link>
       <nuxt-link to="/supported-devices"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
@@ -39,7 +39,15 @@
         closingState: false,
       }
     },
+
     props: ["isActive"],
+
+    computed: {
+      path() {
+        return this.$route.path;
+      }
+    },
+
     methods: {
       closeSideMenu() {
         this.$emit("close");       
@@ -99,7 +107,6 @@
 
   .menu.active {
     left: 0;
-    
   }
 
   .menu.closing {
@@ -168,7 +175,7 @@
     text-decoration: none;
   }
 
-  .menu a.nuxt-link-exact-active span {
+  .menu a.nuxt-link-exact-active span, .menu a.activeAlt span {
     color: #deff00;
     background-color: #4146c1;
   }
