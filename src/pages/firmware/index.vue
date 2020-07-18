@@ -30,7 +30,7 @@
 				</div>
 			</div>
 
-      <hr class="dotted-divider" id="ddwrt">
+      <hr class="dotted-divider" id="ddwrt-">
 
 			<div class="firmware">
 				<div class="col-left">
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 
-      <hr class="dotted-divider" id="gargoyle">
+      <hr class="dotted-divider" id="gargoyle-">
 
       <div class="firmware">
 				<div class="col-left">
@@ -80,7 +80,7 @@
 				</div>
 			</div>
 
-      <hr class="dotted-divider" id="advancedtomato">
+      <hr class="dotted-divider" id="advancedtomato-">
 
 			<div class="firmware">
 				<div class="col-left">
@@ -105,7 +105,7 @@
 				</div>
 			</div>
 
-			<hr class="dotted-divider" id="freshtomato">
+			<hr class="dotted-divider" id="freshtomato-">
 
 			<div class="firmware">
 				<div class="col-left">
@@ -130,7 +130,7 @@
 				</div>
 			</div>
 
-			<hr class="dotted-divider" id="tomatobyshibby">
+			<hr class="dotted-divider" id="tomatobyshibby-">
 
 			<div class="firmware">
 				<div class="col-left">

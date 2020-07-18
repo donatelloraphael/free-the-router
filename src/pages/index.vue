@@ -70,27 +70,27 @@
             </nuxt-link>
           </div>
           <div class="ddwrt firmware right">
-            <nuxt-link to="/firmware#ddwrt" @click.native="scrollTo('#ddwrt')">
+            <nuxt-link to="/firmware/#ddwrt-" @click.native="scrollTo('#ddwrt-')">
               <img alt="ddwrt logo" src="../assets/images/firmwares/ddwrt.png">
             </nuxt-link>
           </div>
           <div class="gargoyle firmware left">
-            <nuxt-link to="/firmware/#gargoyle" @click.native="scrollTo('#gargoyle')">
+            <nuxt-link to="/firmware/#gargoyle-" @click.native="scrollTo('#gargoyle-')">
               <img alt="gargoyle logo" src="../assets/images/firmwares/gargoyle.png">
             </nuxt-link>
           </div>
           <div class="freshtomato firmware right">
-            <nuxt-link to="/firmware/#freshtomato" @click.native="scrollTo('#freshtomato')">
+            <nuxt-link to="/firmware/#freshtomato-" @click.native="scrollTo('#freshtomato-')">
               <img alt="freshtomato logo" src="../assets/images/firmwares/freshtomato.png">
             </nuxt-link>
           </div>
           <div class="advancedtomato firmware left">
-            <nuxt-link to="/firmware/#advancedtomato" @click.native="scrollTo('#advancedtomato')">
+            <nuxt-link to="/firmware/#advancedtomato-" @click.native="scrollTo('#advancedtomato-')">
               <img alt="advancedtomato logo" src="../assets/images/firmwares/advancedtomato.png">
             </nuxt-link>
           </div>
           <div class="tomatobyshibby firmware right">
-            <nuxt-link to="/firmware/#tomatobyshibby" @click.native="scrollTo('#tomatobyshibby')">
+            <nuxt-link to="/firmware/#tomatobyshibby-" @click.native="scrollTo('#tomatobyshibby-')">
               <img alt="tomatobyshibby logo" src="../assets/images/firmwares/tomatobyshibby.png">
             </nuxt-link>
           </div>
