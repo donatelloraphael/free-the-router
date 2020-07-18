@@ -22,20 +22,37 @@
 
 					<p class="firmwares">
 						<span class="label">Supported Firmwares: </span>
-						<span class="firmware" v-if="device.openwrtSupport">OpenWrt</span>
-						<span class="firmware" v-if="device.ddwrtSupport">DD-Wrt</span>
-						<span class="firmware" v-if="device.asusMerlinSupport">AsusWrt-Merlin</span>
-						<span class="firmware" v-if="device.freshtomatoSupport">FreshTomato</span>
-						<span class="firmware" v-if="device.gargoyleSupport">Gargoyle</span>
-						<span class="firmware" v-if="device.advancedtomatoSupport">Advanced Tomato</span>
-						<span class="firmware" v-if="device.tomatobyshibbySupport">Tomato by Shibby</span>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'openwrt'}}"><span class="firmware" v-if="device.openwrtSupport">OpenWrt</span></nuxt-link>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'ddwrt'}}"><span class="firmware" v-if="device.ddwrtSupport">DD-Wrt</span></nuxt-link>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'asusmerlin'}}"><span class="firmware" v-if="device.asusMerlinSupport">AsusWrt-Merlin</span></nuxt-link>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'freshtomato'}}"><span class="firmware" v-if="device.freshtomatoSupport">FreshTomato</span></nuxt-link>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'gargoyle'}}"><span class="firmware" v-if="device.gargoyleSupport">Gargoyle</span></nuxt-link>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'advancedtomato'}}"><span class="firmware" v-if="device.advancedtomatoSupport">Advanced Tomato</span></nuxt-link>
+						<nuxt-link :to="{ path: '/shop', query: {firmware: 'tomatobyshibby'}}"><span class="firmware" v-if="device.tomatobyshibbySupport">Tomato by Shibby</span></nuxt-link>
 					</p>
+
+					<div class="supported-versions">
+						<p v-if="device.openwrtSupport"><span class="label">OpenWrt supported versions: </span><strong>{{ device.openwrtSupportedVersions.join(", ") }}</strong></p>
+						<p v-if="device.ddwrtSupport"><span class="label">DD-Wrt supported versions: </span><strong>{{ device.ddwrtSupportedVersions.join(", ") }}</strong></p>
+						<p v-if="device.freshtomatoSupport"><span class="label">FreshTomato supported versions: </span><strong>{{ device.freshtomatoSupportedVersions.join(", ") }}</strong></p>
+						<p v-if="device.asusMerlinSupport"><span class="label">AsusWrt-Merlin supported versions: </span><strong>{{ device.asusMerlinSupportedVersions.join(", ") }}</strong></p>
+						<p v-if="device.gargoyleSupport"><span class="label">Gargoyle supported versions: </span><strong>{{ device.gargoyleSupportedVersions.join(", ") }}</strong></p>
+						<p v-if="device.advancedtomatoSupport"><span class="label">AdvancedTomato supported versions: </span><strong>{{ device.advancedtomatoSupportedVersions.join(", ") }}</strong></p>
+						<p v-if="device.tomatobyshibbySupport"><span class="label">Tomato by Shibby supported versions: </span><strong>{{ device.tomatobyshibbySupportedVersions.join(", ") }}</strong></p>
+					</div>
 
 					<hr class="divider">
 
 					<p><span class="label">Price: </span>Rs. <span class="price">{{device.price.toLocaleString()}}*</span><span id="at">  @ </span> <a href="#" class="seller"><img src="~/assets/images/amazon/amazon-in.png" alt="Amazon logo"></a><span class="price-info">*As of {{device.updatedOn}}</span></p>
+					
+					<div id="disclaimer" :class="{active : disclaimerActive}"><span>Check with the seller the exact version of the router being sold so that your chosen custom firmware supports it.</span>
+						<button @click="redirect()">I understand</button>
+					</div>
 
-					<a class="button" href="#"><button class="goto">GO TO AMAZON.IN</button></a>
+					<div id="backdrop" @click="disclaimerActive = false" :class="{active: disclaimerActive}"></div>
+
+					<button class="goto" @click="disclaimerOrGo()">GO TO AMAZON.IN</button>
+
 				</div>
 
 				<div class="specs">
@@ -65,6 +82,20 @@
 							</tr>
 						</tbody>
 					</table>
+
+					<div class="notes">
+						<h3>Notes</h3>
+						<p v-if="device.openwrtNotes">OpenWrt Notes: {{ device.openwrtNotes }}</p>
+						<p v-if="device.ddwrtNotes">DD-Wrt Notes: {{ device.ddwrtNotes }}</p>
+						<p v-if="device.freshtomatoNotes">FreshTomato Notes: {{ device.freshtomatoNotes }}</p>
+						<p v-if="device.asusMerlinNotes">AsusWrt-Merlin Notes: {{ device.asusMerlinNotes }}</p>
+						<p v-if="device.gargoyleNotes">Gargoyle Notes: {{ device.gargoyleNotes }}</p>
+						<p v-if="device.advancedtomatoNotes">AdvancedTomato Notes: {{ device.advancedtomatoNotes }}</p>
+						<p v-if="device.tomatobyshibbyNotes">Tomato by Shibby Notes: {{ device.tomatobyshibbyNotes }}</p>
+						<p v-if="device.ddwrtActivationNeeded">DD-Wrt Activation needed to use DD-Wrt with this device.</p>
+						<p v-if="device.openwrtTechData">OpenWrt Tech Data: <a :href="device.openwrtTechData">View Details</a></p>
+						<p v-if="device.openwrtUnsupportedFunctions">OpenWrt unsupported features: {{ device.openwrtUnsupportedFunctions }}</p>
+					</div>
 				</div>
 			</div>
 
@@ -90,7 +121,9 @@ export default {
 	data() {
 		return {
 			localCategory: "All Devices",
-			queryCategory: "all-devices"
+			queryCategory: "all-devices",
+			disclaimerShown: false,
+			disclaimerActive: false
 		};
 	},
 
@@ -135,6 +168,17 @@ export default {
 			} else {
 				return version ? "Yes" : "-";
 			}
+		},
+		disclaimerOrGo() {
+			if (!this.disclaimerShown) {
+				this.disclaimerActive = true;
+			} else {
+				window.location = this.device.link;
+			}
+		},
+		redirect() {
+			localStorage.setItem("disclaimerTimer", new Date().getTime());
+			window.location = this.device.link;
 		}
 	},
 
@@ -155,12 +199,24 @@ export default {
 
 	mounted() {
 
-		if (localStorage.getItem("localCategory")) {
-			this.localCategory = localStorage.getItem("localCategory");
+		let localCategory = localStorage.getItem("localCategory");
+
+		if (localCategory) {
+			this.localCategory = localCategory;
 			this.queryCategory = localStorage.getItem("queryCategory");
 
 			localStorage.removeItem("localCategory");
 			localStorage.removeItem("queryCategory");
+		}
+
+		let disclaimerTimer = parseInt(localStorage.getItem("disclaimerTimer"));
+
+		if (disclaimerTimer) {
+			if ((disclaimerTimer + 600 * 1000) > new Date().getTime()) {
+				this.disclaimerShown = true;
+			} else {
+				localStorage.removeItem("disclaimerTimer");
+			}
 		}
 		
 		console.log(this.localCategory);
@@ -268,6 +324,7 @@ export default {
 	.price {
 		font-size:1.5rem;
 		color: brown;
+		font-weight: bold;
 	}
 
 	.price-info {
@@ -290,6 +347,48 @@ export default {
 	a, a:visited {
 		text-decoration: none;
 		color: black;
+	}
+
+	#disclaimer {
+		position: fixed;
+		top: 35vh;
+		left: 30vw;
+		width: 40vw;
+		height: auto;
+		background-color: #ce4c4c;
+		display: none;
+		z-index: 500;
+		padding: 20px;
+		line-height: 2;
+		color: white;
+		font-size: 1.2rem;
+		font-weight: bold;
+		border-radius: 10px;
+	}
+
+	#disclaimer button {
+		background-color: #2e3192;
+		margin-top: 30px;
+		color: white;
+		height: 3rem;
+		font-size: 1.2rem;
+		padding: 20px auto;
+		border-radius: 10px;
+	}
+
+	#disclaimer.active, #backdrop.active {
+		display: block;
+	}
+
+	#backdrop {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		top: 0;
+		left: 0;
+		background-color: rgba(0,0,0,0.4);
+		display: none;
+		z-index: 100;
 	}
 
 	.goto {
@@ -315,6 +414,10 @@ export default {
 	.firmwares {
 		display: flex;
 		flex-wrap: wrap;
+		height: auto;
+		line-height: 2.5;
+		position: relative;
+		bottom: 5px;
 	}
 
 	.firmwares .label {
@@ -325,13 +428,16 @@ export default {
 
 	.firmware {
 		padding: 5px 10px;
-		margin: 2px 3px;
+		margin: 3px;
 		background-color: #42b983;
 		/*background-color: brown;*/
 		border-radius: 10px;
 		color: white;
+	}
+
+	.supported-versions {
 		position: relative;
-		top: -8px;
+		bottom: 10px;
 	}
 
 	/*******************SPECS************************/
@@ -358,7 +464,7 @@ export default {
 	  border-radius: 3px;
 	  background-color: #fff;
 	  font-family: "Montserrat", sans-serif;
-	  margin: auto;
+	  margin: auto auto 3rem;
 	}
 
 	th {
@@ -382,6 +488,20 @@ export default {
 
 	tr:nth-of-type(odd) td { 
 	  background: #eee; 
+	}
+
+	/****************NOTES************************/
+	.notes {
+		margin: 30px 0;
+		text-align: left;
+	}
+
+	.notes p {
+		margin: 2rem;
+	}
+
+	.notes p a {
+		color: blue;
 	}
 
 	/***************MEDIA QUERIES*******************/
@@ -455,6 +575,11 @@ export default {
 		a {
 			text-align: center;
 			margin: 0 auto;
+		}
+
+		#disclaimer {
+			width: 90vw;
+			left: 5vw;
 		}
 	}
 
