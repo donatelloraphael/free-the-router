@@ -91,6 +91,8 @@
 </template>
 
 <script>
+	import {db, firebase} from "~/plugins/firebase.js";
+
 	import TheSideNav from "@/components/Navigation/TheSideNav";
 	import TheFilterMenu from "@/components/Navigation/TheFilterMenu";
 
@@ -170,6 +172,8 @@
 		},
 
 		mounted() {
+
+			firebase.analytics();
 
 			if (this.$store.getters.getFirstLoad) {
 				let countryExpirationTime;

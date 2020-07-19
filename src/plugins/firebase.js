@@ -19,10 +19,10 @@ if (!firebase.apps.length) {
 
     firebase.initializeApp(firebaseConfig);
     firebase.firestore();
-    firebase.analytics();
+    // firebase.analytics();
 
 }
 
 const db = firebase.firestore();
 
-export { db };
+export { db, firebase };
