@@ -36,9 +36,11 @@ const readyPromise = nuxt
   });
 
 async function handleRequest(req, res) {
+
   if (!isReady) {
     await readyPromise;
   }
+
   res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
   await nuxt.render(req, res);
 }
@@ -46,7 +48,7 @@ async function handleRequest(req, res) {
 app.get('*', handleRequest);
 app.use(handleRequest);
 exports.nuxtssr = functions.https.onRequest(app);
-
+              
 ///////////////////////////OTHER FUNCTIONS////////////////////////////////////
 
 exports.checkAndUpdateTomatobyshibby = functions.pubsub.schedule('0 14 * * *')
