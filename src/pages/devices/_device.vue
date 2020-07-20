@@ -93,7 +93,7 @@
 						<p v-if="device.advancedtomatoNotes">AdvancedTomato Notes: {{ device.advancedtomatoNotes }}</p>
 						<p v-if="device.tomatobyshibbyNotes">Tomato by Shibby Notes: {{ device.tomatobyshibbyNotes }}</p>
 						<p v-if="device.ddwrtActivationNeeded">DD-Wrt Activation needed to use DD-Wrt with this device.</p>
-						<p v-if="device.openwrtTechData">OpenWrt Tech Data: <a :href="device.openwrtTechData">View Details</a></p>
+						<p v-if="device.openwrtTechData">OpenWrt Tech Data: <a :href="device.openwrtTechData" target="_blank">View Details</a></p>
 						<p v-if="device.openwrtUnsupportedFunctions">OpenWrt unsupported features: {{ device.openwrtUnsupportedFunctions }}</p>
 					</div>
 				</div>
