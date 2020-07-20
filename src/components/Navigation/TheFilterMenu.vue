@@ -435,7 +435,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 200;
+    z-index: 350;
     position: fixed;
     animation-name: backdrop-show;
     animation-duration: .5s;

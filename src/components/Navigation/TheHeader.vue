@@ -258,7 +258,7 @@
     width: 100%;
     height: auto;
     position: fixed;
-    z-index: 50;
+    z-index: 300;
     background-color: white;
     transition: top 0.2s ease-out;
     display: grid;
