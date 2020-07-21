@@ -17,6 +17,8 @@
     "cross-env": "^7.0.2",
     "express": "^4.16.4",
     "firebase": "^7.16.1",
+    "geolite2": "^3.2.0",
+    "maxmind": "^3.0.0",
     "nuxt": "^2.13.3",
     "regenerator-runtime": "^0.13.5"
   },
@@ -28,5 +30,8 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "core-js": "^3.6.5",
     "nodemon": "^2.0.4"
+  },
+  "geolite2": {
+    "license-file": "maxmind-licence.key"
   }
 }

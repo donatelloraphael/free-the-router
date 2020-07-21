@@ -98,3 +98,4 @@ public/assets/
 firebase-adminsdk.json
 functions/firmwareRouters/test/
 functions/availableDevices/test/
+maxmind-licence.key

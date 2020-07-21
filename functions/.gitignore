@@ -2,3 +2,4 @@ node_modules/
 .nuxt/
 firebase-adminsdk.json
 firmwareRouters/test/
+maxmind-licence.key

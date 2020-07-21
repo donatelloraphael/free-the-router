@@ -99,9 +99,9 @@ module.exports = {
         return { x: 0, y: 0 };
       }
     },
-    middleware: 'detectCountry'
+    // middleware: 'detectCountry'
   },
-  serverMiddleware: [
-    // bodyParser.urlencoded({extended: true})
-  ]
+  // serverMiddleware: [
+  //   '~/api/detectCountry'
+  // ]
 };
