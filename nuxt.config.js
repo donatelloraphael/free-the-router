@@ -99,9 +99,6 @@ module.exports = {
         return { x: 0, y: 0 };
       }
     },
-    // middleware: 'detectCountry'
-  },
-  // serverMiddleware: [
-  //   '~/api/detectCountry'
-  // ]
+    middleware: 'setCountry'
+  }
 };

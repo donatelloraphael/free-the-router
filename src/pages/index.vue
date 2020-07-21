@@ -135,21 +135,6 @@ export default {
   
   async asyncData(context) {
 
-      // Set Country
-      if (process.server) {
-        const geolite2 = require('geolite2');
-        const maxmind = require('maxmind');
-
-        let ip = context.req.headers['x-forwarded-for'] ? context.req.headers['x-forwarded-for'].split(',').shift() : context.req.connection.remoteAddress;
-        
-        maxmind.open(geolite2.paths.country).then(lookup => {
-          let country = lookup.get(ip).country.iso_code;
-          console.log(country);
-          context.store.dispatch("setCountry", country);
-        });      
-
-      }
-
       /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
 
       const [topPicksArray, mostPopularArray] = await Promise.all([
@@ -170,11 +155,6 @@ export default {
 
     if (process.client) {
       const topPicksMostPopularExpirationTime = localStorage.getItem("topPicksMostPopularExpirationTime");
-
-      //console.log('CLIENT');
-      // console.log('stored: ', topPicksMostPopularExpirationTime);
-      // console.log('current: ', currentTime);
-      // console.log('check: ', (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime));
       
       if (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime) {
         localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
