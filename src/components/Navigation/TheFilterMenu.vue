@@ -578,6 +578,10 @@
     .menu.closed {
       display: none;
     }
+
+    .menu {
+      padding: 2rem 1rem;
+    }
   }
 
   @media (min-width: 769px) {

@@ -17,7 +17,7 @@
 
       <div class="nav-country-dropdown">
   
-        <select class="dropdown-menu-sidebar" @click="setCountry($event.target.value);" aria-labelledby="navbarDropdown">
+        <select class="dropdown-menu-sidebar" @change="setCountry($event.target.value);" aria-labelledby="navbarDropdown">
           <option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
           <option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
           <option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
@@ -119,13 +119,13 @@
   }
 
   @keyframes nav-slide {
-    from{left: -50vw;}
+    from{left: -100vw;}
     to{left: 0;}
   }
 
   @keyframes nav-slide-out {
     from{left: 0;}
-    to{left: -50vw;}
+    to{left: -100vw;}
   }
 
   .sidenav-backdrop {

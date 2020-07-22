@@ -49,12 +49,14 @@ const createStore = () => {
 					return;
 				} else if (country == 'US' || country == "IN" || country == "CA" || country == "UK") {
 					
+					vuexContext.commit("setCountry", country);
+					vuexContext.dispatch("setFlagUrl", country);
+					
 					if (process.client) {
 						localStorage.setItem("storedCountry", country);
 						localStorage.setItem("countryExpirationTime", new Date().getTime() + (86400 * 1000));
 					}
-					vuexContext.commit("setCountry", country);
-					vuexContext.dispatch("setFlagUrl", country);
+					
 				}
 				
 			},

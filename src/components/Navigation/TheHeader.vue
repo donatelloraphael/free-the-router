@@ -22,43 +22,17 @@
 					<button type="submit" @click.stop.prevent="search()" :disabled="searchValidation">Search</button>
 					<span id="searchError" v-if="searchValidation">Search can only contain letters, digits, spaces, and "-".</span>
 				</form>
-					
-
-
-				<div class="hidden">
-					<select class="dropdown-menu" @click="setFlagUrl(); setCountry($event.target.value)" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
-						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
-  					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
-						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
-						<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
-					</select>
-					<span id="country-flag2" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
-				</div>
 	   
-				<nav class="navigation-items">
-		      <ul class="nav-list pre-header navbar-nav mr-auto">
-		      	
-		      	<li class="nav-item dropdown">
-        			<select class="dropdown-menu" @click="setCountry($event.target.value); setFlagUrl()" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
-								<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
-      					<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
-								<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
-								<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry" href="#">UK</option>
-							</select>
-							<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
-						</li>
-		      	
-	      		<!-- <span class="divider to-hide">|</span>
-		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/signin">Sign In</nuxt-link></li>
-		        <span class="divider to-hide">|</span>
-		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/register">Register</nuxt-link></li>
-		        <span class="divider to-hide">|</span>
-		        <li class="nav-item to-hide"><nuxt-link class="nav-link" to="/wishlist">Wishlist</nuxt-link></li> -->
-		        <!-- <span class="divider">|</span>
-		        <li class="nav-item"><nuxt-link class="nav-link" to="/account">Account</nuxt-link></b-nav-item></li> -->
-		      </ul>
-	   		</nav>
-
+				<div class="country">
+	  			<select id="countrySelector" class="dropdown-menu" @change="setCountry($event.target.value); setFlagUrl();" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry">USA</option>
+						<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry">India</option>
+						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry">Canada</option>
+						<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry">UK</option>
+					</select>
+					<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
+				</div>
+						
 			
 
    		</div>
@@ -125,6 +99,9 @@
 		},
 
 		methods: {
+			log(value) {
+				console.log(value);
+			},
 			toggleActive() {
 				this.isActive = !this.isActive;
 			},
@@ -139,7 +116,7 @@
 			setFlagUrl() {
 				setTimeout(() => {
 					this.flagUrl = this.$store.getters.getFlagUrl;
-				}, 10);
+				}, 2);
 			},
 			search() {
 				let args = "";
@@ -193,7 +170,6 @@
 			}
 
 			this.flagUrl = this.$store.getters.getFlagUrl;
-
 
 			////// Hide header when scrolling down and show it scrolling up /////////
 			/////////////////////////////////////////////////////////////////////////
@@ -290,20 +266,11 @@
   	margin: 10px;
   }
 
-	.nav-list {
-		list-style: none;
-		display: flex;
-		flex-direction: row;
-	}
-	
-	.navigation-items .nav-item {
-  	margin: 10px 10px;
-  	padding: 0 0;
-	}
-
 	.nav-item a {
 		text-decoration: none;
 		color: black;
+		margin: 10px 10px;
+  	padding: 0 0;
 	}
 
 	.nav-item a:hover {
@@ -328,6 +295,7 @@
 		padding: 0 0 0 10px;
 		border: 1px solid grey;
 		border-right: none;
+		flex-shrink: 1;
 	}
 
 	input.search-box:focus {
@@ -363,10 +331,6 @@
 		width: 4rem;
 	}
 
-	.hidden {
-		display: none;
-	}
-
 	.dropdown {
 		position: relative;
 	}
@@ -375,34 +339,31 @@
 		display: inline-block;
 	}
 
+	.country {
+		min-width: 50px;
+		margin-right: 10px;
+		display: relative;
+	}
+
 	#country-flag {
 		width: 1.5rem;
 		height: .9rem;
 		position: absolute;
-		z-index: 1000;
-		top: -1.5rem;
-		left: 1.5rem;
+		z-index: 10000;
+		top: 16px;
+		right: 32px;
 	}
-
-	#country-flag2 {
-		width: 1.5rem;
-		height: .9rem;
-		position: absolute;
-		z-index: 1000;
-		right: 2rem;
-		top: 0.5rem;
-
-	}
+	
 
 	/**********************************Dropdown****************************************/
 	
 	.dropdown-menu {
-		display: flex;
-	  margin: 0 auto;
+	  margin: 0;
+	  padding: 0;
+	  min-width: 40px;
 	  background-color: white;
 	  font-family: "Courier Prime", monospace;
 	  font-size: 0.9rem;
-	  min-width: 50px;
 	  z-index: 1000;
 	  border: none;
 	}
@@ -449,7 +410,7 @@
 		align-items: center;
 		/*background-color: red;*/
 		height: 3rem;
-
+		flex-shrink: 3;
 	}
 
 	.navbar-list a.nuxt-link-active, .navbar-list a.active {
@@ -538,22 +499,32 @@
 			bottom: -1.5rem;
 			font-size: 0.7rem;
 		}
+
+		.navbar-list a {
+			padding: 0 1rem;
+		}
 	}
 
 	/*Header Toggle*/
-	@media (max-width: 768px) {
-		.navigation-items, .navbar-list {
+	@media (max-width: 768px) {		
+
+		.navbar-list {
 			display: none;
 		}
 
-		.hidden {
-			display: block;
-		}
-		
-		.search {
-			margin: auto;
+		.search input {
+			font-size: 0.7rem;
+			padding-left: 2px;
+			width: 18vw;
 		}
 
+		.searchDropdown {
+			width: 3rem;
+		}
+
+		.country {
+			margin: 0;
+		}
 	}
 
 	@media (min-width: 769px) {
