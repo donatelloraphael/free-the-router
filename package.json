@@ -18,7 +18,7 @@
     "express": "^4.16.4",
     "firebase": "^7.16.1",
     "nuxt": "^2.13.3",
-    "regenerator-runtime": "^0.13.5"
+    "regenerator-runtime": "^0.13.6"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
