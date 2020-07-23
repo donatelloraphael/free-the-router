@@ -78,7 +78,7 @@
 								<td role="cell">{{ convertLAN(device.LAN[index]) }}</td>
 								<td role="cell">{{ device.WiFi }}</td>
 								<td role="cell">{{ convertUSB(device.USB[index]) }}</td>
-								<td role="cell">{{ device.SATA ? "Yes" : "No" }}</td>
+								<td role="cell">{{ device.SATA ? "Yes" : "-" }}</td>
 							</tr>
 						</tbody>
 					</table>
