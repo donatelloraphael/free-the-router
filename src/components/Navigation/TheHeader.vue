@@ -24,7 +24,7 @@
 				</form>
 	   
 				<div class="country">
-	  			<select id="countrySelector" class="dropdown-menu" @change="setCountry($event.target.value); setFlagUrl();" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+	  			<select id="countrySelector" class="dropdown-menu" @change="setCountry($event.target.value); getFlagUrl(); redirectCountry($event.target.value);" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
 						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry">USA</option>
 						<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry">India</option>
 						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry">Canada</option>
@@ -78,7 +78,7 @@
 				isActive: false,
 				isFilterMenuActive: false,
 				lastScrollTop: 0,
-				flagUrl: "",
+				flagUrl: this.$store.getters.getFlagUrl,
 				searchTerm: "",
 				searchCategory: "all-devices"
 			};
@@ -107,13 +107,14 @@
 			},
 			setCountry(country) {
 				this.$store.dispatch("setCountry", country);
-				// this.$store.dispatch("setFlagUrl", this.$store.getters.getCountry);
-				// console.log("this: ", country);
 			},
-			setFlagUrl() {
+			getFlagUrl() {
 				setTimeout(() => {
 					this.flagUrl = this.$store.getters.getFlagUrl;
 				}, 2);
+			},
+			redirectCountry(country) {
+				this.$router.push(this.$route.path.replace(/^\/[A-Z]+\//gi, `/${country}/`));
 			},
 			search() {
 				let args = "";
@@ -146,29 +147,6 @@
 		},
 
 		mounted() {
-			firebase.analytics();
-
-			if (this.$store.getters.getFirstLoad) {
-				let countryExpirationTime;
-				let storedCountry;
-
-				if (process.client) {
-	    		countryExpirationTime = localStorage.getItem("countryExpirationTime");
-	    		storedCountry = localStorage.getItem("storedCountry");
-	    	}
-
-		    if (countryExpirationTime && (Number.parseInt(countryExpirationTime)) > new Date().getTime()) {
-		    	this.$store.dispatch("setCountry", storedCountry);
-		    	this.$store.dispatch("setFlagUrl", storedCountry);
-		    }
-
-		    this.$store.dispatch("toggleFirstLoad");
-			}
-
-			this.flagUrl = this.$store.getters.getFlagUrl;
-
-			////// Hide header when scrolling down and show it scrolling up /////////
-			/////////////////////////////////////////////////////////////////////////
 
 			window.onload = function() {
 
@@ -217,7 +195,9 @@
 
 					vm.lastScrollTop = scrollPosition;
 				}
-			};			
+			};
+
+			firebase.analytics();
 		}
 	};
 

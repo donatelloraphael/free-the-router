@@ -18,14 +18,10 @@ const createStore = () => {
 
 		state: () => ({
 			selectedCountry: "US",
-			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`,
-			firstLoad: true
+			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`
 		}),
 
 		mutations: {
-			toggleFirstLoad(state) {
-				state.firstLoad = false;
-			},
 			setCountry(state, country) {
 				state.selectedCountry = country;
 			},
@@ -41,9 +37,6 @@ const createStore = () => {
 
 
 		actions: {
-			toggleFirstLoad(vuexContext) {
-				vuexContext.commit("toggleFirstLoad");
-			},
 			setCountry(vuexContext, country) {
 				if (!country) {
 					return;
@@ -51,12 +44,6 @@ const createStore = () => {
 					
 					vuexContext.commit("setCountry", country);
 					vuexContext.dispatch("setFlagUrl", country);
-					
-					if (process.client) {
-						localStorage.setItem("storedCountry", country);
-						localStorage.setItem("countryExpirationTime", new Date().getTime() + (86400 * 1000));
-					}
-					
 				}
 				
 			},
@@ -65,31 +52,8 @@ const createStore = () => {
 					return;
 				}
 				vuexContext.commit("setFlagUrl", country);
-			},
-
-			//////////////////Function to parse Firestore API Query////////////////////////
-			
-			// parseFirestore(vuexContext, response) {
-			// 	const parsedArray = [];
-			// 	if (!response.data.documents) {
-			// 		console.log("Cannot load resources");
-			// 		return null;
-			// 	}
-			// 	response.data.documents.forEach((item, index) => {
-			// 		const itemsArray = [];
-			// 		const entries = Object.entries(item.fields);
-			// 		for (const [property, value] of entries) {
-			// 			let singleItem = {};
-			// 			singleItem[property] = Object.values(value)[0];
-						
-			// 			itemsArray.push(singleItem);
-			// 		}
-			// 		parsedArray.push(itemsArray);
-			// 	});
-			// 	return parsedArray;
-			// }
+			}
 		},
-
 		
 		getters: {
 			getCountry(state) {
@@ -97,9 +61,6 @@ const createStore = () => {
 			},
 			getFlagUrl(state) {
 				return state.flagUrl;
-			},
-			getFirstLoad(state) {
-				return state.firstLoad;
 			}
 		}
 	});

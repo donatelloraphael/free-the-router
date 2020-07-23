@@ -18,26 +18,26 @@
       <div class="by-price">
         <h1>By Price</h1>
         <div class="price-container">
-          <div class="blue-container">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '0-1500' } }">
             <div class="price-card">
               <h2>Rs. 0-1500</h2>
             </div>
-          </div>
-          <div class="blue-container">
+          </nuxt-link>
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '1500-3000' } }">
             <div class="price-card">
               <h2>Rs. 1500-3000</h2>
             </div>
-          </div>
-          <div class="blue-container">
+          </nuxt-link>
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '3000-6000' } }">
             <div class="price-card">
               <h2>Rs. 3000-6000</h2>
             </div>
-          </div>
-          <div class="blue-container">  
+          </nuxt-link>
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '6000-' } }">  
             <div class="price-card">
               <h2>Rs. 6000 and up</h2>
             </div>
-          </div>
+          </nuxt-link>
         </div>
       </div>
       
@@ -65,37 +65,37 @@
         <h1>Custom Firmwares</h1>
         <div class="firmwares">
           <div class="openwrt firmware left">
-            <nuxt-link to="/firmware/#openwrt" @click.native="scrollTo('#openwrt')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#openwrt` }" @click.native="scrollTo('#openwrt')">
               <img alt="openwrt logo" src="~assets/images/firmwares/openwrt.png">
             </nuxt-link>
           </div>
           <div class="ddwrt firmware right">
-            <nuxt-link to="/firmware/#ddwrt-" @click.native="scrollTo('#ddwrt-')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#ddwrt-` }" @click.native="scrollTo('#ddwrt-')">
               <img alt="ddwrt logo" src="~assets/images/firmwares/ddwrt.png">
             </nuxt-link>
           </div>
           <div class="gargoyle firmware left">
-            <nuxt-link to="/firmware/#gargoyle-" @click.native="scrollTo('#gargoyle-')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#gargoyle-` }" @click.native="scrollTo('#gargoyle-')">
               <img alt="gargoyle logo" src="~assets/images/firmwares/gargoyle.png">
             </nuxt-link>
           </div>
           <div class="freshtomato firmware right">
-            <nuxt-link to="/firmware/#freshtomato-" @click.native="scrollTo('#freshtomato-')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#freshtomato-` }" @click.native="scrollTo('#freshtomato-')">
               <img alt="freshtomato logo" src="~assets/images/firmwares/freshtomato.png">
             </nuxt-link>
           </div>
           <div class="advancedtomato firmware left">
-            <nuxt-link to="/firmware/#advancedtomato-" @click.native="scrollTo('#advancedtomato-')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#advancedtomato-` }" @click.native="scrollTo('#advancedtomato-')">
               <img alt="advancedtomato logo" src="~assets/images/firmwares/advancedtomato.png">
             </nuxt-link>
           </div>
           <div class="tomatobyshibby firmware right">
-            <nuxt-link to="/firmware/#tomatobyshibby-" @click.native="scrollTo('#tomatobyshibby-')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#tomatobyshibby-` }" @click.native="scrollTo('#tomatobyshibby-')">
               <img alt="tomatobyshibby logo" src="~assets/images/firmwares/tomatobyshibby.png">
             </nuxt-link>
           </div>
           <div class="asuswrt-merlin firmware right">
-            <nuxt-link to="/firmware/#asuswrt-merlin" @click.native="scrollTo('#asuswrt-merlin')">
+            <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#asuswrt-merlin` }" @click.native="scrollTo('#asuswrt-merlin')">
               <img alt="asuswrt-merlin logo" src="~assets/images/firmwares/asuswrt-merlin.png">
             </nuxt-link>
           </div>

@@ -353,7 +353,7 @@
       this.$store.watch(state => {
         return this.$store.getters["DeviceListModule/getFiltersToggle"];
       }, () => {
-        if (this.firstLoad) {
+        if (this.firstLoad || this.query.from == "firmware") {
           
           if (this.query.brand) {
             this.checkedBrands = Array.isArray(this.query.brand) ? [...this.query.brand] : [this.query.brand];

@@ -90,6 +90,7 @@ export default {
 			delete query.sort;
 			delete query.reset;
 			delete query.page;
+			delete query.from;
 
 			return Object.keys(query).length;
 		}
