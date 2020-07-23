@@ -147,21 +147,6 @@ export default {
         topPicks: topPicksArray,
         mostPopular: mostPopularArray
       };
-  },
-
-  mounted() {
-    const expirationTimer = 3600;
-    const currentTime = new Date().getTime();
-
-    if (process.client) {
-      const topPicksMostPopularExpirationTime = localStorage.getItem("topPicksMostPopularExpirationTime");
-      
-      if (!topPicksMostPopularExpirationTime || (Number.parseInt(topPicksMostPopularExpirationTime)) < currentTime) {
-        localStorage.setItem("topPicksArray", JSON.stringify(this.topPicks));
-        localStorage.setItem("topPicksMostPopularExpirationTime", currentTime + expirationTimer * 1000);
-        localStorage.setItem("mostPopularArray", JSON.stringify(this.mostPopular));
-      }
-    }
   }
 };
   

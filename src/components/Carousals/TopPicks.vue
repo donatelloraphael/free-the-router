@@ -49,7 +49,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 		data() {
 			return {
 				selected: "openwrt"
-			}
+			};
 		}
 	};
 
