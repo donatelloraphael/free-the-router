@@ -120,8 +120,8 @@ export default {
 
 	data() {
 		return {
-			localCategory: "All Devices",
-			queryCategory: "all-devices",
+			localCategory: "Routers",
+			queryCategory: "routers",
 			disclaimerShown: false,
 			disclaimerActive: false
 		};
@@ -519,7 +519,7 @@ export default {
 		}
 
 		#brand {
-			margin: 10px 0;
+			margin: 20px 0 0 0;
 			clear: left;
 			width: 80%;
 			display: block;

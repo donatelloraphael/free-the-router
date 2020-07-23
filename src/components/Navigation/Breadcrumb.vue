@@ -5,21 +5,21 @@
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item">
-						<span itemprop="name"><nuxt-link to="/">Home</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }">Home</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="1" />
 				</li>
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: '/shop', query: { category: queryCategory }}">{{ category }}</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop`, query: { category: formattedCategory }}">{{ category }}</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="2" />
 				</li>
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item" href="#">
-						<span itemprop="name"><nuxt-link :to="{ path: '/shop', query: { brand: brand } }">{{ brand }}</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop`, query: { brand: brand } }">{{ brand }}</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="3" />
 				</li>
@@ -41,7 +41,12 @@
 	export default {
 		name: "Breadcrumb",
 
-		props: ["category", "brand", "name", "queryCategory"]
+		props: ["category", "brand", "name", "queryCategory"],
+		computed: {
+			formattedCategory() {
+				return this.queryCategory == "undefined" ? "routers" : this.queryCategory;
+			}
+		}
 	};
 
 </script>

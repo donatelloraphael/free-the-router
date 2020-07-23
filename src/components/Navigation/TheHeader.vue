@@ -2,7 +2,7 @@
 	<div>
 		<section id="header" class="header navigation-bar-scroll">
 	    <div class="pre-header">
-	    	<nuxt-link to="/">
+	    	<nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }">
 	    		<div class="logo"></div>
 	    	</nuxt-link>
 
@@ -44,12 +44,12 @@
     		<span id="filter-menu-toggler" @click="toggleFilterMenuActive()" :class="{ active: isShopPage }">Filter</span>
     	
 	    	<ul class="navbar-list navbar-nav mr-auto">
-	    		<li class="nav-item"><nuxt-link to="/" exact>Home</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link to="/shop">Shop</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link to="/firmware">Firmware</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link to="/supported-devices">Supported Devices</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link to="/resources">Resources</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link to="/about">About Us</nuxt-link></li>
+	    		<li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }" exact>Home</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop` }">Shop</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware` }">Firmware</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices` }">Supported Devices</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources` }">Resources</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about` }">About Us</nuxt-link></li>
 	    	</ul>
 	    </nav>
 
@@ -94,14 +94,11 @@
 				return /[^\w-\s]|_/gmi.test(this.searchTerm);
 			},
 			isShopPage() {
-				return "/shop" == this.$route.path;
+				return /\/[a-z]+\/shop/gi.test(this.$route.path);
 			}
 		},
 
 		methods: {
-			log(value) {
-				console.log(value);
-			},
 			toggleActive() {
 				this.isActive = !this.isActive;
 			},
@@ -132,7 +129,7 @@
 					} 
 				}
 				this.searchTerm = "";
-				this.$router.push({ path: "/shop", query: { search: args, category: this.searchCategory} });
+				this.$router.push({ path: `/${this.$store.getters.getCountry}/shop`, query: { search: args, category: this.searchCategory} });
 			}
 		},
 
@@ -149,7 +146,6 @@
 		},
 
 		mounted() {
-
 			firebase.analytics();
 
 			if (this.$store.getters.getFirstLoad) {
@@ -518,6 +514,10 @@
 			width: 18vw;
 		}
 
+		.search input:focus {
+			font-size: 0.9rem;
+		}
+
 		.searchDropdown {
 			width: 3rem;
 		}
@@ -538,6 +538,7 @@
 
 		.search input {
 			max-width: 10rem;
+			font-size: 0.9rem;
 		}
 	}
 

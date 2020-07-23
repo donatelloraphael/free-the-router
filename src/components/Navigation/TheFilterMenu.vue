@@ -165,7 +165,7 @@
     props: ["isActive"],
     computed: {
       isShopPage() {
-        return "/shop" == this.$route.path;
+        return /\/[a-z]+\/shop/gi.test(this.$route.path);
       },
       category() {
         return this.$route.query.category ? this.$route.query.category : "routers";

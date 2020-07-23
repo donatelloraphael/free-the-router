@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import ShopCard from  "../../components/Carousals/Cards/ShopCard";
-import Pagination from "../../components/Navigation/ThePagination";
+import ShopCard from  "~/components/Carousals/Cards/ShopCard";
+import Pagination from "~/components/Navigation/ThePagination";
 
 export default {
 	watchQuery: ['brand', 'category', 'page', 'search', 'ram', 'flash', 'sort', 'price', 'firmware', 'reset'],
