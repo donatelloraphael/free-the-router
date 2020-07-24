@@ -4,7 +4,7 @@ const $ = require('cheerio');
 const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
-	const serviceAccount = require("../firebase-adminsdk.json");
+	const serviceAccount = require("../../../firebase-adminsdk.json");
 	admin.initializeApp({
   	credential: admin.credential.cert(serviceAccount),
   	databaseURL: "https://free-the-router-13e19.firebaseio.com"
@@ -15,18 +15,18 @@ const db = admin.firestore();
 
 const indicesRef = db.collection("indices");
 const allFirmwareRoutersRef = db.collection("all-firmware-routers");
-const amazonRef = db.collection("india").doc("amazon.in");
-const indiaIndices = db.collection("india").doc("metaData").collection("indices");
+const allSitesRef = db.collection("IN").doc("all-sites");
+const indiaIndices = db.collection("IN").doc("meta").collection("indices");
 
 let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "repeaters & extenders";
-const amazonLinks = { "routers": "https://www.amazon.in/s?i=computers&rh=n%3A976392031%2Cn%3A976393031%2Cn%3A1375427031%2Cn%3A1375439031&qid=1590958154&page=",
-											"modems": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375431031&qid=1591803566&page=",
-											"wireless access points": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375440031&qid=1591803666&page=",
-											"repeaters & extenders": "https://www.amazon.in/s?rh=n%3A976392031%2Cn%3A%21976393031%2Cn%3A1375427031%2Cn%3A1375438031&qid=1591803568&page="
+const deviceType = "routers";
+const amazonLinks = { "routers": "https://www.amazon.in/s?rh=n%3A1375439031&page=",
+											"modems": "https://www.amazon.in/s?rh=n%3A1375431031&page=",
+											"wireless access points": "https://www.amazon.in/s?rh=n%3A1375440031&page=",
+											"repeaters & extenders": "https://www.amazon.in/s?rh=n%3A1375438031&page="
 										};
 
 
@@ -34,11 +34,11 @@ const amazonLinks = { "routers": "https://www.amazon.in/s?i=computers&rh=n%3A976
 let axiosInstance = axios.create({
   headers: {
     common: {        // can be common or any other method
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4171.0 Safari/537.36',
+      'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36',
       'Accept-Language': 'en-gb,en-US',
       'Referer': 'http://www.google.co.in/',
-      'Accept-Encoding': 'br, gzip, deflate',
-      'Accept': 'application/json, text/plain, */*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept': 'text/html,application/xhtml+xml,application/xml',
       'Content-Type': 'application/x-www-form-urlencoded',
       'Pragma': 'no-cache',
       'Upgrade-Insecure-Requests': '1',
@@ -57,6 +57,7 @@ async function main() {
 			let amazonLink = amazonLinks[deviceType] + page;
 
 			let html = await getPage(amazonLink, page, deviceType);
+			// console.log(html);
 
 			if (html == "error") {
 				return false;
@@ -67,15 +68,14 @@ async function main() {
 				page++;
 				delayedLoop();
 			} else {
-
 				await filterDevices();
 				await addExtraInfo();
 				await addToDatabase();
 
 				// console.dir(allDevices, {maxArrayLength: null});
 				console.log('\nNUMBER OF DEVICES: ', allDevices.length);
-				// console.dir(supportedDevices, {maxArrayLength: null});
 				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
+				// console.dir(supportedDevices, {maxArrayLength: null});
 
 				return true;
 			}
@@ -114,33 +114,48 @@ async function getPage(link, page, deviceType) {
 
 function getDevices(html, page, deviceType) {
 
-	$(".s-result-item", html).each((i, element) => {
-		var device = {};
+	if ($(".octopus-pc-item", html).html()) {
 
-		if ($(element).attr("data-asin")) {
-			device.asin = $(element).attr("data-asin");
-			device.name = $("h2", $(element).html()).text().replace(/\[Sponsored\]/gmi, "").trim();
-			device.link = "https://www.amazon.in/dp/" + device.asin;
-			device.thumbnail = $("img", $(element).html()).attr("src").replace(/[A-Z]{2}((160)|(320)|(218))/gm, "480"); // Thumbnail size 480px
-			device.category = deviceType;
+		$(".octopus-pc-item", html).each((i, element) => {
+			let device = {};
 
-			if (page == 1) {
-				$(".a-color-price", $(element).html()).each((j, prices) => {
-					if (j == 0) {
-						device.price = parseInt($(prices).text().trim().split(" ")[0].trim().split(",").join(""));
-						return;
-					}
-				});
+			let aTag = $(".octopus-pc-item-link", $(element).html());
 
-			} else {
-				device.price = parseInt($(".a-price-whole", $(element).html()).text().split(",").join(""));
-			}
+			device.amazonLink = "https://www.amazon.in" + $(aTag).attr("href").split("?").shift();
+			device.amazonAsin = device.amazonLink.split("/dp/").pop();
+			device.amazonName = $(aTag).attr("title").trim();
+			device.amazonThumbnail = $("img", $(element).html()).attr("data-a-hires");
+			device.amazonCategory = deviceType;
+			device.amazonPrice = parseInt($(".a-price-whole", $(element).html()).text().split(",").join("") + "." + $(".a-price-fraction", $(element).html()).text());
 
-			if (device.price) {
+			if (device.amazonPrice) {
 				allDevices.push(device);
+			}		
+		});
+	} else {
+
+		$(".s-result-item", html).each((i, element) => {
+			let device = {};
+
+			if ($(element).attr("data-asin")) {
+				device.amazonAsin = $(element).attr("data-asin");
+				if ($(".s-label-popover-hover", $(element).html()).text()) {
+					device.amazonLink = "https://www.amazon.in/dp/" + device.amazonAsin;
+				} else {
+					device.amazonLink = "https://www.amazon.in" + $(".rush-component a", $(element).html()).attr("href").split("ref=").shift();
+				}
+				device.amazonThumbnail = $(".rush-component a img", $(element).html()).attr("src").replace(/_[a-z]{2}\d{3}_/gi, "_UY436_");
+				device.amazonCategory = deviceType;
+				device.amazonName = $(".a-size-medium.a-color-base.a-text-normal", $(element).html()).text();
+				device.amazonPrice = parseInt($(".a-price-whole", $(element).html()).text().split(",").join("") + "." + $(".a-price-fraction", $(element).html()).text());
+
+				if (device.amazonPrice) {
+					allDevices.push(device);
+				}
 			}
-		}
-	});
+			
+		});
+	}
 }
 
 
@@ -172,7 +187,7 @@ async function filterDevices() {
 				// let regex = new RegExp("(\\s|-|^)" + splitName[k] + "(\\s|x|-|$)", "gmi"); //Don't remove extra backslash before \s
 				let regex = new RegExp(splitName[k], "gmi");
 
-				if (regex.test(allDevices[i].name)) {
+				if (regex.test(allDevices[i].amazonName)) {
 					numTestsPassed++;
 					if (numTestsPassed == splitName.length) {
 						allDevices[i].id = fullNameIndex[j];
@@ -187,7 +202,7 @@ async function filterDevices() {
 }
 
 async function addExtraInfo() {
-
+	let serialNumber = 1;
 	let arrLength = supportedDevices.length;
 
 	for (let i = 0; i < arrLength; i++) {
@@ -225,7 +240,8 @@ async function addExtraInfo() {
 					}
 
 					supportedDevices[i].brand = device.company.toUpperCase();
-					supportedDevices[i].updatedOn = new Date().toLocaleTimeString();
+					supportedDevices[i].amazonUpdatedOn = new Date().toLocaleTimeString();
+					supportedDevices[i].serialNumber = serialNumber++;
 
 					supportedDevices[i] = {...supportedDevices[i], ...device};
 
@@ -269,16 +285,16 @@ async function addToDatabase() {
 			operationsCounter = 0;
 		}
 
-		batchArray[batchIndex].set(amazonRef.collection(deviceType).doc(supportedDevices[i].id), 
+		batchArray[batchIndex].set(allSitesRef.collection(deviceType).doc(supportedDevices[i].id), 
 			supportedDevices[i]
 		);
 
-		batchArray[batchIndex].set(amazonRef.collection("all-devices").doc(supportedDevices[i].id), 
+		batchArray[batchIndex].set(allSitesRef.collection("all-devices").doc(supportedDevices[i].id), 
 			supportedDevices[i]
 		);
 
 		// device details
-		batchArray[batchIndex].set(amazonRef.collection("device-details").doc(supportedDevices[i].id.replace(/\ /gm, "-")),
+		batchArray[batchIndex].set(allSitesRef.collection("device-details").doc(supportedDevices[i].id.replace(/\ /gm, "-")),
 			supportedDevices[i]
 		);
 
@@ -293,19 +309,19 @@ async function addToDatabase() {
 
 
 
-	await indiaIndices.doc(`amazon-${deviceType}-index`).get()
+	await indiaIndices.doc(deviceType).get()
 	.then(doc => {
 		if (doc.data()) {
 			fullNameIndex = doc.data().fullNameIndex;
 		}
 	});
 
-	batchArray[batchIndex].set(indiaIndices.doc(`amazon-${deviceType}-index`), {
+	batchArray[batchIndex].set(indiaIndices.doc(deviceType), {
 		fullNameIndex: newIndex
 	});
 
 	for (let i = 0; i < newIndex.length; i++) {
-		batchArray[batchIndex].set(indiaIndices.doc("amazon-all-devices-index"), {
+		batchArray[batchIndex].set(indiaIndices.doc("all-devices"), {
 			fullNameIndex: admin.firestore.FieldValue.arrayUnion(newIndex[i])
 		}, {merge: true});
 
@@ -315,7 +331,7 @@ async function addToDatabase() {
 	let indexLength = fullNameIndex.length;
 	for (let i = 0; i < indexLength; i++) {
 		if (!newDevices.includes(fullNameIndex[i])) {
-			batchArray[batchIndex].delete(amazonRef.collection(deviceType).doc(fullNameIndex[i]));
+			batchArray[batchIndex].delete(allSitesRef.collection(deviceType).doc(fullNameIndex[i]));
 			console.log('Deleted: ', fullNameIndex[i]);
 			operationsCounter++;
 		}

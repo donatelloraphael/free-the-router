@@ -1,6 +1,3 @@
-const axios = require('axios');
-const $ = require('cheerio');
-
 const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
@@ -13,14 +10,14 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-const amazonRef = db.collection("india").doc("amazon.in");
-const indiaIndices = db.collection("india").doc("metaData").collection("indices");
+const allSitesRef = db.collection("IN").doc("all-sites");
+const indiaIndices = db.collection("IN").doc("meta").collection("indices");
 
 async function clearOldDevices() {
 
 	let newIndex = [], oldIndex = [];
 
-	await indiaIndices.doc("amazon-all-devices-index").get()
+	await indiaIndices.doc("all-devices").get()
 	.then(doc => {
 		if (doc.data()) {
 			newIndex = doc.data().fullNameIndex;
@@ -36,13 +33,13 @@ async function clearOldDevices() {
 
 	for (let i = 0; i < oldIndex.length; i++) {
 		if (!newIndex.includes(oldIndex[i])) {
-			await amazonRef.collection("all-devices").doc(oldIndex[i]).delete()
+			await allSitesRef.collection("all-devices").doc(oldIndex[i]).delete()
 			.then(() => console.log('Deleted: ', oldIndex[i]))
 			.catch(error => console.log(error));
 
-			await amazonRef.collection("device-details").doc(oldIndex[i].replace(/\ /gm, "-")).update({
+			await allSitesRef.collection("device-details").doc(oldIndex[i].replace(/\ /gm, "-")).update({
 				price: "Not Available"
-			})
+			}, {merge: true})
 			.then(() => console.log('Price cleared: ', oldIndex[i]))
 			.catch(error => console.log(error));
 		}
