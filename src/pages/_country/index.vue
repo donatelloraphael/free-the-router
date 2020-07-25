@@ -147,7 +147,7 @@ export default {
         topPicks: topPicksArray,
         mostPopular: mostPopularArray
       };
-  }
+  },
 };
   
 </script>
