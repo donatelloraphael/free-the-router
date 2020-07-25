@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
-	const serviceAccount = require("../firebase-adminsdk.json");
+	const serviceAccount = require("../../firebase-adminsdk.json");
 	admin.initializeApp({
   	credential: admin.credential.cert(serviceAccount),
   	databaseURL: "https://free-the-router-13e19.firebaseio.com"

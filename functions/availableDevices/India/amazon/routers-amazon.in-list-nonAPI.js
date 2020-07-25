@@ -38,7 +38,7 @@ let axiosInstance = axios.create({
       'Accept-Language': 'en-gb,en-US',
       'Referer': 'http://www.google.co.in/',
       'Accept-Encoding': 'gzip, deflate, br',
-      'Accept': 'text/html,application/xhtml+xml,application/xml',
+      'Accept': 'text/html',
       'Content-Type': 'application/x-www-form-urlencoded',
       'Pragma': 'no-cache',
       'Upgrade-Insecure-Requests': '1',
@@ -130,7 +130,10 @@ function getDevices(html, page, deviceType) {
 
 			if (device.amazonPrice) {
 				allDevices.push(device);
-			}		
+			}
+			if (page == 1) {
+				console.log("OCTOPUS: ", device.amazonName ? device.amazonName : "FIRST PAGE NOT LOADED!");
+			}
 		});
 	} else {
 
@@ -152,6 +155,9 @@ function getDevices(html, page, deviceType) {
 				if (device.amazonPrice) {
 					allDevices.push(device);
 				}
+			}
+			if (page == 1) {
+				console.log("DATA: ", device.amazonName ? device.amazonName : "FIRST PAGE NOT LOADED!");
 			}
 			
 		});
