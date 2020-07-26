@@ -106,7 +106,6 @@
 				this.isFilterMenuActive = !this.isFilterMenuActive;
 			},
 			setCountry(country) {
-				this.$store.dispatch("setOldCountry");
 				this.$store.dispatch("setCountry", country);
 			},
 			getFlagUrl() {

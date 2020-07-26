@@ -27,7 +27,7 @@ const MostPopularModule = {
 		populateMostPopular(vuexContext) {
 			let mostPopularArray = [];
 
-	    if (vuexContext.getters.getMostPopular.length > 0 && vuexContext.rootGetters.getOldCountry == vuexContext.rootGetters.getCountry) {
+	    if (vuexContext.getters.getMostPopular.length > 0 && vuexContext.rootGetters.getHomeOldCountry == vuexContext.rootGetters.getCountry) {
 				return vuexContext.getters.getMostPopular;
 
 			} else {

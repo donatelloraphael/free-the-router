@@ -18,7 +18,8 @@ const createStore = () => {
 
 		state: () => ({
 			selectedCountry: "US",
-			oldCountry: "US",
+			shopOldCountry: "US",
+			homeOldCountry: "US",
 			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`
 		}),
 
@@ -34,8 +35,11 @@ const createStore = () => {
 
 				state.flagUrl = `url(${require(`assets/images/country-flags/${country}.png`)})`;
 			},
-			setOldCountry(state) {
-				state.oldCountry = state.selectedCountry;
+			setShopOldCountry(state) {
+				state.shopOldCountry = state.selectedCountry;
+			},
+			setHomeOldCountry(state) {
+				state.homeOldCountry = state.selectedCountry;
 			}
 		},
 
@@ -46,13 +50,19 @@ const createStore = () => {
 					return;
 				} else if (country == 'US' || country == "IN" || country == "CA" || country == "UK") {
 					
+    			vuexContext.dispatch("setShopOldCountry", vuexContext.getters.getCountry);
+    			vuexContext.dispatch("setHomeOldCountry", vuexContext.getters.getCountry);
+
 					vuexContext.commit("setCountry", country);
 					vuexContext.dispatch("setFlagUrl", country);
 				}
 				
 			},
-			setOldCountry(vuexContext) {
-				vuexContext.commit("setOldCountry");
+			setShopOldCountry(vuexContext) {
+				vuexContext.commit("setShopOldCountry");
+			},
+			setHomeOldCountry(vuexContext) {
+				vuexContext.commit("setHomeOldCountry");
 			},
 			setFlagUrl(vuexContext, country) {
 				if (!country) {
@@ -69,8 +79,11 @@ const createStore = () => {
 			getFlagUrl(state) {
 				return state.flagUrl;
 			},
-			getOldCountry(state) {
-				return state.oldCountry;
+			getShopOldCountry(state) {
+				return state.shopOldCountry;
+			},
+			getHomeOldCountry(state) {
+				return state.homeOldCountry;
 			}
 		}
 	});

@@ -152,7 +152,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("setOldCountry", this.$store.getters.getCountry);
+    this.$store.dispatch("setHomeOldCountry", this.$store.getters.getCountry);
   }
 
   

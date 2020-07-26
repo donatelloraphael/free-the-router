@@ -98,8 +98,7 @@ const DeviceListModule = {
 				}
 
 			} else {
-
-				if (vuexContext.state.oldCategory != "routers" || vuexContext.rootGetters.getOldCountry != vuexContext.rootGetters.getCountry) {
+				if (vuexContext.state.oldCategory != "routers" || vuexContext.rootGetters.getShopOldCountry != vuexContext.rootGetters.getCountry) {
 
 					return db.collection(vuexContext.rootGetters.getCountry).doc("all-sites").collection("routers").orderBy("serialNumber").get()
 					.then(docs => {

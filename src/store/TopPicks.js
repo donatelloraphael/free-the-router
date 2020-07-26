@@ -54,7 +54,7 @@ const TopPicksModule = {
 		async populateTopPicks(vuexContext) {
 	    let topPicksArray;
 	      
-	    if (Object.keys(vuexContext.getters.getTopPicks).length > 0 && vuexContext.rootGetters.getOldCountry == vuexContext.rootGetters.getCountry) {
+	    if (Object.keys(vuexContext.getters.getTopPicks).length > 0 && vuexContext.rootGetters.getHomeOldCountry == vuexContext.rootGetters.getCountry) {
 	    	return vuexContext.getters.getTopPicks;
 	    } else {
 	      [topPicksArray] = await Promise.all([
