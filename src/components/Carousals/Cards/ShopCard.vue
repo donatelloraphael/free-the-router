@@ -2,13 +2,13 @@
 	<div class="card">
 		<nuxt-link :to="{ path: `devices/${deviceName}` }" target="_blank">
 
-			<div class="image" :style="{ 'background-image': 'url(' + device.thumbnail + ')' }"></div>
+			<div class="image" :style="{ 'background-image': 'url(' + device.amazonThumbnail + ')' }"></div>
 				
 			<div class="description">
-				<h3 class="name">{{ device.name }}</h3>
+				<h3 class="name">{{ device.amazonName }}</h3>
 				<p>{{ device.Flash }}MB Flash, {{ device.RAM }}MB RAM</p>
-				<p>Price: <span>Rs: {{ device.price.toLocaleString() }}*</span></p>
-				<p class="price-disclaimer">*As of {{ device.updatedOn }}</p>
+				<p>Price: <span>Rs: {{ device.amazonPrice.toLocaleString() }}*</span></p>
+				<p class="price-disclaimer">*As of {{ device.amazonUpdatedOn }}</p>
 
 				<div class="firmwares">
 

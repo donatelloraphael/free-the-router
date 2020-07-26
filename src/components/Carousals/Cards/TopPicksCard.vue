@@ -1,36 +1,39 @@
 <template>
 	<div class="top-container">
-		<div class="main" :style="{ 'background-image': 'url(' + mainUrl + ')' }">
+		<div class="main" v-if="topPicks[selected][0]" :style="{ 'background-image': 'url(' + mainUrl + ')' }">
 			<div class="contents">
-				<p class="name">{{ topPicks[selected][0].nameDescription }}</p>
-				<p class="short-name">{{ topPicks[selected][0].company }}  {{ topPicks[selected][0].name }}</p>
-				<p class="specs">{{ topPicks[selected][0].specs }}</p>
-				<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][0].price }}</p>
+				<p class="name">{{ topPicks[selected][0].amazonName }}</p>
+				<p class="short-name">{{ topPicks[selected][0].company }}  {{ topPicks[selected][0].model }}</p>
+				<p class="specs">{{ topPicks[selected][0].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
+				<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][0].amazonPrice }}</p>
 				<a  class="link-container":href="topPicks[selected][0].productUrl" target="_blank">
 					<button>Shop now</button>
 				</a>
 			</div>
 		</div>
+		<div v-else class="placeholder"></div>
 	
-		<a  class="link-container":href="topPicks[selected][1].productUrl" target="_blank">
+		<a v-if="topPicks[selected][1]" class="link-container":href="topPicks[selected][1].productUrl" target="_blank">
 			<div class="alt-1" :style="{ 'background-image': 'url(' + alt1Url + ')' }">
 				<div class="alt1-contents">
-					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][1].name }}</p>
-					<p class="specs">{{ topPicks[selected][1].specs }}</p>
-					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][1].price }}</p>
+					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][1].model }}</p>
+					<p class="specs">{{ topPicks[selected][1].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
+					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][1].amazonPrice }}</p>
 				</div>
 			</div>
 		</a>
+		<a v-else class="placeholder" href="#"></a>
 
-		<a  class="link-container":href="topPicks[selected][2].productUrl" target="_blank">
+		<a v-if="topPicks[selected][2]" class="link-container":href="topPicks[selected][2].productUrl" target="_blank">
 			<div class="alt-2" :style="{ 'background-image': 'url(' + alt2Url + ')' }">
 				<div class="alt2-contents">
-					<p class="short-name">{{ topPicks[selected][2].company }}  {{ topPicks[selected][2].name }}</p>
-					<p class="specs">{{ topPicks[selected][2].specs }}</p>
-					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][2].price }}</p>
+					<p class="short-name">{{ topPicks[selected][2].company }}  {{ topPicks[selected][2].model }}</p>
+					<p class="specs">{{ topPicks[selected][2].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
+					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][2].amazonPrice }}</p>
 				</div>
 			</div>
 		</a>
+		<a v-else class="placeholder" href="#"></a>
 				
 	</div>
 	
@@ -42,19 +45,19 @@ export default {
 	props: ["topPicks", "selected"],
 	data() {
 		return {
-			mainUrl: this.topPicks[this.selected][0].imageUrl,
-			alt1Url: this.topPicks[this.selected][1].imageUrl,
-			alt2Url: this.topPicks[this.selected][2].imageUrl
+			mainUrl: this.topPicks[this.selected][0] ? this.topPicks[this.selected][0].amazonThumbnail : "",
+			alt1Url: this.topPicks[this.selected][1] ? this.topPicks[this.selected][1].amazonThumbnail : "",
+			alt2Url: this.topPicks[this.selected][2] ? this.topPicks[this.selected][2].amazonThumbnail : ""
 		}
 	},
 	
 	watch: {
 	 	selected() {
-		 	this.mainUrl = this.topPicks[this.selected][0].imageUrl;
-	 		this.alt1Url = this.topPicks[this.selected][1].imageUrl;
-	 		this.alt2Url = this.topPicks[this.selected][2].imageUrl;
+		 	this.mainUrl = this.topPicks[this.selected][0] ? this.topPicks[this.selected][0].amazonThumbnail : "";
+	 		this.alt1Url = this.topPicks[this.selected][1] ? this.topPicks[this.selected][1].amazonThumbnail : "";
+	 		this.alt2Url = this.topPicks[this.selected][2] ? this.topPicks[this.selected][2].amazonThumbnail : "";
 	 	}
-	 }
+	},
 };
 	
 </script>
@@ -80,7 +83,7 @@ export default {
 		/*background-color: magenta;*/
 		grid-area: main;
 		min-width: 225px;
-		background: no-repeat center / 90%;
+		background: no-repeat center / 80%;
 		pointer: cursor;
 		height: 100%;
 	}
@@ -170,6 +173,10 @@ export default {
 		text-decoration: none;
 	}
 
+	.placeholder {
+		width: 100%;
+		height: 100%;
+	}
 
 	/****************************MEDIA QUERYS*********************************/
 	@media (max-width: 1200px) {

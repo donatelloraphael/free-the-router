@@ -18,6 +18,7 @@ const createStore = () => {
 
 		state: () => ({
 			selectedCountry: "US",
+			oldCountry: "US",
 			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`
 		}),
 
@@ -32,6 +33,9 @@ const createStore = () => {
 				//static nature, but not inside of Javasript code. So you have to 'require' the path:
 
 				state.flagUrl = `url(${require(`assets/images/country-flags/${country}.png`)})`;
+			},
+			setOldCountry(state) {
+				state.oldCountry = state.selectedCountry;
 			}
 		},
 
@@ -47,6 +51,9 @@ const createStore = () => {
 				}
 				
 			},
+			setOldCountry(vuexContext) {
+				vuexContext.commit("setOldCountry");
+			},
 			setFlagUrl(vuexContext, country) {
 				if (!country) {
 					return;
@@ -61,6 +68,9 @@ const createStore = () => {
 			},
 			getFlagUrl(state) {
 				return state.flagUrl;
+			},
+			getOldCountry(state) {
+				return state.oldCountry;
 			}
 		}
 	});

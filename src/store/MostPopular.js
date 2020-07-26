@@ -27,12 +27,12 @@ const MostPopularModule = {
 		populateMostPopular(vuexContext) {
 			let mostPopularArray = [];
 
-	    if (vuexContext.getters.getMostPopular.length > 0) {
+	    if (vuexContext.getters.getMostPopular.length > 0 && vuexContext.rootGetters.getOldCountry == vuexContext.rootGetters.getCountry) {
 				return vuexContext.getters.getMostPopular;
 
 			} else {
 				
-				return db.collection("most-popular").get()
+				return db.collection(vuexContext.rootGetters.getCountry).doc("most-popular").collection("routers").get()
 				.then(querySnapshot => {
 					querySnapshot.forEach(doc => {
 						mostPopularArray.push(doc.data());

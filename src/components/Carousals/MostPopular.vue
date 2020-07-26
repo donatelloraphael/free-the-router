@@ -132,7 +132,6 @@
 		},
 
 		mounted() {
-
 			///////////////////////Swipe on touch///////////////////////////////////
 
 			let cards = document.querySelectorAll('.cards');
@@ -223,7 +222,7 @@
 	}
 
 	.cards {
-		border-right: 2px solid #e2e2e2;
+		border-right: 2px solid white;
 		height: 100%;
 		width: 25%;
 	}

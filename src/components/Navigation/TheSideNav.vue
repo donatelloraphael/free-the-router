@@ -77,6 +77,7 @@
         this.toggleClosedState();
       },
       setCountry(country) {
+        this.$store.dispatch("setOldCountry");
         this.$store.dispatch("setCountry", country);
         // console.log("this: ", this.$store.getters.getCountry);
       },

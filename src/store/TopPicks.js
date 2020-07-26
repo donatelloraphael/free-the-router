@@ -36,8 +36,8 @@ const TopPicksModule = {
 
 		populateTopPicksFirmware(vuexContext, selectedFirmware) {
 			const routers = [];
-
-			return db.collection("top-picks").doc(selectedFirmware).collection("routers").get()
+			
+			return db.collection(vuexContext.rootGetters.getCountry).doc("top-picks").collection(selectedFirmware).get()
 			.then(topPicks => {
 				if (!topPicks) {
 					return;
@@ -54,7 +54,7 @@ const TopPicksModule = {
 		async populateTopPicks(vuexContext) {
 	    let topPicksArray;
 	      
-	    if (Object.keys(vuexContext.getters.getTopPicks).length > 0) {
+	    if (Object.keys(vuexContext.getters.getTopPicks).length > 0 && vuexContext.rootGetters.getOldCountry == vuexContext.rootGetters.getCountry) {
 	    	return vuexContext.getters.getTopPicks;
 	    } else {
 	      [topPicksArray] = await Promise.all([
@@ -64,7 +64,7 @@ const TopPicksModule = {
 		      vuexContext.dispatch("populateTopPicksFirmware", "freshtomato"),
 		      vuexContext.dispatch("populateTopPicksFirmware", "advancedtomato"),
 	      	vuexContext.dispatch("populateTopPicksFirmware", "tomatobyshibby"),
-	      	vuexContext.dispatch("populateTopPicksFirmware", "asuswrt-merlin")
+	      	vuexContext.dispatch("populateTopPicksFirmware", "asusMerlin")
 	      ]);
 				vuexContext.commit("setAllTopPicks", topPicksArray);
 				return topPicksArray;

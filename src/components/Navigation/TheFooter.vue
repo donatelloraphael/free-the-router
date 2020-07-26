@@ -90,7 +90,7 @@
 		grid-area: logo;
 		position: relative;
 		z-index: 11;
-		background-color: #deff00;
+		background-color: red;
 		height: auto;
 		padding: 60px 40px;
 	}

@@ -31,6 +31,9 @@ const DeviceListModule = {
 		setDeviceList(state, devices) {
 			state.deviceList = devices;
 		},
+		clearDeviceList(state) {
+			state.deviceList = [];
+		},
 		setSearchResult(state, result) {
 			state.searchResult = result;
 		},
@@ -74,7 +77,7 @@ const DeviceListModule = {
 
 					if (category != vuexContext.state.oldCategory) {
 
-						return db.collection("india").doc("amazon.in").collection(category).orderBy("serialNumber").get()
+						return db.collection(vuexContext.rootGetters.getCountry).doc("all-sites").collection(category).orderBy("serialNumber").get()
 						.then(docs => {
 							docs.forEach(doc => {
 								devices.push(doc.data());
@@ -96,9 +99,9 @@ const DeviceListModule = {
 
 			} else {
 
-				if (vuexContext.state.oldCategory != "routers") {
+				if (vuexContext.state.oldCategory != "routers" || vuexContext.rootGetters.getOldCountry != vuexContext.rootGetters.getCountry) {
 
-					return db.collection("india").doc("amazon.in").collection("routers").orderBy("serialNumber").get()
+					return db.collection(vuexContext.rootGetters.getCountry).doc("all-sites").collection("routers").orderBy("serialNumber").get()
 					.then(docs => {
 						docs.forEach(doc => {
 							devices.push(doc.data());
@@ -111,7 +114,6 @@ const DeviceListModule = {
 					}).catch(error => console.log(error));
 
 				} else {
-
 					devices = [...vuexContext.getters.getDeviceList];
 
 					return vuexContext.dispatch("splitForPagination", {devices, query});
@@ -132,7 +134,7 @@ const DeviceListModule = {
 				let dbAllDevicesIndex = [];
 				let matchDevicesIndex = [];
 
-				await db.doc(`india/metaData/indices/amazon-${category}-index`).get()
+				await db.doc(`${vuexContext.rootGetters.getCountry}/meta/indices/${category}`).get()
 				.then(doc => {
 					if (doc.data()) {
 						dbAllDevicesIndex = doc.data().fullNameIndex;
@@ -163,7 +165,7 @@ const DeviceListModule = {
 
 				try {
 					for (let i = 0; i < resultLength; i++) {
-						let promise = db.doc(`india/amazon.in/${category}/${matchDevicesIndex[i]}`).get()
+						let promise = db.doc(`${vuexContext.rootGetters.getCountry}/all-sites/${category}/${matchDevicesIndex[i]}`).get()
 						.then(doc => {
 							if (doc.data()) {
 								// searchResult.push(doc.data());
@@ -263,15 +265,15 @@ const DeviceListModule = {
 			// Filtering by price
 			if (query.price) {
 				switch (query.price) {
-					case '0-1500': devices = devices.filter(device => device.price <= 1500);
+					case '0-1500': devices = devices.filter(device => device.amazonPrice <= 1500);
 												break;
-					case '1500-3000': devices = devices.filter(device => (device.price >= 1500 && device.price <= 3000));
+					case '1500-3000': devices = devices.filter(device => (device.amazonPrice >= 1500 && device.amazonPrice <= 3000));
 												break;
-					case '3000-6000': devices = devices.filter(device => (device.price >= 3000 && device.price <= 6000));
+					case '3000-6000': devices = devices.filter(device => (device.amazonPrice >= 3000 && device.amazonPrice <= 6000));
 												break;
-					case '6000-10000': devices = devices.filter(device => (device.price >= 6000 && device.price <= 10000));
+					case '6000-10000': devices = devices.filter(device => (device.amazonPrice >= 6000 && device.amazonPrice <= 10000));
 												break;
-					case '10000': devices = devices.filter(device => device.price >= 10000);
+					case '10000': devices = devices.filter(device => device.amazonPrice >= 10000);
 												break;
 					default: let minPrice = 0, maxPrice = 100000;
 									 let priceArray = query.price.split("-");
@@ -281,7 +283,7 @@ const DeviceListModule = {
 									 }								 
 
 									 if (!isNaN(maxPrice) && maxPrice >= minPrice) {
-									   devices = devices.filter(device => (device.price >= minPrice && device.price <= maxPrice));
+									   devices = devices.filter(device => (device.amazonPrice >= minPrice && device.amazonPrice <= maxPrice));
 									 }
 									 break;
 				}
@@ -319,9 +321,9 @@ const DeviceListModule = {
 
 			// Sorting resulting array according to price
 			if (query.sort == "lth") {	// Low to High
-				devices.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+				devices.sort((a, b) => parseInt(a.amazonPrice) - parseInt(b.amazonPrice));
 			} else if (query.sort == "htl") {	// High to Low
-				devices.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+				devices.sort((a, b) => parseInt(b.amazonPrice) - parseInt(a.amazonPrice));
 			}
 
 			return vuexContext.dispatch("splitForPagination", {devices, query});

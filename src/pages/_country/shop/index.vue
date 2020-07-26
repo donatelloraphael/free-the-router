@@ -115,7 +115,9 @@ export default {
 	},
 
 	mounted() {
-		this.$store.dispatch("DeviceListModule/setFiltersToggle");				
+		this.$store.dispatch("DeviceListModule/setFiltersToggle");
+
+    this.$store.dispatch("setOldCountry", this.$store.getters.getCountry);
 		
 		console.log("Mounted: ", this.deviceList);
 		console.log('Pages: ', this.numPages);
@@ -123,7 +125,7 @@ export default {
 		console.log('numDevices: ', this.numDevices);
 		console.log('Range: ', this.deviceRange);
 		console.log("Current Page: ", this.currentPage);
-	}
+	},
 };
 
 	

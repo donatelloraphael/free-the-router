@@ -350,7 +350,7 @@
 
     created() {
       // clear filters if navigating back to shop page
-      this.$store.watch(state => {
+      this.unwatch = this.$store.watch(state => {
         return this.$store.getters["DeviceListModule/getFiltersToggle"];
       }, () => {
         if (this.firstLoad || this.query.from == "firmware") {
@@ -389,6 +389,10 @@
           this.checkedBrands = [];
         }
       });
+    },
+
+    beforeDestroy() {
+      this.unwatch();
     }
   };
 </script>

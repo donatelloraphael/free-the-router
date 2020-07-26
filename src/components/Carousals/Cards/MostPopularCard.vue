@@ -1,28 +1,28 @@
 <template>
-	<a :href="mostPopular[cardPosition].productUrl" target="_blank">
+	<a :href="mostPopular[cardPosition].amazonLink" target="_blank">
 		<div class="card">
 			
-			<div class="image" :style="{ 'background-image': 'url(' + mostPopular[cardPosition].imageUrl + ')' }"></div>
+			<div class="image" :style="{ 'background-image': 'url(' + mostPopular[cardPosition].amazonThumbnail + ')' }"></div>
 			
 			<div class="description">
-				<h3 class="name">{{ mostPopular[cardPosition].company }}  {{ mostPopular[cardPosition].name }}</h3>
-				<p>{{ mostPopular[cardPosition].specs }}</p>
-				<p>Price: <span>Rs: {{ mostPopular[cardPosition].price }}</span></p>
+				<h3 class="name">{{ mostPopular[cardPosition].company }}  {{ mostPopular[cardPosition].model }}</h3>
+				<p>{{ mostPopular[cardPosition].RAM }}MB RAM, {{ mostPopular[cardPosition].Flash }}MB Flash</p>
+				<p>Price: <span>Rs: {{ mostPopular[cardPosition].amazonPrice }}</span></p>
 				<div class="firmwares">
 
-					<img class="firmware openwrt" alt="openwrt logo" src="@/assets/images/firmwares/openwrt.png" v-if="mostPopular[cardPosition].firmwares.includes('openwrt')">
+					<img class="firmware openwrt" alt="openwrt logo" src="@/assets/images/firmwares/openwrt.png" v-if="mostPopular[cardPosition].openwrtSupport">
 
-					<img class="firmware ddwrt" alt="ddwrt logo" src="@/assets/images/firmwares/ddwrt.png" v-if="mostPopular[cardPosition].firmwares.includes('ddwrt')">
+					<img class="firmware ddwrt" alt="ddwrt logo" src="@/assets/images/firmwares/ddwrt.png" v-if="mostPopular[cardPosition].ddwrtSupport">
 
-					<img class="firmware gargoyle" alt="gargoyle logo" src="@/assets/images/firmwares/gargoyle.png" v-if="mostPopular[cardPosition].firmwares.includes('gargoyle')">
+					<img class="firmware gargoyle" alt="gargoyle logo" src="@/assets/images/firmwares/gargoyle.png" v-if="mostPopular[cardPosition].gargoyleSupport">
 
-					<img class="firmware advancedtomato" alt="advanced tomato logo" src="@/assets/images/firmwares/advancedtomato.png" v-if="mostPopular[cardPosition].firmwares.includes('advancedtomato')">
+					<img class="firmware advancedtomato" alt="advanced tomato logo" src="@/assets/images/firmwares/advancedtomato.png" v-if="mostPopular[cardPosition].advancedtomatoSupport">
 
-					<img class="firmware freshtomato" alt="fresh tomato logo" src="@/assets/images/firmwares/freshtomato.png" v-if="mostPopular[cardPosition].firmwares.includes('freshtomato')">
+					<img class="firmware freshtomato" alt="fresh tomato logo" src="@/assets/images/firmwares/freshtomato.png" v-if="mostPopular[cardPosition].freshtomatoSupport">
 
-					<img class="firmware tomatobyshibby" alt="tomato by shibby logo" src="@/assets/images/firmwares/tomatobyshibby.png" v-if="mostPopular[cardPosition].firmwares.includes('tomatobyshibby')">
+					<img class="firmware tomatobyshibby" alt="tomato by shibby logo" src="@/assets/images/firmwares/tomatobyshibby.png" v-if="mostPopular[cardPosition].tomatobyshibbySupport">
 
-					<img class="firmware asuswrt-merlin" alt="Asuswrt-Merlin logo" src="@/assets/images/firmwares/asuswrt-merlin.png" v-if="mostPopular[cardPosition].firmwares.includes('asuswrt-merlin')">
+					<img class="firmware asuswrt-merlin" alt="Asuswrt-Merlin logo" src="@/assets/images/firmwares/asuswrt-merlin.png" v-if="mostPopular[cardPosition].asusMerlinSupport">
 
 				</div>
 			</div>
@@ -69,7 +69,7 @@
 	h3 {
 		font-family: "Montserrat", sans-serif;
 		font-size: 1rem;
-		font-weight: normal;
+		font-weight: bold;
 		padding: 5px 0;
 	}
 
@@ -80,6 +80,7 @@
 	span {
 		font-size: 1rem;
 		color: yellow;
+		font-weight: bold;
 	}
 
 	.firmwares {

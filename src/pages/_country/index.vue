@@ -127,6 +127,8 @@ export default {
     appMostPopular: MostPopular
   },
 
+  watchQuey: true,
+
   methods: {
     scrollTo: function (hashtag) {
       setTimeout(() => { location.href = hashtag; }, TIMEOUT);
@@ -135,19 +137,25 @@ export default {
   
   async asyncData(context) {
 
-      /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
+    /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
 
-      const [topPicksArray, mostPopularArray] = await Promise.all([
-        context.store.dispatch("TopPicksModule/populateTopPicks"),
-        context.store.dispatch("MostPopularModule/populateMostPopular")
-      ]);
+    const [topPicksArray, mostPopularArray] = await Promise.all([
+      context.store.dispatch("TopPicksModule/populateTopPicks"),
+      context.store.dispatch("MostPopularModule/populateMostPopular")
+    ]);
 
-      ////////////////////////////return asyncData variables//////////////////////////////////
-      return { 
-        topPicks: topPicksArray,
-        mostPopular: mostPopularArray
-      };
+    ////////////////////////////return asyncData variables//////////////////////////////////
+    return { 
+      topPicks: topPicksArray,
+      mostPopular: mostPopularArray
+    };
   },
+
+  mounted() {
+    this.$store.dispatch("setOldCountry", this.$store.getters.getCountry);
+  }
+
+  
 };
   
 </script>

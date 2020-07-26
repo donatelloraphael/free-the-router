@@ -25,7 +25,7 @@
 					<p>Tomato by Shibby</p>
 				</div>
 
-				<div class="firmware" id="asuswrt-merlin" :class="{ active: 'asuswrt-merlin' == selected }" @click="selected = 'asuswrt-merlin'">
+				<div class="firmware" id="asuswrt-merlin" :class="{ active: 'asuswrt-merlin' == selected }" @click="selected = 'asusMerlin'">
 					<p>Asuswrt-Merlin</p>
 				</div>
 		</div>
