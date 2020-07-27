@@ -6,14 +6,14 @@
 				<p class="short-name">{{ topPicks[selected][0].company }}  {{ topPicks[selected][0].model }}</p>
 				<p class="specs">{{ topPicks[selected][0].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
 				<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][0].amazonPrice }}</p>
-				<a  class="link-container":href="topPicks[selected][0].productUrl" target="_blank">
+				<nuxt-link class="link-container":to="{ path: `devices/${topPicks[selected][0].fullName.replace(/\ /g, '-')}` }" target="_blank">
 					<button>Shop now</button>
-				</a>
+				</nuxt-link>
 			</div>
 		</div>
 		<div v-else class="placeholder"></div>
 	
-		<a v-if="topPicks[selected][1]" class="link-container":href="topPicks[selected][1].productUrl" target="_blank">
+		<nuxt-link v-if="topPicks[selected][1]" class="link-container":to="{ path: `devices/${topPicks[selected][1].fullName.replace(/\ /g, '-')}` }" target="_blank">
 			<div class="alt-1" :style="{ 'background-image': 'url(' + alt1Url + ')' }">
 				<div class="alt1-contents">
 					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][1].model }}</p>
@@ -21,10 +21,10 @@
 					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][1].amazonPrice }}</p>
 				</div>
 			</div>
-		</a>
+		</nuxt-link>
 		<a v-else class="placeholder" href="#"></a>
 
-		<a v-if="topPicks[selected][2]" class="link-container":href="topPicks[selected][2].productUrl" target="_blank">
+		<nuxt-link v-if="topPicks[selected][2]" class="link-container":to="{ path: `devices/${topPicks[selected][2].fullName.replace(/\ /g, '-')}` }" target="_blank">
 			<div class="alt-2" :style="{ 'background-image': 'url(' + alt2Url + ')' }">
 				<div class="alt2-contents">
 					<p class="short-name">{{ topPicks[selected][2].company }}  {{ topPicks[selected][2].model }}</p>
@@ -32,7 +32,7 @@
 					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][2].amazonPrice }}</p>
 				</div>
 			</div>
-		</a>
+		</nuxt-link>
 		<a v-else class="placeholder" href="#"></a>
 				
 	</div>
@@ -80,7 +80,6 @@ export default {
 	}
 
 	.main {
-		/*background-color: magenta;*/
 		grid-area: main;
 		min-width: 225px;
 		background: no-repeat center / 80%;
@@ -135,9 +134,11 @@ export default {
 		border: none;
 	}
 
+	.alt-1, .alt-2 {
+		cursor: pointer;
+	}
 
 	.alt-1 {
-		/*background-color: red;*/
 		grid-area: alt-1;
 		min-width: 100px;
 		height: 90%;
@@ -153,7 +154,6 @@ export default {
 	}
 
 	.alt-2 {
-		/*background-color: pink;*/
 		grid-area: alt-2;
 		min-width: 100px;
 		background: no-repeat center / 100%;
@@ -163,9 +163,7 @@ export default {
 
 	.alt2-contents {
 		color: white;
-		/*background-color: rgba(205, 11, 196, 0.5);*/
 		background-color: rgba(154, 23, 193, 0.8);
-		/*border-radius: 10px;*/
 		margin: 20px 10px;
 	}
 	

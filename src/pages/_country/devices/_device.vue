@@ -9,10 +9,10 @@
 
 			<div class="content">
 				<div class="images">
-					<img class="main-img" :src="device.thumbnail" alt="device main image">
+					<img class="main-img" :src="device.amazonThumbnail" alt="device main image">
 				</div>
 				<div class="details">
-					<h1 class="title">{{ device.name }}</h1>
+					<h1 class="title">{{ device.amazonName }}</h1>
 
 					<p><span class="label">Model: </span><strong>{{device.company + ' ' + device.model}}</strong><span id="brand"><span class="label">Brand: </span><nuxt-link :to="{ path: '/shop', query: { brand: device.brand.toLowerCase() } }"><strong>{{device.company}}</strong></nuxt-link></span></p>
 
@@ -43,7 +43,7 @@
 
 					<hr class="divider">
 
-					<p><span class="label">Price: </span>Rs. <span class="price">{{device.price.toLocaleString()}}*</span><span id="at">  @ </span> <a href="#" class="seller"><img src="~/assets/images/amazon/amazon-in.png" alt="Amazon logo"></a><span class="price-info">*As of {{device.updatedOn}}</span></p>
+					<p><span class="label">Price: </span>Rs. <span class="price">{{device.amazonPrice.toLocaleString()}}*</span><span id="at">  @ </span> <a href="#" class="seller"><img src="~/assets/images/amazon/amazon-in.png" alt="Amazon logo"></a><span class="price-info">*As of {{device.amazonUpdatedOn}}</span></p>
 					
 					<div id="disclaimer" :class="{active : disclaimerActive}"><span>Check with the seller the exact version of the router being sold so that your chosen custom firmware supports it.</span>
 						<button @click="redirect()">I understand</button>
@@ -51,7 +51,7 @@
 
 					<div id="backdrop" @click="disclaimerActive = false" :class="{active: disclaimerActive}"></div>
 
-					<button class="goto" @click="disclaimerOrGo()">GO TO AMAZON.IN</button>
+					<button class="goto" @click="disclaimerOrGo()">GO TO AMAZON.{{ $store.getters.getCountry }}</button>
 
 				</div>
 
@@ -173,19 +173,19 @@ export default {
 			if (!this.disclaimerShown) {
 				this.disclaimerActive = true;
 			} else {
-				window.location = this.device.link;
+				window.location = this.device.amazonLink;
 			}
 		},
 		redirect() {
 			localStorage.setItem("disclaimerTimer", new Date().getTime());
-			window.location = this.device.link;
+			window.location = this.device.amazonLink;
 		}
 	},
 
 	async asyncData(context) {
 		let device = {};
 
-		await db.doc(`india/amazon.in/device-details/${context.route.params.device.toUpperCase()}`).get()
+		await db.doc(`${context.store.getters.getCountry}/all-sites/device-details/${context.route.params.device.toUpperCase()}`).get()
 		.then(doc => {
 			if (doc.data()) {
 				device = doc.data();
