@@ -1,5 +1,5 @@
-const COUNTRY = "IN";
-const AMAZON = "https://www.amazon.in";
+const COUNTRY = "US";
+const AMAZON = "https://www.amazon.com";
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -25,11 +25,11 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "repeaters & extenders";
-const amazonLinks = { "routers": "https://www.amazon.in/s?rh=n%3A1375439031&page=",
-											"modems": "https://www.amazon.in/s?rh=n%3A1375431031&page=",
-											"wireless access points": "https://www.amazon.in/s?rh=n%3A1375440031&page=",
-											"repeaters & extenders": "https://www.amazon.in/s?rh=n%3A1375438031&page="
+const deviceType = "wireless access points";
+const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&&page=",
+											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A17442743011&dc&page=",
+											"wireless access points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
+											"repeaters & extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
 										};
 
 
