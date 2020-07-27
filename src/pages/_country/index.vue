@@ -239,7 +239,10 @@ export default {
   .price-card h2 {
     font-family: "Montserrat", sans-serif;
     margin: auto;
+  }
 
+  a {
+    text-decoration: none !important;
   }
 
   /********************************FIRMWARE INFO**************************/

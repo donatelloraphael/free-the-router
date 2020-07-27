@@ -7,6 +7,7 @@ export default function ({ req, res, store, redirect, params, route }) {
 
 		if (country == "US" || country == "UK" || country == "CA" || country == "IN") {
 			store.dispatch("setCountry", country);
+			return redirect(`/${country}/`);
 
 		} else {
 
