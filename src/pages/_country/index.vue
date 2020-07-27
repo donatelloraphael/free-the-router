@@ -127,8 +127,6 @@ export default {
     appMostPopular: MostPopular
   },
 
-  watchQuey: true,
-
   methods: {
     scrollTo: function (hashtag) {
       setTimeout(() => { location.href = hashtag; }, TIMEOUT);
