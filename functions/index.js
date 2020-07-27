@@ -12,9 +12,7 @@ const gargoyleModule = require("./firmwareRouters/gargoyle");
 const ddwrtModule = require("./firmwareRouters/ddwrt");
 const openwrtModule = require("./firmwareRouters/openwrt");
 
-////////////////// Add Serial Number ///////////////////////
-
-const indiaAmazonModule = require("./serialNumber/indiaAmazon");
+const cronPingModule = require("./cron-ping.js");
 
 //////////////////SERVER SIDE RENDER////////////////////////
 
@@ -87,33 +85,8 @@ exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkA
                           return openwrtModule.checkAndUpdateOpenwrt();
                         });
 
-
-
-/************************* Add Serial Numbers **************************/
-/***********************************************************************/
-
-// India
-
-exports.indiaAmazonSerialOnCreate = functions.firestore.document("india/amazon.in/{category}/{devices}")
-                            .onCreate((data, context) => {      
-                              if (context.params.category == "device-details") {
-                                return;
-                              }
-
-                              return indiaAmazonModule.indiaAmazonSerial(data, context);
-                            });
-
-exports.indiaAmazonSerialOnUpdate = functions.firestore.document("india/amazon.in/{category}/{devices}")
-                            .onUpdate((change, context) => {
-
-                              if (context.params.category == "device-details") {
-                                return;
-                              }
-                              
-                              const currentData = change.after.data();
-
-                              if (currentData.serialUpdated) {
-                                return null;
-                              }
-                              return indiaAmazonModule.indiaAmazonSerial(change, context);
-                            });
+exports.pingSite = functions.pubsub.schedule("every 5 minutes")
+                    .timeZone('Asia/Kolkata')
+                    .onRun((context) => {
+                      return cronPingModule.pingSite();
+                    });
