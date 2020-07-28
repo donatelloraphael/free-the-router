@@ -17,7 +17,6 @@
     "@google-cloud/pubsub": "^2.3.0",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
-    "cross-env": "^7.0.2",
     "express": "^4.16.4",
     "firebase": "^7.16.1",
     "firebase-admin": "^9.0.0",
@@ -26,6 +25,7 @@
     "regenerator-runtime": "^0.13.6"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "firebase-functions-test": "^0.2.1"
   },
   "private": true

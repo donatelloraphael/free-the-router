@@ -40,7 +40,6 @@ module.exports = {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    [ '@nuxtjs/dotenv' ]
   ],
   /*
   ** Nuxt.js modules
@@ -87,9 +86,7 @@ module.exports = {
     extend (config, ctx) {
     }
   },
-  env: {
-    firebaseAPIKey: "AIzaSyAGPDCLt8tpLYIKuFuBL_RXHq5Wgeu0VRQ"
-  },
+  
   router: {
     linkActiveClass: 'active',
     scrollBehavior: (to, from, savedPosition) => {

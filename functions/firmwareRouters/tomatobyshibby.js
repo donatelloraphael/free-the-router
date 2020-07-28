@@ -10,7 +10,6 @@ if (!admin.apps.length) {
 
 	admin.initializeApp({
 	  credential: admin.credential.cert(serviceAccount),
-	  databaseURL: "https://free-the-router-13e19.firebaseio.com"
 	});
 }
 
