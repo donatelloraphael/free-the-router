@@ -99,3 +99,5 @@ firebase-adminsdk.json
 functions/firmwareRouters/test/
 functions/availableDevices/test/
 maxmind-licence.key
+env.js
+./env.js
