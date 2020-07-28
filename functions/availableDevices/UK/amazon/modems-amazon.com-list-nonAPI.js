@@ -1,5 +1,5 @@
-const COUNTRY = "IN";
-const AMAZON = "https://www.amazon.in";
+const COUNTRY = "UK";
+const AMAZON = "https://www.amazon.co.uk";
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -24,11 +24,11 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "wireless access points";
-const amazonLinks = { "routers": "https://www.amazon.in/s?rh=n%3A1375439031&page=",
-											"modems": "https://www.amazon.in/s?rh=n%3A1375431031&page=",
-											"wireless access points": "https://www.amazon.in/s?rh=n%3A1375440031&page=",
-											"repeaters & extenders": "https://www.amazon.in/s?rh=n%3A1375438031&page="
+const deviceType = "modems";
+const amazonLinks = { "routers": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430579031&dc&page=",
+											"modems": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430575031&page=",
+											"wireless access points": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430580031&page=",
+											"repeaters & extenders": "https://www.amazon.co.uk/s?&rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430578031&page="
 										};
 
 
@@ -53,6 +53,7 @@ let axiosInstance = axios.create({
 async function main() {	
 	let oldLength = 0;
 	let page = 1;
+	let retry = 0;
 	
 	function delayedLoop() {
 		return setTimeout(async function() {
@@ -64,13 +65,15 @@ async function main() {
 				return false;
 			}
 
-			if (html && page < 101) {
+			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
 
 				if (allDevices.length == oldLength) {
+					retry++;
 					delayedLoop();
 				} else {
 					page++;
+					retry = 0;
 					oldLength = allDevices.length;
 					delayedLoop();
 				}
@@ -86,7 +89,7 @@ async function main() {
 
 				return true;
 			}
-		}, 2000);
+		}, 0);
 	}
 
 	return await delayedLoop();
@@ -272,7 +275,7 @@ async function addExtraInfo() {
 async function addToDatabase() {
 
 	const batchArray = [];
-	const BATCH_NUM_ITEMS = 450;
+	const BATCH_NUM_ITEMS = 300;
 	let operationsCounter = 1; // Need to count the device list delete operation.
 	let batchIndex = 0;
 

@@ -1,3 +1,5 @@
+const COUNTRY = "CA";
+
 const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
@@ -9,8 +11,6 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-const country = "IN";
-
 const firmwares = ["advancedtomato", "asusMerlin", "ddwrt", 
 									"freshtomato", "openwrt", "gargoyle", "tomatobyshibby"];
 
@@ -20,11 +20,13 @@ async function createTopPicks() {
 		for (let i = 0; i < firmwares.length; i++) {
 			let firmwareArray = [];
 
-			db.collection(country).doc("all-sites").collection("routers").where(`${firmwares[i]}Support`, "==", true).limit(3).get()
+			db.collection(COUNTRY).doc("all-sites").collection("routers").where(`${firmwares[i]}Support`, "==", true).orderBy("serialNumber").limit(3).get()
 			.then(docs => {
-				docs.forEach((doc, index) => {
-					db.doc(`${country}/top-picks/${firmwares[i]}/${doc.data().id}`).set(doc.data());
+				let j = 1;
+				docs.forEach( function(doc) {
+					db.doc(`${COUNTRY}/top-picks/${firmwares[i]}/${j++}`).set(doc.data());
 				});
+				
 			});
 		}
 	} catch (error) {
@@ -34,10 +36,11 @@ async function createTopPicks() {
 
 async function createMostPopular() {
 	let mostPopular = [];
-	db.collection(country).doc("all-sites").collection("routers").orderBy("serialNumber").limit(18).get()
+	db.collection(COUNTRY).doc("all-sites").collection("routers").orderBy("serialNumber").limit(18).get()
 	.then(result => {
+		let i = 1;
 		result.forEach(doc => {
-			db.doc(`${country}/most-popular/routers/${doc.data().id}`).set(doc.data());
+			db.doc(`${COUNTRY}/most-popular/routers/${i++}`).set(doc.data());
 		});
 	});
 }

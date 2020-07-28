@@ -20,11 +20,13 @@ async function createTopPicks() {
 		for (let i = 0; i < firmwares.length; i++) {
 			let firmwareArray = [];
 
-			db.collection(COUNTRY).doc("all-sites").collection("routers").where(`${firmwares[i]}Support`, "==", true).limit(3).get()
+			db.collection(COUNTRY).doc("all-sites").collection("routers").where(`${firmwares[i]}Support`, "==", true).orderBy("serialNumber").limit(3).get()
 			.then(docs => {
-				docs.forEach((doc, index) => {
-					db.doc(`${COUNTRY}/top-picks/${firmwares[i]}/${doc.data().id}`).set(doc.data());
+				let j = 1;
+				docs.forEach( function(doc) {
+					db.doc(`${COUNTRY}/top-picks/${firmwares[i]}/${j++}`).set(doc.data());
 				});
+				
 			});
 		}
 	} catch (error) {
@@ -36,8 +38,9 @@ async function createMostPopular() {
 	let mostPopular = [];
 	db.collection(COUNTRY).doc("all-sites").collection("routers").orderBy("serialNumber").limit(18).get()
 	.then(result => {
+		let i = 1;
 		result.forEach(doc => {
-			db.doc(`${COUNTRY}/most-popular/routers/${doc.data().id}`).set(doc.data());
+			db.doc(`${COUNTRY}/most-popular/routers/${i++}`).set(doc.data());
 		});
 	});
 }

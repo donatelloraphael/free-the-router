@@ -1,5 +1,5 @@
-const COUNTRY = "US";
-const AMAZON = "https://www.amazon.com";
+const COUNTRY = "CA";
+const AMAZON = "https://www.amazon.ca";
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -24,11 +24,11 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "wireless access points";
-const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&&page=",
-											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A17442743011&dc&page=",
-											"wireless access points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
-											"repeaters & extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
+const deviceType = "repeaters & extenders";
+const amazonLinks = { "routers": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A680475011&page=",
+											"modems": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A3312815011&page=",
+											"wireless access points": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A680472011&page=",
+											"repeaters & extenders": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A3312825011&page="
 										};
 
 
@@ -53,6 +53,7 @@ let axiosInstance = axios.create({
 async function main() {	
 	let oldLength = 0;
 	let page = 1;
+	let retry = 0;
 	
 	function delayedLoop() {
 		return setTimeout(async function() {
@@ -64,13 +65,15 @@ async function main() {
 				return false;
 			}
 
-			if (html && page < 101) {
+			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
 
 				if (allDevices.length == oldLength) {
+					retry++;
 					delayedLoop();
 				} else {
 					page++;
+					retry = 0;
 					oldLength = allDevices.length;
 					delayedLoop();
 				}
@@ -86,7 +89,7 @@ async function main() {
 
 				return true;
 			}
-		}, 2000);
+		}, 0);
 	}
 
 	return await delayedLoop();
@@ -272,7 +275,7 @@ async function addExtraInfo() {
 async function addToDatabase() {
 
 	const batchArray = [];
-	const BATCH_NUM_ITEMS = 450;
+	const BATCH_NUM_ITEMS = 300;
 	let operationsCounter = 1; // Need to count the device list delete operation.
 	let batchIndex = 0;
 

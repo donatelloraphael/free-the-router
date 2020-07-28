@@ -1,0 +1,7 @@
+US : ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&linkCode=as2&tag=freetherouter-20&language=en_US
+
+IN : ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherouter-21&language=en_IN
+
+CA : ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout0c-20&language=en_CA
+
+UK : ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB
