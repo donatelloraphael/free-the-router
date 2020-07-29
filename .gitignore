@@ -101,3 +101,7 @@ functions/availableDevices/test/
 maxmind-licence.key
 env.js
 ./env.js
+firebase-adminsdk-prod.json
+firebase-adminsdk-dev.json
+env-dev.js
+env-prod.js
