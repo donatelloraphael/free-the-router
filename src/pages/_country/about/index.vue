@@ -5,7 +5,7 @@
 		<div class="body" id="about">
 			<div class="about">
 				<h1>About Us</h1>
-				<p>Hello! My name is Akbar. "Us" in "about us" refers to me and my bad side, Bad Akbar, who tries really hard to spoil my plans. I made this site as a challenge for myself as part of my treatment for depression. While bad Akbar tried really hard to stop me like all the other times, I am glad to say I have succeeded in not falling for his schemes. I hope you enjoy using this site as I enjoyed in making it. If there is any problems or feedback, let us know through the Contact email.</p>
+				<p>Hello! My name is Akbar. "Us" in "about us" refers to me and my bad side, Bad Akbar, who tries really hard to spoil my plans. I made this site as a challenge for myself. While bad Akbar tried really hard to stop me like all the other times, I am glad to say I have succeeded in not falling for his schemes. I hope you enjoy using this site as I enjoyed in making it. If there is any problems or feedback, let us know through the Contact email.</p>
 			</div>
 
 			<hr class="dotted-divider" id="contact">
@@ -15,6 +15,19 @@
 				<p>Email: <a href = "mailto: contact@freetherouter.com">contact@freetherouter.com</a></p>
 			</div>
 
+			<hr class="dotted-divider" id="terms">
+
+				<div class="attribution">
+					<h1>Attributions</h1>
+
+					<ul>
+						<li>Freetherouter.com is a participant in the Amazon Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.</li>
+						<li>Amazon and the Amazon logo are trademarks of Amazon.com Inc, or its affiliates.</li>
+						<li>Certain content that appears on this site comes from Amazon Seller Services Private Limited. This content is provided 'as is' and is subjected to change or removal at any time.</li>
+						<li>All brand icons are trademarks of their respective owners.</li>
+						<li>The use of these trademarks does not indicate endorsement of the trademark holder by Freetherouter.com, nor vice versa.</li>
+					</ul>
+				</div>
 			<hr class="dotted-divider" id="terms">
 
 			<div class="terms">
@@ -80,6 +93,8 @@
 				<p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
 
 				<p>This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in Free The Router. This policy is not applicable to any information collected offline or via channels other than this website.</p>
+
+				<p>Third parties, including Amazon, may serve content and advertisements, collect information directly from visitors and place or recognise cookies on visitor's browsers.</p>
 
 				<h2>Consent</h2>
 
@@ -252,7 +267,7 @@
 		font-weight: bold;
 	}
 
-	.terms, .privacy {
+	.terms, .privacy, .attribution {
 		width: 70%;
 		margin: 30px auto;
 	}

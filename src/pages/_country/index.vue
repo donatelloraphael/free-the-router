@@ -18,24 +18,24 @@
       <div class="by-price">
         <h1>By Price</h1>
         <div class="price-container">
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '0-1500' } }">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter1}` } }">
             <div class="price-card">
-              <h2>Rs. 0-1500</h2>
+              <h2>{{$store.getters.getCurrency}} {{priceFilter1}}</h2>
             </div>
           </nuxt-link>
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '1500-3000' } }">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter2}` } }">
             <div class="price-card">
-              <h2>Rs. 1500-3000</h2>
+              <h2>{{$store.getters.getCurrency}} {{priceFilter2}}</h2>
             </div>
           </nuxt-link>
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '3000-6000' } }">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter3}` } }">
             <div class="price-card">
-              <h2>Rs. 3000-6000</h2>
+              <h2>{{$store.getters.getCurrency}} {{priceFilter3}}</h2>
             </div>
           </nuxt-link>
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: '6000-' } }">  
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter4}-` } }">  
             <div class="price-card">
-              <h2>Rs. 6000 and up</h2>
+              <h2>{{$store.getters.getCurrency}} {{priceFilter4}} and up</h2>
             </div>
           </nuxt-link>
         </div>
@@ -102,6 +102,8 @@
         </div>
         
       </div>
+      <div class="statement">Freetherouter.com is a participant in the Amazon Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.</div>
+
     </section>
 
     <div class="bg-left">
@@ -137,15 +139,28 @@ export default {
 
     /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
 
-    const [topPicksArray, mostPopularArray] = await Promise.all([
+    const [topPicks, mostPopular] = await Promise.all([
       context.store.dispatch("TopPicksModule/populateTopPicks"),
       context.store.dispatch("MostPopularModule/populateMostPopular")
     ]);
 
+    ///////////////////////BY PRICE//////////////////////////////////////////////
+    let priceFilter1 = "0-30", priceFilter2 = "30-60", priceFilter3 = "60-120", priceFilter4 = "120";
+    if (context.store.getters.getCountry == "IN") {
+      priceFilter1 = "0-1500"; 
+      priceFilter2 = "1500-3000"; 
+      priceFilter3 = "3000-6000"; 
+      priceFilter4 = "6000";
+    }
+
     ////////////////////////////return asyncData variables//////////////////////////////////
     return { 
-      topPicks: topPicksArray,
-      mostPopular: mostPopularArray
+      topPicks,
+      mostPopular,
+      priceFilter1,
+      priceFilter2,
+      priceFilter3,
+      priceFilter4
     };
   },
 
@@ -234,6 +249,10 @@ export default {
     align-items: center;
   }
 
+  .price-card:hover {
+    color: yellow;
+  }
+
   .price-card h2 {
     font-family: "Montserrat", sans-serif;
     margin: auto;
@@ -289,6 +308,13 @@ export default {
   height: 50%;
   width: 60%;
  }
+
+ .statement {
+    font-size: 0.9rem;
+    color: grey;
+    text-align: center;
+    margin: 10px 20px;
+  }
 
  /*******************************MEDIA QUERYS****************************/
 

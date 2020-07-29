@@ -43,7 +43,10 @@
 
 					<hr class="divider">
 
-					<p><span class="label">Price: </span>Rs. <span class="price">{{device.amazonPrice.toLocaleString()}}*</span><span id="at">  @ </span> <a href="#" class="seller"><img src="~/assets/images/amazon/amazon-in.png" alt="Amazon logo"></a><span class="price-info">*As of {{device.amazonUpdatedOn}}</span></p>
+					<p><span class="label">Price: </span> <span class="price">{{ $store.getters.getCurrency }} {{device.amazonPrice.toLocaleString()}}*</span><span id="at">  @ </span><img src="~/assets/images/amazon/amazon.png" class="seller" alt="Amazon logo" @click="toSellerHome()"><span class="price-info" @click="amazonDisclaimer = true">*As of {{device.amazonUpdatedOn}}</span></p>
+					<div v-if="amazonDisclaimer" @click="amazonDisclaimer = false">
+						<div class="amazonDisclaimer">Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Amazon at the time of purchase will apply to the purchase of this product.</div>
+					</div>
 					
 					<div id="disclaimer" :class="{active : disclaimerActive}"><span>Check with the seller the exact version of the router being sold so that your chosen custom firmware supports it.</span>
 						<button @click="redirect()">I understand</button>
@@ -51,7 +54,7 @@
 
 					<div id="backdrop" @click="disclaimerActive = false" :class="{active: disclaimerActive}"></div>
 
-					<button class="goto" @click="disclaimerOrGo()">GO TO AMAZON.{{ $store.getters.getCountry }}</button>
+					<button class="goto" @click="disclaimerOrGo()">GO TO {{ amazonName.toUpperCase() }}</button>
 
 				</div>
 
@@ -96,6 +99,8 @@
 						<p v-if="device.openwrtTechData">OpenWrt Tech Data: <a :href="device.openwrtTechData" target="_blank">View Details</a></p>
 						<p v-if="device.openwrtUnsupportedFunctions">OpenWrt unsupported features: {{ device.openwrtUnsupportedFunctions }}</p>
 					</div>
+
+					<div class="statement">Freetherouter.com is a participant in the Amazon Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon. Certain content that appears on this site comes from Amazon Seller Services Private Limited. This content is provided 'as is' and is subjected to change or removal at any time.</div>
 				</div>
 			</div>
 
@@ -123,7 +128,8 @@ export default {
 			localCategory: "Routers",
 			queryCategory: "routers",
 			disclaimerShown: false,
-			disclaimerActive: false
+			disclaimerActive: false,
+			amazonDisclaimer: false
 		};
 	},
 
@@ -131,8 +137,28 @@ export default {
 		deviceType() {
 			return this.device.deviceType ? this.device.deviceType : "Router";
 		},
-		RAM() {
-
+		amazonName() {
+			let name;
+			switch(this.$store.getters.getCountry) {
+				case "IN": name = "amazon.in"; break;
+				case "UK": name = "amazon.co.uk"; break;
+				case "CA": name = "amazon.ca"; break;
+				default: name = "amazon.com"; break;
+			}
+			return name;
+		},
+		amazonRef() {
+			let ref;
+			switch(this.$store.getters.getCountry) {
+				case "IN": ref = "/ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherouter-21&language=en_IN";
+									break;
+				case "UK": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB";
+									break;
+				case "CA": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout0c-20&language=en_CA";
+									break;
+				default: ref = "/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&linkCode=as2&tag=freetherouter-20&language=en_US";
+			}
+			return ref;
 		}
 	},
 
@@ -173,12 +199,15 @@ export default {
 			if (!this.disclaimerShown) {
 				this.disclaimerActive = true;
 			} else {
-				window.location = this.device.amazonLink;
+				window.open(this.device.amazonLink + this.amazonRef);
 			}
 		},
 		redirect() {
 			localStorage.setItem("disclaimerTimer", new Date().getTime());
-			window.location = this.device.amazonLink;
+			window.open(this.device.amazonLink + this.amazonRef);
+		},
+		toSellerHome() {
+			window.open("https://www." + this.amazonName + this.amazonRef);
 		}
 	},
 
@@ -329,6 +358,11 @@ export default {
 
 	.price-info {
 		font-size: 0.8rem;
+		cursor: pointer;
+	}
+
+	.price-info:hover {
+		color: black;
 	}
 
 	#at {
@@ -337,11 +371,20 @@ export default {
 		margin-left: 5px;
 	}
 
-	.seller img {
-		height: 20px;
+	img.seller {
+		height: 30px;
 		margin: 0 10px;
 		position: relative;
-		top: 5px;
+		top: 7px;
+	}
+
+	img.seller:hover {
+		cursor: pointer;
+	}
+
+	.amazonDisclaimer {
+		font-size: 0.8rem;
+		line-height: 1.5;
 	}
 
 	a, a:visited {
@@ -502,6 +545,12 @@ export default {
 
 	.notes p a {
 		color: blue;
+	}
+
+	.statement {
+		text-align: center;
+		color: grey;
+		font-size: 0.8rem;
 	}
 
 	/***************MEDIA QUERIES*******************/

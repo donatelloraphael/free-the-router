@@ -55,14 +55,14 @@
       
       <!-- FILTER BY PRICE -->
       <h3>By Price</h3>
-      <div class="filter-price" @click="navigatePrice('0-1500')" :class="{ active: query.price == '0-1500' }">Under Rs. 1500</div>
-      <div class="filter-price" @click="navigatePrice('1500-3000')" :class="{ active: query.price == '1500-3000' }">Rs. 1500 - Rs. 3000</div>
-      <div class="filter-price" @click="navigatePrice('3000-6000')":class="{ active: query.price == '3000-6000' }">Rs. 3000 - Rs. 6000</div>
-      <div class="filter-price" @click="navigatePrice('6000-10000')":class="{ active: query.price == '6000-10000' }">Rs. 6000 - Rs. 10000</div>
-      <div class="filter-price" @click="navigatePrice('10000')":class="{ active: query.price == '10000' }">Over Rs. 10000</div>
+      <div class="filter-price" @click="navigatePrice(`0-${priceFilter1}`)" :class="{ active: query.price == `0-${priceFilter1}` }">Under {{currency}} {{priceFilter1}}</div>
+      <div class="filter-price" @click="navigatePrice(`${priceFilter2}`)" :class="{ active: query.price == `${priceFilter2}` }">{{currency}} {{priceFilter2}}</div>
+      <div class="filter-price" @click="navigatePrice(`${priceFilter3}`)":class="{ active: query.price == `${priceFilter3}` }">{{currency}} {{priceFilter3}}</div>
+      <div class="filter-price" @click="navigatePrice(`${priceFilter4}`)":class="{ active: query.price == `${priceFilter4}` }">{{currency}} {{priceFilter4}}</div>
+      <div class="filter-price" @click="navigatePrice(`${priceFilter5}`)":class="{ active: query.price == `${priceFilter5}` }">Over {{currency}} {{priceFilter5}}</div>
       <div class="filter-price">
-        <input v-model.lazy.trim="minPrice" type="number" placeholder="Rs. Min">
-        <input v-model.lazy.trim="maxPrice" type="number" placeholder="Rs. Max">
+        <input v-model.lazy.trim="minPrice" type="number" :placeholder="currency + ' Min'">
+        <input v-model.lazy.trim="maxPrice" type="number" :placeholder="currency + ' Max'">
         <input type="submit" class="button" value="Go" @click="navigatePrice()">
       </div>
 
@@ -147,6 +147,7 @@
 
   export default {
     name: "TheFilterMenu",
+    watchQuery: true,
     data() {
       return {
         closedState: false,
@@ -159,7 +160,14 @@
         minPrice: "",
         maxPrice: "",
         reset: false, 
-        firstLoad: true
+        firstLoad: true,
+
+        priceFilter1: "30", 
+        priceFilter2: "30-60", 
+        priceFilter3: "60-120", 
+        priceFilter4: "120-175", 
+        priceFilter5: "175",
+        currency: "$"
       };
     },
     props: ["isActive"],
@@ -389,10 +397,49 @@
           this.checkedBrands = [];
         }
       });
+
+      //////////////////// Set Filters based on country /////////////////////
+      this.unwatchCountry = this.$store.watch(state => {
+        return this.$store.getters.getCountry;
+      }, (country) => {
+
+        if (country == "IN") {
+          this.priceFilter1 = "1500"; 
+          this.priceFilter2 = "1500-3000"; 
+          this.priceFilter3 = "3000-6000"; 
+          this.priceFilter4 = "6000-10000";
+          this.priceFilter5 = "10000";
+        } else {
+          this.priceFilter1 = "30";
+          this.priceFilter2 = "30-60"; 
+          this.priceFilter3 = "60-120";
+          this.priceFilter4 = "120-175";
+          this.priceFilter5 = "175";
+        }
+
+        this.currency = this.$store.getters.getCurrency;
+      });
+
+      if (this.$store.getters.getCountry == "IN") {
+        this.priceFilter1 = "1500"; 
+        this.priceFilter2 = "1500-3000"; 
+        this.priceFilter3 = "3000-6000"; 
+        this.priceFilter4 = "6000-10000";
+        this.priceFilter5 = "10000";
+      } else {
+        this.priceFilter1 = "30";
+        this.priceFilter2 = "30-60"; 
+        this.priceFilter3 = "60-120";
+        this.priceFilter4 = "120-175";
+        this.priceFilter5 = "175";
+      }
+
+      this.currency = this.$store.getters.getCurrency;
     },
 
     beforeDestroy() {
       this.unwatch();
+      this.unwatchCountry();
     }
   };
 </script>

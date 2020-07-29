@@ -5,7 +5,8 @@
 				<p class="name">{{ topPicks[selected][0].amazonName }}</p>
 				<p class="short-name">{{ topPicks[selected][0].company }}  {{ topPicks[selected][0].model }}</p>
 				<p class="specs">{{ topPicks[selected][0].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
-				<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][0].amazonPrice }}</p>
+				<p class="price"><span class="label">Price: </span>{{$store.getters.getCurrency}} {{ topPicks[selected][0].amazonPrice.toLocaleString() }}* </p>
+				<p class="price-disclaimer">*As of {{ topPicks[selected][0].amazonUpdatedOn }}</p>
 				<nuxt-link class="link-container":to="{ path: `devices/${topPicks[selected][0].fullName.replace(/\ /g, '-')}` }" target="_blank">
 					<button>Shop now</button>
 				</nuxt-link>
@@ -18,7 +19,8 @@
 				<div class="alt1-contents">
 					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][1].model }}</p>
 					<p class="specs">{{ topPicks[selected][1].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
-					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][1].amazonPrice }}</p>
+					<p class="price"><span class="label">Price: </span>{{$store.getters.getCurrency}} {{ topPicks[selected][1].amazonPrice.toLocaleString() }}*</p>
+					<p class="price-disclaimer">*As of {{ topPicks[selected][1].amazonUpdatedOn }}</p>
 				</div>
 			</div>
 		</nuxt-link>
@@ -29,7 +31,8 @@
 				<div class="alt2-contents">
 					<p class="short-name">{{ topPicks[selected][2].company }}  {{ topPicks[selected][2].model }}</p>
 					<p class="specs">{{ topPicks[selected][2].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
-					<p class="price"><span class="label">Price: </span>Rs. {{ topPicks[selected][2].amazonPrice }}</p>
+					<p class="price"><span class="label">Price: </span>{{$store.getters.getCurrency}} {{ topPicks[selected][2].amazonPrice.toLocaleString() }}*</p>
+					<p class="price-disclaimer">*As of {{ topPicks[selected][2].amazonUpdatedOn }}</p>
 				</div>
 			</div>
 		</nuxt-link>
@@ -82,7 +85,7 @@ export default {
 	.main {
 		grid-area: main;
 		min-width: 225px;
-		background: no-repeat center / 80%;
+		background: no-repeat center / 70%;
 		pointer: cursor;
 		height: 100%;
 	}
@@ -142,7 +145,7 @@ export default {
 		grid-area: alt-1;
 		min-width: 100px;
 		height: 90%;
-		background: no-repeat center / 100%;
+		background: no-repeat center / 80%;
 		pointer: cursor;
 	}
 
@@ -156,7 +159,7 @@ export default {
 	.alt-2 {
 		grid-area: alt-2;
 		min-width: 100px;
-		background: no-repeat center / 100%;
+		background: no-repeat center / 80%;
 		pointer: cursor;
 		height: 90%;
 	}
@@ -174,6 +177,11 @@ export default {
 	.placeholder {
 		width: 100%;
 		height: 100%;
+	}
+
+	.price-disclaimer {
+		color: white;
+		font-size: 0.7rem;
 	}
 
 	/****************************MEDIA QUERYS*********************************/

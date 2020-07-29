@@ -20,7 +20,8 @@ const createStore = () => {
 			selectedCountry: "US",
 			shopOldCountry: "US",
 			homeOldCountry: "US",
-			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`
+			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`,
+			currency: '$'
 		}),
 
 		mutations: {
@@ -40,6 +41,9 @@ const createStore = () => {
 			},
 			setHomeOldCountry(state) {
 				state.homeOldCountry = state.selectedCountry;
+			},
+			setCurrency(state, currency) {
+				state.currency = currency;
 			}
 		},
 
@@ -55,6 +59,7 @@ const createStore = () => {
 
 					vuexContext.commit("setCountry", country);
 					vuexContext.dispatch("setFlagUrl", country);
+					vuexContext.dispatch("setCurrency", vuexContext.getters.getCountry);
 				}
 				
 			},
@@ -69,6 +74,16 @@ const createStore = () => {
 					return;
 				}
 				vuexContext.commit("setFlagUrl", country);
+			},
+			setCurrency(vuexContext, country) {
+				let currency = "$";
+				switch (country) {
+					case "US": currency = "$"; break;
+					case "IN": currency = "₹"; break;
+					case "CA": currency = "CDN$"; break;
+					case "UK": currency = "£"; break;
+				}
+				vuexContext.commit("setCurrency", currency);
 			}
 		},
 		
@@ -84,6 +99,9 @@ const createStore = () => {
 			},
 			getHomeOldCountry(state) {
 				return state.homeOldCountry;
+			},
+			getCurrency(state) {
+				return state.currency;
 			}
 		}
 	});

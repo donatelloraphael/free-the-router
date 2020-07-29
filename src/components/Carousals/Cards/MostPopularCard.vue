@@ -7,7 +7,9 @@
 			<div class="description">
 				<h3 class="name">{{ mostPopular[cardPosition].company }}  {{ mostPopular[cardPosition].model }}</h3>
 				<p>{{ mostPopular[cardPosition].RAM }}MB RAM, {{ mostPopular[cardPosition].Flash }}MB Flash</p>
-				<p>Price: <span>Rs: {{ mostPopular[cardPosition].amazonPrice }}</span></p>
+				<p>Price: <span>{{$store.getters.getCurrency}} {{ mostPopular[cardPosition].amazonPrice.toLocaleString() }}*</span></p>
+				<p class="price-disclaimer">*As of {{ mostPopular[cardPosition].amazonUpdatedOn }}</p>
+				
 				<div class="firmwares">
 
 					<img class="firmware openwrt" alt="openwrt logo" src="@/assets/images/firmwares/openwrt.png" v-if="mostPopular[cardPosition].openwrtSupport">
@@ -89,6 +91,11 @@
 		padding: 0; 
 		flex-wrap: wrap;
 		margin-top: 10px;
+	}
+
+	.price-disclaimer {
+		font-size: 0.7rem;
+		color: white;
 	}
 
 	img.firmware {

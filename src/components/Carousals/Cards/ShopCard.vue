@@ -7,7 +7,7 @@
 			<div class="description">
 				<h3 class="name">{{ device.amazonName }}</h3>
 				<p>{{ device.Flash }}MB Flash, {{ device.RAM }}MB RAM</p>
-				<p>Price: <span>Rs: {{ device.amazonPrice.toLocaleString() }}*</span></p>
+				<p>Price: <span>{{ $store.getters.getCurrency }} {{ device.amazonPrice.toLocaleString() }}*</span></p>
 				<p class="price-disclaimer">*As of {{ device.amazonUpdatedOn }}</p>
 
 				<div class="firmwares">

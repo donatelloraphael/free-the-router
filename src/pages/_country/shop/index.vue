@@ -215,7 +215,6 @@ export default {
 		margin: 0 1rem 5% 1rem;
 	}
 
-
 	/*MEDIA QUERYS*/
 
 	@media (max-width: 1072px) {
