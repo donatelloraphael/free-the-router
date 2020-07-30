@@ -313,7 +313,7 @@ export default {
     font-size: 0.9rem;
     color: grey;
     text-align: center;
-    margin: 10px 20px;
+    margin: 30px 20px;
   }
 
  /*******************************MEDIA QUERYS****************************/

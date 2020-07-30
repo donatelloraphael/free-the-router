@@ -15,9 +15,9 @@
     "@babel/runtime-corejs3": "^7.10.5",
     "axios": "^0.19.2",
     "express": "^4.16.4",
-    "firebase": "^7.16.1",
-    "nuxt": "^2.13.3",
-    "regenerator-runtime": "^0.13.6"
+    "firebase": "^7.17.1",
+    "nuxt": "^2.14.0",
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
