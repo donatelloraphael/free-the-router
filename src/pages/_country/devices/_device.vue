@@ -119,6 +119,14 @@ import { db } from '~/plugins/firebase.js';
 import Breadcrumb from '~/components/Navigation/Breadcrumb';
 
 export default {
+	head() {
+		return {
+			title: this.device.amazonName,
+	    meta: [
+	      { hid: 'description', name: 'description', content: `Details and specs for ${this.device.amazonName}`}
+	    ]
+		};
+  },
 	components: {
 		appBreadcrumb: Breadcrumb
 	},

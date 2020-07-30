@@ -183,6 +183,13 @@
 	const TIMEOUT = 1;
 
 	export default {
+
+		head: {
+	    title: "About Free The Router",
+	    meta: [
+	      { hid: 'description', name: 'description', content: 'About Freetherouter.com and our policies' }
+	    ]
+	  },
 		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		
 		mounted () {
 	    // From testing, without a brief timeout, it won't work.

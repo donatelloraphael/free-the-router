@@ -31,6 +31,13 @@ import Pagination from "~/components/Navigation/ThePagination";
 export default {
 	watchQuery: ['brand', 'category', 'page', 'search', 'ram', 'flash', 'sort', 'price', 'firmware', 'reset'],
 
+	head: {
+    title: "Shop for a device - Free The Router",
+    meta: [
+      { hid: 'description', name: 'description', content: 'Shop for a router or networking device that supports custom firmwares' }
+    ]
+  },
+
 	components: {
 		appShopCard: ShopCard,
 		appPagination: Pagination

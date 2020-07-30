@@ -42,7 +42,12 @@
 	const TIMEOUT = 1;
 
 	export default {
-		name: "TheFooter",
+		head: {
+	    title: "Sitemap - Free The Router",
+	    meta: [
+	      { hid: 'description', name: 'description', content: 'Sitemap of freetherouter.com' }
+	    ]
+	  },
 		methods: {
 			scrollTo: function (hashtag) {
 	      setTimeout(() => { location.href = hashtag }, TIMEOUT)

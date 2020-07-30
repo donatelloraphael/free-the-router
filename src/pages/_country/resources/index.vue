@@ -147,6 +147,13 @@
 	const TIMEOUT = 1;
 
 	export default {
+
+		head: {
+	    title: "More Resources - Free The Router",
+	    meta: [
+	      { hid: 'description', name: 'description', content: 'Resources regarding networking devices supporting custom firmwares' }
+	    ]
+	  },
 		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		
 		mounted () {
 	    // From testing, without a brief timeout, it won't work.

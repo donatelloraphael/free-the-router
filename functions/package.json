@@ -26,7 +26,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
-    "firebase-functions-test": "^0.2.1"
+    "firebase-functions-test": "^0.2.1",
+    "jstoxml": "^1.6.8"
   },
   "private": true
 }
