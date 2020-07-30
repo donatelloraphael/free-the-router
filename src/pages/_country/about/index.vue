@@ -184,11 +184,13 @@
 
 	export default {
 
-		head: {
-	    title: "About Free The Router",
-	    meta: [
-	      { hid: 'description', name: 'description', content: 'About Freetherouter.com and our policies' }
-	    ]
+		head() {
+			return {
+		    title: "About Free The Router",
+		    meta: [
+		      { hid: 'description', name: 'description', content: 'About Freetherouter.com and our policies' }
+		    ]
+		  }
 	  },
 		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		
 		mounted () {

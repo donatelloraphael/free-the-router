@@ -42,11 +42,13 @@
 	const TIMEOUT = 1;
 
 	export default {
-		head: {
-	    title: "Sitemap - Free The Router",
-	    meta: [
-	      { hid: 'description', name: 'description', content: 'Sitemap of freetherouter.com' }
-	    ]
+		head() {
+			return {
+		    title: "Sitemap - Free The Router",
+		    meta: [
+		      { hid: 'description', name: 'description', content: 'Sitemap of freetherouter.com' }
+		    ]
+		  }
 	  },
 		methods: {
 			scrollTo: function (hashtag) {

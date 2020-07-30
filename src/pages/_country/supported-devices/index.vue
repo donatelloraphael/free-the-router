@@ -91,13 +91,15 @@
 
 <script>
 	export default {
-		head: {
-	    title: "Compatable Devices - Free The Router",
-	    meta: [
-	      { hid: 'description', name: 'description', content: 'Find devices supported by each custom firmware projects' }
-	    ]
+		head() {
+			return {
+		    title: "Compatable Devices - Free The Router",
+		    meta: [
+		      { hid: 'description', name: 'description', content: 'Find devices supported by each custom firmware projects' }
+		    ]
+		  }
 	  }
-	}
+	};
 </script>
 
 <style scoped>

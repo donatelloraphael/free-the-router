@@ -124,11 +124,13 @@ import MostPopular from '~/components/Carousals/MostPopular';
 const TIMEOUT = 1;
 
 export default {
-  head: {
-    title: "Free The Router - Find your perfect router",
-    meta: [
-      { hid: 'description', name: 'description', content: 'Find routers and related devices supporting custom firmwares' }
-    ]
+  head() {
+    return {
+      title: "Free The Router - Find your perfect router",
+      meta: [
+        { hid: 'description', name: 'description', content: 'Find routers and related devices supporting custom firmwares' }
+      ]
+    };
   },
   components: {
     appTopPicks: TopPicks,
