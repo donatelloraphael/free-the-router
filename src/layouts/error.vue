@@ -9,6 +9,18 @@
 	</div>
 </template>
 
+<script>
+import {firebase} from "~/plugins/firebase.js";
+
+export default {
+	
+	mounted() {
+      firebase.analytics();
+    }
+ };
+
+</script>
+
 <style scoped>
 
 	.top-container {

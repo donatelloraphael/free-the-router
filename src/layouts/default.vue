@@ -12,12 +12,18 @@
 <script>
   import TheHeader from '@/components/Navigation/TheHeader';
   import TheFooter from '@/components/Navigation/TheFooter';
+  import {firebase} from "~/plugins/firebase.js";
+
 
   export default {
     
     components: {
       appHeader: TheHeader,
       appFooter: TheFooter
+    },
+
+    mounted() {
+      firebase.analytics();
     }
   };
 </script>

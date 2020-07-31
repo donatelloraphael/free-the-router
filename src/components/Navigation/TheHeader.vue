@@ -65,7 +65,7 @@
 </template>
 
 <script>
-	import {db, firebase} from "~/plugins/firebase.js";
+	import {db} from "~/plugins/firebase.js";
 
 	import TheSideNav from "@/components/Navigation/TheSideNav";
 	import TheFilterMenu from "@/components/Navigation/TheFilterMenu";
@@ -196,8 +196,6 @@
 					vm.lastScrollTop = scrollPosition;
 				}
 			};
-
-			firebase.analytics();
 		}
 	};
 

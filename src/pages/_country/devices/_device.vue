@@ -49,7 +49,7 @@
 					</div>
 					
 					<div id="disclaimer" :class="{active : disclaimerActive}"><span>Check with the seller the exact version of the router being sold so that your chosen custom firmware supports it.</span>
-						<button @click="redirect()">I understand</button>
+						<button @click="redirect(); disclaimerActive = false;">I understand</button>
 					</div>
 
 					<div id="backdrop" @click="disclaimerActive = false" :class="{active: disclaimerActive}"></div>
