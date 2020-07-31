@@ -77,15 +77,15 @@ exports.checkGargoyle = functions.pubsub.topic("firebase-schedule-checkAndUpdate
                               return gargoyleModule.checkGargoyle();
                           });
 
-exports.checkAndUpdateDdwrt = functions.pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
+exports.checkAndUpdateDdwrt = functions.runWith({timeoutSeconds: 120, memory: '512MB'}).pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
                           return ddwrtModule.checkAndUpdateDdwrt();
                         });
 
-exports.checkAndUpdateOpenwrt = functions.pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
+exports.checkAndUpdateOpenwrt = functions.runWith({timeoutSeconds: 540, memory: '2GB'}).pubsub.topic("firebase-schedule-checkAndUpdateTomatobyshibby-us-central1").onPublish((message) => {
                           return openwrtModule.checkAndUpdateOpenwrt();
                         });
 
-exports.pingSite = functions.pubsub.schedule("every 5 minutes")
+exports.pingSite = functions.runWith({timeoutSeconds: 30, memory: '128MB'}).pubsub.schedule("every 5 minutes")
                     .timeZone('Asia/Kolkata')
                     .onRun((context) => {
                       return cronPingModule.pingSite();
