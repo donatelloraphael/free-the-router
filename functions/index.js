@@ -35,18 +35,12 @@ const readyPromise = nuxt
   });
 
 async function handleRequest(req, res) {
-
-  if (req.headers['keep-alive-ping']) {
-    res.send('OK');
-  } else {
-
-    if (!isReady) {
-      await readyPromise;
-    }
-    
-    res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
-    await nuxt.render(req, res);
+  if (!isReady) {
+    await readyPromise;
   }
+
+  res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
+  await nuxt.render(req, res);
 }
 
 app.get('*', handleRequest);
