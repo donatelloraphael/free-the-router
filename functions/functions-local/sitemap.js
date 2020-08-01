@@ -54,7 +54,7 @@ async function makeUrlArray() {
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}`,
+				loc: `https://freetherouter.com/${countries[num]}/`,
 				lastmod: new Date().toISOString(),
 				changefreq: "daily",
 				priority: 1
@@ -63,7 +63,7 @@ async function makeUrlArray() {
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/shop`,
+				loc: `https://freetherouter.com/${countries[num]}/shop/`,
 				lastmod: new Date().toISOString(),
 				changefreq: "daily",
 				priority: 0.9
@@ -72,35 +72,35 @@ async function makeUrlArray() {
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/firmware`,
+				loc: `https://freetherouter.com/${countries[num]}/firmware/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/supported-devices`,
+				loc: `https://freetherouter.com/${countries[num]}/supported-devices/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/resources`,
+				loc: `https://freetherouter.com/${countries[num]}/resources/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/about`,
+				loc: `https://freetherouter.com/${countries[num]}/about/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/sitemap`,
+				loc: `https://freetherouter.com/${countries[num]}/sitemap/`,
 				priority: 0.4
 			}
 		});
@@ -108,7 +108,7 @@ async function makeUrlArray() {
 		devices.forEach(device => {
 			urlArray.push({
 				url: {
-					loc: `https://freetherouter.com/${countries[num]}/devices/${device}`,
+					loc: `https://freetherouter.com/${countries[num]}/devices/${device}/`,
 					priority: 0.7
 				}
 			});
