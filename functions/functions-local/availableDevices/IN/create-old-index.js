@@ -25,11 +25,6 @@ async function createOldIndex() {
 			.catch(error => console.log(error));
 		}
 	}).catch(error => console.log(error));
-
-	await indiaIndices.doc("all-devices").delete()
-	.then(() => console.log("all-devices index cleared."))
-	.catch(error => console.log(error));
-
 }
 
 createOldIndex();
