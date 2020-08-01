@@ -4,7 +4,7 @@
 			<i class="fas fa-exclamation-triangle"></i>
 			<h1>Error! Page not found!</h1>
 			<h2>Website is still under construction!</h2>
-			<p>Go back to <nuxt-link :to="/$store.getters.getCountry/">Home</nuxt-link></p>
+			<p>Go back to <nuxt-link :to="`/${$store.getters.getCountry}/`">Home</nuxt-link></p>
 		</div>
 	</div>
 </template>
