@@ -254,7 +254,9 @@ async function addExtraInfo() {
 					if (device.openwrtSupport) {
 						supportedDevices[i].supportedFirmwares.push("openwrt");
 					}
-
+					if (!device.company) {
+						console.log("Company Problem Device: ", device);
+					}
 					supportedDevices[i].brand = device.company.toUpperCase();
 					supportedDevices[i].amazonUpdatedOn = new Date().toLocaleString(`en-${COUNTRY}`, {timeZone: "UTC"}) + " UTC";
 					supportedDevices[i].serialNumber = serialNumber++;
