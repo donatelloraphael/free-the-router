@@ -6,11 +6,11 @@
     
     <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
       <nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop` }" :class="{activeAlt: path == '/shop'}"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware` }"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices` }"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources` }"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/about` }"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
+      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/` }" :class="{activeAlt: path == '/shop'}"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
+      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/` }"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
+      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices/` }"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
+      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/` }"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
+      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/` }"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
 
       <div class="nav-country-dropdown">
   

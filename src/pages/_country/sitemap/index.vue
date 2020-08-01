@@ -7,11 +7,11 @@
 			<h1>Sitemap</h1>
 			<ul>
 				<li><nuxt-link :to="`/${$store.getters.getCountry}/`">Home</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/shop`">Shop</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware`">Firmware</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/supported-devices`">Supported Devices</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/resources`">Resources</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/about`">About Us</nuxt-link></li>
+				<li><nuxt-link :to="`/${$store.getters.getCountry}/shop/`">Shop</nuxt-link></li>
+				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/`">Firmware</nuxt-link></li>
+				<li><nuxt-link :to="`/${$store.getters.getCountry}/supported-devices/`">Supported Devices</nuxt-link></li>
+				<li><nuxt-link :to="`/${$store.getters.getCountry}/resources/`">Resources</nuxt-link></li>
+				<li><nuxt-link :to="`/${$store.getters.getCountry}/about/`">About Us</nuxt-link></li>
 			</ul>
 
 			<ul>

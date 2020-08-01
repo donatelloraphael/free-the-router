@@ -30,7 +30,7 @@
 				<h3>Know More</h3>
 				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#about` }" @click.native="scrollTo('#about')">About Us</nuxt-link>
 				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#contact` }"  @click.native="scrollTo('#contact')">Contact Us</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/sitemap` }">Sitemap</nuxt-link>
+				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/sitemap/` }">Sitemap</nuxt-link>
 			</div>
 
 			<div id="placeholder-block">

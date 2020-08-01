@@ -1,6 +1,6 @@
 <template>
 	<div class="card">
-		<nuxt-link :to="{ path: `devices/${deviceName}` }" target="_blank">
+		<nuxt-link :to="{ path: `/${$store.getters.getCountry}/devices/${deviceName}/` }" target="_blank">
 
 			<div class="image" :style="{ 'background-image': 'url(' + device.amazonThumbnail + ')' }"></div>
 				

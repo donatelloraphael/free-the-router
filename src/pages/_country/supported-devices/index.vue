@@ -93,7 +93,7 @@
 	export default {
 		head() {
 			return {
-		    title: "Compatable Devices - Free The Router",
+		    title: "Supported devices by various custom firmware projects - Free The Router",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'Find devices supported by each custom firmware projects' }
 		    ]

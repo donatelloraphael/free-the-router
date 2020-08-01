@@ -123,7 +123,7 @@ export default {
 		return {
 			title: this.device.amazonName,
 	    meta: [
-	      { hid: 'description', name: 'description', content: `Details and specs for ${this.device.amazonName}`}
+	      { hid: 'description', name: 'description', content: `Details and specifications for ${this.device.amazonName}`}
 	    ]
 		};
   },
@@ -133,8 +133,8 @@ export default {
 
 	data() {
 		return {
-			localCategory: "Routers",
-			queryCategory: "routers",
+			localCategory: "All Devices",
+			queryCategory: "all-devices",
 			disclaimerShown: false,
 			disclaimerActive: false,
 			amazonDisclaimer: false
@@ -255,9 +255,6 @@ export default {
 				localStorage.removeItem("disclaimerTimer");
 			}
 		}
-		
-		console.log(this.localCategory);
-		console.log(this.queryCategory);
 
 		console.log(this.device);
 	}

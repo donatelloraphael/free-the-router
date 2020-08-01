@@ -43,7 +43,7 @@ export default {
 
 	methods: {
 		changePage(page) {
-			this.$router.push({ path: 'shop', query: {...this.querys, page: `${page}` }});
+			this.$router.push({ query: {...this.querys, page: `${page}` }});
 		}
 	}
 };

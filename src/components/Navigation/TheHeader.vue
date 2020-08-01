@@ -45,11 +45,11 @@
     	
 	    	<ul class="navbar-list navbar-nav mr-auto">
 	    		<li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }" exact>Home</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop` }">Shop</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware` }">Firmware</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices` }">Supported Devices</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources` }">Resources</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about` }">About Us</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/` }">Shop</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/` }">Firmware</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices/` }">Supported Devices</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/` }">Resources</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/` }">About Us</nuxt-link></li>
 	    	</ul>
 	    </nav>
 
@@ -130,7 +130,7 @@
 					} 
 				}
 				this.searchTerm = "";
-				this.$router.push({ path: `/${this.$store.getters.getCountry}/shop`, query: { search: args, category: this.searchCategory} });
+				this.$router.push({ path: `/${this.$store.getters.getCountry}/shop/`, query: { search: args, category: this.searchCategory} });
 			}
 		},
 

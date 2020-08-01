@@ -1,11 +1,22 @@
 import axios from 'axios';
 
-export default function ({ req, res, store, redirect, params, route }) {
+export default function ({ req, res, store, redirect, params, route, query }) {
 	
 	if (process.server) {
+		
+		let fullPath = route.fullPath;
+		if (!Object.keys(query).length) {
+			fullPath = /^.*(?<!\/)$/.test(fullPath) ? fullPath + "/" : fullPath;
+		} else if (route.path == `/${params.country}/shop`) {
+			fullPath = fullPath.replace(route.path, route.path + "/");
+		}
 
-		let fullPath = /^.*(?<!\/)$/.test(route.fullPath) ? route.fullPath + "/" : route.fullPath;
+		if (params.device) {
+			fullPath = fullPath.replace(params.device, params.device.toUpperCase());
+		}
+
 		let country = params.country ? params.country.toUpperCase() : null;
+
 
 		if (country == "US" || country == "UK" || country == "CA" || country == "IN") {
 			store.dispatch("setCountry", country);
@@ -19,8 +30,7 @@ export default function ({ req, res, store, redirect, params, route }) {
 			.then(result => {
 				store.dispatch("setCountry", result.data.country_code.toUpperCase());	
 				return redirect(`/${store.getters.getCountry}/`);
-			}).catch(error => console.log(error));
-						
+			}).catch(error => console.log(error));	
 		}
 	}
 }

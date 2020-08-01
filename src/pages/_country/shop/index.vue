@@ -33,7 +33,7 @@ export default {
 
 	head() {
 		return {
-	    title: "Shop for a device - Free The Router",
+	    title: "View available custom firmware supported Routers, Repeaters, Wireless Access Points, and Modems - Free The Router",
 	    meta: [
 	      { hid: 'description', name: 'description', content: 'Shop for a router or networking device that supports custom firmwares' }
 	    ]

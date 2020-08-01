@@ -8,11 +8,11 @@
 
       <!-- CATEGORYS -->
       <h3>Category</h3>
-      <nuxt-link :to="{ path: 'shop', query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges()">All Devices</span></nuxt-link>
-      <nuxt-link :to="{ path: 'shop', query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges()">Routers</span></nuxt-link>
-      <nuxt-link :to="{ path: 'shop', query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges()">Wireless Access Points</span></nuxt-link>
-      <nuxt-link :to="{ path: 'shop', query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges()">Repeaters & Extenders</span></nuxt-link>
-      <nuxt-link :to="{ path: 'shop', query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges()">Modems</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges()">All Devices</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges()">Routers</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges()">Wireless Access Points</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges()">Repeaters & Extenders</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges()">Modems</span></nuxt-link>
 
       <!-- SORT BY PRICE -->
       <h3>Sort By</h3>
@@ -188,7 +188,7 @@
 
         if (this.firstLoad) {
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, firmware: val } });
+            this.$router.push({ query: { ...query, firmware: val } });
             return;
           } else {
             return
@@ -199,10 +199,10 @@
           delete query.reset;
           
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, firmware: val } });
+            this.$router.push({ query: { ...query, firmware: val } });
           } else {
             // Adds "reset" to query to force it to refresh 
-            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.$router.push({ query: { ...query, reset: this.reset } });
             this.reset = !this.reset;
           }
 
@@ -214,7 +214,7 @@
 
         if (this.firstLoad) {
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, ram: val } });
+            this.$router.push({ query: { ...query, ram: val } });
             return;
           } else {
             return;
@@ -224,9 +224,9 @@
           delete query.reset;
 
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, ram: val } });
+            this.$router.push({ query: { ...query, ram: val } });
           } else {
-            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.$router.push({ query: { ...query, reset: this.reset } });
             this.reset = !this.reset;
           }
         }     
@@ -236,7 +236,7 @@
 
         if (this.firstLoad) {
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, flash: val } });
+            this.$router.push({ query: { ...query, flash: val } });
             return;
           } else {
             return;
@@ -246,9 +246,9 @@
           delete query.reset;
 
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, flash: val } });
+            this.$router.push({ query: { ...query, flash: val } });
           } else {
-            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.$router.push({ query: { ...query, reset: this.reset } });
             this.reset = !this.reset;
           }
         }
@@ -259,7 +259,7 @@
 
         if (this.firstLoad) {
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, brand: val } });
+            this.$router.push({ query: { ...query, brand: val } });
             return;
           } else {
             return;
@@ -269,9 +269,9 @@
           delete query.reset;
 
           if (val.length > 0) {
-            this.$router.push({ path: "shop", query: { ...query, brand: val } });
+            this.$router.push({ query: { ...query, brand: val } });
           } else {
-            this.$router.push({ path: "shop", query: { ...query, reset: this.reset } });
+            this.$router.push({ query: { ...query, reset: this.reset } });
             this.reset = !this.reset;
           }
         }  
@@ -317,12 +317,12 @@
 
         if (sort == "default") {
           query = {...query, sort: "default"};
-          this.$router.push({ path: "shop", query: query });
+          this.$router.push({ query: query });
 
         } else {
           query = {...query, sort: sort};
 
-          this.$router.push({ path: "shop", query: query });
+          this.$router.push({ query: query });
         }
       },
       navigatePrice(priceRange) {
@@ -330,7 +330,7 @@
 
         if (priceRange && priceRange == query.price) {
           delete query.price;
-          this.$router.push({ path: "shop", query: { ...query, reset: this.reset }});
+          this.$router.push({ query: { ...query, reset: this.reset }});
           this.reset = !this.reset;
           return;
         }
@@ -339,10 +339,10 @@
 
         if (priceRange) {
           query = {...query, price: priceRange};
-          this.$router.push({ path: "shop", query: query });
+          this.$router.push({ query: query });
         } else {
           if ((this.minPrice == "0" && this.maxPrice == "0")||(this.minPrice == "" && this.maxPrice == "")) {
-            this.$router.push({ path: "shop", query: { ...query, reset: this.reset }});
+            this.$router.push({ query: { ...query, reset: this.reset }});
             this.reset = !this.reset;
 
           } else {
@@ -350,7 +350,7 @@
               this.maxPrice = "100000";
             }
             query = {...query, price: `${this.minPrice}-${this.maxPrice}`};
-            this.$router.push({ path: "shop", query: query });
+            this.$router.push({ query: query });
           }
         }        
       }

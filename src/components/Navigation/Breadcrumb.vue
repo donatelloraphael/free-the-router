@@ -12,22 +12,22 @@
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop`, query: { category: formattedCategory }}">{{ category }}</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { category: formattedCategory }}">{{ category }}</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="2" />
 				</li>
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<span itemprop="item" href="#">
-						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop`, query: { brand: brand } }">{{ brand }}</nuxt-link></span>
+					<span itemprop="item">
+						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { brand: brand.toLowerCase() } }">{{ brand }}</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="3" />
 				</li>
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<a itemprop="item" href="#"> 
-						<span itemprop="name">{{ name }}</span>
-					</a>
+					<span itemprop="item"> 
+						<span itemprop="name" class="lastItem">{{ name }}</span>
+					</span>
 					<meta itemprop="position" content="4" />
 				</li>
 		
@@ -124,6 +124,11 @@ li:first-child:hover {
 }
 li:first-child::before, li:first-child::after {
   left: 5px;
+}
+
+.lastItem {
+	color: #2e3192;
+	margin: auto 10px;
 }
 
 @media (max-width: 789px) {

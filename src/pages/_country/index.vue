@@ -18,22 +18,22 @@
       <div class="by-price">
         <h1>By Price</h1>
         <div class="price-container">
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter1}` } }">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter1}` } }">
             <div class="price-card">
               <h2>{{$store.getters.getCurrency}} {{priceFilter1}}</h2>
             </div>
           </nuxt-link>
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter2}` } }">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter2}` } }">
             <div class="price-card">
               <h2>{{$store.getters.getCurrency}} {{priceFilter2}}</h2>
             </div>
           </nuxt-link>
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter3}` } }">
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter3}` } }">
             <div class="price-card">
               <h2>{{$store.getters.getCurrency}} {{priceFilter3}}</h2>
             </div>
           </nuxt-link>
-          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop`, query: { price: `${priceFilter4}-` } }">  
+          <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter4}-` } }">  
             <div class="price-card">
               <h2>{{$store.getters.getCurrency}} {{priceFilter4}} and up</h2>
             </div>
