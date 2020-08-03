@@ -1,5 +1,5 @@
-const COUNTRY = "IN";
-const AMAZON = "https://www.amazon.in";
+const COUNTRY = "UK";
+const AMAZON = "https://www.amazon.co.uk";
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -25,10 +25,10 @@ let allDevices = [];
 let supportedDevices = [];
 
 const deviceType = "wireless access points";
-const amazonLinks = { "routers": "https://www.amazon.in/s?rh=n%3A1375439031&page=",
-											"modems": "https://www.amazon.in/s?rh=n%3A1375431031&page=",
-											"wireless access points": "https://www.amazon.in/s?rh=n%3A1375440031&page=",
-											"repeaters & extenders": "https://www.amazon.in/s?rh=n%3A1375438031&page="
+const amazonLinks = { "routers": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430579031&dc&page=",
+											"modems": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430575031&page=",
+											"wireless access points": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430580031&page=",
+											"repeaters & extenders": "https://www.amazon.co.uk/s?&rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430578031&page="
 										};
 
 
@@ -60,10 +60,6 @@ async function main() {
 			let amazonLink = amazonLinks[deviceType] + page;
 
 			let html = await getPage(amazonLink, page, deviceType);
-
-			if (html == "error") {
-				return false;
-			}
 
 			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
@@ -117,7 +113,7 @@ async function getPage(link, page, deviceType) {
 
 	}).catch(error => {
 		console.log(error);
-		return "error";
+		return getPage(link, page, deviceType);
 	});
 }
 

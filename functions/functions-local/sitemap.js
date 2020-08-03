@@ -28,7 +28,7 @@ async function makeSitemap() {
 		_content: urlArray
 	}, xmlOptions);
 
-	fs.writeFile("../../public/sitemap.xml", sitemap, err => {
+	fs.writeFile("./public/sitemap.xml", sitemap, err => {
 		if (err) return console.log(err);
 	});
 

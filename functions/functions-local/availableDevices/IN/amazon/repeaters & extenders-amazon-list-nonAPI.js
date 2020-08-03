@@ -1,5 +1,5 @@
-const COUNTRY = "CA";
-const AMAZON = "https://www.amazon.ca";
+const COUNTRY = "IN";
+const AMAZON = "https://www.amazon.in";
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -24,11 +24,11 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "wireless access points";
-const amazonLinks = { "routers": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A680475011&page=",
-											"modems": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A3312815011&page=",
-											"wireless access points": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A680472011&page=",
-											"repeaters & extenders": "https://www.amazon.ca/s?rh=n%3A667823011%2Cn%3A%21677211011%2Cn%3A2404990011%2Cn%3A677247011%2Cn%3A3312825011&page="
+const deviceType = "repeaters & extenders";
+const amazonLinks = { "routers": "https://www.amazon.in/s?rh=n%3A1375439031&page=",
+											"modems": "https://www.amazon.in/s?rh=n%3A1375431031&page=",
+											"wireless access points": "https://www.amazon.in/s?rh=n%3A1375440031&page=",
+											"repeaters & extenders": "https://www.amazon.in/s?rh=n%3A1375438031&page="
 										};
 
 
@@ -60,10 +60,6 @@ async function main() {
 			let amazonLink = amazonLinks[deviceType] + page;
 
 			let html = await getPage(amazonLink, page, deviceType);
-
-			if (html == "error") {
-				return false;
-			}
 
 			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
@@ -117,7 +113,7 @@ async function getPage(link, page, deviceType) {
 
 	}).catch(error => {
 		console.log(error);
-		return "error";
+		return getPage(link, page, deviceType);
 	});
 }
 

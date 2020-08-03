@@ -24,7 +24,7 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "routers";
+const deviceType = "modems";
 const amazonLinks = { "routers": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430579031&dc&page=",
 											"modems": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430575031&page=",
 											"wireless access points": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430580031&page=",
@@ -60,10 +60,6 @@ async function main() {
 			let amazonLink = amazonLinks[deviceType] + page;
 
 			let html = await getPage(amazonLink, page, deviceType);
-
-			if (html == "error") {
-				return false;
-			}
 
 			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
@@ -117,7 +113,7 @@ async function getPage(link, page, deviceType) {
 
 	}).catch(error => {
 		console.log(error);
-		return "error";
+		return getPage(link, page, deviceType);
 	});
 }
 
