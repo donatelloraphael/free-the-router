@@ -98,7 +98,7 @@ async function getPage(link, page, deviceType) {
 	.then(res => {
 
 		if (page == 1) {
-			console.log(`Category : ${deviceType}, PAGE: ${page} contains devices`);
+			console.log(`Country: ${COUNTRY}, Category : ${deviceType}, PAGE: ${page} contains devices`);
 			return res.data;
 		}
 		////////////////////////// Set page end //////////////////////////////////////////
@@ -107,7 +107,7 @@ async function getPage(link, page, deviceType) {
 			console.log('__________No more devices_________');
 			return false;
 		} else {
-			console.log(`Category : ${deviceType}, PAGE: ${page} contains devices`);
+			console.log(`Country: ${COUNTRY}, Category : ${deviceType}, PAGE: ${page} contains devices`);
 			return res.data;
 		}
 
