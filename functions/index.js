@@ -82,7 +82,7 @@ async function handleRequest(req, res) {
 app.get('*', handleRequest);
 
 app.use(handleRequest);
-exports.nuxtssr = functions.runWith({timeoutSeconds: 30, memory: '2GB'}).https.onRequest(app);
+exports.nuxtssr = functions.runWith({timeoutSeconds: 30, memory: '1GB'}).https.onRequest(app);
               
 ///////////////////////////OTHER FUNCTIONS////////////////////////////////////
 
