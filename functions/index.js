@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const { Nuxt } = require('nuxt');
 const express = require('express');
+const helmet = require("helmet");
 
 //////////////////OTHER FUNCTIONS//////////////////////////
 
@@ -17,6 +18,41 @@ const cronPingModule = require("./cron-ping.js");
 //////////////////SERVER SIDE RENDER////////////////////////
 
 const app = express();
+
+app.use(
+  helmet({
+    frameguard: {
+      action: 'sameorigin'
+    },
+    expectCt: {
+      maxAge: 86400
+    },
+    referrerPolicy: {
+      policy: 'origin'
+    },
+    strictTransportSecurity: {
+      maxAge: 63072000,
+      includeSubDomains: true,
+      preload: true
+    },
+    dnsPrefetchControl: {
+      allow: true
+    },
+    permittedCrossDomainPolicies: {
+      permittedPolicies: "by-content-type"
+    },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com"],
+        imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "*.fontawesome.com"],
+        fontSrc: ["'self'", "*.fontawesome.com"],
+        connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com"]
+      }
+    }
+  })
+);
 
 const config = {
   dev: false
@@ -39,13 +75,14 @@ async function handleRequest(req, res) {
     await readyPromise;
   }
 
-  res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
+  res.set('Cache-Control', 'public, stale-while-revalidate=345600, max-age=172800, s-maxage=172800');
   await nuxt.render(req, res);
 }
 
 app.get('*', handleRequest);
+
 app.use(handleRequest);
-exports.nuxtssr = functions.https.onRequest(app);
+exports.nuxtssr = functions.runWith({timeoutSeconds: 30, memory: '2GB'}).https.onRequest(app);
               
 ///////////////////////////OTHER FUNCTIONS////////////////////////////////////
 

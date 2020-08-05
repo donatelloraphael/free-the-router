@@ -255,8 +255,6 @@ export default {
 				localStorage.removeItem("disclaimerTimer");
 			}
 		}
-
-		console.log(this.device);
 	}
 };
 	

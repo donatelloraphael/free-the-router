@@ -65,7 +65,7 @@
 </template>
 
 <script>
-	import {db} from "~/plugins/firebase.js";
+	import {db, firebase} from "~/plugins/firebase.js";
 
 	import TheSideNav from "@/components/Navigation/TheSideNav";
 	import TheFilterMenu from "@/components/Navigation/TheFilterMenu";
@@ -147,7 +147,7 @@
 		},
 
 		mounted() {
-
+			
 			window.onload = function() {
 
 				let didScroll;
@@ -196,6 +196,8 @@
 					vm.lastScrollTop = scrollPosition;
 				}
 			};
+			
+      firebase.analytics();
 		}
 	};
 

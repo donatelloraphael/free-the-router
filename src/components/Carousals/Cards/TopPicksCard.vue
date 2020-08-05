@@ -210,6 +210,14 @@ export default {
 		.alt1-contents, .alt2-contents {
 			font-size: 0.8rem;
 		}
+
+		p.specs {
+			font-size: 0.7rem;
+		}
+
+		p.price-disclaimer {
+			font-size: 0.6rem;
+		}
 		
 
 	}
@@ -231,10 +239,6 @@ export default {
 			padding: 0;
 			width: 50%;
 			height: 40%;
-		}
-
-		.specs {
-			font-size: 0.6rem !important;
 		}
 
 		.contents {

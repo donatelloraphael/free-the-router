@@ -264,6 +264,7 @@ export default {
   .price-card h2 {
     font-family: "Montserrat", sans-serif;
     margin: auto;
+    font-size: 1.4rem;
   }
 
   a {
@@ -312,12 +313,12 @@ export default {
     height: 100%;
   }
 
- .firmware img {
-  height: 50%;
-  width: 60%;
- }
+  .firmware img {
+    height: 50%;
+    width: 60%;
+  }
 
- .statement {
+  .statement {
     font-size: 0.9rem;
     color: grey;
     text-align: center;
@@ -342,7 +343,7 @@ export default {
     }
 
     .price-card h2 {
-      font-size: .8rem;
+      font-size: 1.2rem;
     }
 
     .cf-info {
