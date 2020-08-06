@@ -22,7 +22,7 @@
     "firebase-admin": "^9.0.0",
     "firebase-functions": "^3.9.0",
     "helmet": "^4.0.0",
-    "nuxt": "^2.14.1",
+    "nuxt": "^2.14.0",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
