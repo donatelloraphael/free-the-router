@@ -5,5 +5,3 @@ node ./functions/functions-local/availableDevices/US/amazon/modems-amazon-list-n
 node ./functions/functions-local/availableDevices/US/amazon/repeaters\ \&\ extenders-amazon-list-nonAPI.js
 node ./functions/functions-local/availableDevices/US/amazon/routers-amazon-list-nonAPI.js
 node ./functions/functions-local/availableDevices/US/amazon/wireless\ access\ points-amazon-list-nonAPI.js
-node ./functions/functions-local/availableDevices/US/remove-old-devices.js
-node ./functions/functions-local/availableDevices/US/topPicks-mostPopular.js
