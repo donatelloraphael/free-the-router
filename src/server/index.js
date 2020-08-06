@@ -31,7 +31,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com"],
-        imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "data:image/png"],
+        imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "data:"],
         styleSrc: ["'self'", "'unsafe-inline'", "*.fontawesome.com"],
         fontSrc: ["'self'", "*.fontawesome.com"],
         connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com"]
