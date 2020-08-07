@@ -149,7 +149,7 @@ export default {
 			let name;
 			switch(this.$store.getters.getCountry) {
 				case "IN": name = "amazon.in"; break;
-				case "UK": name = "amazon.co.uk"; break;
+				case "GB": name = "amazon.co.uk"; break;
 				case "CA": name = "amazon.ca"; break;
 				default: name = "amazon.com"; break;
 			}
@@ -160,7 +160,7 @@ export default {
 			switch(this.$store.getters.getCountry) {
 				case "IN": ref = "/ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherouter-21&language=en_IN";
 									break;
-				case "UK": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB";
+				case "GB": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB";
 									break;
 				case "CA": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout0c-20&language=en_CA";
 									break;

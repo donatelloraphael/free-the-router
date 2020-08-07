@@ -28,7 +28,7 @@
 						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry">USA</option>
 						<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry">India</option>
 						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry">Canada</option>
-						<option class="dropdown-item" value="UK" :selected="'UK' == $store.getters.getCountry">UK</option>
+						<option class="dropdown-item" value="GB" :selected="'GB' == $store.getters.getCountry">UK</option>
 					</select>
 					<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
 				</div>

@@ -1,4 +1,4 @@
-const COUNTRY = "UK";
+const COUNTRY = "GB";
 
 const admin = require('firebase-admin');
 

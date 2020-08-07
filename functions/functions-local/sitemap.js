@@ -9,7 +9,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 let urlArray = [];
-let countries = ["IN", "US", "CA", "UK"];
+let countries = ["IN", "US", "CA", "GB"];
 let num = 0;
 
 async function makeSitemap() {
