@@ -14,7 +14,7 @@ app.use(
       maxAge: 86400
     },
     referrerPolicy: {
-      policy: 'origin'
+      policy: 'unsafe-url'
     },
     strictTransportSecurity: {
       maxAge: 63072000,
@@ -67,6 +67,7 @@ async function start () {
   // } 
 
   async function handleRequest(req, res) {
+  	res.set('X-XSS-Protection', '1');
     res.set('Cache-Control', 'public, stale-while-revalidate=345600, max-age=172800, s-maxage=172800');
     await nuxt.render(req, res);
   }
