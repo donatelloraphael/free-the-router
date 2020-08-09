@@ -7,7 +7,7 @@
 			<div class="description">
 				<h3 class="name">{{ device.amazonName }}</h3>
 				<p>{{ device.Flash }}MB Flash, {{ device.RAM }}MB RAM</p>
-				<p>Price: <span>{{ $store.getters.getCurrency }} {{ device.amazonPrice.toLocaleString() }}*</span></p>
+				<p>Price: <span>{{ $store.getters.getCurrency }} {{ device.amazonPrice.toLocaleString() }}*</span>@<img alt="seller logo" class="seller-img" src="@/assets/images/amazon/amazon.png"></p>
 				<p class="price-disclaimer">*As of {{ device.amazonUpdatedOn }}</p>
 
 				<div class="firmwares">
@@ -98,6 +98,15 @@ export default {
 		font-size: 1rem;
 		color: rgb(176, 37, 2);
 		font-weight: bold;
+		margin-right: 10px;
+	}
+
+	.seller-img {
+		margin-left: 5px;
+		width: 55px;
+		height: 22px;
+		position: relative;
+		top: 8px;
 	}
 
 	.price-disclaimer {

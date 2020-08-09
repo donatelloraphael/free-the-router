@@ -8,7 +8,7 @@
 				<p class="price"><span class="label">Price: </span>{{$store.getters.getCurrency}} {{ topPicks[selected][0].amazonPrice.toLocaleString() }}* </p>
 				<p class="price-disclaimer">*As of {{ topPicks[selected][0].amazonUpdatedOn }}</p>
 				<nuxt-link class="link-container":to="{ path: `devices/${topPicks[selected][0].fullName.replace(/\ /g, '-')}/` }" target="_blank">
-					<button>Shop now</button>
+					<button>View Details</button>
 				</nuxt-link>
 			</div>
 		</div>
