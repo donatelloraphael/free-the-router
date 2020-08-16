@@ -14,7 +14,7 @@ app.use(
       maxAge: 86400
     },
     referrerPolicy: {
-      policy: 'unsafe-url'
+      policy: 'origin-when-cross-origin'
     },
     strictTransportSecurity: {
       maxAge: 63072000,
@@ -30,7 +30,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com"],
         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "data:"],
         styleSrc: ["'self'", "'unsafe-inline'", "*.fontawesome.com"],
         fontSrc: ["'self'", "*.fontawesome.com"],
