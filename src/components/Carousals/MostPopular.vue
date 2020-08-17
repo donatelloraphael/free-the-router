@@ -3,7 +3,7 @@
 		<h3>Most Popular</h3>
 		<div class="container-mp" id="slider">
 			
-			<i class="fas fa-angle fa-angle-left" @click="leftScroll(getCardCount())" @touchstart="toggleHover($event)"></i>
+			<svg alt="navigate popular cards left" width="150px" height="150px" viewBox="8 0 20 15" @click="leftScroll(getCardCount())" @touchstart="toggleHover($event)" class="nav-angle nav-angle-left"><path d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/></svg>
 
 			<div class="cards card-1">			
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition"></app-most-popular-card>
@@ -21,7 +21,7 @@
 				<app-most-popular-card :mostPopular="mostPopular" :cardPosition="cardPosition + 3"></app-most-popular-card>
 			</div>
 
-			<i class="fas fa-angle fa-angle-right" @click="rightScroll(getCardCount())" @touchstart="toggleHover($event)"></i>
+			<svg alt="navigate popular cards right" width="150px" height="150px" viewBox="-4 0 20 15" class="nav-angle nav-angle-right" @click="rightScroll(getCardCount())" @touchstart="toggleHover($event)"><path d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"/></svg>
 
 		</div>
 
@@ -228,27 +228,31 @@
 	}
 
 	/*****************Navigation Arrow*************************/
-	.fa-angle {
-		position: absolute;
-		top: 32%;
-		font-size: 100px;
-		color: rgba(0, 0, 0, 0.5);
-		cursor: pointer;
-		transition: color 0.4s ease;
-		z-index: 10;
+	svg {
+		padding: 0;
 	}
 
-	.fa-angle-left {
+	.nav-angle {
+		position: absolute;
+		top: 10%;
+		cursor: pointer;
+		transition: fill 0.4s ease;
+		z-index: 100;
+		padding: 0;
+		fill: rgba(105, 26, 78, 0.5);
+	}
+
+	.nav-angle-left {
 		left: 0;
 	}
 
-	.fa-angle-right {
+	.nav-angle-right {
 		right: 0;
 	}
 
 	@media(hover: hover) {
-		.fa-angle:hover {
-			color: rgba(255, 0, 0, 0.5);
+		.nav-angle:hover {
+			fill: rgba(255, 0, 0, 0.5);
 		}
 	}
 

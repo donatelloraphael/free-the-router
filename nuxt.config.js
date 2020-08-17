@@ -1,6 +1,3 @@
-// const bodyParser = require('body-parser');
-require('dotenv').config();
-
 module.exports = {
   mode: 'universal',
   target: "server",
@@ -16,7 +13,6 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: "/font-awesome.js" }
     ]
   },
   /*
@@ -47,7 +43,7 @@ module.exports = {
     // Doc: https://bootstrap-vue.js.org
   ],
   srcDir: 'src',
-  buildDir: 'functions/.nuxt',
+  buildDir: '.nuxt',
   /*
   ** Build configuration
   */

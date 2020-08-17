@@ -1,7 +1,5 @@
 import * as firebase from "firebase/app";
-
 import "firebase/firestore";
-import "firebase/analytics";
 
 import {FIREBASE_CONFIG} from "../../env";
 
@@ -10,4 +8,4 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-export { db, firebase };
+export { db };
