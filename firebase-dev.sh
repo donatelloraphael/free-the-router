@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git checkout development
+git checkout firebase-dev
 cp ./firebase-adminsdk-dev.json ./functions/firebase-adminsdk.json
 cp env-dev.js env.js
 cp firebaserc-dev .firebaserc
