@@ -108,3 +108,4 @@ env-prod.js
 public/sitemap.xml
 .firebaserc
 ./.firebaserc
+*/node_modules/

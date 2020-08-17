@@ -33,7 +33,7 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com"],
         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "data:"],
         styleSrc: ["'self'", "'unsafe-inline'", "*.fontawesome.com"],
-        fontSrc: ["'self'", "*.fontawesome.com"],
+        fontSrc: ["'self'"],
         connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com"]
       }
     }
