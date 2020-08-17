@@ -113,7 +113,11 @@
 				}, 2);
 			},
 			redirectCountry(country) {
-				this.$router.push(this.$route.path.replace(/^\/[A-Z]+\//gi, `/${country}/`));
+				if (this.$route.params.device) {
+					this.$router.push(`/${country}/`);
+				} else {
+					this.$router.push(this.$route.path.replace(/^\/[A-Z]+\//gi, `/${country}/`));
+				}
 			},
 			search() {
 				let args = "";
