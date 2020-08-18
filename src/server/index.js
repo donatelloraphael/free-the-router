@@ -32,7 +32,7 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com"],
         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "data:"],
-        styleSrc: ["'self'", "'unsafe-inline'", "*.fontawesome.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
         fontSrc: ["'self'"],
         connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com"]
       }
@@ -58,21 +58,12 @@ async function start () {
     await builder.build();
   }
 
-  // function getCountry(req, res, next) {
-  //   if (firstLoad) {
-  //     res.set("country", "IN");
-  //   }
-  //   console.log("AFTER: ", res.get("country"));
-  //   next();
-  // } 
-
   async function handleRequest(req, res) {
   	res.set('X-XSS-Protection', '1');
     res.set('Cache-Control', 'public, stale-while-revalidate=345600, max-age=172800, s-maxage=172800');
     await nuxt.render(req, res);
   }
   // Give nuxt middleware to express
-  // app.use(getCountry);
   app.use(handleRequest);
 
   // Listen the server

@@ -3,6 +3,9 @@
 const axios = require('axios');
 const $ = require('cheerio');
 
+const AWS = require('aws-sdk/global');
+const dynamo = require('aws-sdk/clients/dynamodb');
+
 const admin = require('firebase-admin');
 const serviceAccount = require("../../firebase-adminsdk.json");
 admin.initializeApp({

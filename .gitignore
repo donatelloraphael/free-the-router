@@ -109,3 +109,4 @@ public/sitemap.xml
 .firebaserc
 ./.firebaserc
 */node_modules/
+*/.aws/
