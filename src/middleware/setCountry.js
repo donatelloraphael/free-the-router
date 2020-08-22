@@ -16,7 +16,10 @@ export default function ({ req, res, store, redirect, params, route, query }) {
 		}
 
 		let country = params.country ? params.country.toUpperCase() : null;
-
+		
+		if (country == "UK") {
+			country = "GB";
+		}
 
 		if (country == "US" || country == "GB" || country == "CA" || country == "IN") {
 			store.dispatch("setCountry", country);
