@@ -10,6 +10,15 @@ const gargoyleModule = require("./firmwareRouters/gargoyle");
 const ddwrtModule = require("./firmwareRouters/ddwrt");
 const openwrtModule = require("./firmwareRouters/openwrt");
 
+const mongoSyncModule = require("./mongo-sync");
+
+exports.mongoSync = functions.pubsub.schedule("30 14 * * *")
+                                      .region("europe-west6")
+                                      .timeZone("Asia/Kolkata")
+                                      .onRun(context => {
+                                        return mongoSyncModule.mongoSync();
+                                      });
+
 exports.checkAndUpdateTomatobyshibby = functions.pubsub.schedule('0 14 * * *')
                                       .timeZone('Asia/Kolkata')
                                       .onRun((context) => {

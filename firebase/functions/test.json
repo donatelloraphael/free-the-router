@@ -1,0 +1,20 @@
+  {
+    "openwrtUnsupportedFunctions": "",
+    "WiFi": "",
+    "Flash": 4,
+    "LAN": { "default": "100 Mbps" },
+    "RAM": 16,
+    "openwrtNotes": "Reported working acc. https://forum.openwrt.org/viewtopic.php?pid=304399",
+    "deviceType": "WiFi Router",
+    "openwrtTechData": "https://openwrt.org/toh/hwdata/3com/3com_3crwer100-75",
+    "USB": { "default": false },
+    "modem": false,
+    "openwrtSupport": true,
+    "specs": { "default": "4MB Flash, 16MB RAM" },
+    "model": "3CRWER100-75",
+    "openwrtSupportedVersions": [ "default" ],
+    "SATA": false,
+    "openwrtSupportedCurrentRelease": "14.07",
+    "fullName": "3COM 3CRWER100 75",
+    "company": "3Com"
+  }
