@@ -110,3 +110,5 @@ public/sitemap.xml
 ./.firebaserc
 */node_modules/
 */.aws/
+test.js
+test.json
