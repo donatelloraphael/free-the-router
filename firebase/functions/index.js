@@ -13,7 +13,7 @@ const openwrtModule = require("./firmwareRouters/openwrt");
 const mongoSyncModule = require("./mongo-sync");
 
 exports.mongoSync = functions.pubsub.schedule("30 14 * * *")
-                                      .region("europe-west6")
+                                      .region("europe-west6")                              
                                       .timeZone("Asia/Kolkata")
                                       .onRun(context => {
                                         return mongoSyncModule.mongoSync();
