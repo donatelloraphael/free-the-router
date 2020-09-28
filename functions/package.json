@@ -14,21 +14,21 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@babel/runtime-corejs3": "^7.11.2",
-    "@google-cloud/pubsub": "^2.3.0",
-    "axios": "^0.19.2",
+    "@google-cloud/pubsub": "^2.5.0",
+    "axios": "^0.20.0",
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.16.4",
-    "firebase": "^7.17.1",
-    "firebase-admin": "^9.0.0",
-    "firebase-functions": "^3.9.0",
-    "helmet": "^4.0.0",
-    "nuxt": "^2.14.0",
+    "firebase": "^7.21.1",
+    "firebase-admin": "^9.2.0",
+    "firebase-functions": "^3.11.0",
+    "helmet": "^4.1.1",
+    "nuxt": "^2.14.6",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
-    "firebase-functions-test": "^0.2.1",
-    "jstoxml": "^1.6.8"
+    "firebase-functions-test": "^0.2.2",
+    "jstoxml": "^1.6.11"
   },
   "private": true
 }
