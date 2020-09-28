@@ -16,8 +16,8 @@ const db = admin.firestore();
 
 const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mongodb.net/freetherouter?retryWrites=true&w=majority`;
 
-exports.mongoSync = async function() {
-// async function mongoSync() {
+// exports.mongoSync = async function() {
+async function mongoSync() {
 
 	/**********************************************************************/
 	// Get devices from firestore																					//
@@ -46,7 +46,7 @@ exports.mongoSync = async function() {
 	await client.connect();
 
 	const mdb = client.db("freetherouter");
-	const bulkOp = mdb.collection("all-firmware-routers").initializeUnorderedBulkOp();
+	const bulkOp = mdb.collection("all-firmware-devices").initializeUnorderedBulkOp();
 
 	let arrLength = allRouters.length;
 	for (let i = 0; i < arrLength; i++) {
@@ -55,7 +55,7 @@ exports.mongoSync = async function() {
 
 	await bulkOp.execute();
 
-	await mdb.collection("indices").updateOne({ name: "all-routers-index"}, { $set: {fullNameIndex: allRoutersIndex} }, {upsert: true});
+	await mdb.collection("indices").updateOne({ name: "all-devices-index"}, { $set: {fullNameIndex: allRoutersIndex} }, {upsert: true});
 
 	client.close();
 };

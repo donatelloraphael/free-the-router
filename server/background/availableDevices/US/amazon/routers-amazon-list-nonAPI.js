@@ -1,24 +1,16 @@
-const COUNTRY = "US";
+const COUNTRY = "us";
 const AMAZON = "https://www.amazon.com";
 
 const axios = require('axios');
 const $ = require('cheerio');
 
-const admin = require('firebase-admin');
+const MONGO_PWD = require("../../../env").MONGO_PWD;
+const MongoClient = require('mongodb').MongoClient;
 
-if (!admin.apps.length) {
-	const serviceAccount = require("../../../../firebase-adminsdk.json");
-	admin.initializeApp({
-  	credential: admin.credential.cert(serviceAccount),
-	});
-}
+const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mongodb.net/freetherouter?retryWrites=true&w=majority`;
 
-const db = admin.firestore();
-
-const indicesRef = db.collection("indices");
-const allFirmwareRoutersRef = db.collection("all-firmware-routers");
-const allSitesRef = db.collection(COUNTRY).doc("all-sites");
-const countryIndicesRef = db.collection(COUNTRY).doc("meta").collection("indices");
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+let mdb;
 
 let fullNameIndex = [];
 let allDevices = [];
@@ -26,13 +18,11 @@ let supportedDevices = [];
 
 const deviceType = "routers";
 const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&page=",
-											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A17442743011&dc&page=",
-											"wireless access points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
-											"repeaters & extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
+											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A%21493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A284715&page=",
+											"wireless-access-points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
+											"repeaters-extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
 										};
 
-
-// axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4086.0 Safari/537.36';
 let axiosInstance = axios.create({
   headers: {
     common: {        // can be common or any other method
@@ -54,6 +44,9 @@ async function main() {
 	let oldLength = 0;
 	let page = 1;
 	let retry = 0;
+
+	await client.connect();
+	mdb = client.db("freetherouter");
 	
 	function delayedLoop() {
 		return setTimeout(async function() {
@@ -61,7 +54,7 @@ async function main() {
 
 			let html = await getPage(amazonLink, page, deviceType);
 
-			if (html && page < 101 && retry <= 5) {
+			if (html && page < 2 && retry <= 5) {
 				await getDevices(html, page, deviceType);
 
 				if (allDevices.length == oldLength) {
@@ -173,14 +166,12 @@ function getDevices(html, page, deviceType) {
 
 async function filterDevices() {
 
-	await indicesRef.doc("all-routers-index").get()
+	await mdb.collection("indices").findOne({ "name": "all-devices-index" })
 	.then(doc => {
-		if (doc.data()) {
-			fullNameIndex = doc.data().fullNameIndex;
+		if (doc) {
+			fullNameIndex = doc.fullNameIndex;
 		}
-	});
-
-	// console.dir(fullNameIndex, {maxArrayLength: null});
+	}).catch(error => console.log(error));
 
 	let allLength = allDevices.length;
 	let indexLength = fullNameIndex.length;
@@ -222,10 +213,9 @@ async function addExtraInfo() {
 		let device;
 
 		try {
-			await allFirmwareRoutersRef.doc(supportedDevices[i].id).get()
-			.then(doc => {
-				device = doc.data();
-
+			await mdb.collection("all-firmware-devices").findOne({ "fullName": supportedDevices[i].id })
+			.then(device => {
+				
 				supportedDevices[i].supportedFirmwares = [];
 
 				if (device) {
@@ -272,90 +262,46 @@ async function addExtraInfo() {
 
 async function addToDatabase() {
 
-	const batchArray = [];
-	const BATCH_NUM_ITEMS = 300;
-	let operationsCounter = 1; // Need to count the device list delete operation.
-	let batchIndex = 0;
-
-	let newDevices	= [];
 	let fullNameIndex = [];
 	let newIndex = [];
 
-	
-	batchArray.push(db.batch());
+	try {
 
-	/*********************** Delete the old Device List *********************/
-	
-	// batchArray[batchIndex].delete(amazonRef.collection(deviceType));
+		mdb.collection(`${COUNTRY}-${deviceType}`).insertMany(supportedDevices, {ordered: false});
+		mdb.collection(`${COUNTRY}-all-devices`).insertMany(supportedDevices, {ordered: false});
+		mdb.collection(`${COUNTRY}-device-details`).insertMany(supportedDevices, {ordered: false});
 
-	/************************************************************************/
-
-	let arrLength = supportedDevices.length;
-	for (let i = 0; i < arrLength; i++) {
-
-		if (operationsCounter >= BATCH_NUM_ITEMS) {
-			batchIndex++;
-			batchArray.push(db.batch());
-			operationsCounter = 0;
+		let arrLength = supportedDevices.length;
+		for (let i = 0; i < arrLength; i++) {
+			newIndex.push(supportedDevices[i].id);
 		}
 
-		batchArray[batchIndex].set(allSitesRef.collection(deviceType).doc(supportedDevices[i].id), 
-			supportedDevices[i]
-		);
+		await mdb.collection("indices").findOne({ name: `${COUNTRY}-${deviceType}-index` })
+		.then(doc => {
+			if (doc) {
+				fullNameIndex = doc.fullNameIndex;
+			}
+		});
 
-		batchArray[batchIndex].set(allSitesRef.collection("all-devices").doc(supportedDevices[i].id), 
-			supportedDevices[i]
-		);
+		await mdb.collection("indices").updateOne({ name: `${COUNTRY}-${deviceType}-index` }, 
+			{ $set: { fullNameIndex: newIndex } }, { upsert: true });
 
-		// device details
-		batchArray[batchIndex].set(allSitesRef.collection("device-details").doc(supportedDevices[i].id.replace(/\ /gm, "-")),
-			supportedDevices[i]
-		);
-
-		newIndex.push(supportedDevices[i].id);
+		await mdb.collection("indices").updateOne({ name: `${COUNTRY}-all-devices-index` }, 
+			{ $push: { fullNameIndex: { $each: newIndex } }}, { upsert: true });
 		
-		operationsCounter += 3;
-
-		//////////////////// Delete outdated devices//////////////////////
-
-		newDevices.push(supportedDevices[i].id);
-	}
-
-
-
-	await countryIndicesRef.doc(deviceType).get()
-	.then(doc => {
-		if (doc.data()) {
-			fullNameIndex = doc.data().fullNameIndex;
+		let indexLength = fullNameIndex.length;
+		for (let i = 0; i < indexLength; i++) {
+			if (!newIndex.includes(fullNameIndex[i])) {
+				mdb.collection(`${COUNTRY}-${deviceType}`).deleteOne({ fullName: fullNameIndex[i] });
+				console.log('Deleted: ', fullNameIndex[i]);
+			}
 		}
-	});
-
-	batchArray[batchIndex].set(countryIndicesRef.doc(deviceType), {
-		fullNameIndex: newIndex
-	});
-
-	for (let i = 0; i < newIndex.length; i++) {
-		batchArray[batchIndex].set(countryIndicesRef.doc("all-devices"), {
-			fullNameIndex: admin.firestore.FieldValue.arrayUnion(newIndex[i])
-		}, {merge: true});
-
-		operationsCounter++;
-	}
-	
-	let indexLength = fullNameIndex.length;
-	for (let i = 0; i < indexLength; i++) {
-		if (!newDevices.includes(fullNameIndex[i])) {
-			batchArray[batchIndex].delete(allSitesRef.collection(deviceType).doc(fullNameIndex[i]));
-			console.log('Deleted: ', fullNameIndex[i]);
-			operationsCounter++;
-		}
+	} catch (error) {
+		console.log(error);
 	}
 
-	operationsCounter++;
+	client.close();
 
-	batchArray.forEach((batch) => {
-		batch.commit();
-	});
 }
 
 main();

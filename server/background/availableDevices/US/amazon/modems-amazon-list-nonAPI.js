@@ -4,21 +4,18 @@ const AMAZON = "https://www.amazon.com";
 const axios = require('axios');
 const $ = require('cheerio');
 
-const admin = require('firebase-admin');
+const MONGO_PWD = require("../../../env").MONGO_PWD;
+const MongoClient = require('mongodb').MongoClient;
 
-if (!admin.apps.length) {
-	const serviceAccount = require("../../../../firebase-adminsdk.json");
-	admin.initializeApp({
-  	credential: admin.credential.cert(serviceAccount),
-	});
-}
+const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mongodb.net/freetherouter?retryWrites=true&w=majority`;
 
-const db = admin.firestore();
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+let mdb;
 
-const indicesRef = db.collection("indices");
-const allFirmwareRoutersRef = db.collection("all-firmware-routers");
-const allSitesRef = db.collection(COUNTRY).doc("all-sites");
-const countryIndicesRef = db.collection(COUNTRY).doc("meta").collection("indices");
+// const indicesRef = db.collection("indices");
+// const allFirmwareRoutersRef = db.collection("all-firmware-routers");
+// const allSitesRef = db.collection(COUNTRY).doc("all-sites");
+// const countryIndicesRef = db.collection(COUNTRY).doc("meta").collection("indices");
 
 let fullNameIndex = [];
 let allDevices = [];
@@ -26,13 +23,11 @@ let supportedDevices = [];
 
 const deviceType = "modems";
 const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&page=",
-											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A17442743011&dc&page=",
+											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A%21493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A284715&page=",
 											"wireless access points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
 											"repeaters & extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
 										};
 
-
-// axios.defaults.headers.common['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4086.0 Safari/537.36';
 let axiosInstance = axios.create({
   headers: {
     common: {        // can be common or any other method
@@ -54,6 +49,9 @@ async function main() {
 	let oldLength = 0;
 	let page = 1;
 	let retry = 0;
+
+	await client.connect();
+	mdb = client.db("freetherouter");
 	
 	function delayedLoop() {
 		return setTimeout(async function() {
@@ -61,7 +59,7 @@ async function main() {
 
 			let html = await getPage(amazonLink, page, deviceType);
 
-			if (html && page < 101 && retry <= 5) {
+			if (html && page < 2 && retry <= 5) {
 				await getDevices(html, page, deviceType);
 
 				if (allDevices.length == oldLength) {
@@ -76,12 +74,12 @@ async function main() {
 			} else {
 				await filterDevices();
 				await addExtraInfo();
-				await addToDatabase();
+				// await addToDatabase();
 
 				// console.dir(allDevices, {maxArrayLength: null});
 				console.log('\nNUMBER OF DEVICES: ', allDevices.length);
 				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
-				// console.dir(supportedDevices, {maxArrayLength: null});
+				console.dir(supportedDevices, {maxArrayLength: null});
 
 				return true;
 			}
@@ -173,14 +171,12 @@ function getDevices(html, page, deviceType) {
 
 async function filterDevices() {
 
-	await indicesRef.doc("all-routers-index").get()
+	await mdb.collection("indices").findOne({ "name": "all-devices-index" })
 	.then(doc => {
-		if (doc.data()) {
-			fullNameIndex = doc.data().fullNameIndex;
+		if (doc) {
+			fullNameIndex = doc.fullNameIndex;
 		}
-	});
-
-	// console.dir(fullNameIndex, {maxArrayLength: null});
+	}).catch(error => console.log(error));
 
 	let allLength = allDevices.length;
 	let indexLength = fullNameIndex.length;
@@ -222,10 +218,9 @@ async function addExtraInfo() {
 		let device;
 
 		try {
-			await allFirmwareRoutersRef.doc(supportedDevices[i].id).get()
-			.then(doc => {
-				device = doc.data();
-
+			await mdb.collection("all-firmware-devices").findOne({ "fullName": supportedDevices[i].id })
+			.then(device => {
+				
 				supportedDevices[i].supportedFirmwares = [];
 
 				if (device) {
