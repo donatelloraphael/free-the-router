@@ -267,9 +267,9 @@ async function addToDatabase() {
 
 	try {
 
-		mdb.collection(`${COUNTRY}-${deviceType}`).insertMany(supportedDevices, {ordered: false});
-		mdb.collection(`${COUNTRY}-all-devices`).insertMany(supportedDevices, {ordered: false});
-		mdb.collection(`${COUNTRY}-device-details`).insertMany(supportedDevices, {ordered: false});
+		await mdb.collection(`${COUNTRY}-${deviceType}`).insertMany(supportedDevices, {ordered: false});
+		await mdb.collection(`${COUNTRY}-all-devices`).insertMany(supportedDevices, {ordered: false});
+		await mdb.collection(`${COUNTRY}-device-details`).insertMany(supportedDevices, {ordered: false});
 
 		let arrLength = supportedDevices.length;
 		for (let i = 0; i < arrLength; i++) {
