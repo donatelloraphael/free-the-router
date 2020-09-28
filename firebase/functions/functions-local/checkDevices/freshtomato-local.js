@@ -59,7 +59,7 @@ async function checkAndUpdateFreshtomato() {
 						deviceArray[Math.trunc(i / 13)].model = (nameArray[1] + " " + nameArray[2]).trim();
 						break;
 					case 1:
-						deviceArray[Math.trunc(i / 13)].version = $(element).text().trim().split('/').join('&');
+						deviceArray[Math.trunc(i / 13)].version = $(element).text().trim().split('/').join('&').replace(/\./gm, "_");
 						break;
 					case 4:
 						deviceArray[Math.trunc(i / 13)].LAN = $(element).text().trim();
@@ -458,7 +458,7 @@ async function uploadExtraRouters() {
 				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
 				model: extraRouters[i].model,
-				version: extraRouters[i].version,
+				version: extraRouters[i].version.replace(/\./gm, "_"),
 				LAN: extraRouters[i].LAN,
 				USB: extraRouters[i].USB,
 				WiFi: extraRouters[i].WiFi,
@@ -483,10 +483,10 @@ async function uploadExtraRouters() {
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
-					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},											
-					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].USB},											
+					LAN: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].LAN},											
+					USB: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].USB},											
 					WiFi: extraRouters[i].WiFi,
-					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
+					specs: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].specs},
 					freshtomatoSupport: true,
 					freshtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),						
 					freshtomatoFirmwareVersion: extraRouters[i].firmwareVersion,
@@ -512,9 +512,9 @@ async function uploadExtraRouters() {
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
-					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
-					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN,											
-					[`USB.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].USB
+					[`specs.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].specs,
+					[`LAN.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].LAN,											
+					[`USB.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].USB
 				}, {merge: true});
 
 			}
@@ -533,4 +533,4 @@ async function uploadExtraRouters() {
 
 // createExtraRouters();
 // uploadExtraRouters();
-// checkAndUpdateFreshtomato();
+checkAndUpdateFreshtomato();

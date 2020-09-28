@@ -59,7 +59,7 @@ exports.checkAndUpdateTomatobyshibby = async function() {
 													mainTable[j-1].company = nameArray[0];
 													mainTable[j-1].model = nameArray[1];
 													if (nameArray[2]) {
-														mainTable[j-1].version = nameArray[2].split('/').join('&').replace("(", "").replace(")", "");
+														mainTable[j-1].version = nameArray[2].split('/').join('&').replace("(", "").replace(")", "").replace(/\./gm, "_");
 													} else {
 														mainTable[j-1].version = 'default';
 													}

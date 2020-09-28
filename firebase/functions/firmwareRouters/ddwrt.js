@@ -122,7 +122,7 @@ exports.checkAndUpdateDdwrt = async function() {
 									}
 									break;
 								case 1:
-									device.version = $(element).html().replace(/<br>|\//gmi, "&").replace(/\n|(&quot;)|(&#xA0;)|(&#xA0;?)|\-|\?/gmi, "").trim();
+									device.version = $(element).html().replace(/<br>|\//gmi, "&").replace(/\n|(&quot;)|(&#xA0;)|(&#xA0;?)|\-|\?/gmi, "").replace(/\./gm, "_").trim();
 									break;
 								case 4:
 									RAM = $(element).text().trim();

@@ -63,7 +63,7 @@ exports.checkAndUpdateFreshtomato = async function() {
 						deviceArray[Math.trunc(i / 13)].model = (nameArray[1] + " " + nameArray[2]).trim();
 						break;
 					case 1:
-						deviceArray[Math.trunc(i / 13)].version = $(element).text().trim().split('/').join('&');
+						deviceArray[Math.trunc(i / 13)].version = $(element).text().trim().split('/').join('&').replace(/\./gm, "_");
 						break;
 					case 4:
 						deviceArray[Math.trunc(i / 13)].LAN = $(element).text().trim();

@@ -545,7 +545,7 @@ async function uploadExtraRouters() {
 				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
 				model: extraRouters[i].model,
-				version: extraRouters[i].version,
+				version: extraRouters[i].version.replace(/\./gm, "_"),
 				LAN: extraRouters[i].LAN,
 				USB: extraRouters[i].USB,
 				WiFi: extraRouters[i].WiFi,
@@ -569,10 +569,10 @@ async function uploadExtraRouters() {
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
-					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},											
-					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].USB},											
+					LAN: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].LAN},											
+					USB: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].USB},											
 					WiFi: extraRouters[i].WiFi,
-					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
+					specs: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].specs},
 					advancedtomatoSupport: true,
 					advancedtomatoSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
 					advancedtomatoNotes: extraRouters[i].notes,
@@ -596,9 +596,9 @@ async function uploadExtraRouters() {
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
-					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
-					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN,											
-					[`USB.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].USB
+					[`specs.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].specs,
+					[`LAN.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].LAN,											
+					[`USB.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].USB
 				}, {merge: true});
 
 			}

@@ -185,7 +185,7 @@ async function createExtraRouters() {
 		fullName: "TP-Link TL-WDR4300 v1.x",
 		company: "TP-Link",
 		model: "TL-WDR4300",
-		version: "v1.x",
+		version: "v1_x",
 		specs: "8MB Flash, 128MB RAM",
 		USB: true,
 		notes: "",
@@ -199,7 +199,7 @@ async function createExtraRouters() {
 		fullName: "TP-Link TL-WDR3600 v1.x",
 		company: "TP-Link",
 		model: "TL-WDR3600",
-		version: "v1.x",
+		version: "v1_x",
 		specs: "8MB Flash, 128MB RAM",
 		USB: true,
 		notes: "",
@@ -227,7 +227,7 @@ async function createExtraRouters() {
 		fullName: "TP-Link TL-WR1043ND v1.x",
 		company: "TP-Link",
 		model: "TL-WR1043ND",
-		version: "v1.x",
+		version: "v1_x",
 		specs: "8MB Flash, 32MB RAM",
 		USB: true,
 		notes: "Recommended minimum specs",
@@ -281,7 +281,7 @@ async function createExtraRouters() {
 		fullName: "TP-Link TL-WR741ND v1-v2.4",
 		company: "TP-Link",
 		model: "TL-WR741ND",
-		version: "v1-v2.4",
+		version: "v1-v2_4",
 		specs: "4MB Flash, 32MB RAM",
 		USB: false,
 		notes: "Bare minimum specs",
@@ -716,7 +716,7 @@ async function createExtraRouters() {
 		fullName: "D-Link DIR-300 Rev.A",
 		company: "D-Link",
 		model: "DIR-300",
-		version: "Rev.A",
+		version: "Rev_A",
 		specs: "4MB Flash, 16MB RAM",
 		USB: false,
 		notes: "Bare minimum specs",
@@ -776,7 +776,7 @@ async function uploadExtraRouters() {
 				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
 				model: extraRouters[i].model,
-				version: extraRouters[i].version,
+				version: extraRouters[i].version.replace(/\./gm, "_"),
 				LAN: extraRouters[i].LAN,
 				USB: extraRouters[i].USB,
 				WiFi: extraRouters[i].WiFi,
@@ -800,10 +800,10 @@ async function uploadExtraRouters() {
 					fullName: companyModel,
 					company: extraRouters[i].company,
 					model: extraRouters[i].model,
-					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},											
-					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].USB},											
+					LAN: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].LAN},											
+					USB: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].USB},											
 					WiFi: extraRouters[i].WiFi,
-					specs: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].specs},
+					specs: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].specs},
 					gargoyleSupport: true,
 					gargoyleSupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version ? extraRouters[i].version : "default"),
 					gargoyleNotes: extraRouters[i].notes,
@@ -827,9 +827,9 @@ async function uploadExtraRouters() {
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
-					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
-					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN,											
-					[`USB.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].USB
+					[`specs.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].specs,
+					[`LAN.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].LAN,											
+					[`USB.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].USB
 				}, {merge: true});
 
 			}

@@ -54,7 +54,7 @@ async function checkAndUpdateTomatobyshibby() {
 													mainTable[j-1].company = nameArray[0];
 													mainTable[j-1].model = nameArray[1];
 													if (nameArray[2]) {
-														mainTable[j-1].version = nameArray[2].split('/').join('&').replace("(", "").replace(")", "");
+														mainTable[j-1].version = nameArray[2].split('/').join('&').replace("(", "").replace(")", "").replace(/\./gm, "_");
 													} else {
 														mainTable[j-1].version = 'default';
 													}
@@ -413,7 +413,7 @@ async function uploadExtraRouters() {
 				fullName: extraRouters[i].fullName,
 				company: extraRouters[i].company,
 				model: extraRouters[i].model,
-				version: extraRouters[i].version,
+				version: extraRouters[i].version.replace(/\./gm, "_"),
 				specs: extraRouters[i].specs,
 				LAN: extraRouters[i].LAN,
 				firmwareVersion: extraRouters[i].firmwareVersion,
@@ -439,9 +439,9 @@ async function uploadExtraRouters() {
 					model: extraRouters[i].model,
 					tomatobyshibbySupport: true,
 					tomatobyshibbySupportedVersions: admin.firestore.FieldValue.arrayUnion(extraRouters[i].version),						
-					specs: {[extraRouters[i].version ? extraRouters[i].version : "specs"]: extraRouters[i].specs},
-					USB: {[extraRouters[i].version ? extraRouters[i].version : "default"]: ""},
-					LAN: {[extraRouters[i].version ? extraRouters[i].version : "default"]: extraRouters[i].LAN},
+					specs: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "specs"]: extraRouters[i].specs},
+					USB: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: ""},
+					LAN: {[extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"]: extraRouters[i].LAN},
 					WiFi: "",
 					tomatobyshibbyFirmwareVersion: extraRouters[i].firmwareVersion,
 					tomatobyshibbyNotes: extraRouters[i].notes,
@@ -466,8 +466,8 @@ async function uploadExtraRouters() {
 				}, {merge: true});
 
 				allFirmwareRoutersRef.doc(companyModel).update({
-					[`specs.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].specs,
-					[`LAN.${extraRouters[i].version ? extraRouters[i].version : "default"}`]: extraRouters[i].LAN
+					[`specs.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].specs,
+					[`LAN.${extraRouters[i].version ? extraRouters[i].version.replace(/\./gm, "_") : "default"}`]: extraRouters[i].LAN
 				});			
 			}
 		}
@@ -484,4 +484,4 @@ async function uploadExtraRouters() {
 
 // createExtraRouters();
 // uploadExtraRouters();
-// checkAndUpdateTomatobyshibby();
+checkAndUpdateTomatobyshibby();

@@ -48,7 +48,7 @@ exports.checkAndUpdateOpenwrt = async function() {
 
 					device.deviceType = $(".device_type", $(element).html()).text();
 					device.model = $(".model", $(element).html()).text().replace(/\//gmi, "&");
-					device.version = $(".version", $(element).html()).text().replace(/\//gmi, "&").replace(/\*/gmi, "+");
+					device.version = $(".version", $(element).html()).text().replace(/\//gmi, "&").replace(/\*/gmi, "+").replace(/\./gm, "_");
 					device.supportedCurrentRelease = $(".supported_current_rel", $(element).html()).text();
 					device.specs = $(".flash_mb", $(element).html()).text() + "MB Flash, " + $(".ram_mb", $(element).html()).text() + "MB RAM";
 					device.Flash = parseInt($(".flash_mb", $(element).html()).text());
