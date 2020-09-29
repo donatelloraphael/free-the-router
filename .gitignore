@@ -95,14 +95,12 @@ functions/node_modules/
 public/assets/
 .firebase/
 ./.firebase
-firebase-adminsdk.json
+# firebase-adminsdk.json
 functions/firmwareRouters/test/
 functions/availableDevices/test/
 maxmind-licence.key
-env.js
-./env.js
-firebase-adminsdk-prod.json
-firebase-adminsdk-dev.json
+# env.js
+# ./env.js
 env-dev.js
 env-prod.js
 public/sitemap.xml
