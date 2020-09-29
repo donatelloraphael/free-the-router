@@ -1,4 +1,4 @@
-const COUNTRY = "US";
+const COUNTRY = "us";
 const AMAZON = "https://www.amazon.com";
 
 const axios = require('axios');
@@ -12,26 +12,21 @@ const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mon
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 let mdb;
 
-// const indicesRef = db.collection("indices");
-// const allFirmwareRoutersRef = db.collection("all-firmware-routers");
-// const allSitesRef = db.collection(COUNTRY).doc("all-sites");
-// const countryIndicesRef = db.collection(COUNTRY).doc("meta").collection("indices");
-
 let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "modems";
+const deviceType = "repeaters-extenders";
 const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&page=",
 											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A%21493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A284715&page=",
-											"wireless access points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
-											"repeaters & extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
+											"wireless-access-points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
+											"repeaters-extenders": "https://www.amazon.com/s?rh=n%3A3015439011&page="
 										};
 
 let axiosInstance = axios.create({
   headers: {
     common: {        // can be common or any other method
-      'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
       'Accept-Language': 'en-gb,en-US',
       'Referer': 'http://www.google.co.in/',
       'Accept-Encoding': 'gzip, deflate, br',
@@ -59,12 +54,13 @@ async function main() {
 
 			let html = await getPage(amazonLink, page, deviceType);
 
-			if (html && page < 2 && retry <= 5) {
+			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
 
 				if (allDevices.length == oldLength) {
 					retry++;
 					delayedLoop();
+
 				} else {
 					page++;
 					retry = 0;
@@ -74,12 +70,12 @@ async function main() {
 			} else {
 				await filterDevices();
 				await addExtraInfo();
-				// await addToDatabase();
+				await addToDatabase();
 
 				// console.dir(allDevices, {maxArrayLength: null});
 				console.log('\nNUMBER OF DEVICES: ', allDevices.length);
 				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
-				console.dir(supportedDevices, {maxArrayLength: null});
+				// console.dir(supportedDevices, {maxArrayLength: null});
 
 				return true;
 			}
@@ -100,7 +96,8 @@ async function getPage(link, page, deviceType) {
 			return res.data;
 		}
 		////////////////////////// Set page end //////////////////////////////////////////
-		let deviceNumbers = $("span", ".s-breadcrumb", res.data).html().split(" ")[0].split("-");
+		let deviceNumbers = $("span", ".s-breadcrumb", res.data)?.html()?.split(" ")[0]?.split("-");
+
 		if (parseInt(deviceNumbers[0]) > parseInt(deviceNumbers[1])) {
 			console.log('__________No more devices_________');
 			return false;
@@ -213,11 +210,12 @@ async function addExtraInfo() {
 	let serialNumber = 1;
 	let arrLength = supportedDevices.length;
 
-	for (let i = 0; i < arrLength; i++) {
+	try {
 
-		let device;
+		for (let i = 0; i < arrLength; i++) {
 
-		try {
+			let device;
+
 			await mdb.collection("all-firmware-devices").findOne({ "fullName": supportedDevices[i].id })
 			.then(device => {
 				
@@ -248,7 +246,7 @@ async function addExtraInfo() {
 					if (!device.company) {
 						console.log("Company Problem Device: ", device);
 					}
-					supportedDevices[i].brand = device.company.toUpperCase();
+					supportedDevices[i].brand = device?.company?.toUpperCase() ?? "Generic";
 					supportedDevices[i].amazonUpdatedOn = new Date().toLocaleString(`en-${COUNTRY}`, {timeZone: "UTC"}) + " UTC";
 					supportedDevices[i].serialNumber = serialNumber++;
 
@@ -258,99 +256,62 @@ async function addExtraInfo() {
 					console.log(`ERROR! No device with the id ${supportedDevices[i].id} found!`);
 				}
 			});
-		} catch (error) { 
-			console.log(error); 
 		}
-			
+	} catch (error) {
+		console.log(error);
 	}
 }
 
 async function addToDatabase() {
 
-	const batchArray = [];
-	const BATCH_NUM_ITEMS = 300;
-	let operationsCounter = 1; // Need to count the device list delete operation.
-	let batchIndex = 0;
-
-	let newDevices	= [];
 	let fullNameIndex = [];
 	let newIndex = [];
 
-	
-	batchArray.push(db.batch());
+	try {
 
-	/*********************** Delete the old Device List *********************/
-	
-	// batchArray[batchIndex].delete(amazonRef.collection(deviceType));
+		const bulkOpType = mdb.collection(`${COUNTRY}-${deviceType}`).initializeUnorderedBulkOp();
+		const bulkOpAll = mdb.collection(`${COUNTRY}-all-devices`).initializeUnorderedBulkOp();
+		const bulkOpDetails = mdb.collection(`${COUNTRY}-device-details`).initializeUnorderedBulkOp();
 
-	/************************************************************************/
+		let arrLength = supportedDevices.length;
+		for (let i = 0; i < arrLength; i++) {
+			bulkOpType.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpAll.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpDetails.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
 
-	let arrLength = supportedDevices.length;
-	for (let i = 0; i < arrLength; i++) {
-
-		if (operationsCounter >= BATCH_NUM_ITEMS) {
-			batchIndex++;
-			batchArray.push(db.batch());
-			operationsCounter = 0;
+			newIndex.push(supportedDevices[i].id);
 		}
 
-		batchArray[batchIndex].set(allSitesRef.collection(deviceType).doc(supportedDevices[i].id), 
-			supportedDevices[i]
-		);
+		await bulkOpType.execute();
+		await bulkOpAll.execute();
+		await bulkOpDetails.execute();
 
-		batchArray[batchIndex].set(allSitesRef.collection("all-devices").doc(supportedDevices[i].id), 
-			supportedDevices[i]
-		);
+		await mdb.collection("indices").findOne({ name: `${COUNTRY}-${deviceType}-index` })
+		.then(doc => {
+			if (doc) {
+				fullNameIndex = doc.fullNameIndex;
+			}
+		});
 
-		// device details
-		batchArray[batchIndex].set(allSitesRef.collection("device-details").doc(supportedDevices[i].id.replace(/\ /gm, "-")),
-			supportedDevices[i]
-		);
+		await mdb.collection("indices").updateOne({ name: `${COUNTRY}-${deviceType}-index` }, 
+			{ $set: { fullNameIndex: newIndex } }, { upsert: true });
 
-		newIndex.push(supportedDevices[i].id);
+		await mdb.collection("indices").updateOne({ name: `${COUNTRY}-all-devices-index` }, 
+			{ $push: { fullNameIndex: { $each: newIndex } }}, { upsert: true });
 		
-		operationsCounter += 3;
-
-		//////////////////// Delete outdated devices//////////////////////
-
-		newDevices.push(supportedDevices[i].id);
-	}
-
-
-
-	await countryIndicesRef.doc(deviceType).get()
-	.then(doc => {
-		if (doc.data()) {
-			fullNameIndex = doc.data().fullNameIndex;
+		let indexLength = fullNameIndex.length;
+		for (let i = 0; i < indexLength; i++) {
+			if (!newIndex.includes(fullNameIndex[i])) {
+				await mdb.collection(`${COUNTRY}-${deviceType}`).deleteMany({ fullName: fullNameIndex[i] });
+				console.log('Deleted: ', fullNameIndex[i]);
+			}
 		}
-	});
-
-	batchArray[batchIndex].set(countryIndicesRef.doc(deviceType), {
-		fullNameIndex: newIndex
-	});
-
-	for (let i = 0; i < newIndex.length; i++) {
-		batchArray[batchIndex].set(countryIndicesRef.doc("all-devices"), {
-			fullNameIndex: admin.firestore.FieldValue.arrayUnion(newIndex[i])
-		}, {merge: true});
-
-		operationsCounter++;
-	}
-	
-	let indexLength = fullNameIndex.length;
-	for (let i = 0; i < indexLength; i++) {
-		if (!newDevices.includes(fullNameIndex[i])) {
-			batchArray[batchIndex].delete(allSitesRef.collection(deviceType).doc(fullNameIndex[i]));
-			console.log('Deleted: ', fullNameIndex[i]);
-			operationsCounter++;
-		}
+	} catch (error) {
+		console.log(error);
 	}
 
-	operationsCounter++;
+	client.close();
 
-	batchArray.forEach((batch) => {
-		batch.commit();
-	});
 }
 
 main();

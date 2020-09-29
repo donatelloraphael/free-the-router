@@ -16,7 +16,7 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "routers";
+const deviceType = "wireless-access-points";
 const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&page=",
 											"modems": "https://www.amazon.com/s?rh=n%3A172282%2Cn%3A%21493964%2Cn%3A541966%2Cn%3A172504%2Cn%3A284715&page=",
 											"wireless-access-points": "https://www.amazon.com/s?rh=n%3A1194486&page=",
@@ -26,7 +26,7 @@ const amazonLinks = { "routers": "https://amazon.com/s?rh=n%3A300189&page=",
 let axiosInstance = axios.create({
   headers: {
     common: {        // can be common or any other method
-      'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
       'Accept-Language': 'en-gb,en-US',
       'Referer': 'http://www.google.co.in/',
       'Accept-Encoding': 'gzip, deflate, br',
@@ -54,12 +54,13 @@ async function main() {
 
 			let html = await getPage(amazonLink, page, deviceType);
 
-			if (html && page < 2 && retry <= 5) {
+			if (html && page < 101 && retry <= 5) {
 				await getDevices(html, page, deviceType);
 
 				if (allDevices.length == oldLength) {
 					retry++;
 					delayedLoop();
+
 				} else {
 					page++;
 					retry = 0;
@@ -95,7 +96,8 @@ async function getPage(link, page, deviceType) {
 			return res.data;
 		}
 		////////////////////////// Set page end //////////////////////////////////////////
-		let deviceNumbers = $("span", ".s-breadcrumb", res.data).html().split(" ")[0].split("-");
+		let deviceNumbers = $("span", ".s-breadcrumb", res.data)?.html()?.split(" ")[0]?.split("-");
+
 		if (parseInt(deviceNumbers[0]) > parseInt(deviceNumbers[1])) {
 			console.log('__________No more devices_________');
 			return false;
@@ -208,11 +210,12 @@ async function addExtraInfo() {
 	let serialNumber = 1;
 	let arrLength = supportedDevices.length;
 
-	for (let i = 0; i < arrLength; i++) {
+	try {
 
-		let device;
+		for (let i = 0; i < arrLength; i++) {
 
-		try {
+			let device;
+
 			await mdb.collection("all-firmware-devices").findOne({ "fullName": supportedDevices[i].id })
 			.then(device => {
 				
@@ -243,7 +246,7 @@ async function addExtraInfo() {
 					if (!device.company) {
 						console.log("Company Problem Device: ", device);
 					}
-					supportedDevices[i].brand = device.company.toUpperCase();
+					supportedDevices[i].brand = device?.company?.toUpperCase() ?? "Generic";
 					supportedDevices[i].amazonUpdatedOn = new Date().toLocaleString(`en-${COUNTRY}`, {timeZone: "UTC"}) + " UTC";
 					supportedDevices[i].serialNumber = serialNumber++;
 
@@ -253,10 +256,9 @@ async function addExtraInfo() {
 					console.log(`ERROR! No device with the id ${supportedDevices[i].id} found!`);
 				}
 			});
-		} catch (error) { 
-			console.log(error); 
 		}
-			
+	} catch (error) {
+		console.log(error);
 	}
 }
 
@@ -267,14 +269,22 @@ async function addToDatabase() {
 
 	try {
 
-		await mdb.collection(`${COUNTRY}-${deviceType}`).insertMany(supportedDevices, {ordered: false});
-		await mdb.collection(`${COUNTRY}-all-devices`).insertMany(supportedDevices, {ordered: false});
-		await mdb.collection(`${COUNTRY}-device-details`).insertMany(supportedDevices, {ordered: false});
+		const bulkOpType = mdb.collection(`${COUNTRY}-${deviceType}`).initializeUnorderedBulkOp();
+		const bulkOpAll = mdb.collection(`${COUNTRY}-all-devices`).initializeUnorderedBulkOp();
+		const bulkOpDetails = mdb.collection(`${COUNTRY}-device-details`).initializeUnorderedBulkOp();
 
 		let arrLength = supportedDevices.length;
 		for (let i = 0; i < arrLength; i++) {
+			bulkOpType.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpAll.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpDetails.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
+
 			newIndex.push(supportedDevices[i].id);
 		}
+
+		await bulkOpType.execute();
+		await bulkOpAll.execute();
+		await bulkOpDetails.execute();
 
 		await mdb.collection("indices").findOne({ name: `${COUNTRY}-${deviceType}-index` })
 		.then(doc => {
@@ -292,7 +302,7 @@ async function addToDatabase() {
 		let indexLength = fullNameIndex.length;
 		for (let i = 0; i < indexLength; i++) {
 			if (!newIndex.includes(fullNameIndex[i])) {
-				mdb.collection(`${COUNTRY}-${deviceType}`).deleteOne({ fullName: fullNameIndex[i] });
+				await mdb.collection(`${COUNTRY}-${deviceType}`).deleteMany({ fullName: fullNameIndex[i] });
 				console.log('Deleted: ', fullNameIndex[i]);
 			}
 		}

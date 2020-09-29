@@ -1,11 +1,11 @@
 {
   "name": "functions",
-  "description": "Cloud Functions for Firebase",
+  "description": "Background tasks",
   "scripts": {
     "start": "npm run shell"
   },
   "engines": {
-    "node": "12"
+    "node": "14"
   },
   "dependencies": {
     "axios": "^0.20.0",
