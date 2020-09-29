@@ -8,4 +8,4 @@ node ./availableDevices/us/amazon/routers-amazon-list-nonAPI.js
 node ./availableDevices/us/amazon/wireless\ access\ points-amazon-list-nonAPI.js
 
 node ./availableDevices/us/remove-old-devices.js
-# node ./availableDevices/us/topPicks-mostPopular.js
+node ./availableDevices/us/topPicks-mostPopular.js

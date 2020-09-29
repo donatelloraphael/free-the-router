@@ -7,9 +7,6 @@ const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mon
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const allSitesRef = db.collection(COUNTRY).doc("all-sites");
-const indicesRef = db.collection(COUNTRY).doc("meta").collection("indices");
-
 async function clearOldDevices() {
 
 	let newIndex = [], oldIndex = [];
@@ -44,6 +41,8 @@ async function clearOldDevices() {
 	} catch (error) {
 		console.log(error);
 	}
+
+	client.close();
 
 }
 
