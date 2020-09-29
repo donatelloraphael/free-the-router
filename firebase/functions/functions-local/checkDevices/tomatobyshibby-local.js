@@ -232,8 +232,8 @@ async function checkAndUpdateTomatobyshibby() {
 							updatedOn: new Date()
 						}, {merge: true});
 
-						batchArray.forEach((batch) => {
-							batch.commit();
+						batchArray.forEach(async batch => {
+							await batch.commit();
 						});
 
 						await db.collection("mail").add({
