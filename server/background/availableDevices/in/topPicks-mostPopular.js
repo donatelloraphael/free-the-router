@@ -1,49 +1,46 @@
-const COUNTRY = "IN";
+const COUNTRY = "in";
 
-const admin = require('firebase-admin');
+const MONGO_PWD = require("../../env").MONGO_PWD;
+const MongoClient = require('mongodb').MongoClient;
 
-if (!admin.apps.length) {
-	const serviceAccount = require("../../../firebase-adminsdk.json");
-	admin.initializeApp({
-  	credential: admin.credential.cert(serviceAccount),
-	});
-}
+const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mongodb.net/freetherouter?retryWrites=true&w=majority`;
 
-const db = admin.firestore();
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const firmwares = ["advancedtomato", "asusMerlin", "ddwrt", 
 									"freshtomato", "openwrt", "gargoyle", "tomatobyshibby"];
 
-async function createTopPicks() {
+async function createTopPicksMostPopular() {
+
+	await client.connect();
+	let mdb = client.db("freetherouter");
+
+	let topPicks = {}, mostPopular = [];
 
 	try {
 		for (let i = 0; i < firmwares.length; i++) {
-			let firmwareArray = [];
-
-			db.collection(COUNTRY).doc("all-sites").collection("routers").where(`${firmwares[i]}Support`, "==", true).orderBy("serialNumber").limit(3).get()
-			.then(docs => {
-				let j = 1;
-				docs.forEach( function(doc) {
-					db.doc(`${COUNTRY}/top-picks/${firmwares[i]}/${j++}`).set(doc.data());
-				});
-				
-			});
+			let query = {};
+			query[`${firmwares[i]}Support`] = true;
+			topPicks[firmwares[i]] = await mdb.collection(`${COUNTRY}-routers`).find(query).sort({ serialNumber: 1 }).limit(3).toArray();
 		}
+
+		await mdb.collection(`${COUNTRY}-featured`).updateOne({ name: "top picks" }, {$set: topPicks }, { upsert: true });
+
 	} catch (error) {
 		console.log(error);
 	}
-}
 
-async function createMostPopular() {
-	let mostPopular = [];
-	db.collection(COUNTRY).doc("all-sites").collection("routers").orderBy("serialNumber").limit(18).get()
-	.then(result => {
-		let i = 1;
-		result.forEach(doc => {
-			db.doc(`${COUNTRY}/most-popular/routers/${i++}`).set(doc.data());
-		});
-	});
-}
+	try {
+		mostPopular = await mdb.collection(`${COUNTRY}-routers`).find({}).sort({ serialNumber: 1 }).limit(18).toArray();
 
-createTopPicks();
-createMostPopular();
+		await mdb.collection(`${COUNTRY}-featured`).updateOne({ name: "most popular" }, {$set: { devices: mostPopular } }, { upsert: true });
+
+	} catch (error) {
+		console.log(error);
+	}
+	console.log("Top Picks and Most Popular created.");
+	
+	client.close();
+}
+ 
+createTopPicksMostPopular();

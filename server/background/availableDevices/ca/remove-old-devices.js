@@ -1,50 +1,48 @@
-const COUNTRY = "CA";
+const COUNTRY = "ca";
 
-const admin = require('firebase-admin');
+const MONGO_PWD = require("../../env").MONGO_PWD;
+const MongoClient = require('mongodb').MongoClient;
 
-if (!admin.apps.length) {
-	const serviceAccount = require("../../../firebase-adminsdk.json");
-	admin.initializeApp({
-  	credential: admin.credential.cert(serviceAccount),
-	});
-}
+const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mongodb.net/freetherouter?retryWrites=true&w=majority`;
 
-const db = admin.firestore();
-
-const allSitesRef = db.collection(COUNTRY).doc("all-sites");
-const indicesRef = db.collection(COUNTRY).doc("meta").collection("indices");
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function clearOldDevices() {
 
 	let newIndex = [], oldIndex = [];
 
-	await indicesRef.doc("all-devices").get()
+	await client.connect();
+	let mdb = client.db("freetherouter");
+
+	await mdb.collection("indices").findOne({ name: `${COUNTRY}-all-devices-index` })
 	.then(doc => {
-		if (doc.data()) {
-			newIndex = doc.data().fullNameIndex;
+		if (doc) {
+			newIndex = doc.fullNameIndex;
 		}
-	});
+	}).catch(error => console.log(error));
 
-	await indicesRef.doc("old-index").get()
+	await mdb.collection("indices").findOne({ name: `${COUNTRY}-old-index` })
 	.then(doc => {
-		if (doc.data()) {
-			oldIndex = doc.data().fullNameIndex;
+		if (doc) {
+			oldIndex = doc.fullNameIndex;
 		}
-	});
+	}).catch(error => console.log(error));
 
-	for (let i = 0; i < oldIndex.length; i++) {
-		if (!newIndex.includes(oldIndex[i])) {
-			await allSitesRef.collection("all-devices").doc(oldIndex[i]).delete()
-			.then(() => console.log('Deleted: ', oldIndex[i]))
-			.catch(error => console.log(error));
+	try {
+		for (let i = 0; i < oldIndex.length; i++) {
+			if (!newIndex.includes(oldIndex[i])) {
+				await mdb.collection(`${COUNTRY}-all-devices`).deleteMany({ id: oldIndex[i] })
+				.then(() => console.log("Deleted: ", oldIndex[i]));
 
-			await allSitesRef.collection("device-details").doc(oldIndex[i].replace(/\ /gm, "-")).update({
-				price: "Not Available"
-			}, {merge: true})
-			.then(() => console.log('Price cleared: ', oldIndex[i]))
-			.catch(error => console.log(error));
+				await mdb.collection(`${COUNTRY}-device-details`).updateMany({ id: oldIndex[i] }, { $set: { price: "Not Available" } })
+				.then(() => console.log("Price cleared: ", oldIndex[i]));
+			}
 		}
+	} catch (error) {
+		console.log(error);
 	}
+
+	client.close();
 
 }
 

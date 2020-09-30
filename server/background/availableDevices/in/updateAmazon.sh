@@ -1,7 +1,11 @@
 #!/bin/bash
 
-node ./functions/functions-local/availableDevices/IN/create-old-index.js
-node ./functions/functions-local/availableDevices/IN/amazon/modems-amazon-list-nonAPI.js
-node ./functions/functions-local/availableDevices/IN/amazon/repeaters\ \&\ extenders-amazon-list-nonAPI.js
-node ./functions/functions-local/availableDevices/IN/amazon/routers-amazon-list-nonAPI.js
-node ./functions/functions-local/availableDevices/IN/amazon/wireless\ access\ points-amazon-list-nonAPI.js
+node ./availableDevices/in/create-old-index.js
+
+node ./availableDevices/in/amazon/modems-amazon-list-nonAPI.js
+node ./availableDevices/in/amazon/repeaters\ \&\ extenders-amazon-list-nonAPI.js
+node ./availableDevices/in/amazon/routers-amazon-list-nonAPI.js
+node ./availableDevices/in/amazon/wireless\ access\ points-amazon-list-nonAPI.js
+
+node ./availableDevices/in/remove-old-devices.js
+node ./availableDevices/in/topPicks-mostPopular.js
