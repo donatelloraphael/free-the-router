@@ -195,7 +195,8 @@ async function filterDevices() {
 				if (regex.test(allDevices[i].amazonName)) {
 					numTestsPassed++;
 					if (numTestsPassed == splitName.length) {
-						allDevices[i].id = fullNameIndex[j];
+						allDevices[i].id = fullNameIndex[j].replace(/\ /gm, "-");
+						allDevices[i].fullName = fullNameIndex[j];
 						if (!supportedDevices.includes(allDevices[i])) {
 							supportedDevices.push(allDevices[i]);
 						}
@@ -216,7 +217,7 @@ async function addExtraInfo() {
 
 			let device;
 
-			await mdb.collection("all-firmware-devices").findOne({ "fullName": supportedDevices[i].id })
+			await mdb.collection("all-firmware-devices").findOne({ "fullName": supportedDevices[i].fullName })
 			.then(device => {
 				
 				supportedDevices[i].supportedFirmwares = [];
@@ -253,7 +254,7 @@ async function addExtraInfo() {
 					supportedDevices[i] = {...supportedDevices[i], ...device};
 
 				} else {
-					console.log(`ERROR! No device with the id ${supportedDevices[i].id} found!`);
+					console.log(`ERROR! No device with the name ${supportedDevices[i].fullName} found!`);
 				}
 			});
 		}
@@ -275,11 +276,11 @@ async function addToDatabase() {
 
 		let arrLength = supportedDevices.length;
 		for (let i = 0; i < arrLength; i++) {
-			bulkOpType.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
-			bulkOpAll.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
-			bulkOpDetails.find({ fullName: supportedDevices[i].id }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpType.find({ fullName: supportedDevices[i].fullName }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpAll.find({ fullName: supportedDevices[i].fullName }).upsert().updateOne({ $set: supportedDevices[i] });
+			bulkOpDetails.find({ fullName: supportedDevices[i].fullName }).upsert().updateOne({ $set: supportedDevices[i] });
 
-			newIndex.push(supportedDevices[i].id);
+			newIndex.push(supportedDevices[i].fullName);
 		}
 
 		await bulkOpType.execute();

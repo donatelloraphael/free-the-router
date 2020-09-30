@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./functions/functions-local/availableDevices/GB/updateAmazon.sh
+./availableDevices/gb/updateAmazon.sh

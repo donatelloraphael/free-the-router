@@ -31,10 +31,10 @@ async function clearOldDevices() {
 	try {
 		for (let i = 0; i < oldIndex.length; i++) {
 			if (!newIndex.includes(oldIndex[i])) {
-				await mdb.collection(`${COUNTRY}-all-devices`).deleteMany({ id: oldIndex[i] })
+				await mdb.collection(`${COUNTRY}-all-devices`).deleteMany({ fullName: oldIndex[i] })
 				.then(() => console.log("Deleted: ", oldIndex[i]));
 
-				await mdb.collection(`${COUNTRY}-device-details`).updateMany({ id: oldIndex[i] }, { $set: { price: "Not Available" } })
+				await mdb.collection(`${COUNTRY}-device-details`).updateMany({ fullName: oldIndex[i] }, { $set: { price: "Not Available" } })
 				.then(() => console.log("Price cleared: ", oldIndex[i]));
 			}
 		}

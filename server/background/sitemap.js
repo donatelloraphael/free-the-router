@@ -1,20 +1,26 @@
-const admin = require('firebase-admin');
 const { toXML } = require('jstoxml');
 const fs = require('fs');
 
-const serviceAccount = require("../firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-const db = admin.firestore();
+const MONGO_PWD = require("./env").MONGO_PWD;
+const MongoClient = require('mongodb').MongoClient;
+
+const uri = `mongodb+srv://defaultReadWrite:${MONGO_PWD}@freetherouter.dm5jh.mongodb.net/freetherouter?retryWrites=true&w=majority`;
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+let mdb;
 
 let urlArray = [];
-let countries = ["IN", "US", "CA", "GB"];
+let countries = ["us", "ca", "gb", "in"];
 let num = 0;
 
 async function makeSitemap() {
 
+	await client.connect();
+	mdb = client.db("freetherouter");
+
 	await makeUrlArray();
+
+	client.close();
 
 	const xmlOptions = {
 	  header: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
@@ -28,7 +34,7 @@ async function makeSitemap() {
 		_content: urlArray
 	}, xmlOptions);
 
-	fs.writeFile("./public/sitemap.xml", sitemap, err => {
+	fs.writeFile("../nuxt/src/static/sitemap.xml", sitemap, err => {
 		if (err) return console.log(err);
 	});
 
@@ -40,21 +46,28 @@ async function makeUrlArray() {
 
 		let index = [];
 		let devices = [];
+		let country = "";
 
-		await db.doc(`${countries[num]}/meta/indices/all-devices`).get()
+		await mdb.collection("indices").findOne({ name: `${countries[num]}-all-devices-index` })
 		.then(doc => {
-			if (doc.data()) {
-				index = doc.data().fullNameIndex;
+			if (doc) {
+				index = doc.fullNameIndex;
 			}
-		}).then(() => {
-			index.forEach(device => {
-				devices.push(device.trim().replace(/\ /gm, "-"));
-			});
 		}).catch(error => console.log(error));
+
+		index.forEach(device => {
+			devices.push(device.trim().replace(/\ /gm, "-"));
+		});
+
+		if (countries[num] == "us") {
+			country = "";
+		} else {
+			country = countries[num] + "/";
+		}
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/`,
+				loc: `https://freetherouter.com/${country}`,
 				lastmod: new Date().toISOString(),
 				changefreq: "daily",
 				priority: 1
@@ -63,7 +76,7 @@ async function makeUrlArray() {
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/shop/`,
+				loc: `https://freetherouter.com/${country}shop/`,
 				lastmod: new Date().toISOString(),
 				changefreq: "daily",
 				priority: 0.9
@@ -72,35 +85,35 @@ async function makeUrlArray() {
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/firmware/`,
+				loc: `https://freetherouter.com/${country}firmware/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/supported-devices/`,
+				loc: `https://freetherouter.com/${country}supported-devices/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/resources/`,
+				loc: `https://freetherouter.com/${country}resources/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/about/`,
+				loc: `https://freetherouter.com/${country}about/`,
 				priority: 0.8
 			}
 		});
 
 		urlArray.push({
 			url: {
-				loc: `https://freetherouter.com/${countries[num]}/sitemap/`,
+				loc: `https://freetherouter.com/${country}sitemap/`,
 				priority: 0.4
 			}
 		});
@@ -108,7 +121,7 @@ async function makeUrlArray() {
 		devices.forEach(device => {
 			urlArray.push({
 				url: {
-					loc: `https://freetherouter.com/${countries[num]}/devices/${device}/`,
+					loc: `https://freetherouter.com/${country}devices/${device}/`,
 					priority: 0.7
 				}
 			});

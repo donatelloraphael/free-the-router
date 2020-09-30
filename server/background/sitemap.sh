@@ -1,2 +1,2 @@
-node ./functions/functions-local/sitemap.js
+node ./sitemap.js
 echo "Finished creating sitemap.\n"
