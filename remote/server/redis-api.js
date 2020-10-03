@@ -9,8 +9,8 @@ const app = express();
 
 async function start() {
 
-	app.get("/api/*", async (req, res) => {
-		let argument = req.path.slice(5);
+	app.get("/*", async (req, res) => {
+		let argument = req.path.slice(1);
 		let output = [];
 
 		let result = await redis.lrange(argument, 0, -1);

@@ -147,14 +147,12 @@ export default {
 
     /////////////////////Set Most Popular and topPicks arrays in parallel//////////////////////////////////
 
-    const [topPicks, mostPopular] = await Promise.all([
-      context.store.dispatch("TopPicksModule/populateTopPicks"),
-      context.store.dispatch("MostPopularModule/populateMostPopular")
-    ]);
+    const [topPicks, mostPopular] = await context.store.dispatch("TopPicksMostPopularModule/populateTopPicksMostPopular");
+     
 
     ///////////////////////BY PRICE//////////////////////////////////////////////
     let priceFilter1 = "0-30", priceFilter2 = "30-60", priceFilter3 = "60-120", priceFilter4 = "120";
-    if (context.store.getters.getCountry == "IN") {
+    if (context.store.getters.getCountry == "in") {
       priceFilter1 = "0-1500"; 
       priceFilter2 = "1500-3000"; 
       priceFilter3 = "3000-6000"; 

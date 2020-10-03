@@ -122,9 +122,9 @@ const DeviceListModule = {
 		},
 
 		async searchDevices(vuexContext, {query, category}) {
-			console.log('OLD SEARCH: ', vuexContext.state.oldSearch);
-			console.log('SEARCH: ', query.search);
-			console.log("Category: ", category);
+			// console.log('OLD SEARCH: ', vuexContext.state.oldSearch);
+			// console.log('SEARCH: ', query.search);
+			// console.log("Category: ", category);
 
 			if (vuexContext.state.oldSearch != query.search || vuexContext.state.oldCategory != category) {
 

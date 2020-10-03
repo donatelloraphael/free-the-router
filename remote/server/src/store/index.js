@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import TopPicksModule from '@/store/TopPicks';
-import MostPopularModule from '@/store/MostPopular';
+import TopPicksMostPopularModule from '@/store/TopPicksMostPopular';
 import DeviceListModule from '@/store/DeviceList';
 
 Vue.use(Vuex);
@@ -11,16 +10,15 @@ const createStore = () => {
 	return new Vuex.Store({
 
 		modules: {
-			TopPicksModule,
-			MostPopularModule,
+			TopPicksMostPopularModule,
 			DeviceListModule
 		},
 
 		state: () => ({
-			selectedCountry: "US",
-			shopOldCountry: "US",
-			homeOldCountry: "US",
-			flagUrl: `url(${require(`assets/images/country-flags/US.png`)})`,
+			selectedCountry: "us",
+			shopOldCountry: "us",
+			homeOldCountry: "us",
+			flagUrl: `url(${require(`assets/images/country-flags/us.png`)})`,
 			currency: '$'
 		}),
 
@@ -52,7 +50,7 @@ const createStore = () => {
 			setCountry(vuexContext, country) {
 				if (!country) {
 					return;
-				} else if (country == 'US' || country == "IN" || country == "CA" || country == "GB") {
+				} else if (country == 'us' || country == "in" || country == "ca" || country == "gb") {
 					
     			vuexContext.dispatch("setShopOldCountry", vuexContext.getters.getCountry);
     			vuexContext.dispatch("setHomeOldCountry", vuexContext.getters.getCountry);
@@ -78,10 +76,10 @@ const createStore = () => {
 			setCurrency(vuexContext, country) {
 				let currency = "$";
 				switch (country) {
-					case "US": currency = "$"; break;
-					case "IN": currency = "₹"; break;
-					case "CA": currency = "CDN$"; break;
-					case "GB": currency = "£"; break;
+					case "us": currency = "$"; break;
+					case "in": currency = "₹"; break;
+					case "ca": currency = "CDN$"; break;
+					case "gb": currency = "£"; break;
 				}
 				vuexContext.commit("setCurrency", currency);
 			}
