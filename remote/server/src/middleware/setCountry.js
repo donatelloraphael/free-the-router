@@ -1,36 +1,32 @@
-import axios from 'axios';
-
 export default function ({ req, res, store, redirect, params, route, query }) {
 	
 	if (process.server) {
-		
+
+		let country = params.country || req.headers["cf-ipcountry"] || "us";
+		country = country.toLowerCase();
+
 		let fullPath = route.fullPath;
 		if (!Object.keys(query).length) {
-			fullPath = /^.*(?<!\/)$/.test(fullPath) ? fullPath + "/" : fullPath;
-		} else if (route.path == `/${params.country}/shop`) {
-			fullPath = fullPath.replace(route.path, route.path + "/");
+			fullPath = fullPath.slice(-1) != "/" ? (fullPath + "/").toLowerCase() : fullPath.toLowerCase();
+
+		} else if (route.path == "/shop" || route.path.toLowerCase() == `/${country}/shop`) {
+			fullPath = fullPath.replace(route.path, (route.path + "/").toLowerCase());
 		}
 
 		if (params.device) {
 			fullPath = fullPath.replace(params.device, params.device.toUpperCase());
 		}
 
-		let country = params.country ? params.country.toUpperCase() : null;
-
-
-		if (country == "US" || country == "GB" || country == "CA" || country == "IN") {
+		if (!params.country) {
+			fullPath = `/${country}${fullPath}`;
+		}
+		if (country != "us") {
 			store.dispatch("setCountry", country);
-			const countryRegex = new RegExp(`\/${params.country}(\/|$)`);
-			return redirect(fullPath.replace(countryRegex, "/" + country + "/"));
-			
-		} else {
-			let ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',').shift() : req.connection.remoteAddress;
+			return redirect(fullPath);
 
-			return axios.get("https://geolocation-db.com/json/" + ip)
-			.then(result => {
-				store.dispatch("setCountry", result.data.country_code.toUpperCase());	
-				return redirect(`/${store.getters.getCountry}/`);
-			}).catch(error => console.log(error));	
+		} else {
+			const countryRegex = new RegExp(`\/us(\/|$)`);
+			return redirect(fullPath.replace(countryRegex, "/"));
 		}
 	}
 }
