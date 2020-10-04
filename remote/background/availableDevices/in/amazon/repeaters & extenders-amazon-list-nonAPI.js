@@ -77,7 +77,7 @@ async function main() {
 				console.log("\nNUMBER OF SUPPORTED DEVICES: ", supportedDevices.length);
 				// console.dir(supportedDevices, {maxArrayLength: null});
 
-				return true;
+				process.exit(0);
 			}
 		}, 0);
 	}
@@ -96,7 +96,7 @@ async function getPage(link, page, deviceType) {
 			return res.data;
 		}
 		////////////////////////// Set page end //////////////////////////////////////////
-		let deviceNumbers = $("span", ".s-breadcrumb", res.data)?.html()?.split(" ")[0]?.split("-");
+		let deviceNumbers = $("span", ".s-breadcrumb", res.data).html()?.split(" ")[0]?.split("-");
 
 		if (parseInt(deviceNumbers[0]) > parseInt(deviceNumbers[1])) {
 			console.log('__________No more devices_________');
@@ -115,43 +115,46 @@ async function getPage(link, page, deviceType) {
 
 function getDevices(html, page, deviceType) {
 
-	if ($(".octopus-pc-item", html).html()) {
+	// if ($(".octopus-pc-item", html).html()) {
 
-		$(".octopus-pc-item", html).each((i, element) => {
-			let device = {};
+	// 	$(".octopus-pc-item", html).each((i, element) => {
+	// 		let device = {};
 
-			let aTag = $(".octopus-pc-item-link", $(element).html());
+	// 		let aTag = $(".octopus-pc-item-link", $(element).html());
 
-			device.amazonLink = AMAZON + $(aTag).attr("href").split("?").shift();
-			device.amazonAsin = device.amazonLink.split("/dp/").pop();
-			device.amazonName = $(aTag).attr("title").trim();
-			device.amazonThumbnail = $("img", $(element).html()).attr("data-a-hires");
-			device.amazonCategory = deviceType;
-			device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text().split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+	// 		device.amazonLink = AMAZON + $(aTag).attr("href")?.split("?").shift();
+	// 		device.amazonAsin = device.amazonLink?.split("/dp/")?.pop();
+	// 		device.amazonName = $(aTag).attr("title").trim();
+	// 		device.amazonThumbnail = $("img", $(element).html()).attr("data-a-hires");
+	// 		device.amazonCategory = deviceType;
+	// 		device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
 			
-			if (device.amazonPrice) {
-				allDevices.push(device);
-			}
-			if (page == 1) {
-				console.log("OCTOPUS: ", device.amazonName ? device.amazonName : "FIRST PAGE NOT LOADED!");
-			}
-		});
-	} else {
+	// 		if (device.amazonPrice) {
+	// 			allDevices.push(device);
+	// 		}
+	// 		if (page == 1) {
+	// 			console.log("OCTOPUS: ", device.amazonName ? device.amazonName : "FIRST PAGE NOT LOADED!");
+	// 		}
+	// 	});
+	// 	return;
+	// } else 
+	if (page > 1 && $(".s-result-item", html).html()) {
 
 		$(".s-result-item", html).each((i, element) => {
 			let device = {};
+			// console.log($(element).html());
 
 			if ($(element).attr("data-asin")) {
 				device.amazonAsin = $(element).attr("data-asin");
 				if ($(".s-label-popover-hover", $(element).html()).text()) {
 					device.amazonLink = `${AMAZON}/dp/` + device.amazonAsin;
 				} else {
-					device.amazonLink = AMAZON + $(".rush-component a", $(element).html()).attr("href").split("ref=").shift();
+					device.amazonLink = AMAZON + $(".rush-component a", $(element).html()).attr("href")?.split("ref=")?.shift();
 				}
-				device.amazonThumbnail = $(".rush-component a img", $(element).html()).attr("src").replace(/_[a-z]{2}\d{3}_/gi, "_UY436_");
+				device.amazonThumbnail = $(".rush-component a img", $(element).html()).attr("src")?.replace(/_[a-z]{2}\d{3}_/gi, "_UY436_");
 				device.amazonCategory = deviceType;
 				device.amazonName = $(".a-size-medium.a-color-base.a-text-normal", $(element).html()).text();
-				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text().split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
 
 				if (device.amazonPrice) {
 					allDevices.push(device);
@@ -162,6 +165,25 @@ function getDevices(html, page, deviceType) {
 			}
 			
 		});
+		return;
+	} else {
+		$(".s-result-item", html).each((i, element) => {
+			let device = {};
+			let price = $(".a-color-price", $(element).html()).text()?.slice(1);
+
+			if (price) {
+				device.amazonLink = $("a", $(element).html()).attr("href")?.split("/ref=")[0];
+				device.amazonAsin = device.amazonLink?.split("/dp/")[1];
+				device.amazonLink = device.amazonLink + "/";
+				device.amazonThumbnail = $("img", $(element).html()).attr("src")?.replace(/_[a-z]{2}\d{3}_/gi, "_UY436_");
+				device.amazonCategory = deviceType;
+				device.amazonName = $(".s-access-title", $(element).html()).text();
+				device.amazonPrice = price;
+
+				allDevices.push(device);
+			}
+		});
+		return;
 	}
 }
 

@@ -61,6 +61,10 @@ export default {
 	 		this.alt2Url = this.topPicks[this.selected][2] ? this.topPicks[this.selected][2].amazonThumbnail : "";
 	 	}
 	},
+
+	mounted() {
+		console.log(topPicks);
+	}
 };
 	
 </script>
