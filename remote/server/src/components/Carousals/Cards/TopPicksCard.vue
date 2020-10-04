@@ -53,6 +53,16 @@ export default {
 			alt2Url: this.topPicks[this.selected][2] ? this.topPicks[this.selected][2].amazonThumbnail : ""
 		}
 	},
+	methods: {
+		formatPrice(price) {
+			if (isNaN(price)) {
+				price = price.match(/\d+(\.|\,)*\d*/)[0].toLocaleString();
+				return price;
+			} else {
+				return price.toLocaleString();
+			}
+		}
+	},
 	
 	watch: {
 	 	selected() {
@@ -60,10 +70,6 @@ export default {
 	 		this.alt1Url = this.topPicks[this.selected][1] ? this.topPicks[this.selected][1].amazonThumbnail : "";
 	 		this.alt2Url = this.topPicks[this.selected][2] ? this.topPicks[this.selected][2].amazonThumbnail : "";
 	 	}
-	},
-
-	mounted() {
-		console.log(topPicks);
 	}
 };
 	

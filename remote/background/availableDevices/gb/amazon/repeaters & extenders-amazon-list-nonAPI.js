@@ -178,7 +178,7 @@ function getDevices(html, page, deviceType) {
 				device.amazonThumbnail = $("img", $(element).html()).attr("src")?.replace(/_[a-z]{2}\d{3}_/gi, "_UY436_");
 				device.amazonCategory = deviceType;
 				device.amazonName = $(".s-access-title", $(element).html()).text();
-				device.amazonPrice = price;
+				device.amazonPrice = isNaN(price) ? price.match(/\d+(\.|\,)*\d*/)[0] : price;
 
 				allDevices.push(device);
 			}

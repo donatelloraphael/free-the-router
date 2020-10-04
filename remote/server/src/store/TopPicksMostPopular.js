@@ -48,7 +48,7 @@ const TopPicksMostPopularModule = {
 				if (process.server) {
 					featured = (await axios.get(`http://127.0.0.1:9000/api/${vuexContext.rootGetters.getCountry}-featured`)).data;
 				} else {
-					featured = (await axios.get(`${PROTOCOL}://${HOST}:9000/api/${vuexContext.rootGetters.getCountry}-featured`)).data;
+					featured = (await axios.get(`${PROTOCOL}://${HOST}:8000/api/${vuexContext.rootGetters.getCountry}-featured`)).data;
 				}
 
 				vuexContext.commit("setTopPicks", featured[0]);
