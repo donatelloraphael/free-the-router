@@ -52,18 +52,7 @@ export default {
 			alt1Url: this.topPicks[this.selected][1] ? this.topPicks[this.selected][1].amazonThumbnail : "",
 			alt2Url: this.topPicks[this.selected][2] ? this.topPicks[this.selected][2].amazonThumbnail : ""
 		}
-	},
-	methods: {
-		formatPrice(price) {
-			if (isNaN(price)) {
-				price = price.match(/\d+(\.|\,)*\d*/)[0].toLocaleString();
-				return price;
-			} else {
-				return price.toLocaleString();
-			}
-		}
-	},
-	
+	},	
 	watch: {
 	 	selected() {
 		 	this.mainUrl = this.topPicks[this.selected][0] ? this.topPicks[this.selected][0].amazonThumbnail : "";
