@@ -23,7 +23,7 @@ async function redisSync() {
 			.then(async docs => {
 				await redis.del(collections[i].name);
 				docs.forEach(async device => {
-					await redis.rpush(collections[i].name, JSON.stringify(device));
+					await redis.hset(collections[i].name, device.id || device.fullName || device.name, JSON.stringify(device));
 				});
 				console.log(`${collections[i].name} - collection synced`);
 			}).catch(error => console.log(error));

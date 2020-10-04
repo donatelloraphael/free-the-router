@@ -9,17 +9,25 @@ const app = express();
 
 async function start() {
 
-	app.get("/*", async (req, res) => {
-		let argument = req.path.slice(1);
+	app.get("/api/*", async (req, res) => {
+		let argument = req.path.slice(5);
 		let output = [];
 
-		let result = await redis.lrange(argument, 0, -1);
+		let result = await redis.hgetall(argument);
 		
-		for (let i = 0, length = result.length; i < length; i++) {
-			output.push(JSON.parse(result[i]));
-		}
+		Object.values(result).forEach(doc => {
+			output.push(JSON.parse(doc));
+		});
 
 		res.send(output);
+	});
+
+	app.get("/devices/*", async (req, res) => {
+		let argument = req.path.slice(1).split("/");
+
+		let result = await redis.hget(argument[1], argument[2]);
+
+		res.send(result);
 	});
 
 	app.listen(9000, "127.0.0.1");

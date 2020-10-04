@@ -115,8 +115,9 @@
 
 <script>
 
-import { db } from '~/plugins/firebase.js';
+import axios from 'axios';
 import Breadcrumb from '~/components/Navigation/Breadcrumb';
+import { HOST } from "../../../../env";
 
 export default {
 	head() {
@@ -148,9 +149,9 @@ export default {
 		amazonName() {
 			let name;
 			switch(this.$store.getters.getCountry) {
-				case "IN": name = "amazon.in"; break;
-				case "GB": name = "amazon.co.uk"; break;
-				case "CA": name = "amazon.ca"; break;
+				case "in": name = "amazon.in"; break;
+				case "gb": name = "amazon.co.uk"; break;
+				case "ca": name = "amazon.ca"; break;
 				default: name = "amazon.com"; break;
 			}
 			return name;
@@ -158,11 +159,11 @@ export default {
 		amazonRef() {
 			let ref;
 			switch(this.$store.getters.getCountry) {
-				case "IN": ref = "/ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherouter-21&language=en_IN";
+				case "in": ref = "/ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherouter-21&language=en_IN";
 									break;
-				case "GB": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB";
+				case "gb": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB";
 									break;
-				case "CA": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout0c-20&language=en_CA";
+				case "ca": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout0c-20&language=en_CA";
 									break;
 				default: ref = "/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&linkCode=as2&tag=freetherouter-20&language=en_US";
 			}
@@ -222,12 +223,16 @@ export default {
 	async asyncData(context) {
 		let device = {};
 
-		await db.doc(`${context.store.getters.getCountry}/all-sites/device-details/${context.route.params.device.toUpperCase()}`).get()
-		.then(doc => {
-			if (doc.data()) {
-				device = doc.data();
+		try {
+			if (process.server) {
+				device = (await axios.get(`http://127.0.0.1:9000/devices/${context.store.getters.getCountry}-device-details/${context.route.params.device.toUpperCase()}`)).data;
+			} else {
+
+				device = (await axios.get(`https://${HOST}:9000/devices/${context.store.getters.getCountry}-device-details/${context.route.params.device.toUpperCase()}`)).data;
 			}
-		}).catch(error => console.log(error));
+		} catch (error) {
+			console.log(error);
+		}
 
 		return {
 			device
@@ -235,6 +240,7 @@ export default {
 	},
 
 	mounted() {
+		console.log("TEST2");
 
 		let localCategory = localStorage.getItem("localCategory");
 

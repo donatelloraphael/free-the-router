@@ -6,30 +6,30 @@
 		<div class="sitemap">
 			<h1>Sitemap</h1>
 			<ul>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/`">Home</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/shop/`">Shop</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/`">Firmware</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/supported-devices/`">Supported Devices</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/resources/`">Resources</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/about/`">About Us</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/`">Home</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/shop/`">Shop</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/`">Firmware</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/supported-devices/`">Supported Devices</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/resources/`">Resources</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/about/`">About Us</nuxt-link></li>
 			</ul>
 
 			<ul>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#openwrt`" @click.native="scrollTo('#openwrt')">OpenWrt</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#ddwrt`" @click.native="scrollTo('#ddwrt-')">DD-WRT</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#gargoyle`" @click.native="scrollTo('#gargoyle-')">Gargoyle</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#freshtomato`" @click.native="scrollTo('#freshtomato-')">FreshTomato</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#advancedtomato`" @click.native="scrollTo('#advancedtomato-')">AdvancedTomato</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#tomatobyshibby`" @click.native="scrollTo('#tomatobyshibby-')">Tomato by Shibby</nuxt-link></li>
-				<li><nuxt-link :to="`/${$store.getters.getCountry}/firmware/#asuswrt-merlin`" @click.native="scrollTo('#asuswrt-merlin')">AsusWrt-Merlin</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#openwrt`" @click.native="scrollTo('#openwrt')">OpenWrt</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#ddwrt`" @click.native="scrollTo('#ddwrt-')">DD-WRT</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#gargoyle`" @click.native="scrollTo('#gargoyle-')">Gargoyle</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#freshtomato`" @click.native="scrollTo('#freshtomato-')">FreshTomato</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#advancedtomato`" @click.native="scrollTo('#advancedtomato-')">AdvancedTomato</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#tomatobyshibby`" @click.native="scrollTo('#tomatobyshibby-')">Tomato by Shibby</nuxt-link></li>
+				<li><nuxt-link :to="`${country}/firmware/#asuswrt-merlin`" @click.native="scrollTo('#asuswrt-merlin')">AsusWrt-Merlin</nuxt-link></li>
 			</ul>
 
 			<ul>
-				<li><nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/#faq` }" @click.native="scrollTo('#faq')">FAQ</nuxt-link></li>
-				<li><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#terms` }" @click.native="scrollTo('#terms')">Terms of Service</nuxt-link></li>
-				<li><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#privacy` }" @click.native="scrollTo('#privacy')">Privacy Policy</nuxt-link></li>
-				<li><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#about` }" @click.native="scrollTo('#about')">About Us</nuxt-link></li>
-				<li><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#contact` }"  @click.native="scrollTo('#contact')">Contact Us</nuxt-link></li>
+				<li><nuxt-link :to="{ path: `${country}/resources/#faq` }" @click.native="scrollTo('#faq')">FAQ</nuxt-link></li>
+				<li><nuxt-link :to="{ path: `${country}/about/#terms` }" @click.native="scrollTo('#terms')">Terms of Service</nuxt-link></li>
+				<li><nuxt-link :to="{ path: `${country}/about/#privacy` }" @click.native="scrollTo('#privacy')">Privacy Policy</nuxt-link></li>
+				<li><nuxt-link :to="{ path: `${country}/about/#about` }" @click.native="scrollTo('#about')">About Us</nuxt-link></li>
+				<li><nuxt-link :to="{ path: `${country}/about/#contact` }"  @click.native="scrollTo('#contact')">Contact Us</nuxt-link></li>
 			</ul>
 		</div>
 
@@ -49,6 +49,11 @@
 		      { hid: 'description', name: 'description', content: 'Sitemap of freetherouter.com' }
 		    ]
 		  }
+	  },
+	  computed: {
+	  	country() {
+	  		return this.$store.getters.getCountry == "us" ? "" : "/" + this.$store.getters.getCountry;
+	  	}
 	  },
 		methods: {
 			scrollTo: function (hashtag) {
