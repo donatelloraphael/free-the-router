@@ -12,6 +12,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
+
     ]
   },
   /*
@@ -27,11 +28,14 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [
+  
+  ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    ['@nuxtjs/google-analytics', { id: 'G-96MTSBXCQ5' }]
   ],
   /*
   ** Nuxt.js modules
