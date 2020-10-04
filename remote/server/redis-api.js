@@ -2,7 +2,9 @@ const Redis = require("ioredis");
 const express = require("express");
 const consola = require("consola");
 
-const REDIS_PWD = require("./env").REDIS_PWD;
+const REDIS_PWD = require('./env').REDIS_PWD;
+const HOST = require('./env').HOST;
+const PROTOCOL = require('./env').PROTOCOL;
 const redis = new Redis({ password: REDIS_PWD });
 
 const app = express();
@@ -19,6 +21,8 @@ async function start() {
 			output.push(JSON.parse(doc));
 		});
 
+    res.set("Access-Control-Allow-Origin", `${PROTOCOL}://${HOST}`);
+    res.set("Vary", "Origin");
 		res.send(output);
 	});
 
@@ -27,6 +31,8 @@ async function start() {
 
 		let result = await redis.hget(argument[1], argument[2]);
 
+    res.set("Access-Control-Allow-Origin", `${PROTOCOL}://${HOST}`);
+    res.set("Vary", "Origin");
 		res.send(result);
 	});
 

@@ -22,7 +22,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'openwrt', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'openwrt', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -47,7 +47,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'ddwrt', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'ddwrt', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -72,7 +72,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'gargoyle', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'gargoyle', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -97,7 +97,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'advancedtomato', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'advancedtomato', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -122,7 +122,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'freshtomato', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'freshtomato', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -147,7 +147,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'tomatobyshibby', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'tomatobyshibby', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -175,7 +175,7 @@
 
 				</div>
 				<div class="col-right">
-					<nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: {firmware: 'asusmerlin', from: 'firmware'}}">
+					<nuxt-link :to="{ path: `${country}/shop/`, query: {firmware: 'asusmerlin', from: 'firmware'}}">
 						<div class="devices">
 							View compatable devices
 						</div>
@@ -203,6 +203,11 @@
 		      { hid: 'description', name: 'description', content: 'All about various custom firmware projects for networking devices' }
 		    ]
 		  }
+	  },
+	  computed: {
+	  	country() {
+	  		return this.$store.getters.getCountry == "us" ? "" : "/" + this.$store.getters.getCountry;
+	  	}
 	  },
 		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		
 		mounted () {

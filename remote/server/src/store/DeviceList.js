@@ -1,6 +1,7 @@
 import Vuex from 'vuex';
+import axios from 'axios';
 
-import {db} from '~/plugins/firebase.js';
+import { HOST, PROTOCOL } from '../../env';
 
 const DeviceListModule = {
 	namespaced: true,
@@ -54,16 +55,7 @@ const DeviceListModule = {
 	actions: {
 		async populateDeviceList(vuexContext, query) {
 			let devices = [];
-			let category = "";
-
-			switch (query.category) {
-				case "all-devices": category = "all-devices"; break;
-				case "routers": category = "routers"; break;
-				case "modems": category = "modems"; break;
-				case "repeaters-extenders": category = "repeaters & extenders"; break;
-				case "wireless-access-points": category = "wireless access points"; break;
-				default: category = "routers"; break;
-			}
+			let category = query.category || "routers";
 
 			// If there are query strings
 			if (Object.keys(query).length > 0) {
@@ -77,18 +69,20 @@ const DeviceListModule = {
 
 					if (category != vuexContext.state.oldCategory) {
 
-						return db.collection(vuexContext.rootGetters.getCountry).doc("all-sites").collection(category).orderBy("serialNumber").get()
-						.then(docs => {
-							docs.forEach(doc => {
-								devices.push(doc.data());
-							});
-						}).then(() => {
-							vuexContext.commit("setDeviceList", devices);
-							vuexContext.commit("setOldCategory", category);
+						try {
+							if (process.server) {
+								devices = (await axios.get(`http://127.0.0.1:9000/api/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+							} else {
+								devices = (await axios.get(`${PROTOCOL}://${HOST}:9000/api/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+							}
+						} catch (error) {
+							console.log(error);
+						}
 
-							return vuexContext.dispatch("filterResults", {devices, query});
+						vuexContext.commit("setDeviceList", devices);
+						vuexContext.commit("setOldCategory", category);
 
-						}).catch(error => console.log(error));
+						return vuexContext.dispatch("filterResults", {devices, query});
 
 					} else {
 						devices = [...vuexContext.getters.getDeviceList];
@@ -100,17 +94,20 @@ const DeviceListModule = {
 			} else {
 				if (vuexContext.state.oldCategory != "routers" || vuexContext.rootGetters.getShopOldCountry != vuexContext.rootGetters.getCountry) {
 
-					return db.collection(vuexContext.rootGetters.getCountry).doc("all-sites").collection("routers").orderBy("serialNumber").get()
-					.then(docs => {
-						docs.forEach(doc => {
-							devices.push(doc.data());
-						});
-					}).then(() => {
-						vuexContext.commit("setDeviceList", devices);
-						vuexContext.commit("setOldCategory", "routers");
+					try {
+						if (process.server) {
+							devices = (await axios.get(`http://127.0.0.1:9000/api/${vuexContext.rootGetters.getCountry}-routers`)).data;
+						} else {
+							devices = (await axios.get(`${PROTOCOL}://${HOST}:9000/api/${vuexContext.rootGetters.getCountry}-routers`)).data;
+						}
+					} catch (error) {
+						console.log(error);
+					}
 
-						return vuexContext.dispatch("splitForPagination", {devices, query});
-					}).catch(error => console.log(error));
+					vuexContext.commit("setDeviceList", devices);
+					vuexContext.commit("setOldCategory", "routers");
+
+					return vuexContext.dispatch("splitForPagination", {devices, query});
 
 				} else {
 					devices = [...vuexContext.getters.getDeviceList];
@@ -122,9 +119,6 @@ const DeviceListModule = {
 		},
 
 		async searchDevices(vuexContext, {query, category}) {
-			// console.log('OLD SEARCH: ', vuexContext.state.oldSearch);
-			// console.log('SEARCH: ', query.search);
-			// console.log("Category: ", category);
 
 			if (vuexContext.state.oldSearch != query.search || vuexContext.state.oldCategory != category) {
 
@@ -133,12 +127,15 @@ const DeviceListModule = {
 				let dbAllDevicesIndex = [];
 				let matchDevicesIndex = [];
 
-				await db.doc(`${vuexContext.rootGetters.getCountry}/meta/indices/${category}`).get()
-				.then(doc => {
-					if (doc.data()) {
-						dbAllDevicesIndex = doc.data().fullNameIndex;
+				try {
+					if (process.server) {
+						dbAllDevicesIndex = (await axios.get(`http://127.0.0.1:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data;
+					} else {
+						dbAllDevicesIndex = (await axios.get(`${PROTOCOL}://${HOST}:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data;
 					}
-				});
+				} catch (error) {
+					console.log(error);
+				}
 
 				let searchArray = query.search.split(/_|-/gmi);
 
@@ -147,13 +144,12 @@ const DeviceListModule = {
 					let matchCount = 0;
 					for (let j = 0; j < searchArray.length; j++) {
 						let regex = new RegExp(searchArray[j], "gmi");
-							// console.log("device: ", dbAllDevicesIndex[i]);
-							// console.log(regex);
+							
 						if (regex.test(dbAllDevicesIndex[i])) {
 							matchCount++;
 						}
 						if (matchCount == searchArray.length) {
-							matchDevicesIndex.push(dbAllDevicesIndex[i]);
+							matchDevicesIndex.push(dbAllDevicesIndex[i].replace(/\ /gm, "-"));
 						}
 					}
 				}
@@ -164,13 +160,13 @@ const DeviceListModule = {
 
 				try {
 					for (let i = 0; i < resultLength; i++) {
-						let promise = db.doc(`${vuexContext.rootGetters.getCountry}/all-sites/${category}/${matchDevicesIndex[i]}`).get()
-						.then(doc => {
-							if (doc.data()) {
-								// searchResult.push(doc.data());
-								return doc.data();
-							}
-						});
+						let promise;
+
+						if (process.server) {
+							promise = (await axios.get(`http://127.0.0.1:9000/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
+						} else {
+							promise = (await axios.get(`${PROTOCOL}://${HOST}:9000/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
+						}
 
 						promises.push(promise);
 					}
@@ -178,14 +174,18 @@ const DeviceListModule = {
 					console.log(error);
 				}
 
-				await Promise.all(promises).then((results) => {
-					results.forEach(doc => {
-						searchResult.push(doc);
+				try {
+					await Promise.all(promises).then((results) => {
+						results.forEach(doc => {
+							searchResult.push(doc);
+						});
+					}).then(() => {
+						vuexContext.commit("setSearchResult", searchResult);
+						// console.log(searchResult);
 					});
-				}).then(() => {
-					vuexContext.commit("setSearchResult", searchResult);
-					console.log(searchResult);
-				});
+				} catch (error) {
+					console.log(error);
+				}
 
 				vuexContext.commit("setOldSearch", query.search);
 				vuexContext.commit("setOldCategory", category);
