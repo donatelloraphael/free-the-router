@@ -5,21 +5,21 @@
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }">Home</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `${country}/` }">Home</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="1" />
 				</li>
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { category: formattedCategory }}">{{ category }}</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `${country}/shop/`, query: { category: formattedCategory }}">{{ category }}</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="2" />
 				</li>
 				
 				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
 					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { brand: brand.toLowerCase() } }">{{ brand }}</nuxt-link></span>
+						<span itemprop="name"><nuxt-link :to="{ path: `${country}/shop/`, query: { brand: brand.toLowerCase() } }">{{ brand }}</nuxt-link></span>
 					</span>
 					<meta itemprop="position" content="3" />
 				</li>
@@ -45,7 +45,10 @@
 		computed: {
 			formattedCategory() {
 				return this.queryCategory == "undefined" ? "routers" : this.queryCategory;
-			}
+			},
+			country() {
+	  		return this.$store.getters.getCountry == "us" ? "" : "/" + this.$store.getters.getCountry;
+	  	}
 		}
 	};
 

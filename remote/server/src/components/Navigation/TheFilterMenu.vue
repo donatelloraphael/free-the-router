@@ -173,7 +173,7 @@
     props: ["isActive"],
     computed: {
       isShopPage() {
-        return /\/[a-z]+\/shop/gi.test(this.$route.path);
+        return /\/shop\//g.test(this.$route.path);
       },
       category() {
         return this.$route.query.category ? this.$route.query.category : "routers";

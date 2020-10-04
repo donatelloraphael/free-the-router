@@ -5,20 +5,20 @@
     </div>
     
     <div class="menu" :class="{ active: isActive, closing: closingState, closed: setClosingState() }">
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/` }" :class="{activeAlt: path == '/shop'}"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/` }"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices/` }"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/` }"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
-      <nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/` }"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
+      <nuxt-link :to="{ path: `${country}/` }"><span @click="closeSideMenuStateChanges()">Home</span></nuxt-link>
+      <nuxt-link :to="{ path: `${country}/shop/` }" :class="{activeAlt: path == '/shop'}"><span @click="closeSideMenuStateChanges()">Shop</span></nuxt-link>
+      <nuxt-link :to="{ path: `${country}/firmware/` }"><span @click="closeSideMenuStateChanges()">Firmware</span></nuxt-link>
+      <nuxt-link :to="{ path: `${country}/supported-devices/` }"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
+      <nuxt-link :to="{ path: `${country}/resources/` }"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
+      <nuxt-link :to="{ path: `${country}/about/` }"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
 
       <div class="nav-country-dropdown">
   
         <select class="dropdown-menu-sidebar" @change="setCountry($event.target.value); redirectCountry($event.target.value);" aria-labelledby="navbarDropdown">
-          <option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry" href="#">USA</option>
-          <option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry" href="#">India</option>
-          <option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry" href="#">Canada</option>
-          <option class="dropdown-item" value="GB" :selected="'GB' == $store.getters.getCountry" href="#">UK</option>
+          <option class="dropdown-item" value="us" :selected="'us' == $store.getters.getCountry" href="#">USA</option>
+          <option class="dropdown-item" value="in" :selected="'in' == $store.getters.getCountry" href="#">India</option>
+          <option class="dropdown-item" value="ca" :selected="'ca' == $store.getters.getCountry" href="#">Canada</option>
+          <option class="dropdown-item" value="gb" :selected="'gb' == $store.getters.getCountry" href="#">UK</option>
         </select>
 
       </div>
@@ -42,6 +42,9 @@
     computed: {
       path() {
         return this.$route.path;
+      },
+      country() {
+        return this.$store.getters.getCountry == "us" ? "" : "/" + this.$store.getters.getCountry;
       }
     },
 

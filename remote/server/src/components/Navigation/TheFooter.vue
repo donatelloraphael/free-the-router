@@ -4,33 +4,33 @@
 		<div class="main-footer">
 
 			<span class="logo">
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }"><img src="../../assets/images/free-the-router.png" alt="Free The Router Logo linking to homepage"></nuxt-link>
+				<nuxt-link :to="{ path: `${country}/` }"><img src="../../assets/images/free-the-router.png" alt="Free The Router Logo linking to homepage"></nuxt-link>
 			</span>
 
 			<div class="firmware">
 				<h3>Firmware</h3>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#openwrt` }" @click.native="scrollTo('#openwrt')">OpenWrt</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#ddwrt-` }" @click.native="scrollTo('#ddwrt-')">DD-Wrt</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#gargoyle-` }" @click.native="scrollTo('#gargoyle-')">Gargoyle</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#freshtomato-` }" @click.native="scrollTo('#freshtomato-')">FreshTomato</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#advancedtomato-` }" @click.native="scrollTo('#advancedtomato-')">AdvancedTomato</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#tomatobyshibby-` }" @click.native="scrollTo('#tomatobyshibby-')">Tomato by Shibby</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#asuswrt-merlin` }" @click.native="scrollTo('#asuswrt-merlin')">Asuswrt-Merlin</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#openwrt` }" @click.native="scrollTo('#openwrt')">OpenWrt</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#ddwrt-` }" @click.native="scrollTo('#ddwrt-')">DD-Wrt</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#gargoyle-` }" @click.native="scrollTo('#gargoyle-')">Gargoyle</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#freshtomato-` }" @click.native="scrollTo('#freshtomato-')">FreshTomato</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#advancedtomato-` }" @click.native="scrollTo('#advancedtomato-')">AdvancedTomato</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#tomatobyshibby-` }" @click.native="scrollTo('#tomatobyshibby-')">Tomato by Shibby</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/firmware/#asuswrt-merlin` }" @click.native="scrollTo('#asuswrt-merlin')">Asuswrt-Merlin</nuxt-link>
 			</div>
 
 			<div class="info">
 				<h3>Information</h3>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/#faq` }" @click.native="scrollTo('#faq')">FAQ</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#terms` }" @click.native="scrollTo('#terms')">Terms of Service</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#privacy` }" @click.native="scrollTo('#privacy')">Privacy Policy</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/#resources` }" @click.native="scrollTo('#resources')">Resources</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/resources/#faq` }" @click.native="scrollTo('#faq')">FAQ</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/about/#terms` }" @click.native="scrollTo('#terms')">Terms of Service</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/about/#privacy` }" @click.native="scrollTo('#privacy')">Privacy Policy</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/resources/#resources` }" @click.native="scrollTo('#resources')">Resources</nuxt-link>
 			</div>
 
 			<div class="more">
 				<h3>Know More</h3>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#about` }" @click.native="scrollTo('#about')">About Us</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/#contact` }"  @click.native="scrollTo('#contact')">Contact Us</nuxt-link>
-				<nuxt-link :to="{ path: `/${$store.getters.getCountry}/sitemap/` }">Sitemap</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/about/#about` }" @click.native="scrollTo('#about')">About Us</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/about/#contact` }"  @click.native="scrollTo('#contact')">Contact Us</nuxt-link>
+				<nuxt-link :to="{ path: `${country}/sitemap/` }">Sitemap</nuxt-link>
 			</div>
 
 			<div id="placeholder-block">
@@ -50,6 +50,11 @@
 
 	export default {
 		name: "TheFooter",
+		computed: {
+			country() {
+	  		return this.$store.getters.getCountry == "us" ? "" : "/" + this.$store.getters.getCountry;
+	  	}
+		},
 		methods: {
 			scrollTo: function (hashtag) {
 	      setTimeout(() => { location.href = hashtag }, TIMEOUT)

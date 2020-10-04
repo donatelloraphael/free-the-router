@@ -2,7 +2,7 @@
 	<div>
 		<section id="header" class="header navigation-bar-scroll">
 	    <div class="pre-header">
-	    	<nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }">
+	    	<nuxt-link :to="{ path: `${country}/` }">
 	    		<div class="logo"></div>
 	    	</nuxt-link>
 
@@ -25,10 +25,10 @@
 	   
 				<div class="country">
 	  			<select id="countrySelector" class="dropdown-menu" @change="setCountry($event.target.value); getFlagUrl(); redirectCountry($event.target.value);" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
-						<option class="dropdown-item" value="US" :selected="'US' == $store.getters.getCountry">USA</option>
-						<option class="dropdown-item" value="IN" :selected="'IN' == $store.getters.getCountry">India</option>
-						<option class="dropdown-item" value="CA" :selected="'CA' == $store.getters.getCountry">Canada</option>
-						<option class="dropdown-item" value="GB" :selected="'GB' == $store.getters.getCountry">UK</option>
+						<option class="dropdown-item" value="us" :selected="'us' == $store.getters.getCountry">USA</option>
+						<option class="dropdown-item" value="in" :selected="'in' == $store.getters.getCountry">India</option>
+						<option class="dropdown-item" value="ca" :selected="'ca' == $store.getters.getCountry">Canada</option>
+						<option class="dropdown-item" value="gb" :selected="'gb' == $store.getters.getCountry">UK</option>
 					</select>
 					<span id="country-flag" :style="{ background: 'no-repeat center/100% ' + flagUrl }"/>
 				</div>
@@ -44,12 +44,12 @@
     		<span id="filter-menu-toggler" @click="toggleFilterMenuActive()" :class="{ active: isShopPage }">Filter</span>
     	
 	    	<ul class="navbar-list navbar-nav mr-auto">
-	    		<li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/` }" exact>Home</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/shop/` }">Shop</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/` }">Firmware</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/supported-devices/` }">Supported Devices</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/resources/` }">Resources</nuxt-link></li>
-	        <li class="nav-item"><nuxt-link :to="{ path: `/${$store.getters.getCountry}/about/` }">About Us</nuxt-link></li>
+	    		<li class="nav-item"><nuxt-link :to="{ path: `${country}/` }" exact>Home</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `${country}/shop/` }">Shop</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `${country}/firmware/` }">Firmware</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `${country}/supported-devices/` }">Supported Devices</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `${country}/resources/` }">Resources</nuxt-link></li>
+	        <li class="nav-item"><nuxt-link :to="{ path: `${country}/about/` }">About Us</nuxt-link></li>
 	    	</ul>
 	    </nav>
 
@@ -94,7 +94,10 @@
 			},
 			isShopPage() {
 				return /\/[a-z]+\/shop/gi.test(this.$route.path);
-			}
+			},
+			country() {
+	  		return this.$store.getters.getCountry == "us" ? "" : "/" + this.$store.getters.getCountry;
+	  	}
 		},
 
 		methods: {
@@ -113,10 +116,20 @@
 				}, 2);
 			},
 			redirectCountry(country) {
-				if (this.$route.params.device) {
-					this.$router.push(`/${country}/`);
+				if (country == "us") {
+					country = "";
 				} else {
-					this.$router.push(this.$route.path.replace(/^\/[A-Z]+\//gi, `/${country}/`));
+					country = "/" + country;
+				}
+				if (this.$route.params.device) {
+					this.$router.push(`${country}/`);
+				} else {
+
+					if (/^\/?[a-z]{2}\//gi.test(this.$route.path)) { // i.e., country == "us"
+						this.$router.push(this.$route.path.replace(/^\/?[a-z]{2}\//gi, `${country}/`));
+					} else {
+						this.$router.push(country + this.$route.path);
+					}
 				}
 			},
 			search() {
@@ -133,7 +146,7 @@
 					} 
 				}
 				this.searchTerm = "";
-				this.$router.push({ path: `/${this.$store.getters.getCountry}/shop/`, query: { search: args, category: this.searchCategory} });
+				this.$router.push({ path: `${this.country}/shop/`, query: { search: args, category: this.searchCategory} });
 			}
 		},
 

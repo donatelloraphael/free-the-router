@@ -129,9 +129,9 @@ const DeviceListModule = {
 
 				try {
 					if (process.server) {
-						dbAllDevicesIndex = (await axios.get(`http://127.0.0.1:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data;
+						dbAllDevicesIndex = (await axios.get(`http://127.0.0.1:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data.fullNameIndex;
 					} else {
-						dbAllDevicesIndex = (await axios.get(`${PROTOCOL}://${HOST}:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data;
+						dbAllDevicesIndex = (await axios.get(`${PROTOCOL}://${HOST}:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data.fullNameIndex;
 					}
 				} catch (error) {
 					console.log(error);
