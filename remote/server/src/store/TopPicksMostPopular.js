@@ -51,8 +51,13 @@ const TopPicksMostPopularModule = {
 					featured = (await axios.get(`${PROTOCOL}://${HOST}:8000/api/${vuexContext.rootGetters.getCountry}-featured`)).data;
 				}
 
-				vuexContext.commit("setTopPicks", featured[0]);
-				vuexContext.commit("setMostPopular", featured[1].devices);
+				if (featured[0].name == "top picks") {
+					vuexContext.commit("setTopPicks", featured[0]);
+					vuexContext.commit("setMostPopular", featured[1].devices);
+				} else {
+					vuexContext.commit("setTopPicks", featured[1]);
+					vuexContext.commit("setMostPopular", featured[0].devices);
+				}
 
 				return [vuexContext.getters.getTopPicks, vuexContext.getters.getMostPopular];
 			}
