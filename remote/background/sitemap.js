@@ -34,7 +34,7 @@ async function makeSitemap() {
 		_content: urlArray
 	}, xmlOptions);
 
-	fs.writeFile("../nuxt/src/static/sitemap.xml", sitemap, err => {
+	fs.writeFile("../server/src/static/sitemap.xml", sitemap, err => {
 		if (err) return console.log(err);
 	});
 

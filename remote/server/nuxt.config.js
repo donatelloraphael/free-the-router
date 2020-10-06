@@ -29,7 +29,6 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-  
   ],
   /*
   ** Nuxt.js dev-modules
@@ -86,5 +85,7 @@ module.exports = {
   router: {
     linkActiveClass: 'active',
     middleware: 'setCountry'
-  }
+  },
+
+  telemetry: false
 };

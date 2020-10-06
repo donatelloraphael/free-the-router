@@ -1,15 +1,26 @@
 const Redis = require("ioredis");
 const express = require("express");
 const consola = require("consola");
+const cors = require("cors");
 
 const REDIS_PWD = require('./env').REDIS_PWD;
 const HOST = require('./env').HOST;
 const PROTOCOL = require('./env').PROTOCOL;
+const PORT = require('./env').PORT;
 const redis = new Redis({ password: REDIS_PWD });
 
 const app = express();
 
 async function start() {
+
+	const corsOptions = {
+	  origin: `${PROTOCOL}://${HOST}`,
+	  methods: "GET,HEAD",
+	  preflightContinue: false,
+  	optionsSuccessStatus: 200
+	};
+
+	app.use(cors(corsOptions));
 
 	app.get("/api/*", async (req, res) => {
 		let argument = req.path.slice(5);
@@ -21,8 +32,6 @@ async function start() {
 			output.push(JSON.parse(doc));
 		});
 
-    res.set("Access-Control-Allow-Origin", `${PROTOCOL}://${HOST}`);
-    res.set("Vary", "Origin");
 		res.send(output);
 	});
 
@@ -31,8 +40,6 @@ async function start() {
 
 		let result = await redis.hget(argument[1], argument[2]);
 
-    res.set("Access-Control-Allow-Origin", `${PROTOCOL}://${HOST}`);
-    res.set("Vary", "Origin");
 		res.send(result);
 	});
 
