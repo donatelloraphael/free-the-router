@@ -243,7 +243,6 @@ export default {
 	},
 
 	mounted() {
-		console.log("TEST2");
 
 		let localCategory = localStorage.getItem("localCategory");
 
