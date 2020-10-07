@@ -2,10 +2,21 @@ const express = require('express');
 const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
 const helmet = require("helmet");
+const cors = require("cors");
 
 const PORT = require('../../env').PORT;
+const HOST = require('../../env').HOST;
 
 const app = express();
+
+const corsOptions = {
+    origin: `${PROTOCOL}://${HOST}`,
+    methods: "GET,HEAD",
+    preflightContinue: false,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 app.use(
   helmet({
@@ -31,7 +42,7 @@ app.use(
     },
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: ["'self'"],
+        defaultSrc: ["'self'", "data:"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com", "*.google-analytics.com"],
         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "*.google-analytics.com", "data:"],
         styleSrc: ["'self'", "'unsafe-inline'"],
