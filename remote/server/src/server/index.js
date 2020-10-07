@@ -3,6 +3,8 @@ const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
 const helmet = require("helmet");
 
+const PORT = require('../../env').PORT;
+
 const app = express();
 
 app.use(
@@ -34,7 +36,7 @@ app.use(
         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "*.google-analytics.com", "data:"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         fontSrc: ["'self'"],
-        connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com","*.freetherouter.com", "freetherouter.com", "freetherouter.com:8000", "0.0.0.0:8000", "*.cloudflareinsights.com"]
+        connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com","*.freetherouter.com", "freetherouter.com", `freetherouter.com:${PORT}`, `0.0.0.0:${PORT}`, "*.cloudflareinsights.com"]
       }
     }
   })
