@@ -1,6 +1,8 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 import { HOST, PROTOCOL, PORT } from '../../env';
 
 const TopPicksMostPopularModule = {

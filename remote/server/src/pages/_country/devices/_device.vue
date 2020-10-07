@@ -120,6 +120,8 @@ import Breadcrumb from '~/components/Navigation/Breadcrumb';
 
 import { HOST, PROTOCOL, PORT } from '../../../../env';
 
+axios.defaults.withCredentials = true;
+
 export default {
 	head() {
 		return {
