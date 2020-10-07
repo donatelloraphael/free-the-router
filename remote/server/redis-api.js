@@ -11,16 +11,16 @@ const redis = new Redis({ password: REDIS_PWD });
 
 const app = express();
 
-async function start() {
-
-	const corsOptions = {
+const corsOptions = {
 	  origin: `${PROTOCOL}://${HOST}`,
 	  methods: "GET,HEAD",
 	  preflightContinue: false,
   	optionsSuccessStatus: 200
 	};
 
-	app.use(cors(corsOptions));
+app.use(cors(corsOptions));
+
+async function start() {
 
 	app.get("/api/*", async (req, res) => {
 		let argument = req.path.slice(5);
