@@ -1,0 +1,3 @@
+pm2 start redis-api.js --name "api" --watch
+
+pm2 start npm --name "web-app" --watch -i 0 -- start

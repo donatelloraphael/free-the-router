@@ -6,7 +6,8 @@ module.exports = {
   head: {
     meta: [
       { 'http-equiv': "Content-Type", content: "text/html", charset: "utf-8" },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
+      { content: "utf-8", "http-equiv": "encoding"}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
