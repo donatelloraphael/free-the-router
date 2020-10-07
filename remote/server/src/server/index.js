@@ -4,8 +4,10 @@ const { Nuxt, Builder } = require('nuxt');
 const helmet = require("helmet");
 const cors = require("cors");
 
-const PORT = require('../../env').PORT;
+const PROTOCOL = require('../../env').PROTOCOL;
 const HOST = require('../../env').HOST;
+const PORT = require('../../env').PORT;
+
 
 const app = express();
 
