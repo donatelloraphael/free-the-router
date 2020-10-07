@@ -31,10 +31,10 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com", "*.google-analytics.com"],
-        imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "data:"],
+        imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "*.google-analytics.com", "data:"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         fontSrc: ["'self'"],
-        connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com", "freetherouter.com:8000", "0.0.0.0:8000"]
+        connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com","*.freetherouter.com", "freetherouter.com", "freetherouter.com:8000", "0.0.0.0:8000", "*.cloudflareinsights.com"]
       }
     }
   })
