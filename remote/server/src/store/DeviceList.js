@@ -157,10 +157,14 @@ const DeviceListModule = {
 				let allDevices = {};
 				const searchResult = [];
 
-				if (process.server) {
-					allDevices = (await axios.get(`http://127.0.0.1:9000/search/${vuexContext.rootGetters.getCountry}-${category}`)).data;
-				} else {
-					allDevices = (await axios.get(`${PROTOCOL}://${HOST}/api/search/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+				try {
+					if (process.server) {
+						allDevices = (await axios.get(`http://127.0.0.1:9000/search/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+					} else {
+						allDevices = (await axios.get(`${PROTOCOL}://${HOST}/api/search/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+					}
+				} catch (error) {
+					console.log(error);
 				}
 
 				matchDevicesIndex.forEach(device => {

@@ -7,6 +7,10 @@ export default function ({ req, res, store, redirect, params, route, query }) {
 		let country = params.country || req.headers["cf-ipcountry"] || "us";
 		country = country.toLowerCase();
 
+		if (!params.country && route.path.split("/")[1] == "devices") {
+			country = "us";
+		}
+
 		store.dispatch("setCountry", country);
 
 		if (!Object.keys(query).length) {
