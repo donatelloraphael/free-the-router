@@ -22,7 +22,6 @@ app.use(cors(corsOptions));
 async function start() {
 
 	app.get("/category/*", async (req, res) => {
-		console.log("api");
 		let argument = req.path.slice(10);
 		let output = [];
 
@@ -36,12 +35,24 @@ async function start() {
 	});
 
 	app.get("/devices/*", async (req, res) => {
-		console.log("devices");
 		let argument = req.path.slice(9).split("/");
 
 		let result = await redis.hget(argument[0], argument[1]);
 
 		res.send(result);
+	});
+
+	app.get("/search/*", async (req, res) => {
+		let argument = req.path.slice(8);
+		let output = {};
+
+		let result = await redis.hgetall(argument);
+
+		for (const [key, value] of Object.entries(result)) {
+			output[key] = JSON.parse(value);
+		}
+
+		res.send(output);
 	});
 
 	app.listen(9000, "127.0.0.1");

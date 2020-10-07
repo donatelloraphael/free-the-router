@@ -125,7 +125,7 @@ const DeviceListModule = {
 				vuexContext.commit("clearSearchResult");
 
 				let dbAllDevicesIndex = [];
-				let matchDevicesIndex = [];
+				const matchDevicesIndex = new Set();
 
 				try {
 					if (process.server) {
@@ -149,44 +149,27 @@ const DeviceListModule = {
 							matchCount++;
 						}
 						if (matchCount == searchArray.length) {
-							matchDevicesIndex.push(dbAllDevicesIndex[i].replace(/\ /gm, "-"));
+							matchDevicesIndex.add(dbAllDevicesIndex[i].replace(/\ /gm, "-"));
 						}
 					}
 				}
 
-				const resultLength = matchDevicesIndex.length;
+				let allDevices = {};
 				const searchResult = [];
-				const promises = [];
 
-				try {
-					for (let i = 0; i < resultLength; i++) {
-						let promise;
+				if (process.server) {
+					allDevices = (await axios.get(`http://127.0.0.1:9000/search/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+				} else {
+					allDevices = (await axios.get(`${PROTOCOL}://${HOST}/api/search/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+				}
 
-						if (process.server) {
-							promise = (await axios.get(`http://127.0.0.1:9000/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
-						} else {
-							promise = (await axios.get(`${PROTOCOL}://${HOST}/api/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
-						}
-
-						promises.push(promise);
+				matchDevicesIndex.forEach(device => {
+					if (allDevices[device]) {
+						searchResult.push(allDevices[device]);
 					}
-				} catch (error) {
-					console.log(error);
-				}
+				});
 
-				try {
-					await Promise.all(promises).then((results) => {
-						results.forEach(doc => {
-							searchResult.push(doc);
-						});
-					}).then(() => {
-						vuexContext.commit("setSearchResult", searchResult);
-						// console.log(searchResult);
-					});
-				} catch (error) {
-					console.log(error);
-				}
-
+				vuexContext.commit("setSearchResult", searchResult);
 				vuexContext.commit("setOldSearch", query.search);
 				vuexContext.commit("setOldCategory", category);
 			}

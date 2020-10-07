@@ -17,14 +17,14 @@ export default function ({ req, res, store, redirect, params, route, query }) {
 		}
 
 		if (!params.country) {
-			fullPath = `/${country}${fullPath}`;
+			fullPath = `/${store.getters.getCountry}${fullPath}`;
 		}
 
-		if (country != "us") {
+		if (store.getters.getCountry != "us") {
 			return redirect(fullPath);
 
 		} else {
-			const countryRegex = new RegExp(`\/us(\/|$)`);
+			const countryRegex = new RegExp(`\/${country}(\/|$)`);
 			return redirect(fullPath.replace(countryRegex, "/"));
 		}
 	}
