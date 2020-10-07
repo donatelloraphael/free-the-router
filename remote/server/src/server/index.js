@@ -45,10 +45,10 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'", "data:"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com", "*.google-analytics.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com", "*.google-analytics.com", "*.cloudflare.com"],
         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "*.google-analytics.com", "data:"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        fontSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "*.googleapis.com"],
+        fontSrc: ["'self'", "*.gstatic.com"],
         connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com","*.freetherouter.com", "freetherouter.com", `freetherouter.com:${PORT}`, `0.0.0.0:${PORT}`, "*.cloudflareinsights.com"]
       }
     }
