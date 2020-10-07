@@ -4,4 +4,4 @@ exports.HOST =  process.env.NODE_ENV == "development" ? "0.0.0.0" : "freetherout
 
 exports.PROTOCOL = "https";
 
-exports.PORT = "8000";
+exports.PORT = "8443";
