@@ -118,7 +118,7 @@
 import axios from 'axios';
 import Breadcrumb from '~/components/Navigation/Breadcrumb';
 
-import { HOST, PROTOCOL, PORT } from '../../../env';
+import { HOST, PROTOCOL } from '../../../env';
 
 // axios.defaults.withCredentials = true;
 
@@ -231,7 +231,7 @@ export default {
 				device = (await axios.get(`http://127.0.0.1:9000/devices/${context.store.getters.getCountry}-device-details/${context.route.params.device.toUpperCase()}`)).data;
 			} else {
 
-				device = (await axios.get(`${PROTOCOL}://${HOST}:${PORT}/devices/${context.store.getters.getCountry}-device-details/${context.route.params.device.toUpperCase()}`)).data;
+				device = (await axios.get(`${PROTOCOL}://${HOST}/api/devices/${context.store.getters.getCountry}-device-details/${context.route.params.device.toUpperCase()}`)).data;
 			}
 		} catch (error) {
 			console.log(error);

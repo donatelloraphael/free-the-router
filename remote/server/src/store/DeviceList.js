@@ -1,9 +1,7 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 
-// axios.defaults.withCredentials = true;
-
-import { HOST, PROTOCOL, PORT } from '../../env';
+import { HOST, PROTOCOL } from '../../env';
 
 const DeviceListModule = {
 	namespaced: true,
@@ -73,9 +71,9 @@ const DeviceListModule = {
 
 						try {
 							if (process.server) {
-								devices = (await axios.get(`http://127.0.0.1:9000/api/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+								devices = (await axios.get(`http://127.0.0.1:9000/category/${vuexContext.rootGetters.getCountry}-${category}`)).data;
 							} else {
-								devices = (await axios.get(`${PROTOCOL}://${HOST}:${PORT}/api/${vuexContext.rootGetters.getCountry}-${category}`)).data;
+								devices = (await axios.get(`${PROTOCOL}://${HOST}/api/category/${vuexContext.rootGetters.getCountry}-${category}`)).data;
 							}
 						} catch (error) {
 							console.log(error);
@@ -98,9 +96,9 @@ const DeviceListModule = {
 
 					try {
 						if (process.server) {
-							devices = (await axios.get(`http://127.0.0.1:9000/api/${vuexContext.rootGetters.getCountry}-routers`)).data;
+							devices = (await axios.get(`http://127.0.0.1:9000/category/${vuexContext.rootGetters.getCountry}-routers`)).data;
 						} else {
-							devices = (await axios.get(`${PROTOCOL}://${HOST}:${PORT}/api/${vuexContext.rootGetters.getCountry}-routers`)).data;
+							devices = (await axios.get(`${PROTOCOL}://${HOST}/api/category/${vuexContext.rootGetters.getCountry}-routers`)).data;
 						}
 					} catch (error) {
 						console.log(error);
@@ -133,7 +131,7 @@ const DeviceListModule = {
 					if (process.server) {
 						dbAllDevicesIndex = (await axios.get(`http://127.0.0.1:9000/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data.fullNameIndex;
 					} else {
-						dbAllDevicesIndex = (await axios.get(`${PROTOCOL}://${HOST}:${PORT}/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data.fullNameIndex;
+						dbAllDevicesIndex = (await axios.get(`${PROTOCOL}://${HOST}/api/devices/indices/${vuexContext.rootGetters.getCountry}-${category}-index`)).data.fullNameIndex;
 					}
 				} catch (error) {
 					console.log(error);
@@ -167,7 +165,7 @@ const DeviceListModule = {
 						if (process.server) {
 							promise = (await axios.get(`http://127.0.0.1:9000/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
 						} else {
-							promise = (await axios.get(`${PROTOCOL}://${HOST}:${PORT}/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
+							promise = (await axios.get(`${PROTOCOL}://${HOST}/api/devices/${vuexContext.rootGetters.getCountry}-${category}/${matchDevicesIndex[i]}`)).data;
 						}
 
 						promises.push(promise);

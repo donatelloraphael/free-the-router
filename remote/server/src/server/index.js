@@ -6,13 +6,11 @@ const cors = require("cors");
 
 const PROTOCOL = require('../../env').PROTOCOL;
 const HOST = require('../../env').HOST;
-const PORT = require('../../env').PORT;
-
 
 const app = express();
 
 const corsOptions = {
-    origin: `${PROTOCOL}://${HOST}`,
+    origin: `http://${HOST}`,
     methods: "GET,HEAD",
     preflightContinue: false,
     optionsSuccessStatus: 200
@@ -20,40 +18,40 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// app.use(
-//   helmet({
-//     frameguard: {
-//       action: 'sameorigin'
-//     },
-//     expectCt: {
-//       maxAge: 86400
-//     },
-//     referrerPolicy: {
-//       policy: 'origin-when-cross-origin'
-//     },
-//     strictTransportSecurity: {
-//       maxAge: 63072000,
-//       includeSubDomains: true,
-//       preload: true
-//     },
-//     dnsPrefetchControl: {
-//       allow: true
-//     },
-//     permittedCrossDomainPolicies: {
-//       permittedPolicies: "by-content-type"
-//     },
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'", "data:"],
-//         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com", "*.google-analytics.com", "*.cloudflare.com"],
-//         imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "*.google-analytics.com", "data:"],
-//         styleSrc: ["'self'", "'unsafe-inline'", "*.googleapis.com"],
-//         fontSrc: ["'self'", "*.gstatic.com"],
-//         connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com","*.freetherouter.com", "freetherouter.com", `freetherouter.com:${PORT}`, `0.0.0.0:${PORT}`, "*.cloudflareinsights.com"]
-//       }
-//     }
-//   })
-// );
+app.use(
+  helmet({
+    frameguard: {
+      action: 'sameorigin'
+    },
+    expectCt: {
+      maxAge: 86400
+    },
+    referrerPolicy: {
+      policy: 'origin-when-cross-origin'
+    },
+    strictTransportSecurity: {
+      maxAge: 63072000,
+      includeSubDomains: true,
+      preload: true
+    },
+    dnsPrefetchControl: {
+      allow: true
+    },
+    permittedCrossDomainPolicies: {
+      permittedPolicies: "by-content-type"
+    },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'", "data:"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "*.googletagmanager.com", "*.cloudflareinsights.com", "*.google-analytics.com", "*.cloudflare.com"],
+        imgSrc: ["'self'", "*.media-amazon.com", "*.ssl-images-amazon.com", "*.google-analytics.com", "data:"],
+        styleSrc: ["'self'", "'unsafe-inline'", "*.googleapis.com"],
+        fontSrc: ["'self'", "*.gstatic.com"],
+        connectSrc: ["'self'", "*.google-analytics.com", "*.googleapis.com","*.freetherouter.com", "freetherouter.com", `0.0.0.0`, "*.cloudflareinsights.com"]
+      }
+    }
+  })
+);
 
 
 // Import and Set Nuxt.js options

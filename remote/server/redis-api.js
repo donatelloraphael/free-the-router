@@ -4,15 +4,14 @@ const consola = require("consola");
 const cors = require("cors");
 
 const REDIS_PWD = require('./env').REDIS_PWD;
-const HOST = require('./env').HOST;
 const PROTOCOL = require('./env').PROTOCOL;
-const PORT = require('./env').PORT;
+const HOST = require('./env').HOST;
 const redis = new Redis({ password: REDIS_PWD });
 
 const app = express();
 
 const corsOptions = {
-	  origin: `${PROTOCOL}://${HOST}`,
+	  origin: `http://${HOST}`,
 	  methods: "GET,HEAD",
 	  preflightContinue: false,
   	optionsSuccessStatus: 200
@@ -22,8 +21,9 @@ app.use(cors(corsOptions));
 
 async function start() {
 
-	app.get("/api/*", async (req, res) => {
-		let argument = req.path.slice(5);
+	app.get("/category/*", async (req, res) => {
+		console.log("api");
+		let argument = req.path.slice(10);
 		let output = [];
 
 		let result = await redis.hgetall(argument);
@@ -36,9 +36,10 @@ async function start() {
 	});
 
 	app.get("/devices/*", async (req, res) => {
-		let argument = req.path.slice(1).split("/");
+		console.log("devices");
+		let argument = req.path.slice(9).split("/");
 
-		let result = await redis.hget(argument[1], argument[2]);
+		let result = await redis.hget(argument[0], argument[1]);
 
 		res.send(result);
 	});

@@ -1,9 +1,7 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 
-// axios.defaults.withCredentials = true;
-
-import { HOST, PROTOCOL, PORT } from '../../env';
+import { HOST, PROTOCOL } from '../../env';
 
 const TopPicksMostPopularModule = {
 	namespaced: true,
@@ -49,9 +47,9 @@ const TopPicksMostPopularModule = {
 				let featured;
 
 				if (process.server) {
-					featured = (await axios.get(`http://127.0.0.1:9000/api/${vuexContext.rootGetters.getCountry}-featured`)).data;
+					featured = (await axios.get(`http://127.0.0.1:9000/category/${vuexContext.rootGetters.getCountry}-featured`)).data;
 				} else {
-					featured = (await axios.get(`${PROTOCOL}://${HOST}:${PORT}/api/${vuexContext.rootGetters.getCountry}-featured`)).data;
+					featured = (await axios.get(`${PROTOCOL}://${HOST}/api/category/${vuexContext.rootGetters.getCountry}-featured`)).data;
 				}
 
 				if (featured[0].name == "top picks") {
