@@ -8,8 +8,8 @@ node ./sitemap.js
 echo "Finished creating sitemap."
 echo " "
 
-# curl https://www.google.com/ping?sitemap=https://freetherouter.com/sitemap.xml
-# echo "Pinged Google"
-# echo " "
-# curl https://www.bing.com/ping?sitemap=https%3A%2F%2Ffreetherouter.com/sitemap.xml
-# echo "Pinged Bing"
+curl https://www.google.com/ping?sitemap=https://freetherouter.com/sitemap.xml
+echo "Pinged Google"
+echo " "
+curl https://www.bing.com/ping?sitemap=https%3A%2F%2Ffreetherouter.com/sitemap.xml
+echo "Pinged Bing"

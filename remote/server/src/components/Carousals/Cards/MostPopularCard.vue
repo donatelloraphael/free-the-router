@@ -1,5 +1,5 @@
 <template>
-	<nuxt-link :to="{ path: `devices/${mostPopular[cardPosition].fullName.replace(/\ /g, '-')}/` }" target="_blank">
+	<nuxt-link :to="{ path: `devices/${mostPopular[cardPosition].fullName.toLowerCase().replace(/\ /g, '-')}/` }" target="_blank">
 		<div class="card">
 			
 			<div class="image" :style="{ 'background-image': 'url(' + mostPopular[cardPosition].amazonThumbnail + ')' }"></div>

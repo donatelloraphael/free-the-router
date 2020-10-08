@@ -44,7 +44,7 @@ export default {
 
 	computed: {
 		deviceName() {
-			return this.device.id.replace(/\ /gm, "-");
+			return this.device.id.toLowerCase().replace(/\ /gm, "-");
 		}
 	}
 };

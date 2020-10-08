@@ -7,14 +7,14 @@
 				<p class="specs">{{ topPicks[selected][0].Flash }}MB Flash, {{ topPicks[selected][0].RAM }}MB RAM</p>
 				<p class="price"><span class="label">Price: </span>{{$store.getters.getCurrency}} {{ topPicks[selected][0].amazonPrice.toLocaleString() }}* </p>
 				<p class="price-disclaimer">*As of {{ topPicks[selected][0].amazonUpdatedOn }}</p>
-				<nuxt-link class="link-container":to="{ path: `devices/${topPicks[selected][0].fullName.replace(/\ /g, '-')}/` }" target="_blank">
+				<nuxt-link class="link-container":to="{ path: `devices/${topPicks[selected][0].fullName.toLowerCase().replace(/\ /g, '-')}/` }" target="_blank">
 					<button>View Details</button>
 				</nuxt-link>
 			</div>
 		</div>
 		<div v-else class="placeholder"></div>
 	
-		<nuxt-link v-if="topPicks[selected][1]" class="link-container":to="{ path: `devices/${topPicks[selected][1].fullName.replace(/\ /g, '-')}/` }" target="_blank">
+		<nuxt-link v-if="topPicks[selected][1]" class="link-container":to="{ path: `devices/${topPicks[selected][1].fullName.toLowerCase().replace(/\ /g, '-')}/` }" target="_blank">
 			<div class="alt-1" :style="{ 'background-image': 'url(' + alt1Url + ')' }">
 				<div class="alt1-contents">
 					<p class="short-name">{{ topPicks[selected][1].company }}  {{ topPicks[selected][1].model }}</p>
@@ -26,7 +26,7 @@
 		</nuxt-link>
 		<a v-else class="placeholder" href="#"></a>
 
-		<nuxt-link v-if="topPicks[selected][2]" class="link-container":to="{ path: `devices/${topPicks[selected][2].fullName.replace(/\ /g, '-')}/` }" target="_blank">
+		<nuxt-link v-if="topPicks[selected][2]" class="link-container":to="{ path: `devices/${topPicks[selected][2].fullName.toLowerCase().replace(/\ /g, '-')}/` }" target="_blank">
 			<div class="alt-2" :style="{ 'background-image': 'url(' + alt2Url + ')' }">
 				<div class="alt2-contents">
 					<p class="short-name">{{ topPicks[selected][2].company }}  {{ topPicks[selected][2].model }}</p>
