@@ -115,29 +115,30 @@ async function getPage(link, page, deviceType) {
 
 function getDevices(html, page, deviceType) {
 
-	// if ($(".octopus-pc-item", html).html()) {
+	if ($(".octopus-pc-item", html).html()) {
 
-	// 	$(".octopus-pc-item", html).each((i, element) => {
-	// 		let device = {};
+		$(".octopus-pc-item", html).each((i, element) => {
+			let device = {};
 
-	// 		let aTag = $(".octopus-pc-item-link", $(element).html());
+			let aTag = $(".octopus-pc-item-link", $(element).html());
 
-	// 		device.amazonLink = AMAZON + $(aTag).attr("href")?.split("?").shift();
-	// 		device.amazonAsin = device.amazonLink?.split("/dp/")?.pop();
-	// 		device.amazonName = $(aTag).attr("title").trim();
-	// 		device.amazonThumbnail = $("img", $(element).html()).attr("data-a-hires");
-	// 		device.amazonCategory = deviceType;
-	// 		device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+			device.amazonLink = AMAZON + $(aTag).attr("href")?.split("?").shift();
+			device.amazonAsin = device.amazonLink?.split("/dp/")?.pop();
+			device.amazonName = $(aTag).attr("title").trim();
+			device.amazonThumbnail = $("img", $(element).html()).attr("data-a-hires");
+			device.amazonCategory = deviceType;
+			device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
 			
-	// 		if (device.amazonPrice) {
-	// 			allDevices.push(device);
-	// 		}
-	// 		if (page == 1) {
-	// 			console.log("OCTOPUS: ", device.amazonName ? device.amazonName : "FIRST PAGE NOT LOADED!");
-	// 		}
-	// 	});
-	// 	return;
-	// } else 
+			if (device.amazonPrice) {
+				allDevices.push(device);
+			}
+			if (page == 1) {
+				console.log("OCTOPUS: ", device.amazonName ? device.amazonName : "FIRST PAGE NOT LOADED!");
+			}
+		});
+		return;
+	} 
+	
 	if (page > 1 && $(".s-result-item", html).html()) {
 
 		$(".s-result-item", html).each((i, element) => {
