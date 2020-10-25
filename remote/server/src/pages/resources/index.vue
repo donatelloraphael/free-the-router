@@ -69,6 +69,19 @@
 
       <hr class="dotted-divider">
 
+      <div class="firmware" id="freshtomato">
+				<div class="content">
+					<h1>FreshTomato</h1>
+					<p>FreshTomato <a href="https://freshtomato.org/">Homepage</a></p>
+					<p>Here is a simple to read <a href="https://wiki.freshtomato.org/doku.php/hardware_compatibility">list of devices supported by FreshTomato</a></p>
+					<p><a href="https://www.reddit.com/r/TomatoFTW/">TomatoFTW sub-reddit on Reddit</a></p>
+					<p><a href="https://easylinuxtipsproject.blogspot.com/p/tomato.html">Installing FreshTomato</a> on your router</p>
+				</div>
+				<a href="https://freshtomato.org/"><img src="@/assets/images/firmwares/freshtomato.png" alt="Fresh Tomato logo"></a>
+			</div>
+
+      <hr class="dotted-divider">
+
 			<div class="firmware" id="gargoyle">
 				<div class="content">
 					<h1>Gargoyle</h1>
@@ -81,6 +94,19 @@
 				<a href="https://www.gargoyle-router.com/index.php"><img src="@/assets/images/firmwares/gargoyle.png" alt="Gargoyle logo"></a>
 			</div>
       
+      <hr class="dotted-divider">
+
+      <div class="firmware" id="asuswrt-merlin">
+				<div class="content">
+					<h1>Asuswrt-Merlin</h1>
+					<p>Asuswrt-Merlin <a href="https://www.asuswrt-merlin.net/">Homepage</a></p>
+					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site</a></p>
+					<p><a href="https://www.asuswrt-merlin.net/features">Features of the</a> Asuswrt-Merlin firmware
+					<p><a href="https://github.com/RMerl/asuswrt-merlin.ng/wiki/Installation/">Asuswrt-Merlin installation</a> on routers guide</p>
+				</div>
+				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
+			</div>
+
       <hr class="dotted-divider">
 			
 			<div class="firmware" id="advancedtomato">
@@ -97,19 +123,6 @@
 
       <hr class="dotted-divider">
 
-			<div class="firmware" id="freshtomato">
-				<div class="content">
-					<h1>FreshTomato</h1>
-					<p>FreshTomato <a href="https://exotic.se/freshtomato/">Homepage</a></p>
-					<p>There is a simple to read list of devices supported by FreshTomato on <a href="https://en.wikipedia.org/wiki/Tomato_(firmware)">Wikipedia</a></p>
-					<p><a href="https://www.reddit.com/r/TomatoFTW/">TomatoFTW sub-reddit on Reddit</a></p>
-					<p><a href="https://easylinuxtipsproject.blogspot.com/p/tomato.html">Installing FreshTomato</a> on your router</p>
-				</div>
-				<a href="https://exotic.se/freshtomato/"><img src="@/assets/images/firmwares/freshtomato.png" alt="Fresh Tomato logo"></a>
-			</div>
-
-      <hr class="dotted-divider">
-
 			<div class="firmware" id="tomatobyshibby">
 				<div class="content">
 					<h1>Tomato by Shibby</h1>
@@ -119,19 +132,6 @@
 					<p>Tomato entry in <a href="https://en.wikipedia.org/wiki/Tomato_(firmware)">Wikipedia</a></p>
 				</div>
 				<a href="https://tomato.groov.pl/"><img src="@/assets/images/firmwares/tomatobyshibby.png" alt="Tomato by Shibby logo"></a>
-			</div>
-
-      <hr class="dotted-divider">
-
-      <div class="firmware" id="asuswrt-merlin">
-				<div class="content">
-					<h1>Asuswrt-Merlin</h1>
-					<p>Asuswrt-Merlin <a href="https://www.asuswrt-merlin.net/">Homepage</a></p>
-					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site</a></p>
-					<p><a href="https://www.asuswrt-merlin.net/features">Features of the</a> Asuswrt-Merlin firmware
-					<p><a href="https://github.com/RMerl/asuswrt-merlin.ng/wiki/Installation/">Asuswrt-Merlin installation</a> on routers guide</p>
-				</div>
-				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
 			</div>
 
       <hr class="dotted-divider">

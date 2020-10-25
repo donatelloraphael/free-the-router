@@ -28,6 +28,18 @@
 
       <hr class="dotted-divider">
 
+      <div class="firmware" id="freshtomato">
+				<div class="content">
+					<h1><a href="https://freshtomato.org/">FreshTomato</a></h1>
+					<p>There is a simple to read <a href="https://wiki.freshtomato.org/doku.php/hardware_compatibility">list of devices supported by FreshTomato.</a></p>
+					<p><a href="https://freshtomato.org/downloads/freshtomato-arm/">The list of devices</a> having processors with ARM architecture on FreshTomato site.</p>
+					<p><a href="https://freshtomato.org/downloads/freshtomato-mips/">The list of devices</a> having processors with MIPS architecture on FreshTomato site.</p>
+				</div>
+				<a href="https://freshtomato.org/"><img src="@/assets/images/firmwares/freshtomato.png" alt="Fresh Tomato logo"></a>
+			</div>
+
+      <hr class="dotted-divider">
+
 			<div class="firmware" id="gargoyle">
 				<div class="content">
 					<h1><a href="https://www.gargoyle-router.com/index.php">Gargoyle</a></h1>	
@@ -38,6 +50,16 @@
 				<a href="https://www.gargoyle-router.com/index.php"><img src="@/assets/images/firmwares/gargoyle.png" alt="Gargoyle logo"></a>
 			</div>
       
+      <hr class="dotted-divider">
+
+      <div class="firmware" id="asuswrt-merlin">
+				<div class="content">
+					<h1><a href="https://www.asuswrt-merlin.net/">Asuswrt-Merlin</a></h1>
+					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site.</a></p>
+				</div>
+				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
+			</div>
+
       <hr class="dotted-divider">
 			
 			<div class="firmware" id="advancedtomato">
@@ -50,34 +72,12 @@
 
       <hr class="dotted-divider">
 
-			<div class="firmware" id="freshtomato">
-				<div class="content">
-					<h1><a href="https://exotic.se/freshtomato/">FreshTomato</a></h1>
-					<p>There is a simple to read list of devices supported by FreshTomato on <a href="https://en.wikipedia.org/wiki/Tomato_(firmware)">Wikipedia article about Tomato firmware.</a></p>
-					<p><a href="https://exotic.se/freshtomato-arm/">The list of devices</a> having processors with ARM architecture on FreshTomato site.</p>
-					<p><a href="https://exotic.se/freshtomato-mips/">The list of devices</a> having processors with MIPS architecture on FreshTomato site.</p>
-				</div>
-				<a href="https://exotic.se/freshtomato/"><img src="@/assets/images/firmwares/freshtomato.png" alt="Fresh Tomato logo"></a>
-			</div>
-
-      <hr class="dotted-divider">
-
 			<div class="firmware" id="tomatobyshibby">
 				<div class="content">
 					<h1><a href="https://tomato.groov.pl/">Tomato by Shibby</a></h1>
 					<p>The list of supported devices on the <a href="https://tomato.groov.pl/?page_id=69">Tomato by Shibby site.</a></p>
 				</div>
 				<a href="https://tomato.groov.pl/"><img src="@/assets/images/firmwares/tomatobyshibby.png" alt="Tomato by Shibby logo"></a>
-			</div>
-
-      <hr class="dotted-divider">
-
-      <div class="firmware" id="asuswrt-merlin">
-				<div class="content">
-					<h1><a href="https://www.asuswrt-merlin.net/">Asuswrt-Merlin</a></h1>
-					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site.</a></p>
-				</div>
-				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
 			</div>
 
       <hr class="dotted-divider">
