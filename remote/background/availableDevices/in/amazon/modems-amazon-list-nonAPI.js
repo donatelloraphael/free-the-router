@@ -1,5 +1,6 @@
 const COUNTRY = "in";
 const AMAZON = "https://www.amazon.in";
+const PRICE_COMMA = false;
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -127,8 +128,12 @@ function getDevices(html, page, deviceType) {
 			device.amazonName = $(aTag).attr("title").trim();
 			device.amazonThumbnail = $("img", $(element).html()).attr("data-a-hires");
 			device.amazonCategory = deviceType;
-			device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
-			
+			if (PRICE_COMMA) {
+				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("."));
+			} else {
+				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+			}
+
 			if (device.amazonPrice) {
 				allDevices.push(device);
 			}
@@ -155,7 +160,11 @@ function getDevices(html, page, deviceType) {
 				device.amazonThumbnail = $(".rush-component a img", $(element).html()).attr("src")?.replace(/_[a-z]{2}\d{3}_/gi, "_UY436_");
 				device.amazonCategory = deviceType;
 				device.amazonName = $(".a-size-medium.a-color-base.a-text-normal", $(element).html()).text();
-				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+				if (PRICE_COMMA) {
+					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("."));
+				} else {
+					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+				}
 
 				if (device.amazonPrice) {
 					allDevices.push(device);
@@ -170,8 +179,14 @@ function getDevices(html, page, deviceType) {
 	} else {
 		$(".s-result-item", html).each((i, element) => {
 			let device = {};
-			let price = $(".a-color-price", $(element).html()).text()?.slice(1);
+			let price;
 
+			if (PRICE_COMMA) {
+				price = parseFloat($(".a-color-price", $(element).html()).text()?.slice(1)?.replace(",", "."));
+			} else {
+				price = parseFloat($(".a-color-price", $(element).html()).text()?.slice(1));
+			}
+			
 			if (price) {
 				device.amazonLink = $("a", $(element).html()).attr("href")?.split("/ref=")[0];
 				device.amazonAsin = device.amazonLink?.split("/dp/")[1];

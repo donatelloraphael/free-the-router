@@ -1,6 +1,6 @@
-const COUNTRY = "gb";
-const AMAZON = "https://www.amazon.co.uk";
-const PRICE_COMMA = false;
+const COUNTRY = "fr";
+const AMAZON = "https://www.amazon.fr";
+const PRICE_COMMA = true;
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -17,12 +17,11 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "wireless-access-points";
-const amazonLinks = { "routers": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430579031&dc&page=",
-											"modems": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430575031&page=",
-											"wireless-access-points": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430580031&page=",
-											"repeaters-extenders": "https://www.amazon.co.uk/s?&rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430578031&page="
-										};
+const deviceType = "modems";
+const amazonLinks = { "routers": "https://www.amazon.fr/s?rh=n%3A430397031&_encoding=UTF8&qid=1603655196&page=",
+											"modems": "https://www.amazon.fr/s?rh=n%3A430394031&_encoding=UTF8&qid=1603655154&page=",
+											"wireless-access-points": "https://www.amazon.fr/s?rh=n%3A430395031&_encoding=UTF8&qid=1603657628&page=",
+											"repeaters-extenders": "https://www.amazon.fr/s?rh=n%3A430396031&_encoding=UTF8&qid=1603655158&page="
 
 let axiosInstance = axios.create({
   headers: {
@@ -142,8 +141,8 @@ function getDevices(html, page, deviceType) {
 			}
 		});
 		return;
-	}
-	 
+	} 
+	
 	if (page > 1 && $(".s-result-item", html).html()) {
 
 		$(".s-result-item", html).each((i, element) => {
@@ -186,7 +185,7 @@ function getDevices(html, page, deviceType) {
 			} else {
 				price = parseFloat($(".a-color-price", $(element).html()).text()?.slice(1));
 			}
-			
+
 			if (price) {
 				device.amazonLink = $("a", $(element).html()).attr("href")?.split("/ref=")[0];
 				device.amazonAsin = device.amazonLink?.split("/dp/")[1];
