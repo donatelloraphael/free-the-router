@@ -50,7 +50,7 @@ const createStore = () => {
 			setCountry(vuexContext, country) {
 				if (!country) {
 					return;
-				} else if (country == 'us' || country == "in" || country == "ca" || country == "gb") {
+				} else if (country == 'us' || country == "in" || country == "ca" || country == "gb" || country == "fr" || country == "de" || country == "mx") {
 					
     			vuexContext.dispatch("setShopOldCountry", vuexContext.getters.getCountry);
     			vuexContext.dispatch("setHomeOldCountry", vuexContext.getters.getCountry);
@@ -80,6 +80,9 @@ const createStore = () => {
 					case "in": currency = "₹"; break;
 					case "ca": currency = "CDN$"; break;
 					case "gb": currency = "£"; break;
+					case "fr": currency = "€"; break;
+					case "mx": currency = "$"; break;
+					case "de": currency = "€"; break;
 				}
 				vuexContext.commit("setCurrency", currency);
 			}

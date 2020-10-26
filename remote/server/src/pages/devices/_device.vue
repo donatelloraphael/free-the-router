@@ -155,6 +155,9 @@ export default {
 				case "in": name = "amazon.in"; break;
 				case "gb": name = "amazon.co.uk"; break;
 				case "ca": name = "amazon.ca"; break;
+				case "fr": name = "amazon.fr"; break;
+				case "de": name = "amazon.de"; break;
+				case "mx": name = "amazon.com.mx"; break;
 				default: name = "amazon.com"; break;
 			}
 			return name;
@@ -162,11 +165,17 @@ export default {
 		amazonRef() {
 			let ref;
 			switch(this.$store.getters.getCountry) {
-				case "in": ref = "/ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherouter-21&language=en_IN";
+				case "in": ref = "/ref=as_li_ss_tl?ie=UTF8&linkCode=ll2&tag=freetherou051-21&language=en_IN";
 									break;
 				case "gb": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-5&linkCode=ll1&tag=freetherout01-21&language=en_GB";
 									break;
 				case "ca": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout0c-20&language=en_CA";
+									break;
+				case "fr": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout08-21";
+									break;
+				case "de": ref = "/ref=as_li_ss_tl?dchild=1&sr=8-3&linkCode=ll1&tag=freetherout04-21";
+									break;
+				case "mx": ref = "";
 									break;
 				default: ref = "/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&linkCode=as2&tag=freetherouter-20&language=en_US";
 			}
