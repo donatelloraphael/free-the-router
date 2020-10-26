@@ -131,7 +131,7 @@ function getDevices(html, page, deviceType) {
 			if (PRICE_COMMA) {
 				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("."));
 			} else {
-				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.replace(/\,/gm, "") + $(".a-price-fraction", $(element).html()).text());
 			}
 
 			if (device.amazonPrice) {
@@ -163,7 +163,7 @@ function getDevices(html, page, deviceType) {
 				if (PRICE_COMMA) {
 					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("."));
 				} else {
-					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.replace(/\,/gm, "") + $(".a-price-fraction", $(element).html()).text());
 				}
 
 				if (device.amazonPrice) {

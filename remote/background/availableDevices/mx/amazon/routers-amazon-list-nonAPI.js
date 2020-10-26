@@ -1,6 +1,6 @@
-const COUNTRY = "fr";
-const AMAZON = "https://www.amazon.fr";
-const PRICE_COMMA = true;
+const COUNTRY = "mx";
+const AMAZON = "https://www.amazon.com.mx";
+const PRICE_COMMA = false;
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -17,12 +17,9 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "repeaters-extenders";
-const amazonLinks = { "routers": "https://www.amazon.fr/s?rh=n%3A430397031&_encoding=UTF8&qid=1603655196&page=",
-											"modems": "https://www.amazon.fr/s?rh=n%3A430394031&_encoding=UTF8&qid=1603655154&page=",
-											"wireless-access-points": "https://www.amazon.fr/s?rh=n%3A430395031&_encoding=UTF8&qid=1603657628&page=",
-											"repeaters-extenders": "https://www.amazon.fr/s?rh=n%3A430396031&_encoding=UTF8&qid=1603655158&page="
-										}
+const deviceType = "routers";
+const amazonLinks = { "routers": "https://www.amazon.com.mx/s?rh=n%3A10189672011&qid=1603733185&page="
+										};
 
 let axiosInstance = axios.create({
   headers: {
@@ -142,7 +139,7 @@ function getDevices(html, page, deviceType) {
 			}
 		});
 		return;
-	} 
+	}
 	
 	if (page > 1 && $(".s-result-item", html).html()) {
 

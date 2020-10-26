@@ -17,7 +17,7 @@ let fullNameIndex = [];
 let allDevices = [];
 let supportedDevices = [];
 
-const deviceType = "wireless-access-points";
+const deviceType = "wireless-access-point";
 const amazonLinks = { "routers": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430579031&dc&page=",
 											"modems": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A429888031%2Cn%3A430575031&page=",
 											"wireless-access-points": "https://www.amazon.co.uk/s?rh=n%3A340831031%2Cn%3A430580031&page=",
@@ -131,7 +131,7 @@ function getDevices(html, page, deviceType) {
 			if (PRICE_COMMA) {
 				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("."));
 			} else {
-				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+				device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.replace(/\,/gm, "") + $(".a-price-fraction", $(element).html()).text());
 			}
 
 			if (device.amazonPrice) {
@@ -163,7 +163,7 @@ function getDevices(html, page, deviceType) {
 				if (PRICE_COMMA) {
 					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("."));
 				} else {
-					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.split(",").join("") + $(".a-price-fraction", $(element).html()).text());
+					device.amazonPrice = parseFloat($(".a-price-whole", $(element).html()).text()?.replace(/\,/gm, "") + $(".a-price-fraction", $(element).html()).text());
 				}
 
 				if (device.amazonPrice) {
