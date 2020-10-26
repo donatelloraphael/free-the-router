@@ -10,7 +10,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 let mdb;
 
 let urlArray = [];
-let countries = ["us", "ca", "gb", "in"];
+let countries = ["us", "ca", "gb", "in", "fr", "de", "mx"];
 let num = 0;
 
 async function makeSitemap() {
