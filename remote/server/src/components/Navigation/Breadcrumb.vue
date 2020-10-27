@@ -1,34 +1,33 @@
 <template>
 	<div class="breadcrumb-container">
 		<nav> <!--To provide navigation links-->
-			<ol class="breadcrumb " itemscope itemtype="http://schema.org/BreadcrumbList">
+			<ol class="breadcrumb " vocab="https://schema.org/" typeof="BreadcrumbList">
 				
-				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `${country}/` }">Home</nuxt-link></span>
-					</span>
-					<meta itemprop="position" content="1" />
+				<li property="itemListElement" typeof="ListItem">
+					<a :href="`https://freetherouter.com${country}/`" property="item" typeof="WebPage">
+						<span property="name">Home</span>
+					</a>
+					<meta property="position" content="1" />
 				</li>
 				
-				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `${country}/shop/`, query: { category: formattedCategory }}">{{ category }}</nuxt-link></span>
-					</span>
-					<meta itemprop="position" content="2" />
+				<li property="itemListElement" typeof="ListItem">
+					<a :href="`https://freetherouter.com${country}/shop/?category=${formattedCategory}`"  property="item" typeof="WebPage">
+						<span property="name">{{ category }}</span>
+					</a>
+					<meta property="position" content="2"/>
 				</li>
 				
-				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<span itemprop="item">
-						<span itemprop="name"><nuxt-link :to="{ path: `${country}/shop/`, query: { brand: brand.toLowerCase() } }">{{ brand }}</nuxt-link></span>
-					</span>
-					<meta itemprop="position" content="3" />
+				<li property="itemListElement" typeof="ListItem">
+					<a :href="`https://freetherouter.com${country}/shop/?brand=${brand.toLowerCase()}`"  property="item" typeof="WebPage">
+						<span property="name">{{ brand }}</span>
+					</a>
+					<meta property="position" content="3"/>
 				</li>
 				
-				<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-					<span itemprop="item"> 
-						<span itemprop="name" class="lastItem">{{ name }}</span>
+				<li>
+					<span> 
+						<span class="lastItem">{{ name }}</span>
 					</span>
-					<meta itemprop="position" content="4" />
 				</li>
 		
 			</ol>
