@@ -121,7 +121,7 @@ async function makeUrlArray() {
 		devices.forEach(device => {
 			urlArray.push({
 				url: {
-					loc: `https://freetherouter.com/${country}devices/${device}/`,
+					loc: `https://freetherouter.com/${country}devices/${device.toLowerCase()}/`,
 					priority: 0.7
 				}
 			});
