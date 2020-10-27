@@ -103,6 +103,17 @@ const createStore = () => {
 			},
 			getCurrency(state) {
 				return state.currency;
+			},
+			getCountryFullName(state) {
+				switch(state.selectedCountry) {
+					case "us": return "United States of America (USA)";
+					case "in": return "India";
+					case "gb": return "United Kingdom (UK)";
+					case "ca": return "Canada";
+					case "fr": return "France";
+					case "mx": return "Mexico";
+					case "de": return "Germany";
+				}
 			}
 		}
 	});

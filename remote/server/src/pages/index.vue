@@ -1,6 +1,8 @@
 <template>
 <div>
   <div class="container container-grid fluid">
+    <h1>Custom Firmware supported Routers / Networking Devices - {{ country }}</h1>
+
     <section class="body">
       
       <div class="top-picks">
@@ -16,26 +18,26 @@
       <hr class="dotted-divider">
      
       <div class="by-price">
-        <h1>By Price</h1>
+        <h2>By Price</h2>
         <div class="price-container">
           <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter1}` } }">
             <div class="price-card">
-              <h2>{{$store.getters.getCurrency}} {{priceFilter1}}</h2>
+              <h3>{{$store.getters.getCurrency}} {{priceFilter1}}</h3>
             </div>
           </nuxt-link>
           <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter2}` } }">
             <div class="price-card">
-              <h2>{{$store.getters.getCurrency}} {{priceFilter2}}</h2>
+              <h3>{{$store.getters.getCurrency}} {{priceFilter2}}</h3>
             </div>
           </nuxt-link>
           <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter3}` } }">
             <div class="price-card">
-              <h2>{{$store.getters.getCurrency}} {{priceFilter3}}</h2>
+              <h3>{{$store.getters.getCurrency}} {{priceFilter3}}</h3>
             </div>
           </nuxt-link>
           <nuxt-link class="blue-container" :to="{ path: `/${$store.getters.getCountry}/shop/`, query: { price: `${priceFilter4}-` } }">  
             <div class="price-card">
-              <h2>{{$store.getters.getCurrency}} {{priceFilter4}} and up</h2>
+              <h3>{{$store.getters.getCurrency}} {{priceFilter4}} and up</h3>
             </div>
           </nuxt-link>
         </div>
@@ -44,7 +46,7 @@
       <hr class="dotted-divider">
 
       <div class="cf-info">
-        <h1>Why custom firmware?</h1>
+        <h2>Why custom firmware?</h2>
         <p>
           Your router's factory firmware might be enough for a majority of people. More and more features are being implemented on factory firmwares these days so it is not necessary to get the feature you want straight out of the box. But for people who want something better and likes to tinker with stuff, custom firmware is the way to go.
         </p>
@@ -62,7 +64,7 @@
       <hr class="dotted-divider">
 
       <div class="custom-firmwares">
-        <h1>Custom Firmwares</h1>
+        <h2>Custom Firmwares</h2>
         <div class="firmwares">
           <div class="openwrt firmware left">
             <nuxt-link :to="{ path: `/${$store.getters.getCountry}/firmware/#openwrt` }" @click.native="scrollTo('#openwrt')">
@@ -126,15 +128,29 @@ const TIMEOUT = 1;
 export default {
   head() {
     return {
-      title: "Free The Router - Find your perfect router",
+      title: "Free The Router - Custom Firmware supported devices",
       meta: [
-        { hid: 'description', name: 'description', content: 'Find routers and related devices supporting custom firmwares' }
+        { hid: 'description', name: 'description', content: 'Find routers and networking devices supporting custom firmwares' }
       ]
     };
   },
   components: {
     appTopPicks: TopPicks,
     appMostPopular: MostPopular
+  },
+
+  computed: {
+    country() {
+      switch(this.$store.getters.getCountry) {
+        case "us": return "United States of America (US)";
+        case "in": return "India";
+        case "gb": return "United Kingdom (UK)";
+        case "ca": return "Canada";
+        case "fr": return "France";
+        case "mx": return "Mexico";
+        case "de": return "Germany";
+      }
+    }
   },
 
   methods: {
@@ -220,7 +236,7 @@ export default {
   }
 
   /*****************************BY PRICE**********************************/
-  h1 {
+  h2 {
     font-family: "Courier Prime", monospace;
     margin: 30px auto 15px auto;
     font-size: 1.6rem;
@@ -259,7 +275,7 @@ export default {
     color: yellow;
   }
 
-  .price-card h2 {
+  .price-card h3 {
     font-family: "Montserrat", sans-serif;
     margin: auto;
     font-size: 1.4rem;
@@ -340,7 +356,7 @@ export default {
       width: 45%;
     }
 
-    .price-card h2 {
+    .price-card h3 {
       font-size: 1.2rem;
     }
 

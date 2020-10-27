@@ -1,5 +1,6 @@
 <template>
 	<div class="container">
+		<h1>Routers / Networking Devices Supporting Custom Firmware in {{ $store.getters.getCountryFullName }}</h1>
 
 		<div class="main-grid">
 			<div class="heading">
@@ -33,9 +34,9 @@ export default {
 
 	head() {
 		return {
-	    title: "View available custom firmware supported Routers, Repeaters, Wireless Access Points, and Modems - Free The Router",
+	    title: "Custom firmware supported Routers, Repeaters, Wireless Access Points, Modems",
 	    meta: [
-	      { hid: 'description', name: 'description', content: 'Shop for a router or networking device that supports custom firmwares' }
+	      { hid: 'description', name: 'description', content: 'Find Router, Repeaters, Wireless Access Points, Modems supporting custom firmwares' }
 	    ]
 	  };
   },

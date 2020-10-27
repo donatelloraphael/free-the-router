@@ -3,10 +3,10 @@
 		<div class="bg-left"></div>
 		
 		<div class="body">
-
+			<h1>Custom Firmware Projects Device Support</h1>
 			<div class="firmware" id="openwrt">
 				<div class="content">
-					<h1><a href="https://openwrt.org/">OpenWrt</a></h1>
+					<h2><a href="https://openwrt.org/">OpenWrt</a></h2>
 					<p><a href="https://openwrt.org/toh/start">Table of the devices</a> supported by OpenWrt.</p>
 					<p><a href="https://openwrt.org/_media/toh_dump_tab_separated_csv.zip">CSV dump of the OpenWrt hardware database, updated daily.</a></p>
 					<p>You can import it in LibreOffice Calc, MS Excel or other programs to visualize the data.</p>
@@ -18,7 +18,7 @@
 
 			<div class="firmware" id="ddwrt">
 				<div class="content">
-					<h1><a href="https://dd-wrt.com/">DD-WRT</a></h1>
+					<h2><a href="https://dd-wrt.com/">DD-WRT</a></h2>
 					<p>Search for router here at <a href="https://dd-wrt.com/support/router-database/">DD-WRT router database.</a></p>
 					<p><a href="https://dd-wrt.com/wiki/index.php/Supported_Devices">Supported devices list</a> at the DD-WRT wiki.</p>
 					<p>Known <a href="https://wiki.dd-wrt.com/wiki/index.php/Known_incompatible_devices">incompatable devices.</a></p>
@@ -30,7 +30,7 @@
 
       <div class="firmware" id="freshtomato">
 				<div class="content">
-					<h1><a href="https://freshtomato.org/">FreshTomato</a></h1>
+					<h2><a href="https://freshtomato.org/">FreshTomato</a></h2>
 					<p>There is a simple to read <a href="https://wiki.freshtomato.org/doku.php/hardware_compatibility">list of devices supported by FreshTomato.</a></p>
 					<p><a href="https://freshtomato.org/downloads/freshtomato-arm/">The list of devices</a> having processors with ARM architecture on FreshTomato site.</p>
 					<p><a href="https://freshtomato.org/downloads/freshtomato-mips/">The list of devices</a> having processors with MIPS architecture on FreshTomato site.</p>
@@ -42,7 +42,7 @@
 
 			<div class="firmware" id="gargoyle">
 				<div class="content">
-					<h1><a href="https://www.gargoyle-router.com/index.php">Gargoyle</a></h1>	
+					<h2><a href="https://www.gargoyle-router.com/index.php">Gargoyle</a></h2>	
 					<p><a href="https://www.gargoyle-router.com/wiki/doku.php?id=supported_routers_-_tested_routers">List of routers</a> tested and verified to work with Gargoyle.</p>
 					<p>If the router is not on the above list, search on the <a href="http://www.gargoyle-router.com/phpbb/index.php">Gargoyle forums</a> for posts relating to the make and model of the router.</p>
 					<p>Since Gargoyle is built on OpenWrt, it is likely that the <a href="https://openwrt.org/toh/start">routers supported by OpenWrt</a> also support Gargoyle, but there is no guarantee!</p>
@@ -54,7 +54,7 @@
 
       <div class="firmware" id="asuswrt-merlin">
 				<div class="content">
-					<h1><a href="https://www.asuswrt-merlin.net/">Asuswrt-Merlin</a></h1>
+					<h2><a href="https://www.asuswrt-merlin.net/">Asuswrt-Merlin</a></h2>
 					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site.</a></p>
 				</div>
 				<a href="https://www.asuswrt-merlin.net/"><img src="@/assets/images/firmwares/asuswrt-merlin.png" alt="Asuswrt-Merlin logo"></a>
@@ -64,7 +64,7 @@
 			
 			<div class="firmware" id="advancedtomato">
 				<div class="content">
-					<h1><a href="https://advancedtomato.com">AdvancedTomato</a></h1>
+					<h2><a href="https://advancedtomato.com">AdvancedTomato</a></h2>
 					<p>The hardware list of supported devices by Advanced tomato is <a href="https://advancedtomato.com/downloads">available on their site.</a></p>
 				</div>
 				<a href="https://advancedtomato.com/"><img src="@/assets/images/firmwares/advancedtomato.png" alt="Advanced Tomato logo"></a>
@@ -74,7 +74,7 @@
 
 			<div class="firmware" id="tomatobyshibby">
 				<div class="content">
-					<h1><a href="https://tomato.groov.pl/">Tomato by Shibby</a></h1>
+					<h2><a href="https://tomato.groov.pl/">Tomato by Shibby</a></h2>
 					<p>The list of supported devices on the <a href="https://tomato.groov.pl/?page_id=69">Tomato by Shibby site.</a></p>
 				</div>
 				<a href="https://tomato.groov.pl/"><img src="@/assets/images/firmwares/tomatobyshibby.png" alt="Tomato by Shibby logo"></a>
@@ -93,7 +93,7 @@
 	export default {
 		head() {
 			return {
-		    title: "Supported devices by various custom firmware projects - Free The Router",
+		    title: "Supported Routers / Networking devices by custom firmware projects",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'Find devices supported by each custom firmware projects' }
 		    ]
@@ -155,9 +155,18 @@
 		padding: 0 20px;
 	}
 
-	h1 a {
+	h1 {
+		margin: auto;
+		font-weight: bold;
+		padding-bottom: 50px;
+		padding-top: 30px;
+		font-size: 2rem;
+	}
+
+	h2 a {
 		text-decoration: none;
 		color: black;
+		font-size: 1.8rem;
 	}
 
 	p {

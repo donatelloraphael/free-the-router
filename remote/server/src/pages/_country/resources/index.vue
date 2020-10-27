@@ -21,7 +21,7 @@
 
 			<div class="firmware">
 				<div class="content">
-					<h1>Custom firmwares</h1>
+					<h2>Custom firmwares</h2>
 					<p><a href="https://en.wikipedia.org/wiki/List_of_router_firmware_projects">List </a>of router firmware projects</p>
 					<p><a href="https://www.maketecheasier.com/dd-wrt-vs-tomato-vs-openwrt-router-firmware/">DD-WRT vs. Tomato vs. OpenWrt:</a> Which Router Firmware Is the Best?</p>
 					<p><a href="https://mekachoice.com/technology/dd-wrt-vs-openwrt-vs-tomato-the-best-firmware/">Another article</a> comparing OpenWrt, DD-WRT, and Tomato</p>
@@ -34,7 +34,7 @@
 
 			<div class="firmware" id="openwrt">
 				<div class="content">
-					<h1>OpenWrt</h1>
+					<h2>OpenWrt</h2>
 					<p>Project <a href="https://openwrt.org/">Home Page</a></p>
 					<p>OpenWrt on <a href="https://en.wikipedia.org/wiki/OpenWrt">Wikipedia</a></p>
 					<p>OpenWrt firmware <a href="https://openwrt.org/toh/views/toh_fwdownload">download page</a></p>
@@ -50,7 +50,7 @@
 
 			<div class="firmware" id="ddwrt">
 				<div class="content">
-					<h1>DD-WRT</h1>
+					<h2>DD-WRT</h2>
 					<p>DD-WRT project <a href="https://dd-wrt.com/">Homepage</a></p>
 					<p>DD-WRT on <a href="https://en.wikipedia.org/wiki/DD-WRT">Wikipedia</a></p>
 					<p><a href="https://www.techradar.com/how-to/how-to-install-custom-firmware-on-your-router">How to install</a> DD-WRT custom firmware on your router</p>
@@ -71,7 +71,7 @@
 
       <div class="firmware" id="freshtomato">
 				<div class="content">
-					<h1>FreshTomato</h1>
+					<h2>FreshTomato</h2>
 					<p>FreshTomato <a href="https://freshtomato.org/">Homepage</a></p>
 					<p>Here is a simple to read <a href="https://wiki.freshtomato.org/doku.php/hardware_compatibility">list of devices supported by FreshTomato</a></p>
 					<p><a href="https://www.reddit.com/r/TomatoFTW/">TomatoFTW sub-reddit on Reddit</a></p>
@@ -84,7 +84,7 @@
 
 			<div class="firmware" id="gargoyle">
 				<div class="content">
-					<h1>Gargoyle</h1>
+					<h2>Gargoyle</h2>
 					<p>Gargoyle <a href="https://www.gargoyle-router.com/index.php">Home Page</a></p>
 					<p>Gargoyle <a href="https://www.gargoyle-router.com/wiki/doku.php?id=install_guide">installation guide</a></p>
 					<p><a href="https://www.gargoyle-router.com/wiki/doku.php?id=getting_started">Getting started</a> with Gargoyle</p>
@@ -98,7 +98,7 @@
 
       <div class="firmware" id="asuswrt-merlin">
 				<div class="content">
-					<h1>Asuswrt-Merlin</h1>
+					<h2>Asuswrt-Merlin</h2>
 					<p>Asuswrt-Merlin <a href="https://www.asuswrt-merlin.net/">Homepage</a></p>
 					<p>The list of supported devices on the <a href="https://www.asuswrt-merlin.net/about">Asuswrt-Merlin site</a></p>
 					<p><a href="https://www.asuswrt-merlin.net/features">Features of the</a> Asuswrt-Merlin firmware
@@ -111,7 +111,7 @@
 			
 			<div class="firmware" id="advancedtomato">
 				<div class="content">
-					<h1>AdvancedTomato</h1>
+					<h2>AdvancedTomato</h2>
 					<p>AdvancedTomato <a href="https://advancedtomato.com">Homepage</a></p>
 					<p>FAQ on <a href="https://advancedtomato.com/faq">AdvancedTomato site</a></p>
 					<p>AdvancedTomato <a href="https://advancedtomato.com/downloads">firmware downloads</a></p>
@@ -125,7 +125,7 @@
 
 			<div class="firmware" id="tomatobyshibby">
 				<div class="content">
-					<h1>Tomato by Shibby</h1>
+					<h2>Tomato by Shibby</h2>
 					<p>Tomato by Shibby <a href="https://tomato.groov.pl/">Homepage</a></p>
 					<p>The list of supported devices on the <a href="https://tomato.groov.pl/?page_id=69">Tomato by Shibby site.</a></p>
 					<p><a href="https://learntomato.flashrouters.com/how-to-flash-a-router-tomato-firmware-shibby-mod/">Flashing Tomato by Shibby</a> on routers</p>
@@ -150,7 +150,7 @@
 
 		head() {
 			return {
-		    title: "More Resources - Free The Router",
+		    title: "Custom Firmwares - More Resources",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'Resources regarding networking devices supporting custom firmwares' }
 		    ]
@@ -238,9 +238,11 @@
 		font-size: 1.2rem;
 	}
 
-	h1 a {
+	h2 a {
 		text-decoration: none;
 		color: black;
+		font-size: 1.8rem;
+		padding-bottom: 30px;
 	}
 
 	p {

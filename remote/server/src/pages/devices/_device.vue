@@ -1,5 +1,7 @@
 <template>
 	<div class="container">
+		<h2>{{ $store.getters.getCountryFullName }}</h2>
+
 		<div class="bg-left"></div>
 		
 		<div class="body">
@@ -127,7 +129,7 @@ export default {
 		return {
 			title: this.device.amazonName,
 	    meta: [
-	      { hid: 'description', name: 'description', content: `Details and specifications for ${this.device.amazonName}`}
+	      { hid: 'description', name: 'description', content: `Details and specifications for ${this.device.amazonName} available in ${this.$store.getters.getCountryFullName}` }
 	    ]
 		};
   },
@@ -150,17 +152,15 @@ export default {
 			return this.device.deviceType ? this.device.deviceType : "Router";
 		},
 		amazonName() {
-			let name;
 			switch(this.$store.getters.getCountry) {
-				case "in": name = "amazon.in"; break;
-				case "gb": name = "amazon.co.uk"; break;
-				case "ca": name = "amazon.ca"; break;
-				case "fr": name = "amazon.fr"; break;
-				case "de": name = "amazon.de"; break;
-				case "mx": name = "amazon.com.mx"; break;
-				default: name = "amazon.com"; break;
+				case "in": return "amazon.in";
+				case "gb": return "amazon.co.uk";
+				case "ca": return "amazon.ca";
+				case "fr": return "amazon.fr";
+				case "de": return "amazon.de";
+				case "mx": return "amazon.com.mx";
+				default: return "amazon.com";
 			}
-			return name;
 		},
 		amazonRef() {
 			let ref;
@@ -520,6 +520,10 @@ export default {
 	h3 {
 		margin: 30px;
 		font-size: 1.4rem;
+	}
+
+	h2 {
+		position: absolute;
 	}
 
 	table {
