@@ -7,7 +7,7 @@ export default function ({ req, res, store, redirect, params, route, query }) {
 		let country = params.country || req.headers["cf-ipcountry"] || "us";
 		country = country.toLowerCase();
 
-		if (!params.country && route.path.split("/")[1] == "devices") {
+		if (!params.country && route.path.split("/")[1] === "devices") {
 			country = "us";
 		}
 
@@ -15,20 +15,20 @@ export default function ({ req, res, store, redirect, params, route, query }) {
 
 		if (Object.keys(query).length) {
 
-			if (route.path == "/shop" || route.path.toLowerCase() == `/${country}/shop`) {
+			if (route.path === "/shop" || route.path.toLowerCase() === `/${country}/shop`) {
 				fullPath = fullPath.replace(route.path, (route.path + "/").toLowerCase());
-			} else if (route.path !== "/shop/") {
-				fullPath = route.path.slice(-1) != "/" ? (route.path + "/") : route.path;
+			} else if (route.path !== "/shop/" && route.path !== `/${country}/shop/`) {
+				fullPath = route.path.slice(-1) !== "/" ? (route.path + "/") : route.path;
 			}		
 		} else {
-			fullPath = fullPath.slice(-1) != "/" ? (fullPath + "/").toLowerCase() : fullPath.toLowerCase();
+			fullPath = fullPath.slice(-1) !== "/" ? (fullPath + "/").toLowerCase() : fullPath.toLowerCase();
 		}
 
 		if (!params.country) {
 			fullPath = `/${store.getters.getCountry}${fullPath}`;
 		}
 
-		if (store.getters.getCountry != "us") {
+		if (store.getters.getCountry !== "us") {
 			return redirect(fullPath);
 
 		} else {
