@@ -179,6 +179,7 @@
 </template>
 
 <script>
+	import { AboutLocale } from "~/app/locales";
 
 	const TIMEOUT = 1;
 
@@ -189,7 +190,8 @@
 		    title: "About Free The Router",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'About Freetherouter.com and our policies' }
-		    ]
+		    ],
+		    link: AboutLocale
 		  }
 	  },
 		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		

@@ -122,6 +122,7 @@
 <script>
 import TopPicks from '~/components/Carousals/TopPicks';
 import MostPopular from '~/components/Carousals/MostPopular';
+import { HomeLocale } from '~/app/locales';
 
 const TIMEOUT = 1;
 
@@ -131,7 +132,8 @@ export default {
       title: "Free The Router - Custom Firmware supported devices",
       meta: [
         { hid: 'description', name: 'description', content: 'Find routers and networking devices supporting custom firmwares' }
-      ]
+      ],
+      link: HomeLocale
     };
   },
   components: {
@@ -236,6 +238,11 @@ export default {
   }
 
   /*****************************BY PRICE**********************************/
+  h1 {
+    position: absolute;
+    font-size: 2px;
+  }
+
   h2 {
     font-family: "Courier Prime", monospace;
     margin: 30px auto 15px auto;

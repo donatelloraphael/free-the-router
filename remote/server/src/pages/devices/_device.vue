@@ -120,7 +120,7 @@
 import axios from 'axios';
 import Breadcrumb from '~/components/Navigation/Breadcrumb';
 
-import { HOST, PROTOCOL } from '../../../env';
+import { HOST, PROTOCOL } from '~/app/env';
 
 // axios.defaults.withCredentials = true;
 
@@ -524,6 +524,7 @@ export default {
 
 	h2 {
 		position: absolute;
+		font-size: 5px;
 	}
 
 	table {

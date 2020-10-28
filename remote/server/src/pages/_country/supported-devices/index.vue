@@ -1,9 +1,10 @@
 <template>
 	<div class="container">
 		<div class="bg-left"></div>
+		<h1>Custom Firmware Projects Device Support</h1>
 		
 		<div class="body">
-			<h1>Custom Firmware Projects Device Support</h1>
+
 			<div class="firmware" id="openwrt">
 				<div class="content">
 					<h2><a href="https://openwrt.org/">OpenWrt</a></h2>
@@ -90,13 +91,16 @@
 </template>
 
 <script>
+	import { SupportedDevicesLocale } from "~/app/locales";
+
 	export default {
 		head() {
 			return {
 		    title: "Supported Routers / Networking devices by custom firmware projects",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'Find devices supported by each custom firmware projects' }
-		    ]
+		    ],
+		    link: SupportedDevicesLocale
 		  }
 	  }
 	};
@@ -156,11 +160,8 @@
 	}
 
 	h1 {
-		margin: auto;
-		font-weight: bold;
-		padding-bottom: 50px;
-		padding-top: 30px;
-		font-size: 2rem;
+		font-size: 5px;
+		position: absolute;
 	}
 
 	h2 a {

@@ -144,6 +144,8 @@
 </template>
 
 <script>
+	import { ResourcesLocale } from "~/app/locales";
+
 	const TIMEOUT = 1;
 
 	export default {
@@ -153,7 +155,8 @@
 		    title: "Custom Firmwares - More Resources",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'Resources regarding networking devices supporting custom firmwares' }
-		    ]
+		    ],
+		    link: ResourcesLocale
 		  }
 	  },
 		//////////////Workaround for proper scrolling to hash links from other pages////////////////////		

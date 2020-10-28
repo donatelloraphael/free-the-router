@@ -39,6 +39,7 @@
 </template>
 
 <script>
+	import { SitemapLocale } from "~/app/locales";
 	const TIMEOUT = 1;
 
 	export default {
@@ -47,7 +48,8 @@
 		    title: "Sitemap - Free The Router",
 		    meta: [
 		      { hid: 'description', name: 'description', content: 'Sitemap of freetherouter.com' }
-		    ]
+		    ],
+		    link: SitemapLocale
 		  }
 	  },
 	  computed: {
@@ -108,7 +110,7 @@
 	.bg-left {
     background-color: #2e3192;
     padding: 8rem 0 0 0;
-    height: 100vh;
+    height: 150vh;
     float: left;
     width: 150px;
     -webkit-box-shadow: 0px 0px 5px 2px rgba(120,120,120,1);
@@ -118,7 +120,7 @@
 
 	.bg-right {
     background-color: #2e3192;
-    height: 100vh;
+    height: 150vh;
     width: 150px;
     padding: 8rem 0 0 0;
     float: right;

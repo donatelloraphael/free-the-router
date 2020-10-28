@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 
-import { HOST, PROTOCOL } from '../../env';
+import { HOST, PROTOCOL } from '~/app/env';
 
 const DeviceListModule = {
 	namespaced: true,

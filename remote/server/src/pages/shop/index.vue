@@ -28,6 +28,7 @@
 <script>
 import ShopCard from  "~/components/Carousals/Cards/ShopCard";
 import Pagination from "~/components/Navigation/ThePagination";
+import { ShopLocale } from "~/app/locales";
 
 export default {
 	watchQuery: ['brand', 'category', 'page', 'search', 'ram', 'flash', 'sort', 'price', 'firmware', 'reset'],
@@ -37,7 +38,8 @@ export default {
 	    title: "Custom firmware supported Routers, Repeaters, Wireless Access Points, Modems",
 	    meta: [
 	      { hid: 'description', name: 'description', content: 'Find Router, Repeaters, Wireless Access Points, Modems supporting custom firmwares' }
-	    ]
+	    ],
+	    link: ShopLocale
 	  };
   },
 
@@ -187,6 +189,10 @@ export default {
 	}
 
 	/* Page Information Header*/
+
+	h1 {
+		font-size: 5px;
+	}
 	
 	.heading {
 		display: flex;

@@ -13,11 +13,15 @@ export default function ({ req, res, store, redirect, params, route, query }) {
 
 		store.dispatch("setCountry", country);
 
-		if (!Object.keys(query).length) {
-			fullPath = fullPath.slice(-1) != "/" ? (fullPath + "/").toLowerCase() : fullPath.toLowerCase();
+		if (Object.keys(query).length) {
 
-		} else if (route.path == "/shop" || route.path.toLowerCase() == `/${country}/shop`) {
-			fullPath = fullPath.replace(route.path, (route.path + "/").toLowerCase());
+			if (route.path == "/shop" || route.path.toLowerCase() == `/${country}/shop`) {
+				fullPath = fullPath.replace(route.path, (route.path + "/").toLowerCase());
+			} else if (route.path !== "/shop/") {
+				fullPath = route.path.slice(-1) != "/" ? (route.path + "/") : route.path;
+			}		
+		} else {
+			fullPath = fullPath.slice(-1) != "/" ? (fullPath + "/").toLowerCase() : fullPath.toLowerCase();
 		}
 
 		if (!params.country) {

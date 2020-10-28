@@ -4,9 +4,10 @@
 		<div class="bg-left"></div>
 
 		<div class="body" id="openwrt">
-			<h1>Router/Networking Devices Custom Firmware Projects</h1>
 			<div class="firmware">
 				<div class="col-left">
+					<h1>Router/Networking Devices Custom Firmware Projects</h1>
+
 					<a href="https://www.openwrt.org/">
 						<!-- <h2>OpenWrt</h2> -->
 						<img src="@/assets/images/firmwares/openwrt.png" alt="OpenWrt logo">
@@ -213,6 +214,8 @@
 </template>
 
 <script>
+	import { FirmwareLocale } from "~/app/locales";
+
 	const TIMEOUT = 1;
 
 	export default {
@@ -221,8 +224,9 @@
 			return {
 		    title: "Custom Firmware Projects - Routers, Repeaters & Extenders, Wireless Access Points, Modems",
 		    meta: [
-		      { hid: 'description', name: 'description', content: `Custom firmware projects for routers, wireless access points, repeaters and extenders, modems - 2020 Edition` }
-		    ]
+		      { hid: 'description', name: 'description', content: `Custom firmware projects for routers, wireless access points, repeaters, extenders, modems in 2020` }
+		    ],
+		    link: FirmwareLocale
 		  }
 	  },
 	  computed: {
@@ -314,7 +318,7 @@
   /***************************************FIRMWARE CONTENT*********************/
   h1 {
   	font-family: "Courier Prime", monospace;
-  	margin-top: 50px;
+  	margin-bottom: 50px;
   }
 
   h2 {
