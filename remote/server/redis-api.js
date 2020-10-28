@@ -3,9 +3,9 @@ const express = require("express");
 const consola = require("consola");
 const cors = require("cors");
 
-const REDIS_PWD = require('./env').REDIS_PWD;
-const PROTOCOL = require('./env').PROTOCOL;
-const HOST = require('./env').HOST;
+const REDIS_PWD = require('./src/app/env').REDIS_PWD;
+const PROTOCOL = require('./src/app/env').PROTOCOL;
+const HOST = require('./src/app/env').HOST;
 const redis = new Redis({ password: REDIS_PWD });
 
 const app = express();
