@@ -1,6 +1,6 @@
 const COUNTRY = "de";
 const AMAZON = "https://www.amazon.de";
-const PRICE_COMMA = false;
+const PRICE_COMMA = true;
 
 const axios = require('axios');
 const $ = require('cheerio');
