@@ -144,7 +144,7 @@ function getDevices(html, page, deviceType) {
 		return;
 	}
 	
-	if (page > 1 && $(".s-result-item", html).html()) {
+	if (/* page > 1 && */ $(".s-result-item", html).html()) {
 
 		$(".s-result-item", html).each((i, element) => {
 			let device = {};
