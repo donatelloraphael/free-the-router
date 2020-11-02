@@ -2,6 +2,6 @@
 
 User-agent: *
 Allow: /
-Disallow: https://freetherouter.com/cdn-cgi/l/email-protection
+Disallow: /cdn-cgi/l/email-protection
 
 Sitemap: https://www.freetherouter.com/sitemap.xml
