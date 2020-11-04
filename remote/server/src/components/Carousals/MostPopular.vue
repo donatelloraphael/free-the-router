@@ -239,7 +239,7 @@
 		transition: fill 0.4s ease;
 		z-index: 100;
 		padding: 0;
-		fill: rgba(105, 26, 78, 0.5);
+		fill: rgba(46, 49, 146, 0.5);
 	}
 
 	.nav-angle-left {
