@@ -341,7 +341,6 @@ export default {
 
   .statement {
     font-size: 0.9rem;
-    color: grey;
     text-align: center;
     margin: 30px 20px;
   }

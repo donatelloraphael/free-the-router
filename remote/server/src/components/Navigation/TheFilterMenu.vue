@@ -15,8 +15,8 @@
       <nuxt-link :to="{ query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges()">Modems</span></nuxt-link>
 
       <!-- SORT BY PRICE -->
-      <h3>Sort By</h3>
-      <select v-model="selectedSort" @click="navigateSort(selectedSort)" aria-haspopup="true" aria-expanded="false" aria-labelledby="sort by dropdown">
+      <h3><label for="priceSort">Sort By</label></h3>
+      <select id="priceSort" v-model="selectedSort" @click="navigateSort(selectedSort)" aria-haspopup="true" aria-expanded="false" aria-label="sort by dropdown">
         <option value="default">Default</option>
         <option value="lth">Price: Low to High</option>
         <option value="htl">Price: High to Low</option>
@@ -25,32 +25,32 @@
       <!-- FILTER BY FIRMWARE -->
       <h3>By Firmware</h3>
       <div class="firmware">
-        <input type="checkbox" id="openwrt" value="openwrt" v-model="checkedFirmwares">
-        <label for="openwrt" :class="{ active: checkedFirmwares.includes('openwrt') }">OpenWrt</label>
+        <input type="checkbox" id="openwrt-filter" value="openwrt" v-model="checkedFirmwares">
+        <label for="openwrt-filter" :class="{ active: checkedFirmwares.includes('openwrt') }">OpenWrt</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="ddwrt" value="ddwrt" v-model="checkedFirmwares">
-        <label for="ddwrt" :class="{ active: checkedFirmwares.includes('ddwrt') }">DD-WRT</label>
+        <input type="checkbox" id="ddwrt-filter" value="ddwrt" v-model="checkedFirmwares">
+        <label for="ddwrt-filter" :class="{ active: checkedFirmwares.includes('ddwrt') }">DD-WRT</label>
       </div>            
       <div class="firmware">
-        <input type="checkbox" id="freshtomato" value="freshtomato" v-model="checkedFirmwares">
-        <label for="freshtomato" :class="{ active: checkedFirmwares.includes('freshtomato') }">FreshTomato</label>
+        <input type="checkbox" id="freshtomato-filter" value="freshtomato" v-model="checkedFirmwares">
+        <label for="freshtomato-filter" :class="{ active: checkedFirmwares.includes('freshtomato') }">FreshTomato</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="asusmerlin" value="asusmerlin" v-model="checkedFirmwares">
-        <label for="asusmerlin" :class="{ active: checkedFirmwares.includes('asusmerlin') }">Asuswrt-Merlin</label>
+        <input type="checkbox" id="asusmerlin-filter" value="asusmerlin" v-model="checkedFirmwares">
+        <label for="asusmerlin-filter" :class="{ active: checkedFirmwares.includes('asusmerlin') }">Asuswrt-Merlin</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="gargoyle" value="gargoyle" v-model="checkedFirmwares">
-        <label for="gargoyle" :class="{ active: checkedFirmwares.includes('gargoyle') }">Gargoyle</label>
+        <input type="checkbox" id="gargoyle-filter" value="gargoyle" v-model="checkedFirmwares">
+        <label for="gargoyle-filter" :class="{ active: checkedFirmwares.includes('gargoyle') }">Gargoyle</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="advancedtomato" value="advancedtomato" v-model="checkedFirmwares">
-        <label for="advancedtomato" :class="{ active: checkedFirmwares.includes('advancedtomato') }">AdvancedTomato</label>
+        <input type="checkbox" id="advancedtomato-filter" value="advancedtomato" v-model="checkedFirmwares">
+        <label for="advancedtomato-filter" :class="{ active: checkedFirmwares.includes('advancedtomato') }">AdvancedTomato</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="tomatobyshibby" value="tomatobyshibby" v-model="checkedFirmwares">
-        <label for="tomatobyshibby" :class="{ active: checkedFirmwares.includes('tomatobyshibby') }">Tomato by Shibby</label>
+        <input type="checkbox" id="tomatobyshibby-filter" value="tomatobyshibby" v-model="checkedFirmwares">
+        <label for="tomatobyshibby-filter" :class="{ active: checkedFirmwares.includes('tomatobyshibby') }">Tomato by Shibby</label>
       </div>
       
       <!-- FILTER BY PRICE -->
@@ -61,8 +61,10 @@
       <div class="filter-price" @click="navigatePrice(`${priceFilter4}`)":class="{ active: query.price == `${priceFilter4}` }">{{currency}} {{priceFilter4}}</div>
       <div class="filter-price" @click="navigatePrice(`${priceFilter5}`)":class="{ active: query.price == `${priceFilter5}` }">Over {{currency}} {{priceFilter5}}</div>
       <div class="filter-price">
-        <input v-model.lazy.trim="minPrice" type="number" :placeholder="currency + ' Min'">
-        <input v-model.lazy.trim="maxPrice" type="number" :placeholder="currency + ' Max'">
+        <label for="minPrice">Min</label>
+        <input id="minPrice" v-model.lazy.trim="minPrice" type="number" :placeholder="currency + ' Min'">
+        <label for="maxPrice">Max</label>
+        <input id="maxPrice" v-model.lazy.trim="maxPrice" type="number" :placeholder="currency + ' Max'">
         <input type="submit" class="button" value="Go" @click="navigatePrice()">
       </div>
 
@@ -596,6 +598,11 @@
   .filter-price.active {
     color: #deff00;
     font-weight: bold;
+  }
+
+  .filter-price label {
+    font-size: 1px;
+    position: absolute;
   }
 
   .filter-price input {

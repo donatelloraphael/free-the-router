@@ -8,7 +8,7 @@
 			</span>
 
 			<div class="firmware">
-				<h3>Firmware</h3>
+				<h2>Firmware</h2>
 				<nuxt-link :to="{ path: `${country}/firmware/#openwrt` }" @click.native="scrollTo('#openwrt')">OpenWrt</nuxt-link>
 				<nuxt-link :to="{ path: `${country}/firmware/#ddwrt-` }" @click.native="scrollTo('#ddwrt-')">DD-Wrt</nuxt-link>
 				<nuxt-link :to="{ path: `${country}/firmware/#gargoyle-` }" @click.native="scrollTo('#gargoyle-')">Gargoyle</nuxt-link>
@@ -19,7 +19,7 @@
 			</div>
 
 			<div class="info">
-				<h3>Information</h3>
+				<h2>Information</h2>
 				<nuxt-link :to="{ path: `${country}/resources/#faq` }" @click.native="scrollTo('#faq')">FAQ</nuxt-link>
 				<nuxt-link :to="{ path: `${country}/about/#terms` }" @click.native="scrollTo('#terms')">Terms of Service</nuxt-link>
 				<nuxt-link :to="{ path: `${country}/about/#privacy` }" @click.native="scrollTo('#privacy')">Privacy Policy</nuxt-link>
@@ -27,7 +27,7 @@
 			</div>
 
 			<div class="more">
-				<h3>Know More</h3>
+				<h2>Know More</h2>
 				<nuxt-link :to="{ path: `${country}/about/#about` }" @click.native="scrollTo('#about')">About Us</nuxt-link>
 				<nuxt-link :to="{ path: `${country}/about/#contact` }"  @click.native="scrollTo('#contact')">Contact Us</nuxt-link>
 				<nuxt-link :to="{ path: `${country}/sitemap/` }">Sitemap</nuxt-link>
@@ -106,7 +106,7 @@
 		margin: auto;
 	}
 
-	.main-footer h3 {
+	.main-footer h2 {
 		font-family: "Courier Prime", monospace;
 		color: white;
 		padding: 1rem 0 0 0;

@@ -61,7 +61,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	width: 90%;
 	height: 30vw;
 	margin: 50px auto;
-	/*border: 1px solid grey;*/
 	box-shadow: 0px 0px 8px;
 	display: flex;
 	flex-wrap: wrap-reverse;
@@ -79,7 +78,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 .firmware-name {
 	width: 30%;
 	height: 100%;
-	/*background-color: yellow;*/
 	display: flex;
 	flex-direction: column;
 	align-items: space-between;
@@ -89,7 +87,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 
 .firmware {
 	display: flex;
-	color: grey;
 	border-top: 1px solid #bdbdbe;
 	font-family: "Montserrat", "Open Sans", sans-serif;
 	cursor: pointer;

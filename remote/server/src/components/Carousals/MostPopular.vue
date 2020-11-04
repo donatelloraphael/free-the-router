@@ -1,6 +1,6 @@
 <template>
 	<div class="most-popular">
-		<h3>Most Popular</h3>
+		<h2>Most Popular</h2>
 		<div class="container-mp" id="slider">
 			
 			<svg alt="navigate popular cards left" width="150px" height="150px" viewBox="8 0 20 15" @click="leftScroll(getCardCount())" @touchstart="toggleHover($event)" class="nav-angle nav-angle-left"><path d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/></svg>
@@ -205,7 +205,7 @@
 		width: 100%;
 	}
 
-	h3 {
+	h2 {
 		font-size: 1.6rem;
 		font-family: "Courier Prime", monospace;
 		margin: 26px 20px 20px 20px;
