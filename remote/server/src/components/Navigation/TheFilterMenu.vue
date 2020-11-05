@@ -8,11 +8,11 @@
 
       <!-- CATEGORYS -->
       <h3>Category</h3>
-      <nuxt-link :to="{ query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges()">All Devices</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges()">Routers</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges()">Wireless Access Points</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges()">Repeaters & Extenders</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges()">Modems</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges(); clearFilters();">All Devices</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Routers</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Wireless Access Points</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Repeaters & Extenders</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Modems</span></nuxt-link>
 
       <!-- SORT BY PRICE -->
       <h3><label for="priceSort">Sort By</label></h3>
@@ -187,6 +187,8 @@
     watch: {
       checkedFirmwares(val) {
         let query = this.query;
+        
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -199,7 +201,7 @@
 
           delete query.firmware;
           delete query.reset;
-          
+                  
           if (val.length > 0) {
             this.$router.push({ query: { ...query, firmware: val } });
           } else {
@@ -213,6 +215,8 @@
       },
       checkedRam(val) {
         let query = this.query;
+
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -235,6 +239,8 @@
       },
       checkedFlash(val) {
         let query = this.query;
+        
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -258,6 +264,8 @@
       },
       checkedBrands(val) {
         let query = this.query;
+
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -312,10 +320,21 @@
           this.toggleClosedState();
         }
       },
+      clearFilters() {
+        this.selectedSort = "default";
+        this.checkedFirmwares = [];
+        this.checkedRam = [];
+        this.checkedFlash = [];
+        this.checkedBrands = [];
+        this.minPrice = "";
+        this.maxPrice = "";
+      },
       navigateSort(sort) {
         let query = this.$route.query;
 
         delete query.sort;
+
+        query.page = 1; // Reset page
 
         if (sort == "default") {
           query = {...query, sort: "default"};
@@ -330,8 +349,11 @@
       navigatePrice(priceRange) {
         let query = this.query;
 
+        query.page = 1; // Reset page
+
         if (priceRange && priceRange == query.price) {
           delete query.price;
+
           this.$router.push({ query: { ...query, reset: this.reset }});
           this.reset = !this.reset;
           return;
@@ -387,7 +409,7 @@
 
           setTimeout(() => {
             this.firstLoad = false;
-          }, 500);
+          }, 50);
           
         } else { 
           this.checkedFirmwares = [];
@@ -404,8 +426,9 @@
       this.unwatchCountry = this.$store.watch(state => {
         return this.$store.getters.getCountry;
       }, (country) => {
+      	console.log(country);
 
-        if (country == "IN") {
+        if (country == "in") {
           this.priceFilter1 = "1500"; 
           this.priceFilter2 = "1500-3000"; 
           this.priceFilter3 = "3000-6000"; 
@@ -422,7 +445,7 @@
         this.currency = this.$store.getters.getCurrency;
       });
 
-      if (this.$store.getters.getCountry == "IN") {
+      if (this.$store.getters.getCountry == "in") {
         this.priceFilter1 = "1500"; 
         this.priceFilter2 = "1500-3000"; 
         this.priceFilter3 = "3000-6000"; 
