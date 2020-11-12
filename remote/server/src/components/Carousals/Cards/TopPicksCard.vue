@@ -221,7 +221,7 @@ export default {
 
 	}
 
-	@media (max-width: 470px) {
+	@media (max-width: 559px) {
 		.top-container {
 			display: flex;
 			height: 100vw;
