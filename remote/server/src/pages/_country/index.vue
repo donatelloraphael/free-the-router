@@ -347,7 +347,7 @@ export default {
 
  /*******************************MEDIA QUERYS****************************/
 
-  @media (max-width: 789px) {
+  @media (max-width: 889px) {
 
     .bg-left, .bg-right {
       display: none;
