@@ -11,21 +11,6 @@
       <nuxt-link :to="{ path: `${country}/supported-devices/` }"><span @click="closeSideMenuStateChanges()">Supported Devices</span></nuxt-link>
       <nuxt-link :to="{ path: `${country}/resources/` }"><span @click="closeSideMenuStateChanges()">Resources</span></nuxt-link>
       <nuxt-link :to="{ path: `${country}/about/` }"><span @click="closeSideMenuStateChanges()">About Us</span></nuxt-link>
-
-      <div class="nav-country-dropdown">
-  
-        <select class="dropdown-menu-sidebar" @change="setCountry($event.target.value); redirectCountry($event.target.value);" aria-labelledby="navbarDropdown">
-          <option class="dropdown-item" value="us" :selected="'us' == $store.getters.getCountry" href="#">USA</option>
-          <option class="dropdown-item" value="in" :selected="'in' == $store.getters.getCountry" href="#">India</option>
-          <option class="dropdown-item" value="ca" :selected="'ca' == $store.getters.getCountry" href="#">Canada</option>
-          <option class="dropdown-item" value="gb" :selected="'gb' == $store.getters.getCountry" href="#">UK</option>
-          <option class="dropdown-item" value="fr" :selected="'fr' == $store.getters.getCountry">France</option>
-          <option class="dropdown-item" value="de" :selected="'de' == $store.getters.getCountry">Germany</option>
-          <option class="dropdown-item" value="mx" :selected="'mx' == $store.getters.getCountry">Mexico</option>
-        </select>
-
-      </div>
-
     </div>
   </div>
 </template>
@@ -81,16 +66,6 @@
         this.closeSideMenu(); 
         this.toggleClosingState(); 
         this.toggleClosedState();
-      },
-      setCountry(country) {
-        this.$store.dispatch("setCountry", country);
-      },
-      redirectCountry(country) {
-        if (this.$route.params.device) {
-          this.$router.push(`/${country}/`);
-        } else {
-          this.$router.push(this.$route.path.replace(/^\/[A-Z]+\//gi, `/${country}/`));
-        }
       }
     }
   };
@@ -188,26 +163,6 @@
   .menu a.nuxt-link-exact-active span, .menu a.activeAlt span {
     color: #deff00;
     background-color: #4146c1;
-  }
-
-  /*************************************Country dropdown************************************/
-  
-  .dropdown-menu-sidebar {
-    display: flex;
-    position: relative;
-    left: 8px;
-    top: 18px;
-    color: black;
-    flex-direction: column;
-    padding: 5px 12px;
-    border-radius: 10px;
-
-  }
-
-  .dropdown-menu-sidebar a {
-    color: white;
-    border-radius: 5px;
-    font-family: "Courier Prime", monospace;
   }
 
 </style>
