@@ -335,6 +335,7 @@
 		border-radius: 5px 0 0 5px;
 		border-right: none;
 		width: 4rem;
+		background-color: white;
 	}
 
 	.dropdown {
@@ -379,7 +380,17 @@
 		cursor: pointer;
 	}
 
-	/*************************************NAVBAR***************************************/
+	select {
+   	-webkit-appearance: none;
+   	-moz-appearance: none;
+   	appearance: none;
+   	background-image: url("~assets/images/arrow-down.svg");
+   	background-repeat: no-repeat;
+   	background-position: right center;
+	}
+
+
+	/*************************************NAVBAR**************************************/
 
 	.navbar {
     grid-area: nav;
