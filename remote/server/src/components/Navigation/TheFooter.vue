@@ -78,7 +78,6 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    /*border-top: 1px solid black;*/
     box-shadow: 0px 0 10px rgba(0, 0, 0, 1);
 	}
 
@@ -158,13 +157,15 @@
 		font-family: "Courier Prime", monospace;
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 904px) {
 		.main-footer div {
-			padding-left: 100px;
-			margin: 0;
+			width: 100%;
+			margin: auto;
+			margin-left: 30px;
 		}
-		.sub-footer {
+		.main-footer div.sub-footer {
 			height: auto;
+			margin-left: 0;
 		}
 	}
 
