@@ -3,13 +3,13 @@
 		<section id="header" class="header navigation-bar-scroll">
 	    <div class="pre-header">
 	    	<nuxt-link :to="{ path: `${country}/` }">
-	    		<div class="logo"></div>
+	    		<div class="logo"><span id="linkName">Home</span></div>
 	    	</nuxt-link>
 
 				<form  class="search">
 					
 					<span class="searchDropdown dropdown">
-      			<select class="dropdown-menu" @click="searchCategory=$event.target.value" aria-haspopup="true" aria-expanded="false" aria-labelledby="searchDropdown">
+      			<select class="dropdown-menu" @click="searchCategory=$event.target.value" aria-haspopup="true" aria-expanded="false" aria-label="searchDropdown">
 							<option class="dropdown-item" value="all-devices">All</option>
     					<option class="dropdown-item" value="routers">Routers</option>
 							<option class="dropdown-item" value="wireless-access-points">Wireless Access Points</option>
@@ -18,13 +18,14 @@
 						</select>
 					</span>
 
-					<input class="search-box" :class="{ disabled: searchValidation }" type="text" v-model="searchTerm" placeholder="Search here">
+					<label id="searchBoxLabel" for="searchBox">Search Devices</label>
+					<input id="searchBox" class="search-box" :class="{ disabled: searchValidation }" type="text" v-model="searchTerm" placeholder="Search here">
 					<button type="submit" @click.stop.prevent="search()" :disabled="searchValidation">Search</button>
 					<span id="searchError" v-if="searchValidation">Search can only contain letters, digits, spaces, and "-".</span>
 				</form>
 	   
 				<div class="country">
-	  			<select id="countrySelector" class="dropdown-menu" @change="setCountry($event.target.value); getFlagUrl(); redirectCountry($event.target.value);" aria-haspopup="true" aria-expanded="false" aria-labelledby="navbarDropdown">
+	  			<select id="countrySelector" class="dropdown-menu" @change="setCountry($event.target.value); getFlagUrl(); redirectCountry($event.target.value);" aria-haspopup="true" aria-expanded="false" aria-label="navbarDropdown">
 						<option class="dropdown-item" value="us" :selected="'us' == $store.getters.getCountry">USA</option>
 						<option class="dropdown-item" value="in" :selected="'in' == $store.getters.getCountry">India</option>
 						<option class="dropdown-item" value="ca" :selected="'ca' == $store.getters.getCountry">Canada</option>
@@ -259,6 +260,12 @@
   	margin: 10px;
   }
 
+  #linkName {
+  	font-size: 0.5px;
+		position: absolute;
+  	z-index: -10;
+  }
+
 	.nav-item a {
 		text-decoration: none;
 		color: black;
@@ -279,6 +286,12 @@
 		display: flex;
 		justify-items: center;
 		position: relative;
+	}
+
+	#searchBoxLabel {
+		position: absolute;
+		z-index: -5;
+		top: 5px;
 	}
 
 	input.search-box {
@@ -322,6 +335,7 @@
 		border-radius: 5px 0 0 5px;
 		border-right: none;
 		width: 4rem;
+		background-color: white;
 	}
 
 	.dropdown {
@@ -366,7 +380,17 @@
 		cursor: pointer;
 	}
 
-	/*************************************NAVBAR***************************************/
+	select {
+   	-webkit-appearance: none;
+   	-moz-appearance: none;
+   	appearance: none;
+   	background-image: url("~assets/images/arrow-down.svg");
+   	background-repeat: no-repeat;
+   	background-position: right center;
+	}
+
+
+	/*************************************NAVBAR**************************************/
 
 	.navbar {
     grid-area: nav;

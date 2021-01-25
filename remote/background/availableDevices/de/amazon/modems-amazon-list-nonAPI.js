@@ -1,6 +1,6 @@
 const COUNTRY = "de";
 const AMAZON = "https://www.amazon.de";
-const PRICE_COMMA = false;
+const PRICE_COMMA = true;
 
 const axios = require('axios');
 const $ = require('cheerio');
@@ -203,7 +203,6 @@ function getDevices(html, page, deviceType) {
 	}
 }
 
-
 async function filterDevices() {
 
 	await mdb.collection("indices").findOne({ "name": "all-devices-index" })
@@ -217,26 +216,32 @@ async function filterDevices() {
 	let indexLength = fullNameIndex.length;
 
 	for (let i = 0; i < allLength; i++) {
-		for (let j = 0; j < indexLength; j++) {
-			let splitName = fullNameIndex[j].split(" ");
-			let numTestsPassed = 0;
 
-			for (let k = 0; k < splitName.length; k++) {
-				// Replacing "X" with matching characters or numbers
-				if (k == splitName.length - 1) {
-					splitName[k] = splitName[k].replace(/x+$/gi, "");
-				}
+		if (/(raspberry pi)|(adapter)|(power supply)|(cable)|((omni)(-|\s)(directional))/gmi.test(allDevices[i].amazonName)) {
+			continue;
+		} else {
 
-				// let regex = new RegExp("(\\s|-|^)" + splitName[k] + "(\\s|x|-|$)", "gmi"); //Don't remove extra backslash before \s
-				let regex = new RegExp(splitName[k], "gmi");
+			for (let j = 0; j < indexLength; j++) {
+				let splitName = fullNameIndex[j].split(" ");
+				let numTestsPassed = 0;
 
-				if (regex.test(allDevices[i].amazonName)) {
-					numTestsPassed++;
-					if (numTestsPassed == splitName.length) {
-						allDevices[i].id = fullNameIndex[j].replace(/\ /gm, "-");
-						allDevices[i].fullName = fullNameIndex[j];
-						if (!supportedDevices.includes(allDevices[i])) {
-							supportedDevices.push(allDevices[i]);
+				for (let k = 0; k < splitName.length; k++) {
+					// Replacing "X" with matching characters or numbers
+					if (k == splitName.length - 1) {
+						splitName[k] = splitName[k].replace(/x+$/gi, "");
+					}
+
+					// let regex = new RegExp("(\\s|-|^)" + splitName[k] + "(\\s|x|-|$)", "gmi"); //Don't remove extra backslash before \s
+					let regex = new RegExp(splitName[k], "gmi");
+
+					if (regex.test(allDevices[i].amazonName)) {
+						numTestsPassed++;
+						if (numTestsPassed == splitName.length) {
+							allDevices[i].id = fullNameIndex[j].replace(/\ /gm, "-");
+							allDevices[i].fullName = fullNameIndex[j];
+							if (!supportedDevices.includes(allDevices[i])) {
+								supportedDevices.push(allDevices[i]);
+							}
 						}
 					}
 				}

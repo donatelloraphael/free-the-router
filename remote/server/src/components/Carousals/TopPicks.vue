@@ -61,7 +61,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	width: 90%;
 	height: 30vw;
 	margin: 50px auto;
-	/*border: 1px solid grey;*/
 	box-shadow: 0px 0px 8px;
 	display: flex;
 	flex-wrap: wrap-reverse;
@@ -79,7 +78,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 .firmware-name {
 	width: 30%;
 	height: 100%;
-	/*background-color: yellow;*/
 	display: flex;
 	flex-direction: column;
 	align-items: space-between;
@@ -89,7 +87,6 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 
 .firmware {
 	display: flex;
-	color: grey;
 	border-top: 1px solid #bdbdbe;
 	font-family: "Montserrat", "Open Sans", sans-serif;
 	cursor: pointer;
@@ -163,6 +160,19 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 
 }
 
+@media (max-width: 1200px) {
+	#openwrt {
+		border-bottom: none;
+	}
+
+	.firmware {
+		border: none;
+		background-color: #7678a0;
+		margin: 0 2px 2px 0;
+		color: white;
+	}
+}
+
 @media (max-width: 1018px) {
 	.firmware-name {
 		padding: 0 50px;
@@ -177,16 +187,16 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	}
 }
 
-@media (max-width: 789px) {
+@media (max-width: 889px) {
 	.top-picks-container {
 		width: 90vw;
-		height: 70vw;
+		height: 65vw;
 		margin: 30px auto;
 	}
 
 	.firmware-name {
 		width: 100%;
-		height: 30%;
+		height: 20%;
 		padding: 0 40px;
 	}
 
@@ -196,7 +206,7 @@ import TopPicksCard from '@/components/Carousals/Cards/TopPicksCard';
 	}
 }
 
-@media (max-width: 470px) {
+@media (max-width: 559px) {
 	.top-picks-container {
 		width: 90%;
 		height: 100%;

@@ -341,14 +341,13 @@ export default {
 
   .statement {
     font-size: 0.9rem;
-    color: grey;
     text-align: center;
     margin: 30px 20px;
   }
 
  /*******************************MEDIA QUERYS****************************/
 
-  @media (max-width: 789px) {
+  @media (max-width: 889px) {
 
     .bg-left, .bg-right {
       display: none;

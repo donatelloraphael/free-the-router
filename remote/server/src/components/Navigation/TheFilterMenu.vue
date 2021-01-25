@@ -8,15 +8,15 @@
 
       <!-- CATEGORYS -->
       <h3>Category</h3>
-      <nuxt-link :to="{ query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges()">All Devices</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges()">Routers</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges()">Wireless Access Points</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges()">Repeaters & Extenders</span></nuxt-link>
-      <nuxt-link :to="{ query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges()">Modems</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'all-devices' }}"><span :class="{ active: 'all-devices' == category }" @click="closeSideMenuStateChanges(); clearFilters();">All Devices</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'routers' }}"><span :class="{ active: 'routers' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Routers</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'wireless-access-points' }}"><span :class="{ active: 'wireless-access-points' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Wireless Access Points</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'repeaters-extenders' }}"><span :class="{ active: 'repeaters-extenders' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Repeaters & Extenders</span></nuxt-link>
+      <nuxt-link :to="{ query: { category: 'modems' }}"><span :class="{ active: 'modems' == category }" @click="closeSideMenuStateChanges(); clearFilters();">Modems</span></nuxt-link>
 
       <!-- SORT BY PRICE -->
-      <h3>Sort By</h3>
-      <select v-model="selectedSort" @click="navigateSort(selectedSort)" aria-haspopup="true" aria-expanded="false" aria-labelledby="sort by dropdown">
+      <h3><label for="priceSort">Sort By</label></h3>
+      <select id="priceSort" v-model="selectedSort" @click="navigateSort(selectedSort)" aria-haspopup="true" aria-expanded="false" aria-label="sort by dropdown">
         <option value="default">Default</option>
         <option value="lth">Price: Low to High</option>
         <option value="htl">Price: High to Low</option>
@@ -25,32 +25,32 @@
       <!-- FILTER BY FIRMWARE -->
       <h3>By Firmware</h3>
       <div class="firmware">
-        <input type="checkbox" id="openwrt" value="openwrt" v-model="checkedFirmwares">
-        <label for="openwrt" :class="{ active: checkedFirmwares.includes('openwrt') }">OpenWrt</label>
+        <input type="checkbox" id="openwrt-filter" value="openwrt" v-model="checkedFirmwares">
+        <label for="openwrt-filter" :class="{ active: checkedFirmwares.includes('openwrt') }">OpenWrt</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="ddwrt" value="ddwrt" v-model="checkedFirmwares">
-        <label for="ddwrt" :class="{ active: checkedFirmwares.includes('ddwrt') }">DD-WRT</label>
+        <input type="checkbox" id="ddwrt-filter" value="ddwrt" v-model="checkedFirmwares">
+        <label for="ddwrt-filter" :class="{ active: checkedFirmwares.includes('ddwrt') }">DD-WRT</label>
       </div>            
       <div class="firmware">
-        <input type="checkbox" id="freshtomato" value="freshtomato" v-model="checkedFirmwares">
-        <label for="freshtomato" :class="{ active: checkedFirmwares.includes('freshtomato') }">FreshTomato</label>
+        <input type="checkbox" id="freshtomato-filter" value="freshtomato" v-model="checkedFirmwares">
+        <label for="freshtomato-filter" :class="{ active: checkedFirmwares.includes('freshtomato') }">FreshTomato</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="asusmerlin" value="asusmerlin" v-model="checkedFirmwares">
-        <label for="asusmerlin" :class="{ active: checkedFirmwares.includes('asusmerlin') }">Asuswrt-Merlin</label>
+        <input type="checkbox" id="asusmerlin-filter" value="asusmerlin" v-model="checkedFirmwares">
+        <label for="asusmerlin-filter" :class="{ active: checkedFirmwares.includes('asusmerlin') }">Asuswrt-Merlin</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="gargoyle" value="gargoyle" v-model="checkedFirmwares">
-        <label for="gargoyle" :class="{ active: checkedFirmwares.includes('gargoyle') }">Gargoyle</label>
+        <input type="checkbox" id="gargoyle-filter" value="gargoyle" v-model="checkedFirmwares">
+        <label for="gargoyle-filter" :class="{ active: checkedFirmwares.includes('gargoyle') }">Gargoyle</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="advancedtomato" value="advancedtomato" v-model="checkedFirmwares">
-        <label for="advancedtomato" :class="{ active: checkedFirmwares.includes('advancedtomato') }">AdvancedTomato</label>
+        <input type="checkbox" id="advancedtomato-filter" value="advancedtomato" v-model="checkedFirmwares">
+        <label for="advancedtomato-filter" :class="{ active: checkedFirmwares.includes('advancedtomato') }">AdvancedTomato</label>
       </div>
       <div class="firmware">
-        <input type="checkbox" id="tomatobyshibby" value="tomatobyshibby" v-model="checkedFirmwares">
-        <label for="tomatobyshibby" :class="{ active: checkedFirmwares.includes('tomatobyshibby') }">Tomato by Shibby</label>
+        <input type="checkbox" id="tomatobyshibby-filter" value="tomatobyshibby" v-model="checkedFirmwares">
+        <label for="tomatobyshibby-filter" :class="{ active: checkedFirmwares.includes('tomatobyshibby') }">Tomato by Shibby</label>
       </div>
       
       <!-- FILTER BY PRICE -->
@@ -61,8 +61,10 @@
       <div class="filter-price" @click="navigatePrice(`${priceFilter4}`)":class="{ active: query.price == `${priceFilter4}` }">{{currency}} {{priceFilter4}}</div>
       <div class="filter-price" @click="navigatePrice(`${priceFilter5}`)":class="{ active: query.price == `${priceFilter5}` }">Over {{currency}} {{priceFilter5}}</div>
       <div class="filter-price">
-        <input v-model.lazy.trim="minPrice" type="number" :placeholder="currency + ' Min'">
-        <input v-model.lazy.trim="maxPrice" type="number" :placeholder="currency + ' Max'">
+        <label for="minPrice">Min</label>
+        <input id="minPrice" v-model.lazy.trim="minPrice" type="number" :placeholder="currency + ' Min'">
+        <label for="maxPrice">Max</label>
+        <input id="maxPrice" v-model.lazy.trim="maxPrice" type="number" :placeholder="currency + ' Max'">
         <input type="submit" class="button" value="Go" @click="navigatePrice()">
       </div>
 
@@ -185,6 +187,8 @@
     watch: {
       checkedFirmwares(val) {
         let query = this.query;
+        
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -197,7 +201,7 @@
 
           delete query.firmware;
           delete query.reset;
-          
+                  
           if (val.length > 0) {
             this.$router.push({ query: { ...query, firmware: val } });
           } else {
@@ -211,6 +215,8 @@
       },
       checkedRam(val) {
         let query = this.query;
+
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -233,6 +239,8 @@
       },
       checkedFlash(val) {
         let query = this.query;
+        
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -256,6 +264,8 @@
       },
       checkedBrands(val) {
         let query = this.query;
+
+        query.page = 1; // Reset page
 
         if (this.firstLoad) {
           if (val.length > 0) {
@@ -310,10 +320,21 @@
           this.toggleClosedState();
         }
       },
+      clearFilters() {
+        this.selectedSort = "default";
+        this.checkedFirmwares = [];
+        this.checkedRam = [];
+        this.checkedFlash = [];
+        this.checkedBrands = [];
+        this.minPrice = "";
+        this.maxPrice = "";
+      },
       navigateSort(sort) {
         let query = this.$route.query;
 
         delete query.sort;
+
+        query.page = 1; // Reset page
 
         if (sort == "default") {
           query = {...query, sort: "default"};
@@ -328,8 +349,11 @@
       navigatePrice(priceRange) {
         let query = this.query;
 
+        query.page = 1; // Reset page
+
         if (priceRange && priceRange == query.price) {
           delete query.price;
+
           this.$router.push({ query: { ...query, reset: this.reset }});
           this.reset = !this.reset;
           return;
@@ -385,7 +409,7 @@
 
           setTimeout(() => {
             this.firstLoad = false;
-          }, 500);
+          }, 50);
           
         } else { 
           this.checkedFirmwares = [];
@@ -402,8 +426,9 @@
       this.unwatchCountry = this.$store.watch(state => {
         return this.$store.getters.getCountry;
       }, (country) => {
+      	console.log(country);
 
-        if (country == "IN") {
+        if (country == "in") {
           this.priceFilter1 = "1500"; 
           this.priceFilter2 = "1500-3000"; 
           this.priceFilter3 = "3000-6000"; 
@@ -420,7 +445,7 @@
         this.currency = this.$store.getters.getCurrency;
       });
 
-      if (this.$store.getters.getCountry == "IN") {
+      if (this.$store.getters.getCountry == "in") {
         this.priceFilter1 = "1500"; 
         this.priceFilter2 = "1500-3000"; 
         this.priceFilter3 = "3000-6000"; 
@@ -596,6 +621,11 @@
   .filter-price.active {
     color: #deff00;
     font-weight: bold;
+  }
+
+  .filter-price label {
+    font-size: 1px;
+    position: absolute;
   }
 
   .filter-price input {

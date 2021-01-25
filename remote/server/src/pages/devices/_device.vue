@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<h2>{{ $store.getters.getCountryFullName }}</h2>
+		<h2 id="seo">{{ $store.getters.getCountryFullName }}</h2>
 
 		<div class="bg-left"></div>
 		
@@ -62,7 +62,7 @@
 
 				<div class="specs">
 					<hr class="dotted-divider">
-					<h3>Specifications</h3>
+					<h2>Specifications</h2>
 					<table role="table">
 						<thead role="rowgroup">
 							<tr role="row">
@@ -89,7 +89,7 @@
 					</table>
 
 					<div class="notes">
-						<h3>Notes</h3>
+						<h2>Notes</h2>
 						<p v-if="device.openwrtNotes">OpenWrt Notes: {{ device.openwrtNotes }}</p>
 						<p v-if="device.ddwrtNotes">DD-Wrt Notes: {{ device.ddwrtNotes }}</p>
 						<p v-if="device.freshtomatoNotes">FreshTomato Notes: {{ device.freshtomatoNotes }}</p>
@@ -517,12 +517,12 @@ export default {
 		text-align: center;
 	}
 
-	h3 {
+	h2 {
 		margin: 30px;
 		font-size: 1.4rem;
 	}
 
-	h2 {
+	h2#seo {
 		position: absolute;
 		font-size: 5px;
 	}

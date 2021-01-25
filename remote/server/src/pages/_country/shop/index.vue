@@ -4,7 +4,7 @@
 
 		<div class="main-grid">
 			<div class="heading">
-				<h3>{{deviceRange}} of {{numDevices}} results for <span class="category">{{category}}</span></h3>
+				<h2>{{deviceRange}} of {{numDevices}} results for <span class="category">{{category}}</span></h2>
 				<span class="filter-info" v-if="numFilters">{{numFilters}} filters applied</span>
 
 			</div>
@@ -200,7 +200,7 @@ export default {
 		justify-content: center;
 	}
 
-	h3 {
+	h2 {
 		font-size: 1.2rem;
 		font-weight: bold;
 		text-align: center;
